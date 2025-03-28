@@ -1,0 +1,22 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Compila Qt",
+            "type": "shell",
+            "command": "C:/Qt/6.8.1/mingw_64/bin/g++.exe",
+            "args": [
+                "-fPIC",
+                "-I", "C:/Qt/6.8.1/mingw_64/include",
+                "-L", "C:/Qt/6.8.1/mingw_64/lib",
+                "main.cpp",
+                "-o", "main.exe",
+                "-lQt6Core"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}
