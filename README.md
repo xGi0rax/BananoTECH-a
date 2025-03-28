@@ -1,9 +1,9 @@
 # BananoTECH-a
 Giacomino:
-- media.h
-- vinile.h
-- rivista.h
-- film.h
+- media.h OK
+- vinile.h OK
+- rivista.h OK
+- film.h OK
 
 Giacomone:
 - libro.h
