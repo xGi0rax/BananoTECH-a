@@ -1,7 +1,6 @@
 #ifndef VINILE_H
 #define VINILE_H
 #include "Media.h"
-using std::string;
 
 class Vinile: public Media{ 
     private:

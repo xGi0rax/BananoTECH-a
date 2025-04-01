@@ -17,7 +17,7 @@ class Media {
         double rating;
     public:
         Media(int id, string titolo, string genere, int anno, string immagine, int disponibilita, int numero_copie, int in_prestito = 0, string collocazione = "", double rating = 0.0);
-        ~Media();
+        virtual ~Media() =default;
     
         int getId() const;
         string getTitolo() const;
@@ -40,7 +40,7 @@ class Media {
         void setInPrestito(const int& in_prestito);
         void setCollocazione(const string& coll);
     
-        virtual void displayInfo() =0;
+        virtual void displayInfo() const =0;
 };
 
 #endif // MEDIA_H
