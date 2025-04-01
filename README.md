@@ -6,7 +6,7 @@ Giacomino:
 - film.h OK
 
 Giacomone:
-- libro.h
-- giocodatavolo.h
-- biblioteca.h
-- filemanager.h
+- libro.h OK
+- giocodatavolo.h OK
+- biblioteca.h OK
+- filemanager.h OK
