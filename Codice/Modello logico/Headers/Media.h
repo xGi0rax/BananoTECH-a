@@ -16,9 +16,10 @@ class Media {
         string collocazione;
         double rating;
     public:
-        Media(int id, string titolo, string genere, int anno, string immagine, int disponibilita, int numero_copie, int in_prestito = 0, string collocazione = "", double rating = 0.0);
+        Media(int id, string titolo, string genere, int anno, string immagine, bool disponibilita, int numero_copie, int in_prestito = 0, string collocazione = "", double rating = 0.0);
         virtual ~Media() =default;
     
+        // Metodi getter
         int getId() const;
         string getTitolo() const;
         string getGenere() const;
@@ -30,6 +31,7 @@ class Media {
         string getCollocazione() const;
         double getRating() const;
     
+        // Metodi setter
         void setId(const int& id);
         void setTitolo(const string& titolo);
         void setGenere(const string& genere);
@@ -39,8 +41,9 @@ class Media {
         void setNumeroCopie(const int& n_copie);
         void setInPrestito(const int& in_prestito);
         void setCollocazione(const string& coll);
-    
-        virtual void displayInfo() const =0;
+
+        bool prendiInPrestito(); // Metoto per prendere in prestito un media
+        bool restituisci(); // Metodo per restituire un media
 };
 
 #endif // MEDIA_H

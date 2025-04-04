@@ -8,16 +8,16 @@
 
 class FileManager{
 public:
-    // Serializzazione (salvataggio)
+    // Salvataggio su file
     bool salvaSuJson(const Biblioteca& biblio, const string& filePath) const;
     bool salvaSuXml(const Biblioteca& biblio, const string& filePath) const;
     
-    // Deserializzazione (caricamento)
+    // Caricamento su file
     bool caricaDaJson(Biblioteca& biblio, const string& filePath);
     bool caricaDaXml(Biblioteca& biblio, const string& filePath);
 
 private:
-    // metodi per convertire un media da file e viceversa
+    // Metodi per convertire un media da file e viceversa
     // Per JSON 
     QJsonObject mediaToJson(const Media* media) const;  // Converte un Media in QJsonObject 
     Media* jsonToMedia(const QJsonObject& json) const;  // Crea un Media da QJsonObject (usa factory)
@@ -27,4 +27,4 @@ private:
     Media* xmlToMedia(const QDomElement& element) const;
 };
     
-#endif #FILEMANAGER.H
+#endif //FILEMANAGER.H

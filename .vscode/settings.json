@@ -1,3 +1,10 @@
 {
-    "C_Cpp.default.compilerPath": "C:/msys64/mingw64/bin/g++.exe"
+    "C_Cpp.default.compilerPath": "C:/msys64/mingw64/bin/g++.exe",
+    "files.associations": {
+        "vector": "cpp",
+        "*.tcc": "cpp",
+        "compare": "cpp",
+        "memory_resource": "cpp",
+        "type_traits": "cpp"
+    }
 }
