@@ -7,7 +7,7 @@ using std::string;
 class GiocoDaTavolo: public Media{
 private: 
     int ngiocatori;
-    int durata;
+    int durata;  // stima durata in minuti
     int età;
     string editore;
 public:
