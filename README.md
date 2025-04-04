@@ -3,6 +3,7 @@ Idee:
 - metodo operator== su classe Media pe confrontare durante l'inserimento di un nuovo media che non sia già presente in biblioteca
 
 Da fare:
+
   GIACOMONE
 - aggiungere attributo periodicità su classe Rivista
 - modificare mese_pubb in data_pubb in classe Rivista
