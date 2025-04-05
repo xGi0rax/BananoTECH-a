@@ -6,8 +6,8 @@
 ### Da fare :
 
 GIACOMONE
-- aggiungere attributo periodicità su classe Rivista FATTO
-- modificare mese_pubb in data_pubb in classe Rivista FATTO
+- aggiungere attributo periodicità su classe Rivista - OK
+- modificare mese_pubb in data_pubb in classe Rivista - OK
 
 GIACOMINO
 - modificare il metodo mediaToJson in modo che chiami un metodo diverso in base al tipo, quindi senza usare i dynamic_cast
