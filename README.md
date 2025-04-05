@@ -10,7 +10,8 @@ GIACOMONE
 - modificare mese_pubb in data_pubb in classe Rivista - OK
 
 GIACOMINO
-- modificare il metodo mediaToJson in modo che chiami un metodo diverso in base al tipo, quindi senza usare i dynamic_cast
+- modificare il metodo mediaToJson in modo che chiami un metodo diverso in base al tipo, quindi senza usare i dynamic_cast OK
+  (ho commentato quello che abbiamo scritto venerdì 04/04, da valutare insieme se la nuova versione va bene o meno)
 
 
 ### Prossimi step:
