@@ -1,6 +1,9 @@
 #ifndef MEDIA_H
 #define MEDIA_H
 #include <string>
+
+class QJsonObject;
+
 using std::string;
 
 class Media {
@@ -17,6 +20,9 @@ private:
     double rating; // Valutazione del media (da 1 a 5 stelle)
     
 public:
+
+    virtual void toJson(QJsonObject& jsonObj) const;
+    
     Media(int id, string titolo, string genere, int anno, string immagine, bool disponibilita, int numero_copie, int in_prestito = 0, string collocazione = "", double rating = 0.0);
     virtual ~Media() =default;
 

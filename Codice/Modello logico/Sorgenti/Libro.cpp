@@ -1,8 +1,22 @@
 #include "../Headers/Libro.h"
+#include "../Headers/Media.h"
+#include <string>
+#include <QJsonObject>
+#include <QString>
 
 Libro::Libro(int id, string titolo, string genere, int anno, string immagine, bool disponibilita, 
     int numero_copie, int in_prestito, string collocazione, double rating, string isbn, string autore, 
-    string editore, int npagine) : Media(id, titolo, genere, anno, immagine, disponibilita, numero_copie, in_prestito, collocazione, rating), isbn(isbn), autore(autore), editore(editore), npagine(npagine) {}
+    string editore, int npagine) : Media(id, titolo, genere, anno, immagine, disponibilita, numero_copie, in_prestito, collocazione, rating), 
+    isbn(isbn), autore(autore), editore(editore), npagine(npagine) {}
+
+void Libro::toJson(QJsonObject& jsonObj) const {
+    Media::toJson(jsonObj);
+    jsonObj["tipo"] = "libro";
+    jsonObj["isbn"] = QString::fromStdString(isbn);
+    jsonObj["autore"] = QString::fromStdString(autore);
+    jsonObj["editore"] = QString::fromStdString(editore);
+    jsonObj["numero_pagine"] = npagine;
+}
 
 // Getter
 string Libro::getIsbn() const {

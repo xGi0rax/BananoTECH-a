@@ -1,9 +1,22 @@
 #include "../Headers/Rivista.h"
+#include "../Headers/Media.h"
 #include <string>
+#include <QJsonObject>
+#include <QString>
 
 Rivista::Rivista(int id, string titolo, string genere, int anno, string immagine, bool disponibilita, 
     int numero_copie, int in_prestito, string collocazione, double rating, string editore, int n_pagine, string data_pubb, string periodicita) : 
-    Media(id, titolo, genere, anno, immagine, disponibilita, numero_copie, in_prestito, collocazione, rating), editore(editore), n_pagine(n_pagine), data_pubb(data_pubb), periodicita(periodicita) {}
+    Media(id, titolo, genere, anno, immagine, disponibilita, numero_copie, in_prestito, collocazione, rating), 
+    editore(editore), n_pagine(n_pagine), data_pubb(data_pubb), periodicita(periodicita) {}
+
+void Rivista::toJson(QJsonObject& jsonObj) const {
+    Media::toJson(jsonObj);
+    jsonObj["tipo"] = "rivista";
+    jsonObj["editore"] = QString::fromStdString(editore);
+    jsonObj["numero_pagine"] = n_pagine;
+    jsonObj["mese_pubblicazione"] = QString::fromStdString(data_pubb);
+    jsonObj["periodicita"] = QString::fromStdString(periodicita);
+}
 
 // Getter
 string Rivista::getEditore() const {

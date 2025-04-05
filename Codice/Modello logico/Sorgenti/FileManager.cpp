@@ -5,7 +5,7 @@
 #include "../Headers/Vinile.h"
 #include "../Headers/GiocoDaTavolo.h"
 #include "../Headers/Rivista.h"
-#include <QFile>
+/*#include <QFile>
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QDomDocument>
@@ -13,7 +13,11 @@
 #include <QJsonObject>
 #include <QDomElement>
 #include <QString>
-#include <string>
+#include <string>*/
+#include <QFile>
+#include <QJsonDocument>
+#include <QJsonArray>
+#include <QString>
 
 
 // Salvataggio su file
@@ -49,7 +53,7 @@ bool FileManager::caricaDaXml(Biblioteca& biblio, const string& filePath){
 
 
 // Metodi privati per convertire un media in JSON e viceversa
-QJsonObject FileManager::mediaToJson(const Media* media) const{
+/*QJsonObject FileManager::mediaToJson(const Media* media) const{
     QJsonObject jObj;
     jObj["id"] = media->getId(); 
     jObj["titolo"] = QString::fromStdString(media->getTitolo()); 
@@ -104,7 +108,14 @@ QJsonObject FileManager::mediaToJson(const Media* media) const{
         jObj["periodicita"] = QString::fromStdString(rivista->getPeriodicita());
     } 
 
-} 
+}*/
+
+
+QJsonObject FileManager::mediaToJson(const Media* media) const {
+    QJsonObject jsonObj;
+    media->toJson(jsonObj); // Chiamata polimorfica
+    return jsonObj;
+}
 
 Media* FileManager::jsonToMedia(const QJsonObject& json) const{
 

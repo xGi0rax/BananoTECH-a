@@ -1,10 +1,25 @@
 #include "../Headers/Media.h"
 #include <string>
+#include <QJsonObject>
+#include <QString>
 
 Media::Media(int id, string titolo, string genere, int anno, string immagine, bool disponibilita, 
             int numero_copie, int in_prestito = 0, string collocazione = "", double rating = 0.0) : 
             id(id), titolo(titolo), genere(genere), anno(anno), immagine(immagine), disponibilita(disponibilita), 
             numero_copie(numero_copie), in_prestito(in_prestito), collocazione(collocazione), rating(rating) {}
+
+virtual void toJson(QJsonObject& jsonObj) const {
+        jsonObj["id"] = id;
+        jsonObj["titolo"] = QString::fromStdString(titolo);
+        jsonObj["genere"] = QString::fromStdString(genere);
+        jsonObj["anno"] = anno;
+        jsonObj["immagine"] = QString::fromStdString(immagine);
+        jsonObj["disponibilita"] = disponibilita;
+        jsonObj["numero_copie"] = numero_copie;
+        jsonObj["in_prestito"] = in_prestito;
+        jsonObj["collocazione"] = QString::fromStdString(collocazione);
+        jsonObj["rating"] = rating;
+    }
 
 // Metodi getter
 int Media::getId() const{
