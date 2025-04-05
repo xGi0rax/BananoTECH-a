@@ -7,9 +7,9 @@ using std::vector;
 
 class Film: public Media{ 
 private:
-    string regista;
-    int durata;
-    vector<string> cast;
+    string regista; // Nome e cognome del regista del film
+    int durata; // Durata del film in minuti
+    vector<string> cast; // Vettore contenente nomi e cognomi degli attori principali del film
 
 public:
     Film(int id, string titolo, string genere, int anno, string immagine, bool disponibilita, int numero_copie, 

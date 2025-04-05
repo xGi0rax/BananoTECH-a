@@ -101,8 +101,7 @@ QJsonObject FileManager::mediaToJson(const Media* media) const{
         jObj["editore"] = QString::fromStdString(rivista->getEditore());
         jObj["numero_pagine"] = rivista->getNPagine();
         jObj["data_pubb"] = QString::fromStdString(rivista->getDataPubb());
-        //jObj["periodicita"] = QString::fromStdString(rivista->getPeriodicita());
-
+        jObj["periodicita"] = QString::fromStdString(rivista->getPeriodicita());
     } 
 
 } 
