@@ -8,7 +8,7 @@ using std::string;
 
 class Media {
 private:
-    string id; // Nella forma "AA-X" dove AA è una stringa univoca per ogni biblioteca e X è un numero progressivo univoco per il media all'interno della biblioteca
+    string id = ""; // Nella forma "AA-X" dove AA è una stringa univoca per ogni biblioteca e X è un numero progressivo univoco per il media all'interno della biblioteca
     string titolo; // Titolo del media
     string genere; // Genere del media (es. "Fantascienza", "Commedia", etc.)
     int anno; // Anno di pubblicazione
@@ -20,7 +20,7 @@ private:
     double rating; // Valutazione del media (da 1 a 5 stelle)
     
 public:
-    Media(string id, string titolo, string genere, int anno, string immagine, bool disponibilita, int numero_copie, int in_prestito = 0, string collocazione = "", double rating = 0.0);
+    Media(string titolo, string genere, int anno, string immagine, bool disponibilita, int numero_copie, int in_prestito = 0, string collocazione = "", double rating = 0.0);
     virtual ~Media() =default;
 
     // Metodi getter

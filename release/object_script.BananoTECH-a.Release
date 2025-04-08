@@ -1,0 +1,10 @@
+release/main.o
+release/Biblioteca.o
+release/JsonIO.o
+release/XmlIO.o
+release/Film.o
+release/GiocoDaTavolo.o
+release/Libro.o
+release/Media.o
+release/Rivista.o
+release/Vinile.o

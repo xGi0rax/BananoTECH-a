@@ -15,7 +15,9 @@ INCLUDEPATH += .
 
 # Input
 HEADERS += "Codice/Modello logico/Headers/Biblioteca.h" \
-           "Codice/Modello logico/Headers/FileManager.h" \
+           "Codice/Modello logico/Headers/IOStrategy.h" \
+           "Codice/Modello logico/Headers/JsonIO.h" \
+           "Codice/Modello logico/Headers/XmlIO.h" \
            "Codice/Modello logico/Headers/Film.h" \
            "Codice/Modello logico/Headers/GiocoDaTavolo.h" \
            "Codice/Modello logico/Headers/Libro.h" \
@@ -25,10 +27,15 @@ HEADERS += "Codice/Modello logico/Headers/Biblioteca.h" \
 
 SOURCES += "Codice/Modello logico/main.cpp" \
            "Codice/Modello logico/Sorgenti/Biblioteca.cpp" \
-           "Codice/Modello logico/Sorgenti/FileManager.cpp" \
+           "Codice/Modello logico/Sorgenti/JsonIO.cpp" \
+           "Codice/Modello logico/Sorgenti/XmlIO.cpp" \
            "Codice/Modello logico/Sorgenti/Film.cpp" \
            "Codice/Modello logico/Sorgenti/GiocoDaTavolo.cpp" \
            "Codice/Modello logico/Sorgenti/Libro.cpp" \
            "Codice/Modello logico/Sorgenti/Media.cpp" \
            "Codice/Modello logico/Sorgenti/Rivista.cpp" \
            "Codice/Modello logico/Sorgenti/Vinile.cpp"
+
+QT += xml
+
+CONFIG += console
