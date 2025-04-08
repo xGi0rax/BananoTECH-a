@@ -1,0 +1,10 @@
+debug/main.o
+debug/Biblioteca.o
+debug/JsonIO.o
+debug/XmlIO.o
+debug/Film.o
+debug/GiocoDaTavolo.o
+debug/Libro.o
+debug/Media.o
+debug/Rivista.o
+debug/Vinile.o

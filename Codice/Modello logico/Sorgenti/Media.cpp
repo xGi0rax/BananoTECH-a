@@ -4,7 +4,7 @@
 #include <QString>
 
 Media::Media(string titolo, string genere, int anno, string immagine, bool disponibilita, 
-            int numero_copie, int in_prestito = 0, string collocazione = "", double rating = 0.0) : 
+            int numero_copie, int in_prestito, string collocazione, double rating) : 
             titolo(titolo), genere(genere), anno(anno), immagine(immagine), disponibilita(disponibilita), 
             numero_copie(numero_copie), in_prestito(in_prestito), collocazione(collocazione), rating(rating) {}
 

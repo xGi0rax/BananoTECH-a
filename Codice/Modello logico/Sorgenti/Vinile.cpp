@@ -4,7 +4,7 @@
 #include <QJsonObject>
 #include <QString>
 
-Vinile::Vinile(string titolo, string genere, int anno, string immagine, bool disponibilita, int numero_copie, int in_prestito, string collocazione, double rating, string artista, int ntracce, int durata) : Media(titolo, genere, anno, immagine, disponibilita, numero_copie, in_prestito, collocazione, rating), 
+Vinile::Vinile(string titolo, string genere, int anno, string immagine, bool disponibilita, int numero_copie, string artista, int ntracce, int durata, int in_prestito, string collocazione, double rating) : Media(titolo, genere, anno, immagine, disponibilita, numero_copie, in_prestito, collocazione, rating), 
 artista(artista), ntracce(ntracce), durata(durata) {}
 
 void Vinile::toJson(QJsonObject& jsonObj) const {

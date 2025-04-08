@@ -6,8 +6,8 @@
 #include <QJsonArray>
 #include <QString>
 
-Film::Film(string titolo, string genere, int anno, string immagine, bool disponibilita, int numero_copie,
-    int in_prestito = 0, string collocazione = "", double rating = 0.0, string regista, int durata, vector<string> cast) : 
+Film::Film(string titolo, string genere, int anno, string immagine, bool disponibilita, int numero_copie, string regista, 
+    int durata, vector<string> cast, int in_prestito, string collocazione, double rating) : 
     Media(titolo, genere, anno, immagine, disponibilita, numero_copie, in_prestito, collocazione, rating), 
     regista(regista), durata(durata), cast(cast) {}
 

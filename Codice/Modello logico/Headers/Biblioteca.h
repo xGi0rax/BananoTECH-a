@@ -1,8 +1,7 @@
-#ifndef BIBLIOTECA.H
-#define BIBLIOTECA.H
+#ifndef BIBLIOTECA_H
+#define BIBLIOTECA_H
 
 #include "Media.h"
-#include "FileManager.h"
 #include <string>
 #include <vector>
 #include <QString>
@@ -14,7 +13,6 @@ private:
     vector<Media*> listaMedia; // vettore di puntatori a Media
     string idBiblioteca; // ID della biblioteca (es. "AA")
     int nextIdmedia; // contatore per l'auto-incremento degli Id dei media
-    FileManager fileManager; // Oggetto per la gestione dei file
 
 public:
     Biblioteca(string& idBiblio);
@@ -35,10 +33,6 @@ public:
                             const string& lingua = "",
                             int annoMin = 1200,
                             int annoMax = 2050) const;
-    
-    // Metodi per caricamento e salvataggio da e su file
-    void salvaSuFile(const QString& path); // Salva in JSON/XML
-    void caricaDaFile(const QString& path); // Carica da file
     
     int getNumeroTotaleMedia() const;
 

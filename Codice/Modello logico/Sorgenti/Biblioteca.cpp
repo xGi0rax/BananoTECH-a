@@ -1,11 +1,10 @@
-#include "Biblioteca.h"
-#include "FileManager.h"
-#include "Media.h"
-#include "Film.h"
-#include "Libro.h"
-#include "Vinile.h"
-#include "GiocoDaTavolo.h"
-#include "Rivista.h"
+#include "../Headers/Biblioteca.h"
+#include "../Headers/Media.h"
+#include "../Headers/Film.h"
+#include "../Headers/Libro.h"
+#include "../Headers/Vinile.h"
+#include "../Headers/GiocoDaTavolo.h"
+#include "../Headers/Rivista.h"
 
 
 Biblioteca::Biblioteca(string& idBiblio) : idBiblioteca(idBiblio), nextIdmedia(1) {}
@@ -17,8 +16,14 @@ Biblioteca::~Biblioteca() {
 }
 
 void Biblioteca::aggiungiMedia(Media* media) {
-    media->setId(idBiblioteca + "-" + std::to_string(nextIdmedia++));
-    listaMedia.push_back(media);
+    // Controllo se il media esiste già in biblioteca
+    if (esisteMedia(media->getTitolo(), media->getAnno(), media->getGenere())) {
+        // throw std::runtime_error("Il media esiste già in biblioteca.");
+        // Bisognerebbe chiedere all'utente se si vuole incrementare il numero di copie del media esistente
+    }else{ // altrimenti lo aggiungo alla lista
+        media->setId(idBiblioteca + "-" + std::to_string(nextIdmedia++));
+        listaMedia.push_back(media);
+    }
 }
 
 bool Biblioteca::esisteMedia(const string& titolo, int anno, const string& genere) const {
@@ -50,7 +55,7 @@ Media* Biblioteca::cercaMediaDaID(const string& id) const{
     return nullptr;
 }
 
-vector<Media*> Biblioteca::filtra(const string& titolo = "", const string& tipoMedia = "", const string& genere = "", double ratingMin = 0.0, double ratingMax = 5.0, const string& lingua = "", int annoMin = 0, int annoMax = 9999 ) const {
+vector<Media*> Biblioteca::filtra(const string& titolo, const string& tipoMedia, const string& genere, double ratingMin, double ratingMax, const string& lingua, int annoMin, int annoMax) const {
     
     vector<Media*> risultati;
 
@@ -101,22 +106,6 @@ vector<Media*> Biblioteca::filtra(const string& titolo = "", const string& tipoM
         }
     }
     return risultati;
-}
-
-void Biblioteca::salvaSuFile(const QString& path) {
-    if (path.endsWith(".json")) {
-        fileManager.salvaSuJson(*this, path.toStdString());
-    } else if (path.endsWith(".xml")) {
-        fileManager.salvaSuXml(*this, path.toStdString());
-    }
-}
-
-void Biblioteca::caricaDaFile(const QString& path) {
-    if (path.endsWith(".json")) {
-        fileManager.caricaDaJson(*this, path.toStdString());
-    } else if (path.endsWith(".xml")) {
-        fileManager.caricaDaXml(*this, path.toStdString());
-    }
 }
 
 int Biblioteca::getNumeroTotaleMedia() const {

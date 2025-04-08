@@ -8,7 +8,8 @@
 #include "Headers/Vinile.h"
 #include "Headers/GiocoDaTavolo.h"
 #include "Headers/Rivista.h"
-#include "Headers/FileManager.h"
+#include "Headers/JSonIO.h"
+#include "Headers/XmlIO.h"
 
 using namespace std;
 
@@ -20,29 +21,30 @@ int main() {
     // Creazione di diversi tipi di media
     // Film
     vector<string> castInception = {"Leonardo DiCaprio", "Joseph Gordon-Levitt", "Ellen Page"};
-    Film* film1 = new Film(0, "Inception", "Fantascienza", 2010, 
-                            "inception.jpg", true, 5, 2, "Scaffale A1", 4.8, 
-                            "Christopher Nolan", 148, castInception);
+    Film* film1 = new Film("Inception", "Fantascienza", 2010, 
+                            "inception.jpg", true, 5, "Christopher Nolan", 148, castInception, 0, "PG-13", 4.8);
 
     // Libro
-    Libro* libro1 = new Libro(1, "1984", "Distopia", 1949, 
-                             "1984.jpg", true, 3, 1, "Scaffale B2", 4.5, 
-                             "George Orwell", "1234567890123", "Secker & Warburg", 328);
+    Libro* libro1 = new Libro("Il Signore degli Anelli", "Fantasy", 1954, 
+                            "lotr.jpg", true, 3, "978-0261102385", 
+                            "J.R.R. Tolkien", "Allen & Unwin", 1216, 0, 
+                            "Scaffale A1", 4.9);
 
     // Rivista
-    Rivista* rivista1 = new Rivista(2, "National Geographic", "Scienza", 2023, 
-                                 "natgeo.jpg", true, 10, 0, "Scaffale C3", 4.2, 
-                                 "National Geographic Society", 50, "Mensile", "01/2023");
-
+    Rivista* rivista1 = new Rivista("National Geographic", "Natura", 2023, 
+                            "natgeo.jpg", true, 10, "National Geographic Society", 
+                            100, "2023-01-01", "Mensile", 0, 
+                            "Scaffale B2", 4.5);
+        
     // Gioco da Tavolo
-    GiocoDaTavolo* gioco1 = new GiocoDaTavolo(3, "Catan", "Strategia", 1995, 
-                                             "catan.jpg", true, 4, 1, "Scaffale D4", 2.7, 
-                                             4, 90, 10, "Kosmos");
+    GiocoDaTavolo* gioco1 = new GiocoDaTavolo("Catan", "Strategia", 1995, 
+                            "catan.jpg", true, 4, 3, 90, 10, 
+                            "Kosmos", 0, "Scaffale C3", 4.7);
 
     // Vinile
-    Vinile* vinile1 = new Vinile(4, "Abbey Road", "Rock", 1969, 
-                             "abbey_road.jpg", true, 2, 0, "Scaffale E5", 4.9, 
-                             "The Beatles", 17, 47);
+    Vinile* vinile1 = new Vinile("Abbey Road", "Rock", 1969, 
+                            "abbey_road.jpg", true, 2, "The Beatles", 4, 20,
+                            0, "Scaffale D4", 4.8);
 
     // Aggiunta dei media alla biblioteca
     biblioteca.aggiungiMedia(film1);
@@ -55,17 +57,18 @@ int main() {
     cout << "Biblioteca creata con ID: " << idBiblioteca << endl;
     cout << "Numero di media nella biblioteca: " << biblioteca.getNumeroTotaleMedia() << endl;
 
-    // Creazione del FileManager e salvataggio su JSON
-    FileManager fileManager;
+    
+    JsonIO jsonIO;
     string filePath = "biblioteca_test.json";
     
-    if (fileManager.salvaSuJson(biblioteca, filePath)) {
-        cout << "\nSalvataggio su JSON riuscito! File creato: " << filePath << endl;
+    // Salvataggio della biblioteca su file JSON
+    if (jsonIO.salvaSuFile(biblioteca, filePath)) {
+        cout << "Biblioteca salvata su file JSON: " << filePath << endl;
     } else {
-        cerr << "Errore durante il salvataggio su JSON!" << endl;
-        return 1;
+        cout << "Errore durante il salvataggio della biblioteca su file JSON." << endl;
     }
+    
 
-    // Nota: la biblioteca gestisce automaticamente la distruzione dei media nel suo distruttore
+    
     return 0;
 }
