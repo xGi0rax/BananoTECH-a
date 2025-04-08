@@ -8,18 +8,18 @@ Media::Media(int id, string titolo, string genere, int anno, string immagine, bo
             id(id), titolo(titolo), genere(genere), anno(anno), immagine(immagine), disponibilita(disponibilita), 
             numero_copie(numero_copie), in_prestito(in_prestito), collocazione(collocazione), rating(rating) {}
 
-virtual void toJson(QJsonObject& jsonObj) const {
-        jsonObj["id"] = id;
-        jsonObj["titolo"] = QString::fromStdString(titolo);
-        jsonObj["genere"] = QString::fromStdString(genere);
-        jsonObj["anno"] = anno;
-        jsonObj["immagine"] = QString::fromStdString(immagine);
-        jsonObj["disponibilita"] = disponibilita;
-        jsonObj["numero_copie"] = numero_copie;
-        jsonObj["in_prestito"] = in_prestito;
-        jsonObj["collocazione"] = QString::fromStdString(collocazione);
-        jsonObj["rating"] = rating;
-    }
+void Media::toJson(QJsonObject& jsonObj) const {
+    jsonObj["id"] = id;
+    jsonObj["titolo"] = QString::fromStdString(titolo);
+    jsonObj["genere"] = QString::fromStdString(genere);
+    jsonObj["anno"] = anno;
+    jsonObj["immagine"] = QString::fromStdString(immagine);
+    jsonObj["disponibilita"] = disponibilita;
+    jsonObj["numero_copie"] = numero_copie;
+    jsonObj["in_prestito"] = in_prestito;
+    jsonObj["collocazione"] = QString::fromStdString(collocazione);
+    jsonObj["rating"] = rating;
+}
 
 // Metodi getter
 int Media::getId() const{

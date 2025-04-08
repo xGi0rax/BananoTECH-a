@@ -4,26 +4,26 @@
 #include <string>
 
 class Vinile: public Media{ 
-    private:
-        string artista;
-        int ntracce;
-        int durata;
-    public:
+private:
+    string artista;
+    int ntracce;
+    int durata;
 
-        void toJson(QJsonObject& jsonObj) const override;
-        
-        Vinile(int id, string titolo, string genere, int anno, string immagine, bool disponibilita, int numero_copie, int in_prestito = 0, string collocazione = "", double rating = 0.0, string artista, int ntracce, int durata);
-        ~Vinile();
+public:
+    Vinile(int id, string titolo, string genere, int anno, string immagine, bool disponibilita, int numero_copie, int in_prestito = 0, string collocazione = "", double rating = 0.0, string artista, int ntracce, int durata);
+    ~Vinile();
 
-        // Metodi getter
-        string getArtista() const;
-        int getNTracce() const;
-        int getDurata() const;
+    // Metodi getter
+    string getArtista() const;
+    int getNTracce() const;
+    int getDurata() const;
 
-        // Metodi setter
-        void setArtista(const string& artista);
-        void setNTracce(const int& ntracce);
-        void setDurata(const int& durata);
+    // Metodi setter
+    void setArtista(const string& artista);
+    void setNTracce(const int& ntracce);
+    void setDurata(const int& durata);
+
+    void toJson(QJsonObject& jsonObj) const override;
 };
 
 #endif //VINILE_H

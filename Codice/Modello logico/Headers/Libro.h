@@ -10,9 +10,6 @@ private:
     int npagine;
 
 public:
-
-    void toJson(QJsonObject& jsonObj) const override;
-
     Libro(int id, string titolo, string genere, int anno, string immagine, bool disponibilita, int numero_copie, int in_prestito = 0, string collocazione = "", double rating = 0.0, string isbn, string autore, string editore, int npagine);
     ~Libro();
 
@@ -27,6 +24,8 @@ public:
     void setAutore(const string& autore);
     void setEditore(const string& editore);
     void setNPagine(const int& npagine);
+
+    void toJson(QJsonObject& jsonObj) const override;
 };
 
 #endif //LIBRO_H
