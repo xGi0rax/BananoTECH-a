@@ -92,8 +92,9 @@ vector<Media*> Biblioteca::filtra(const string& titolo, const string& tipoMedia,
         }
         // Filtro per lingua
         if (corrisponde && !lingua.empty()) {
-            // if (media->getLingua() != lingua)
-            //     corrisponde = false;
+            if (media->getLingua() != lingua){
+                corrisponde = false;
+            }
         }
         // Filtro per anno
         if (corrisponde) {

@@ -10,7 +10,7 @@ private:
     int npagine;
 
 public:
-    Libro(string titolo, string genere, int anno, string immagine, bool disponibilita, int numero_copie, string isbn, string autore, string editore, int npagine, int in_prestito = 0, string collocazione = "", double rating = 0.0);
+    Libro(string titolo, string genere, int anno, string lingua, string immagine, bool disponibilita, int numero_copie, string isbn, string autore, string editore, int npagine, int in_prestito = 0, string collocazione = "", double rating = 0.0);
     ~Libro() = default;
 
     // Metodi getter

@@ -12,7 +12,7 @@ private:
     vector<string> cast; // Vettore contenente nomi e cognomi degli attori principali del film
 
 public:
-    Film(string titolo, string genere, int anno, string immagine, bool disponibilita, int numero_copie, string regista, int durata, vector<string> cast, int in_prestito = 0, string collocazione = "", double rating = 0.0);
+    Film(string titolo, string genere, int anno, string lingua, string immagine, bool disponibilita, int numero_copie, string regista, int durata, vector<string> cast, int in_prestito = 0, string collocazione = "", double rating = 0.0);
     ~Film() =default; 
 
     // Metodi getter
