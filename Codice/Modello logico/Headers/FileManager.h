@@ -4,7 +4,6 @@
 #include "Biblioteca.h"
 #include "Media.h"
 #include <QJsonObject>
-#include <QDomElement>
 
 class FileManager{
 public:
@@ -23,8 +22,8 @@ private:
     Media* jsonToMedia(const QJsonObject& json) const;  // Crea un Media da QJsonObject (usa factory)
     
     // Versioni analoghe per XML
-    QDomElement mediaToXml(const Media* media, QDomDocument& doc) const;
-    Media* xmlToMedia(const QDomElement& element) const;
+    /*QDomElement mediaToXml(const Media* media, QDomDocument& doc) const;
+    Media* xmlToMedia(const QDomElement& element) const;*/
 };
     
 #endif //FILEMANAGER.H

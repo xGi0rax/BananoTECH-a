@@ -1,5 +1,6 @@
 #ifndef BIBLIOTECA.H
 #define BIBLIOTECA.H
+
 #include "Media.h"
 #include "FileManager.h"
 #include <string>
@@ -13,6 +14,7 @@ private:
     vector<Media*> listaMedia; // vettore di puntatori a Media
     string idBiblioteca; // ID della biblioteca (es. "AA")
     int nextIdmedia; // contatore per l'auto-incremento degli Id dei media
+    FileManager fileManager; // Oggetto per la gestione dei file
 
 public:
     Biblioteca(string& idBiblio);

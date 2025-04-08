@@ -104,20 +104,18 @@ vector<Media*> Biblioteca::filtra(const string& titolo = "", const string& tipoM
 }
 
 void Biblioteca::salvaSuFile(const QString& path) {
-    FileManager fm;
     if (path.endsWith(".json")) {
-        fm.salvaSuJson(*this, path.toStdString());
+        fileManager.salvaSuJson(*this, path.toStdString());
     } else if (path.endsWith(".xml")) {
-        fm.salvaSuXml(*this, path.toStdString());
+        fileManager.salvaSuXml(*this, path.toStdString());
     }
 }
 
 void Biblioteca::caricaDaFile(const QString& path) {
-    FileManager fm;
     if (path.endsWith(".json")) {
-        fm.caricaDaJson(*this, path.toStdString());
+        fileManager.caricaDaJson(*this, path.toStdString());
     } else if (path.endsWith(".xml")) {
-        fm.caricaDaXml(*this, path.toStdString());
+        fileManager.caricaDaXml(*this, path.toStdString());
     }
 }
 
