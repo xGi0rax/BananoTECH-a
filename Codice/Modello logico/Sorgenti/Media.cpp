@@ -3,13 +3,13 @@
 #include <QJsonObject>
 #include <QString>
 
-Media::Media(int id, string titolo, string genere, int anno, string immagine, bool disponibilita, 
+Media::Media(string titolo, string genere, int anno, string immagine, bool disponibilita, 
             int numero_copie, int in_prestito = 0, string collocazione = "", double rating = 0.0) : 
-            id(id), titolo(titolo), genere(genere), anno(anno), immagine(immagine), disponibilita(disponibilita), 
+            titolo(titolo), genere(genere), anno(anno), immagine(immagine), disponibilita(disponibilita), 
             numero_copie(numero_copie), in_prestito(in_prestito), collocazione(collocazione), rating(rating) {}
 
 void Media::toJson(QJsonObject& jsonObj) const {
-    jsonObj["id"] = id;
+    jsonObj["id"] = QString::fromStdString(id);
     jsonObj["titolo"] = QString::fromStdString(titolo);
     jsonObj["genere"] = QString::fromStdString(genere);
     jsonObj["anno"] = anno;
@@ -22,7 +22,7 @@ void Media::toJson(QJsonObject& jsonObj) const {
 }
 
 // Metodi getter
-int Media::getId() const{
+string Media::getId() const{
     return id;
 }
 
@@ -63,7 +63,7 @@ double Media::getRating() const{
 }
 
 // Metodi setter
-void Media::setId(const int& id){
+void Media::setId(const string& id){
     this->id = id;
 }
 

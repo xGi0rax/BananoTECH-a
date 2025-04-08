@@ -21,7 +21,7 @@ public:
     ~Biblioteca();
         
     // Metodi per aggiunta e rimozione dei media
-    void aggiungiMedia(Media* media); // Aggiunge un media (assegna ID)
+    void aggiungiMedia(Media* media); // Aggiunge un media (e assegna ID)
     bool esisteMedia(const string& titolo, int anno, const string& genere) const; // Metodo per controllare se un media esiste gia' prima di aggiungerlo
     bool rimuoviMedia(string& id); // Rimuove un media per ID
     Media* cercaMediaDaID(const string& id) const; // Cerca per ID

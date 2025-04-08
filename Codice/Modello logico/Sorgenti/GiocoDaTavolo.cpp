@@ -4,9 +4,9 @@
 #include <QJsonObject>
 #include <QString>
 
-GiocoDaTavolo::GiocoDaTavolo(int id, string titolo, string genere, int anno, string immagine, bool disponibilita, 
+GiocoDaTavolo::GiocoDaTavolo(string titolo, string genere, int anno, string immagine, bool disponibilita, 
     int numero_copie, int in_prestito, string collocazione, double rating, int ngiocatori, int durata, 
-    int età, string editore) : Media(id, titolo, genere, anno, immagine, disponibilita, numero_copie, in_prestito, collocazione, rating), 
+    int età, string editore) : Media(titolo, genere, anno, immagine, disponibilita, numero_copie, in_prestito, collocazione, rating), 
     ngiocatori(ngiocatori), durata(durata), età(età), editore(editore) {}
 
 void GiocoDaTavolo::toJson(QJsonObject& jsonObj) const {

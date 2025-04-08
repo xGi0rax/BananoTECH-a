@@ -12,7 +12,7 @@ private:
     string editore; 
 
 public:
-    GiocoDaTavolo(int id, string titolo, string genere, int anno, string immagine, bool disponibilita, int numero_copie, int in_prestito = 0, string collocazione = "", double rating = 0.0, int ngiocatori, int durata, int età, string editore);
+    GiocoDaTavolo(string titolo, string genere, int anno, string immagine, bool disponibilita, int numero_copie, int in_prestito = 0, string collocazione = "", double rating = 0.0, int ngiocatori, int durata, int età, string editore);
     ~GiocoDaTavolo();
 
     // Metodi getter
