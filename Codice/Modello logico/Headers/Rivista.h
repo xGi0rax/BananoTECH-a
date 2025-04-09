@@ -11,7 +11,7 @@ private:
     string periodicita; // Mensile, settimanale, annuale, ecc.
 
 public:
-    Rivista(string titolo, string genere, int anno, string immagine, bool disponibilita, int numero_copie, string editore, int n_pagine, string data_pubb, string periodicita, int in_prestito = 0, string collocazione = "", double rating = 0.0);
+    Rivista(string titolo, string genere, int anno, string lingua, string immagine, bool disponibilita, int numero_copie, string editore, int n_pagine, string data_pubb, string periodicita, int in_prestito = 0, string collocazione = "", double rating = 0.0);
     ~Rivista() = default;
 
     // Metodi getter

@@ -10,7 +10,7 @@ private:
     int durata;
 
 public:
-    Vinile(string titolo, string genere, int anno, string immagine, bool disponibilita, int numero_copie, string artista, int ntracce, int durata, int in_prestito = 0, string collocazione = "", double rating = 0.0);
+    Vinile(string titolo, string genere, int anno, string lingua, string immagine, bool disponibilita, int numero_copie, string artista, int ntracce, int durata, int in_prestito = 0, string collocazione = "", double rating = 0.0);
     ~Vinile() = default;
 
     // Metodi getter

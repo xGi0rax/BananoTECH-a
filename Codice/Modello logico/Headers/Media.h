@@ -12,6 +12,7 @@ private:
     string titolo; // Titolo del media
     string genere; // Genere del media (es. "Fantascienza", "Commedia", etc.)
     int anno; // Anno di pubblicazione
+    string lingua; // Lingua del media (es. "Italiano", "Inglese", etc.)
     string immagine;  // Percorso dell'immagine del media
     bool disponibilita; // Disponibilità del media (true se disponibile, false se tutte le copie in prestito)
     int numero_copie; // Numero totale di copie del media
@@ -20,7 +21,7 @@ private:
     double rating; // Valutazione del media (da 1 a 5 stelle)
     
 public:
-    Media(string titolo, string genere, int anno, string immagine, bool disponibilita, int numero_copie, int in_prestito = 0, string collocazione = "", double rating = 0.0);
+    Media(string titolo, string genere, int anno, string lingua, string immagine, bool disponibilita, int numero_copie, int in_prestito = 0, string collocazione = "", double rating = 0.0);
     virtual ~Media() =default;
 
     // Metodi getter
@@ -28,6 +29,7 @@ public:
     string getTitolo() const;
     string getGenere() const;
     int getAnno() const;
+    string getLingua() const;
     string getImmagine() const;
     bool getDisponibilita() const;
     int getNumeroCopie() const;
@@ -40,6 +42,7 @@ public:
     void setTitolo(const string& titolo);
     void setGenere(const string& genere);
     void setAnno(const int& anno);
+    void setLingua(const string& lingua);
     void setImmagine(const string& imm);
     void setDisponibilita(bool dispon); 
     void setNumeroCopie(const int& n_copie);
