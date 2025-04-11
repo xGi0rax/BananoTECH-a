@@ -3,6 +3,8 @@
 #include <string>
 #include <QJsonObject>
 #include <QString>
+#include <QDomElement>
+#include <QDomDocument>
 
 GiocoDaTavolo::GiocoDaTavolo(string titolo, string genere, int anno, string lingua, string immagine, bool disponibilita, 
     int numero_copie,  int ngiocatori, int durata, int età, string editore, int in_prestito, string collocazione, double rating) : Media(titolo, genere, anno, lingua, immagine, disponibilita, numero_copie, in_prestito, collocazione, rating), 
@@ -15,6 +17,16 @@ void GiocoDaTavolo::toJson(QJsonObject& jsonObj) const {
     jsonObj["durata"] = durata;
     jsonObj["eta_minima"] = età;
     jsonObj["editore"] = QString::fromStdString(editore);
+}
+
+void GiocoDaTavolo::toXml(QDomElement& elemento, QDomDocument& doc) const {
+    Q_UNUSED(doc); // Silenzia il warning per in non uso di doc
+    Media::toXml(elemento, doc);
+    elemento.setAttribute("tipo", "gioco");
+    elemento.setAttribute("numero_giocatori", ngiocatori);
+    elemento.setAttribute("durata", durata);
+    elemento.setAttribute("eta_minima", età);
+    elemento.setAttribute("editore", QString::fromStdString(editore));
 }
 
 // Getter

@@ -18,7 +18,7 @@ int main() {
     string idBiblioteca = "VC";
     Biblioteca biblioteca(idBiblioteca);
 
-    /*
+    
     // Creazione di diversi tipi di media
     // Film
     vector<string> castInception = {"Leonardo DiCaprio", "Joseph Gordon-Levitt", "Ellen Page"};
@@ -58,18 +58,17 @@ int main() {
     cout << "Biblioteca creata con ID: " << idBiblioteca << endl;
     cout << "Numero di media nella biblioteca: " << biblioteca.getNumeroTotaleMedia() << endl;
 
-    
-    JsonIO jsonIO;
-    string filePath = "biblioteca_test.json";
-    
-    // Salvataggio della biblioteca su file JSON
-    if (jsonIO.salvaSuFile(biblioteca, filePath)) {
-        cout << "Biblioteca salvata su file JSON: " << filePath << endl;
+    // test salvataggio su file XML
+    XmlIO xmlIO;
+    string xmlFilePath = "biblioteca_test.xml";
+    if (xmlIO.salvaSuFile(biblioteca, xmlFilePath)) {
+        cout << "Biblioteca salvata su file XML: " << xmlFilePath << endl;
     } else {
-        cout << "Errore durante il salvataggio della biblioteca su file JSON." << endl;
+        cout << "Errore durante il salvataggio della biblioteca su file XML." << endl;
     }
-    */
     
+    
+    /*
     //Test caricamento da json
     JsonIO jsonIO;
     string filePath = "biblioteca_test.json";
@@ -82,7 +81,7 @@ int main() {
     } else {
         cout << "Errore durante il caricamento della biblioteca da file JSON." << endl;
     }
-
+    */
     
     return 0;
 }

@@ -1,0 +1,13 @@
+<biblioteca>
+ <media anno="2010" collocazione="PG-13" disponibilita="1" durata="148" genere="Fantascienza" id="VC-1" immagine="inception.jpg" in_prestito="0" lingua="Italiano" numero_copie="5" rating="4.7999999999999998" regista="Christopher Nolan" tipo="film" titolo="Inception">
+  <cast>
+   <attore>Leonardo DiCaprio</attore>
+   <attore>Joseph Gordon-Levitt</attore>
+   <attore>Ellen Page</attore>
+  </cast>
+ </media>
+ <media anno="1954" autore="J.R.R. Tolkien" collocazione="Scaffale A1" disponibilita="1" editore="Allen &amp; Unwin" genere="Fantasy" id="VC-2" immagine="lotr.jpg" in_prestito="0" isbn="978-0261102385" lingua="Italiano" numero_copie="3" numero_pagine="1216" rating="4.9000000000000004" tipo="libro" titolo="Il Signore degli Anelli"/>
+ <media anno="2023" collocazione="Scaffale B2" data_pubblicazione="2023-01-01" disponibilita="1" editore="National Geographic Society" genere="Natura" id="VC-3" immagine="natgeo.jpg" in_prestito="0" lingua="Italiano" numero_copie="10" numero_pagine="100" periodicita="Mensile" rating="4.5" tipo="rivista" titolo="National Geographic"/>
+ <media anno="1995" collocazione="Scaffale C3" disponibilita="1" durata="90" editore="Kosmos" eta_minima="10" genere="Strategia" id="VC-4" immagine="catan.jpg" in_prestito="0" lingua="Italiano" numero_copie="4" numero_giocatori="3" rating="4.7000000000000002" tipo="gioco" titolo="Catan"/>
+ <media anno="1969" artista="The Beatles" collocazione="Scaffale D4" disponibilita="1" durata="20" genere="Rock" id="VC-5" immagine="abbey_road.jpg" in_prestito="0" lingua="Italiano" numero_copie="2" numero_tracce="4" rating="4.7999999999999998" tipo="vinile" titolo="Abbey Road"/>
+</biblioteca>

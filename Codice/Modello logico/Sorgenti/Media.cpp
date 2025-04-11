@@ -1,6 +1,8 @@
 #include "../Headers/Media.h"
 #include <string>
 #include <QJsonObject>
+#include <QDomElement>
+#include <QDomDocument>
 #include <QString>
 
 Media::Media(string titolo, string genere, int anno, string lingua, string immagine, bool disponibilita, 
@@ -21,6 +23,23 @@ void Media::toJson(QJsonObject& jsonObj) const {
     jsonObj["collocazione"] = QString::fromStdString(collocazione);
     jsonObj["rating"] = rating;
 }
+
+
+void Media::toXml(QDomElement& elemento, QDomDocument& doc) const {
+    Q_UNUSED(doc); // Silenzia il warning per in non uso di doc
+    elemento.setAttribute("id", QString::fromStdString(id));
+    elemento.setAttribute("titolo", QString::fromStdString(titolo));
+    elemento.setAttribute("genere", QString::fromStdString(genere));
+    elemento.setAttribute("anno", anno);
+    elemento.setAttribute("lingua", QString::fromStdString(lingua));
+    elemento.setAttribute("immagine", QString::fromStdString(immagine));
+    elemento.setAttribute("disponibilita", disponibilita);
+    elemento.setAttribute("numero_copie", numero_copie);
+    elemento.setAttribute("in_prestito", in_prestito);
+    elemento.setAttribute("collocazione", QString::fromStdString(collocazione));
+    elemento.setAttribute("rating", rating);
+}
+
 
 // Metodi getter
 string Media::getId() const{

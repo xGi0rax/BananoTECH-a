@@ -28,6 +28,7 @@ public:
     void setEditore(const string& editore);
 
     void toJson(QJsonObject& jsonObj) const override;
+    void toXml(QDomElement& elemento, QDomDocument& doc) const override;
 };
     
 #endif //GIOCODATAVOLO_H

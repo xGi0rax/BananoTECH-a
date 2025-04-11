@@ -26,6 +26,7 @@ public:
     void setNPagine(const int& npagine);
 
     void toJson(QJsonObject& jsonObj) const override;
+    void toXml(QDomElement& elemento, QDomDocument& doc) const override;
 };
 
 #endif //LIBRO_H

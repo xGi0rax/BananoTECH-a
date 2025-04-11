@@ -27,6 +27,7 @@ public:
     void setPeriodicita(const string& periodicita);
 
     void toJson(QJsonObject& jsonObj) const override;
+    void toXml(QDomElement& elemento, QDomDocument& doc) const override;
 };
 
 #endif //RIVISTA_H
