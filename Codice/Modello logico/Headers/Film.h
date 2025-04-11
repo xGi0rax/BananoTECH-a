@@ -26,6 +26,8 @@ public:
     void setCast(const vector<string>& cast);
 
     void toJson(QJsonObject& jsonObj) const override;
+
+    //CIAOOOOOOOOO
 };
     
 #endif //FILM_H
