@@ -24,6 +24,7 @@ public:
     void setDurata(const int& durata);
 
     void toJson(QJsonObject& jsonObj) const override;
+    void toXml(QDomElement& elemento, QDomDocument& doc) const override;
 };
 
 #endif //VINILE_H

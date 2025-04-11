@@ -3,10 +3,10 @@
 #include <string>
 #include <QJsonObject>
 #include <QString>
+#include <QDomElement>
+#include <QDomDocument>
 
-Vinile::Vinile(string titolo, string genere, int anno, string lingua, string immagine, bool disponibilita, int numero_copie, s
-tring artista, int ntracce, int durata, int in_prestito, string collocazione, double rating) : Media(titolo, genere, anno, immagine, disponibilita, numero_copie, in_prestito, collocazione, rating), 
-artista(artista), ntracce(ntracce), durata(durata) {}
+Vinile::Vinile(string titolo, string genere, int anno, string lingua, string immagine, bool disponibilita, int numero_copie, string artista, int ntracce, int durata, int in_prestito, string collocazione, double rating) : Media(titolo, genere, anno, lingua, immagine, disponibilita, numero_copie, in_prestito, collocazione, rating), artista(artista), ntracce(ntracce), durata(durata) {}
 
 void Vinile::toJson(QJsonObject& jsonObj) const {
     Media::toJson(jsonObj);
@@ -14,6 +14,15 @@ void Vinile::toJson(QJsonObject& jsonObj) const {
     jsonObj["artista"] = QString::fromStdString(artista);
     jsonObj["numero_tracce"] = ntracce;
     jsonObj["durata"] = durata;
+}
+
+void Vinile::toXml(QDomElement& elemento, QDomDocument& doc) const {
+    Q_UNUSED(doc); // Silenzia il warning per in non uso di doc
+    Media::toXml(elemento, doc);
+    elemento.setAttribute("tipo", "vinile");
+    elemento.setAttribute("artista", QString::fromStdString(artista));
+    elemento.setAttribute("numero_tracce", ntracce);
+    elemento.setAttribute("durata", durata);
 }
 
 // Getter

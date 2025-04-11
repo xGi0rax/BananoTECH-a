@@ -13,11 +13,12 @@ public:
     JsonIO() = default;
     ~JsonIO() override = default;
 
-    bool salvaSuFile(const Biblioteca& biblio, const string& filePath) const override;
-    //bool caricaDaFile(Biblioteca& biblio, const string& filePath) override;
-
     QJsonObject mediaToJson(const Media* media) const;  // Converte un Media in QJsonObject
-    //Media* jsonToMedia(const QJsonObject& json) const;  // Crea un Media da QJsonObject (usa factory) ???
+    Media* jsonToMedia(const QJsonObject& json) const;  // Crea un Media da QJsonObject (usa factory) ???
+
+    // Metodi per salvare e caricare la biblioteca su e da file JSON
+    bool salvaSuFile(const Biblioteca& biblio, const string& filePath) const override;
+    bool caricaDaFile(Biblioteca& biblio, const string& filePath) override;
 };
 
 #endif // JSONIO_H

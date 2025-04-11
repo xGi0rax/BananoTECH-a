@@ -26,8 +26,7 @@ public:
     void setCast(const vector<string>& cast);
 
     void toJson(QJsonObject& jsonObj) const override;
-
-    //CIAOOOOOOOOO
+    void toXml(QDomElement& elemento, QDomDocument& doc) const override;
 };
     
 #endif //FILM_H

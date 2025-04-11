@@ -45,7 +45,7 @@
         "id": "VC-3",
         "immagine": "natgeo.jpg",
         "in_prestito": 0,
-        "mese_pubblicazione": "2023-01-01",
+        "data_pubblicazione": "2023-01-01",
         "numero_copie": 10,
         "numero_pagine": 100,
         "periodicita": "Mensile",

@@ -3,9 +3,11 @@
 #include <string>
 #include <QJsonObject>
 #include <QString>
+#include <QDomElement>
+#include <QDomDocument>
 
 Libro::Libro(string titolo, string genere, int anno, string lingua, string immagine, bool disponibilita, 
-    int numero_copie, string isbn, string autore, string editore, int npagine,int in_prestito, string collocazione, double rating) : Media(titolo, genere, anno, lingua, disponibilita, numero_copie, in_prestito, collocazione, rating), 
+    int numero_copie, string isbn, string autore, string editore, int npagine,int in_prestito, string collocazione, double rating) : Media(titolo, genere, anno, lingua, immagine, disponibilita, numero_copie, in_prestito, collocazione, rating), 
     isbn(isbn), autore(autore), editore(editore), npagine(npagine) {}
 
 void Libro::toJson(QJsonObject& jsonObj) const {
@@ -15,6 +17,16 @@ void Libro::toJson(QJsonObject& jsonObj) const {
     jsonObj["autore"] = QString::fromStdString(autore);
     jsonObj["editore"] = QString::fromStdString(editore);
     jsonObj["numero_pagine"] = npagine;
+}
+
+void Libro::toXml(QDomElement& elemento, QDomDocument& doc) const {
+    Q_UNUSED(doc); // Silenzia il warning per in non uso di doc
+    Media::toXml(elemento, doc);
+    elemento.setAttribute("tipo", "libro");
+    elemento.setAttribute("isbn", QString::fromStdString(isbn));
+    elemento.setAttribute("autore", QString::fromStdString(autore));
+    elemento.setAttribute("editore", QString::fromStdString(editore));
+    elemento.setAttribute("numero_pagine", npagine);
 }
 
 // Getter

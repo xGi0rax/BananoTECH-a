@@ -3,6 +3,8 @@
 #include <string>
 
 class QJsonObject;
+class QDomElement;
+class QDomDocument;
 
 using std::string;
 
@@ -51,6 +53,9 @@ public:
 
     // Metodo per convertire l'oggetto in un oggetto JSON
     virtual void toJson(QJsonObject& jsonObj) const;
+
+    // Metodo per convertire l'oggetto in un oggetto XML
+    virtual void toXml(QDomElement& elemento, QDomDocument& doc) const;
 };
 
 #endif // MEDIA_H
