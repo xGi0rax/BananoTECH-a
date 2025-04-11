@@ -19,7 +19,7 @@ public:
     bool caricaDaFile(Biblioteca& biblio, const string& filePath) override;
 
     QDomElement mediaToXml(const Media* media, QDomDocument& doc) const;  // Converte un Media in QDomElement
-    Media* xmlToMedia(const QDomElement& element) const;  // Crea un Media da QDomElement (usa factory)
+    Media* xmlToMedia(const QDomElement& elemento) const;  // Crea un Media da QDomElement (usa factory)
 };
 
 #endif // XMLIO_H

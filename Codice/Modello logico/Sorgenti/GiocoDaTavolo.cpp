@@ -7,15 +7,15 @@
 #include <QDomDocument>
 
 GiocoDaTavolo::GiocoDaTavolo(string titolo, string genere, int anno, string lingua, string immagine, bool disponibilita, 
-    int numero_copie,  int ngiocatori, int durata, int età, string editore, int in_prestito, string collocazione, double rating) : Media(titolo, genere, anno, lingua, immagine, disponibilita, numero_copie, in_prestito, collocazione, rating), 
-    ngiocatori(ngiocatori), durata(durata), età(età), editore(editore) {}
+    int numero_copie,  int ngiocatori, int durata, int etaMinima, string editore, int in_prestito, string collocazione, double rating) : Media(titolo, genere, anno, lingua, immagine, disponibilita, numero_copie, in_prestito, collocazione, rating), 
+    ngiocatori(ngiocatori), durata(durata), etaMinima(etaMinima), editore(editore) {}
 
 void GiocoDaTavolo::toJson(QJsonObject& jsonObj) const {
     Media::toJson(jsonObj);
     jsonObj["tipo"] = "gioco";
     jsonObj["numero_giocatori"] = ngiocatori;
     jsonObj["durata"] = durata;
-    jsonObj["eta_minima"] = età;
+    jsonObj["eta_minima"] = etaMinima;
     jsonObj["editore"] = QString::fromStdString(editore);
 }
 
@@ -25,7 +25,7 @@ void GiocoDaTavolo::toXml(QDomElement& elemento, QDomDocument& doc) const {
     elemento.setAttribute("tipo", "gioco");
     elemento.setAttribute("numero_giocatori", ngiocatori);
     elemento.setAttribute("durata", durata);
-    elemento.setAttribute("eta_minima", età);
+    elemento.setAttribute("eta_minima", etaMinima);
     elemento.setAttribute("editore", QString::fromStdString(editore));
 }
 
@@ -38,8 +38,8 @@ int GiocoDaTavolo::getDurata() const {
     return durata;
 }
 
-int GiocoDaTavolo::getEtà() const {
-    return età;
+int GiocoDaTavolo::getEtaMinima() const {
+    return etaMinima;
 }
 
 string GiocoDaTavolo::getEditore() const {
@@ -55,8 +55,8 @@ void GiocoDaTavolo::setDurata(const int& durata) {
     this->durata = durata;
 }
 
-void GiocoDaTavolo::setEtà(const int& età) {
-    this->età = età;
+void GiocoDaTavolo::setEtaMinima(const int& etaMinima) {
+    this->etaMinima = etaMinima;
 }
 
 void GiocoDaTavolo::setEditore(const string& editore) {

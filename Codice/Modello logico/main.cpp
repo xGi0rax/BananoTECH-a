@@ -18,7 +18,7 @@ int main() {
     string idBiblioteca = "VC";
     Biblioteca biblioteca(idBiblioteca);
 
-    
+    /*
     // Creazione di diversi tipi di media
     // Film
     vector<string> castInception = {"Leonardo DiCaprio", "Joseph Gordon-Levitt", "Ellen Page"};
@@ -66,22 +66,25 @@ int main() {
     } else {
         cout << "Errore durante il salvataggio della biblioteca su file XML." << endl;
     }
-    
-    
-    /*
-    //Test caricamento da json
-    JsonIO jsonIO;
-    string filePath = "biblioteca_test.json";
-
-    cout << "Numero di media nella biblioteca PRIMA del caricamento: " << biblioteca.getNumeroTotaleMedia() << endl;
-    // Caricamento della biblioteca da file JSON
-    if (jsonIO.caricaDaFile(biblioteca, filePath)) {
-        cout << "Biblioteca caricata da file JSON: " << filePath << endl;
-        cout << "Numero di media nella biblioteca DOPO il caricamento: " << biblioteca.getNumeroTotaleMedia() << endl;
-    } else {
-        cout << "Errore durante il caricamento della biblioteca da file JSON." << endl;
-    }
     */
+    
+    
+    
+    //Test caricamento da xml
+    XmlIO xmlIO;
+    string xmlFilePath = "biblioteca_test.xml";
+
+    cout << "Numero di media nella biblioteca PRIMA: " << biblioteca.getNumeroTotaleMedia() << endl;
+    if(xmlIO.caricaDaFile(biblioteca, xmlFilePath)) {
+        if (biblioteca.getNumeroTotaleMedia() > 0) {
+            cout << "Biblioteca caricata con successo da file XML: " << xmlFilePath << endl;
+            cout << "Numero di media nella biblioteca DOPO: " << biblioteca.getNumeroTotaleMedia() << endl;
+        } else {
+            cout << "Errore durante il caricamento della biblioteca da file XML." << endl;
+        }
+    }
+    
+    
     
     return 0;
 }

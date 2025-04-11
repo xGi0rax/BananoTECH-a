@@ -67,11 +67,11 @@ Media* JsonIO::jsonToMedia(const QJsonObject& json) const{
 
     } else if (tipo == "gioco") {
         int numeroGiocatori = json["numero_giocatori"].toInt();
-        int eta = json["eta_minima"].toInt();
+        int etaMinima = json["eta_minima"].toInt();
         int durata = json["durata"].toInt();
         string editore = json["editore"].toString().toStdString();
 
-        return new GiocoDaTavolo(titolo, genere, anno, lingua, immagine, disponibilita, numero_copie, numeroGiocatori, eta, durata, editore, in_prestito, collocazione, rating);
+        return new GiocoDaTavolo(titolo, genere, anno, lingua, immagine, disponibilita, numero_copie, numeroGiocatori, etaMinima, durata, editore, in_prestito, collocazione, rating);
 
     } else if (tipo == "vinile") {
         string artista = json["artista"].toString().toStdString();
