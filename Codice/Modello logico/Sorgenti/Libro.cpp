@@ -5,7 +5,7 @@
 #include <QString>
 
 Libro::Libro(string titolo, string genere, int anno, string lingua, string immagine, bool disponibilita, 
-    int numero_copie, string isbn, string autore, string editore, int npagine,int in_prestito, string collocazione, double rating) : Media(titolo, genere, anno, lingua, disponibilita, numero_copie, in_prestito, collocazione, rating), 
+    int numero_copie, string isbn, string autore, string editore, int npagine,int in_prestito, string collocazione, double rating) : Media(titolo, genere, anno, lingua, immagine, disponibilita, numero_copie, in_prestito, collocazione, rating), 
     isbn(isbn), autore(autore), editore(editore), npagine(npagine) {}
 
 void Libro::toJson(QJsonObject& jsonObj) const {

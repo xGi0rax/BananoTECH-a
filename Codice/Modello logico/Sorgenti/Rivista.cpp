@@ -5,7 +5,7 @@
 #include <QString>
 
 Rivista::Rivista(string titolo, string genere, int anno, string lingua, string immagine, bool disponibilita, 
-    int numero_copie, string editore, int n_pagine, string data_pubb, string periodicita, int in_prestito, string collocazione, double rating) : Media(titolo, genere, anno, lingua, disponibilita, numero_copie, in_prestito, collocazione, rating), 
+    int numero_copie, string editore, int n_pagine, string data_pubb, string periodicita, int in_prestito, string collocazione, double rating) : Media(titolo, genere, anno, lingua, immagine, disponibilita, numero_copie, in_prestito, collocazione, rating), 
     editore(editore), n_pagine(n_pagine), data_pubb(data_pubb), periodicita(periodicita) {}
 
 void Rivista::toJson(QJsonObject& jsonObj) const {
@@ -13,7 +13,7 @@ void Rivista::toJson(QJsonObject& jsonObj) const {
     jsonObj["tipo"] = "rivista";
     jsonObj["editore"] = QString::fromStdString(editore);
     jsonObj["numero_pagine"] = n_pagine;
-    jsonObj["mese_pubblicazione"] = QString::fromStdString(data_pubb);
+    jsonObj["data_pubblicazione"] = QString::fromStdString(data_pubb);
     jsonObj["periodicita"] = QString::fromStdString(periodicita);
 }
 
