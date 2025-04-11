@@ -103,6 +103,10 @@ void Media::setAnno(const int& anno){
     this->anno = anno;
 }
 
+void Media::setLingua(const string &lingua){
+    this->lingua = lingua;
+}
+
 void Media::setImmagine(const string& imm){
     this->immagine = imm;
 }
