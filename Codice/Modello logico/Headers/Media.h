@@ -1,6 +1,7 @@
 #ifndef MEDIA_H
 #define MEDIA_H
 #include <string>
+#include <iostream>
 
 class QJsonObject;
 class QDomElement;
@@ -56,6 +57,21 @@ public:
 
     // Metodo per convertire l'oggetto in un oggetto XML
     virtual void toXml(QDomElement& elemento, QDomDocument& doc) const;
+
+
+    // Metodo di debug per stampare le informazioni del media
+    virtual void stampaInfo() const {
+        std::cout << "ID: " << id << "\n"
+              << "Titolo: " << titolo << "\n"
+              << "Genere: " << genere << "\n"
+              << "Anno: " << anno << "\n"
+              << "Lingua: " << lingua << "\n"
+              << "Disponibilità: " << (disponibilita ? "Disponibile" : "Non disponibile") << "\n"
+              << "Numero di copie: " << numero_copie << "\n"
+              << "In prestito: " << in_prestito << "\n"
+              << "Collocazione: " << collocazione << "\n"
+              << "Rating: " << rating << std::endl;
+    }
 };
 
 #endif // MEDIA_H

@@ -27,6 +27,21 @@ public:
 
     void toJson(QJsonObject& jsonObj) const override;
     void toXml(QDomElement& elemento, QDomDocument& doc) const override;
+
+
+
+    
+    // Metodo di debug per stampare le informazioni del film
+    void stampaInfo() const override {
+        Media::stampaInfo(); // Stampa le informazioni di base
+        std::cout << "Regista: " << regista << std::endl;
+        std::cout << "Durata: " << durata << " minuti" << std::endl;
+        std::cout << "Cast: ";
+        for (const auto& attore : cast) {
+            std::cout << attore << ", ";
+        }
+        std::cout << std::endl;
+    }
 };
     
 #endif //FILM_H

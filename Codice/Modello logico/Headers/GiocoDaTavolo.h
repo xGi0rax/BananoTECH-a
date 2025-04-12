@@ -29,6 +29,15 @@ public:
 
     void toJson(QJsonObject& jsonObj) const override;
     void toXml(QDomElement& elemento, QDomDocument& doc) const override;
+
+
+    // Metodo di debug per stampare i dettagli del gioco da tavolo
+    void stampaInfo() const override{
+        std::cout << "Numero di giocatori: " << ngiocatori << "\n"
+                  << "Durata (min): " << durata << "\n"
+                  << "Età minima: " << etaMinima << "\n"
+                  << "Editore: " << editore << std::endl;
+    }
 };
     
 #endif //GIOCODATAVOLO_H

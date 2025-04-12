@@ -25,6 +25,14 @@ public:
 
     void toJson(QJsonObject& jsonObj) const override;
     void toXml(QDomElement& elemento, QDomDocument& doc) const override;
+
+
+    // Metodo di debug per stampare i dettagli del vinile
+    void stampaInfo() const override{
+        std::cout << "Artista: " << artista << "\n"
+                  << "Numero di tracce: " << ntracce << "\n"
+                  << "Durata (min): " << durata << std::endl;
+    }
 };
 
 #endif //VINILE_H

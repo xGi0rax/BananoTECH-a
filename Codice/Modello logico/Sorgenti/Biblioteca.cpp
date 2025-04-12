@@ -19,8 +19,13 @@ void Biblioteca::aggiungiMedia(Media* media) {
     // Controllo se il media esiste già in biblioteca
     if (esisteMedia(media->getTitolo(), media->getAnno(), media->getGenere())) {
         // throw std::runtime_error("Il media esiste già in biblioteca.");
-        // Bisognerebbe chiedere all'utente se si vuole incrementare il numero di copie del media esistente
-    }else{ // altrimenti lo aggiungo alla lista
+        // TO-DO: Chiedere all'utente se si vuole incrementare il numero di copie del media esistente
+        
+        // Se il media esiste già, lo recupero dalla listaMedia ed incremento il numero di copie
+        Media* mediaEsistente = cercaMediaDaT_A_G(media->getTitolo(), media->getAnno(), media->getGenere());
+        mediaEsistente->setNumeroCopie(mediaEsistente->getNumeroCopie() + 1);
+
+    }else{ // altrimenti aggiungo il nuovo media alla lista
         media->setId(idBiblioteca + "-" + std::to_string(nextIdmedia++));
         listaMedia.push_back(media);
     }
@@ -33,6 +38,16 @@ bool Biblioteca::esisteMedia(const string& titolo, int anno, const string& gener
         }
     }
     return false;
+}
+
+Media* Biblioteca::cercaMediaDaT_A_G(const string& titolo, int anno, const string& genere) const {
+    for (Media* m : listaMedia) {
+        if (m->getTitolo() == titolo && m->getAnno() == anno && m->getGenere() == genere) {
+            return m;
+        }
+    }
+    // throw std::runtime_error("Il media non esiste in biblioteca.");
+    return nullptr; // Se non trovato, ritorna nullptr
 }
 
 bool Biblioteca::rimuoviMedia(string& id){
@@ -144,3 +159,5 @@ bool Biblioteca::restituisci(const Media* media){
 vector<Media*> Biblioteca::getListaMedia() const{
     return listaMedia;
 }
+
+
