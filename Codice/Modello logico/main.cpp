@@ -73,7 +73,20 @@ int main() {
     //Test caricamento da xml
     
     
-    
+    // Test per vedere se le eccezioni di prendiInPrestito e restituisci funzionano, da implememtare correttamente 
+    /*try {
+        biblioteca.prendiInPrestito(mioMedia);
+    } catch (const BibliotecaException& e) {
+        std::cerr << "Errore nel prestito: " << e.what() << std::endl;
+        // Gestisci l'errore (es. mostra un messaggio all'utente)
+    }
+
+    try {
+        biblioteca.restituisci(mioMedia);
+    } catch (const BibliotecaException& e) {
+        std::cerr << "Errore nella restituzione: " << e.what() << std::endl;
+        // Gestisci l'errore
+    }*/
     
     return 0;
 }
