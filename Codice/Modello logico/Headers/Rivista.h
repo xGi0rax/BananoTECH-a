@@ -32,6 +32,7 @@ public:
 
     // Metodo di debug per stampare i dettagli della rivista
     void stampaInfo() const override{
+        Media::stampaInfo(); // Stampa le informazioni di base del media
         std::cout << "Editore: " << editore << "\n"
                   << "Numero di pagine: " << n_pagine << "\n"
                   << "Data di pubblicazione: " << data_pubb << "\n"

@@ -71,18 +71,7 @@ int main() {
     
     
     //Test caricamento da xml
-    XmlIO xmlIO;
-    string xmlFilePath = "biblioteca_test.xml";
-
-    cout << "Numero di media nella biblioteca PRIMA: " << biblioteca.getNumeroTotaleMedia() << endl;
-    if(xmlIO.caricaDaFile(biblioteca, xmlFilePath)) {
-        if (biblioteca.getNumeroTotaleMedia() > 0) {
-            cout << "Biblioteca caricata con successo da file XML: " << xmlFilePath << endl;
-            cout << "Numero di media nella biblioteca DOPO: " << biblioteca.getNumeroTotaleMedia() << endl;
-        } else {
-            cout << "Errore durante il caricamento della biblioteca da file XML." << endl;
-        }
-    }
+    
     
     
     

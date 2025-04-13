@@ -66,7 +66,7 @@ public:
               << "Genere: " << genere << "\n"
               << "Anno: " << anno << "\n"
               << "Lingua: " << lingua << "\n"
-              << "Disponibilità: " << (disponibilita ? "Disponibile" : "Non disponibile") << "\n"
+              << "Disponibilita': " << (disponibilita ? "Disponibile" : "Non disponibile") << "\n"
               << "Numero di copie: " << numero_copie << "\n"
               << "In prestito: " << in_prestito << "\n"
               << "Collocazione: " << collocazione << "\n"

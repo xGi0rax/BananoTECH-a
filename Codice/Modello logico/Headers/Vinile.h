@@ -29,6 +29,7 @@ public:
 
     // Metodo di debug per stampare i dettagli del vinile
     void stampaInfo() const override{
+        Media::stampaInfo(); // Stampa le informazioni di base del media
         std::cout << "Artista: " << artista << "\n"
                   << "Numero di tracce: " << ntracce << "\n"
                   << "Durata (min): " << durata << std::endl;

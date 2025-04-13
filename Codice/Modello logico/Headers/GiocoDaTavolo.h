@@ -33,6 +33,7 @@ public:
 
     // Metodo di debug per stampare i dettagli del gioco da tavolo
     void stampaInfo() const override{
+        Media::stampaInfo(); // Stampa le informazioni di base del media
         std::cout << "Numero di giocatori: " << ngiocatori << "\n"
                   << "Durata (min): " << durata << "\n"
                   << "Età minima: " << etaMinima << "\n"

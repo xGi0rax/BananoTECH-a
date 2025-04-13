@@ -19,9 +19,12 @@ void Biblioteca::aggiungiMedia(Media* media) {
     // Controllo se il media esiste già in biblioteca
     if (esisteMedia(media->getTitolo(), media->getAnno(), media->getGenere())) {
         // throw std::runtime_error("Il media esiste già in biblioteca.");
-        // TO-DO: Chiedere all'utente se si vuole incrementare il numero di copie del media esistente
         
-        // Se il media esiste già, lo recupero dalla listaMedia ed incremento il numero di copie
+        //##############################
+        // TO-DO: Chiedere all'utente tramite gui se si vuole incrementare il numero di copie del media esistente
+        //##############################
+        
+        // Se l'utente accetta, recupero il media dalla listaMedia ed incremento il numero di copie
         Media* mediaEsistente = cercaMediaDaT_A_G(media->getTitolo(), media->getAnno(), media->getGenere());
         mediaEsistente->setNumeroCopie(mediaEsistente->getNumeroCopie() + 1);
 
@@ -70,17 +73,18 @@ Media* Biblioteca::cercaMediaDaID(const string& id) const{
     return nullptr;
 }
 
-vector<Media*> Biblioteca::filtra(const string& titolo, const string& tipoMedia, const string& genere, double ratingMin, double ratingMax, const string& lingua, int annoMin, int annoMax) const {
+vector<Media*> Biblioteca::filtra(const string& titolo, const string& tipoMedia, const string& genere, int annoMin, int annoMax, const string& lingua, double ratingMin, double ratingMax) const {
     
     vector<Media*> risultati;
 
     for (auto media : listaMedia) {
-        bool corrisponde = true;
+        // Variabile per tenere traccia se il media corrente corrisponde ai filtri
+        bool corrisponde = true; // Inizialmente assumiamo che corrisponda a tutti i filtri
 
         // Filtro per tipo
         if (!tipoMedia.empty()) {
             if (tipoMedia == "Libro" && dynamic_cast<Libro*>(media) == nullptr)
-                corrisponde = false;
+                corrisponde = false;  // Significa che sto cercando un tipoMedia Libro e l'oggetto attuale non è un Libro
             else if (tipoMedia == "Film" && dynamic_cast<Film*>(media) == nullptr)
                 corrisponde = false;
             else if (tipoMedia == "Rivista" && dynamic_cast<Rivista*>(media) == nullptr)
@@ -100,9 +104,9 @@ vector<Media*> Biblioteca::filtra(const string& titolo, const string& tipoMedia,
             if (media->getGenere().find(genere) == string::npos)
                 corrisponde = false;
         }
-        // Filtro per rating
+        // Filtro per anno
         if (corrisponde) {
-            if (media->getRating() < ratingMin || media->getRating() > ratingMax)
+            if (media->getAnno() < annoMin || media->getAnno() > annoMax)
                 corrisponde = false;
         }
         // Filtro per lingua
@@ -111,11 +115,14 @@ vector<Media*> Biblioteca::filtra(const string& titolo, const string& tipoMedia,
                 corrisponde = false;
             }
         }
-        // Filtro per anno
+        // Filtro per rating
         if (corrisponde) {
-            if (media->getAnno() < annoMin || media->getAnno() > annoMax)
+            if (media->getRating() < ratingMin || media->getRating() > ratingMax){
                 corrisponde = false;
+                std::cout << "Questo media non corrisponde, ha rating " << media->getRating() << std::endl;
+            }
         }
+        
         // Aggiunta media ai risultati se corrisponde ai filtri
         if (corrisponde) {
             risultati.push_back(media);
