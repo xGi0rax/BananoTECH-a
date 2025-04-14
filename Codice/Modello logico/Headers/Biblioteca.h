@@ -23,16 +23,18 @@ public:
     bool esisteMedia(const string& titolo, int anno, const string& genere) const; // Metodo per controllare se un media esiste gia' prima di aggiungerlo
     bool rimuoviMedia(string& id); // Rimuove un media per ID
     Media* cercaMediaDaID(const string& id) const; // Cerca per ID
-    
+    Media* cercaMediaDaT_A_G(const string& titolo, int anno, const string& genere) const; // Cerca l'ID di un media in base a titolo, anno e genere
+
     // Metodo per filtrare i media in base a vari criteri
     vector<Media*> filtra(const string& titolo = "",
                             const string& tipoMedia = "",
                             const string& genere = "",
-                            double ratingMin = 0.0,
-                            double ratingMax = 5.0,
-                            const string& lingua = "",
                             int annoMin = 1200,
-                            int annoMax = 2050) const;
+                            int annoMax = 2050,
+                            const string& lingua = "",
+                            double ratingMin = 0.0,
+                            double ratingMax = 5.0
+                            ) const;
     
     int getNumeroTotaleMedia() const;
 
@@ -41,6 +43,15 @@ public:
     bool restituisci(const Media* media); // Metodo per restituire un media
 
     vector<Media*> getListaMedia() const; // Restituisce la lista dei media
+
+
+
+    // Metodo di debug per stampare tutti i media
+    void stampaMedia() const {
+        for (const Media* media : listaMedia) {
+            media->stampaInfo();
+        }
+    }
 };
 
 #endif // BIBLIOTECA.H

@@ -28,6 +28,16 @@ public:
 
     void toJson(QJsonObject& jsonObj) const override;
     void toXml(QDomElement& elemento, QDomDocument& doc) const override;
+
+
+    // Metodo di debug per stampare i dettagli della rivista
+    void stampaInfo() const override{
+        Media::stampaInfo(); // Stampa le informazioni di base del media
+        std::cout << "Editore: " << editore << "\n"
+                  << "Numero di pagine: " << n_pagine << "\n"
+                  << "Data di pubblicazione: " << data_pubb << "\n"
+                  << "Periodicità: " << periodicita << std::endl;
+    }
 };
 
 #endif //RIVISTA_H

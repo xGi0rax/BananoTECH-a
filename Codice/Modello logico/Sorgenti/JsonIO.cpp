@@ -104,31 +104,44 @@ bool JsonIO::salvaSuFile(const Biblioteca& biblio, const string& filePath) const
 
 
 bool JsonIO::caricaDaFile(Biblioteca& biblio, const string& filePath) {
-    QFile file(QString::fromStdString(filePath));
-    if (!file.open(QIODevice::ReadOnly)) {
-        return false; // Errore nell'aprire il file
-    }
+    //Verifica esistenza e accessibilità prima di operare
+    // 1. Controllo preliminare sul file
+    // 2. Parsing del JSON (controllo integrità dati)
 
+    // 1
+    QFile file(QString::fromStdString(filePath));
+    if (!file.exists() || !file.open(QIODevice::ReadOnly)) {
+        return false; // File non valido o inaccessibile
+    }
+    
     QByteArray dati = file.readAll();
     file.close();
 
-    QJsonDocument jDoc(QJsonDocument::fromJson(dati));
-
-    if (!jDoc.isArray()) {
-        return false; // Il documento non continene un array JSON
+    // 2
+    QJsonParseError parseError; // Usa QJsonParseError per diagnosticare errori di sintassi
+    QJsonDocument doc = QJsonDocument::fromJson(dati, &parseError);
+    if (doc.isNull() || !doc.isObject() || !doc.isArray()) {
+        file.close();
+        return false; // JSON malformato
     }
+
     QJsonArray jArray = jDoc.array();
-
-    // aggiungere rimozione elementi da biblio
-
-    for (const QJsonValue& elemento : jArray) {
-        QJsonObject jObj = elemento.toObject();
-        Media* media = jsonToMedia(jObj); // Crea un media da JSON polimorficamente
-        if (media) {
-            biblio.aggiungiMedia(media); // Aggiunge il media alla biblioteca
+    
+    // Solo se la biblioteca NON è vuota
+    if (!biblio.getListaMedia().empty()) {
+        for (Media* media : biblio.getListaMedia()) {
+            biblio.rimuoviMedia(media->getId()); // Elimina gli oggetti esistenti
         }
     }
 
-    return true; // Caricamento riuscito
-}
+    // Caricamento dei nuovi dati
+    for (const QJsonValue& elemento : jArray) {
+        QJsonObject jObj = elemento.toObject();
+        Media* media = jsonToMedia(jObj);
+        if (media) {
+            biblio.aggiungiMedia(media);
+        }
+    }
 
+    return true;
+}

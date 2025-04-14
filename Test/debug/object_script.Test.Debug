@@ -1,0 +1,13 @@
+debug/testBiblioteca.o
+debug/testJsonIO.o
+debug/testXmlIO.o
+debug/mainTest.o
+debug/Biblioteca.o
+debug/XmlIO.o
+debug/JsonIO.o
+debug/Libro.o
+debug/Vinile.o
+debug/Film.o
+debug/Rivista.o
+debug/GiocoDaTavolo.o
+debug/Media.o

@@ -27,6 +27,16 @@ public:
 
     void toJson(QJsonObject& jsonObj) const override;
     void toXml(QDomElement& elemento, QDomDocument& doc) const override;
+
+
+    // Metodo di debug per stampare i dettagli del libro
+    void stampaInfo() const override{
+        Media::stampaInfo();
+        std::cout << "ISBN: " << isbn << "\n"
+                  << "Autore: " << autore << "\n"
+                  << "Editore: " << editore << "\n"
+                  << "Numero di pagine: " << npagine << std::endl;
+    }
 };
 
 #endif //LIBRO_H

@@ -1,0 +1,13 @@
+release/testBiblioteca.o
+release/testJsonIO.o
+release/testXmlIO.o
+release/mainTest.o
+release/Biblioteca.o
+release/XmlIO.o
+release/JsonIO.o
+release/Libro.o
+release/Vinile.o
+release/Film.o
+release/Rivista.o
+release/GiocoDaTavolo.o
+release/Media.o

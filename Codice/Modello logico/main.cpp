@@ -71,20 +71,22 @@ int main() {
     
     
     //Test caricamento da xml
-    XmlIO xmlIO;
-    string xmlFilePath = "biblioteca_test.xml";
-
-    cout << "Numero di media nella biblioteca PRIMA: " << biblioteca.getNumeroTotaleMedia() << endl;
-    if(xmlIO.caricaDaFile(biblioteca, xmlFilePath)) {
-        if (biblioteca.getNumeroTotaleMedia() > 0) {
-            cout << "Biblioteca caricata con successo da file XML: " << xmlFilePath << endl;
-            cout << "Numero di media nella biblioteca DOPO: " << biblioteca.getNumeroTotaleMedia() << endl;
-        } else {
-            cout << "Errore durante il caricamento della biblioteca da file XML." << endl;
-        }
+    
+    
+    // Test per vedere se le eccezioni di prendiInPrestito e restituisci funzionano, da implememtare correttamente 
+    /*try {
+        biblioteca.prendiInPrestito(mioMedia);
+    } catch (const BibliotecaException& e) {
+        std::cerr << "Errore nel prestito: " << e.what() << std::endl;
+        // Gestisci l'errore (es. mostra un messaggio all'utente)
     }
-    
-    
+
+    try {
+        biblioteca.restituisci(mioMedia);
+    } catch (const BibliotecaException& e) {
+        std::cerr << "Errore nella restituzione: " << e.what() << std::endl;
+        // Gestisci l'errore
+    }*/
     
     return 0;
 }

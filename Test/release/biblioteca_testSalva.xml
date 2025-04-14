@@ -1,0 +1,13 @@
+<biblioteca>
+ <media anno="1754" autore="J.R.R. Tolkien" collocazione="Scaffale A1" disponibilita="1" editore="Allen &amp; Unwin" genere="Fantasy" id="VC-1" immagine="lotr.jpg" in_prestito="0" isbn="978-0261102385" lingua="Italiano" numero_copie="3" numero_pagine="1210" rating="4" tipo="libro" titolo="Libro1"/>
+ <media anno="1954" autore="J.R.R. Tolkien" collocazione="Scaffale A1" disponibilita="1" editore="Allen &amp; Unwin" genere="Romanzo" id="VC-2" immagine="lotr.jpg" in_prestito="0" isbn="978-0261102385" lingua="Italiano" numero_copie="3" numero_pagine="116" rating="4.7000000000000002" tipo="libro" titolo="Libro2"/>
+ <media anno="1954" autore="J.R.R. Tolkien" collocazione="Scaffale A1" disponibilita="1" editore="Allen &amp; Unwin" genere="Fantasy" id="VC-3" immagine="lotr.jpg" in_prestito="0" isbn="978-0261102385" lingua="Italiano" numero_copie="3" numero_pagine="219" rating="2.8999999999999999" tipo="libro" titolo="Libro3"/>
+ <media anno="1954" artista="Giacomo Nalotto" collocazione="Scaffale A1" disponibilita="1" durata="124" genere="Rock" id="VC-4" immagine="lotr.jpg" in_prestito="0" lingua="Italiano" numero_copie="3" numero_tracce="12" rating="3.7000000000000002" tipo="vinile" titolo="Vinile1"/>
+ <media anno="1954" artista="Giacomo Nalotto" collocazione="Scaffale A1" disponibilita="1" durata="124" genere="Rock" id="VC-5" immagine="lotr.jpg" in_prestito="0" lingua="Italiano" numero_copie="3" numero_tracce="12" rating="2.2999999999999998" tipo="vinile" titolo="Vinile2"/>
+ <media anno="1754" collocazione="Scaffale A1" disponibilita="1" durata="121" genere="Azione" id="VC-6" immagine="lotr.jpg" in_prestito="0" lingua="Italiano" numero_copie="3" rating="4.9000000000000004" regista="Giacomo Giora" tipo="film" titolo="Film1">
+  <cast>
+   <attore>Giacomo Giora</attore>
+   <attore>Giacomo Nalotto</attore>
+  </cast>
+ </media>
+</biblioteca>
