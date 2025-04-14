@@ -104,11 +104,11 @@ bool JsonIO::salvaSuFile(const Biblioteca& biblio, const string& filePath) const
 
 
 bool JsonIO::caricaDaFile(Biblioteca& biblio, const string& filePath) {
-    //Verifica esistenza e accessibilità prima di operare
-    // 1. Controllo preliminare sul file
-    // 2. Parsing del JSON (controllo integrità dati)
+    // //Verifica esistenza e accessibilità prima di operare
+    // // 1. Controllo preliminare sul file
+    // // 2. Parsing del JSON (controllo integrità dati)
 
-    // 1
+    // // 1
     QFile file(QString::fromStdString(filePath));
     if (!file.exists() || !file.open(QIODevice::ReadOnly)) {
         return false; // File non valido o inaccessibile
@@ -117,22 +117,22 @@ bool JsonIO::caricaDaFile(Biblioteca& biblio, const string& filePath) {
     QByteArray dati = file.readAll();
     file.close();
 
-    // 2
-    QJsonParseError parseError; // Usa QJsonParseError per diagnosticare errori di sintassi
-    QJsonDocument doc = QJsonDocument::fromJson(dati, &parseError);
-    if (doc.isNull() || !doc.isObject() || !doc.isArray()) {
-        file.close();
+    // // 2
+    // QJsonParseError parseError; // Usa QJsonParseError per diagnosticare errori di sintassi
+    QJsonDocument jdoc = QJsonDocument::fromJson(dati);
+    if(!jdoc.isArray()) {
+    //     file.close();
         return false; // JSON malformato
     }
 
-    QJsonArray jArray = jDoc.array();
+    QJsonArray jArray = jdoc.array();
     
     // Solo se la biblioteca NON è vuota
-    if (!biblio.getListaMedia().empty()) {
-        for (Media* media : biblio.getListaMedia()) {
-            biblio.rimuoviMedia(media->getId()); // Elimina gli oggetti esistenti
-        }
-    }
+    // if (!biblio.getListaMedia().empty()) {
+    //     for (Media* media : biblio.getListaMedia()) {
+    //         biblio.rimuoviMedia(media->getId()); // Elimina gli oggetti esistenti
+    //     }
+    // }
 
     // Caricamento dei nuovi dati
     for (const QJsonValue& elemento : jArray) {

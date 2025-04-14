@@ -145,10 +145,10 @@ bool Biblioteca::prendiInPrestito(const Media* media){
             }
             return true;
         }
-        throw BibliotecaException("Media non disponibile per il prestito (ID: " + media->getId() + ")");
+        //throw BibliotecaException("Media non disponibile per il prestito (ID: " + media->getId() + ")");
     }
     else{
-        throw BibliotecaException("Media non trovato nella biblioteca (ID: " + media->getId() + ")");
+        //throw BibliotecaException("Media non trovato nella biblioteca (ID: " + media->getId() + ")");
     }
     return false;
 }
@@ -164,11 +164,11 @@ bool Biblioteca::restituisci(const Media* media){
             return true;
         }
         else{
-            throw BibliotecaException("Nessuna copia in prestito per questo media (ID: " + media->getId() + ")");
+            //throw BibliotecaException("Nessuna copia in prestito per questo media (ID: " + media->getId() + ")");
         }
     }
     else{
-        throw BibliotecaException("Media non facente parte della biblioteca (ID: " + media->getId() + ")");
+        //throw BibliotecaException("Media non facente parte della biblioteca (ID: " + media->getId() + ")");
     }
     return false; // Se ritorno false, significa che non ci sono media nella biblioteca con l'id del media che vorrei restituire
 }

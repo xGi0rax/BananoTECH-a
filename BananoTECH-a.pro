@@ -24,8 +24,9 @@ HEADERS += "Codice/Modello logico/Headers/Biblioteca.h" \
            "Codice/Modello logico/Headers/Media.h" \
            "Codice/Modello logico/Headers/Rivista.h" \
            "Codice/Modello logico/Headers/Vinile.h" \
+           "Codice/GUI/Headers/mainWindow.h" \
 
-SOURCES += "Codice/Modello logico/main.cpp" \
+SOURCES += "main.cpp" \
            "Codice/Modello logico/Sorgenti/Biblioteca.cpp" \
            "Codice/Modello logico/Sorgenti/JsonIO.cpp" \
            "Codice/Modello logico/Sorgenti/XmlIO.cpp" \
@@ -34,8 +35,11 @@ SOURCES += "Codice/Modello logico/main.cpp" \
            "Codice/Modello logico/Sorgenti/Libro.cpp" \
            "Codice/Modello logico/Sorgenti/Media.cpp" \
            "Codice/Modello logico/Sorgenti/Rivista.cpp" \
-           "Codice/Modello logico/Sorgenti/Vinile.cpp"
+           "Codice/Modello logico/Sorgenti/Vinile.cpp" \
+           "Codice/GUI/Sorgenti/mainWindow.cpp"
 
-QT += xml
+QT += xml core gui widgets
+
+RESOURCES += resources.qrc
 
 CONFIG += console

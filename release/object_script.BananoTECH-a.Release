@@ -8,3 +8,6 @@ release/Libro.o
 release/Media.o
 release/Rivista.o
 release/Vinile.o
+release/mainWindow.o
+release/qrc_resources.o
+release/moc_mainWindow.o
