@@ -24,45 +24,72 @@ MainWindow::~MainWindow() {
 void MainWindow::setupLoginPage(){
     // Creazione della pagina di login
     loginPage = new QWidget(this);
-    loginPage->setStyleSheet("background-image: url(:/Immagini/sfondo1.jpeg);"
+    loginPage->setObjectName("loginPage");
+    loginPage->setStyleSheet("#loginPage {background-image: url(:/Immagini/Sfondo1Definitivo.jpg);"
                             "background-repeat: no-repeat;"
                             "background-position: center;"
-                            "background-attachment: fixed;"
-                            "background-size: cover;");
+                            "background-attachment: fixed; }");
+
+    // Creazione del riquadro che contiene i campi di input e il bottone
+    QFrame *loginFrame = new QFrame(loginPage);
+    loginFrame->setStyleSheet("QFrame {"
+                               "background-color:rgb(42, 68, 113);"
+                               "border: 2px solid #000000;"
+                               "border-radius: 10px;"
+                               "}");
+    loginFrame->setFixedSize(450, 350);
+    loginFrame->setAttribute(Qt::WA_OpaquePaintEvent, true);
 
     // Campi di input per username e password e bottone per accedere
-    usernameField = new QLineEdit(loginPage);
+    usernameField = new QLineEdit(loginFrame);
     usernameField->setPlaceholderText("Username");
-    usernameField->setFixedWidth(300);
-
-    passwordField = new QLineEdit(loginPage);
+    usernameField->setFixedWidth(330);
+    usernameField->setFixedHeight(40);
+    usernameField->setStyleSheet("QLineEdit { background-color: #FFFFFF; border: 1px solid #AAAAAA; border-radius: 5px; padding: 5px; font-size: 16px; selection-background-color: #4a90e2; }");
+        
+    passwordField = new QLineEdit(loginFrame);
     passwordField->setPlaceholderText("Password");
     passwordField->setEchoMode(QLineEdit::Password);
-    passwordField->setFixedWidth(300);
+    passwordField->setFixedWidth(330);
+    passwordField->setFixedHeight(40);
+    passwordField->setStyleSheet("QLineEdit { background-color: #FFFFFF; border: 1px solid #AAAAAA; border-radius: 5px; padding: 5px; font-size: 16px; selection-background-color: #4a90e2; }");
 
-    loginButton = new QPushButton("Accedi", loginPage);
-    loginButton->setFixedWidth(200);
+    loginButton = new QPushButton("Accedi", loginFrame);
+    loginButton->setFixedWidth(160);
+    loginButton->setFixedHeight(45);
+    loginButton->setStyleSheet("QPushButton { background-color:rgb(245, 225, 48); border: 1px solid #AAAAAA; border-radius: 5px; padding: 8px 16px; font-size: 18px;}"
+        "QPushButton:hover { background-color: rgb(215, 205, 113); }");
 
     // Label per messaggi di errore
-    errorLabel = new QLabel(loginPage);
-    errorLabel->setStyleSheet("color: red;");
+    errorLabel = new QLabel(loginFrame);
+    errorLabel->setStyleSheet("QLabel { color:rgb(230, 229, 229); padding: 5px; font-size: 16px;}");
     errorLabel->setAlignment(Qt::AlignCenter);
-    errorLabel->setText("");
+    errorLabel->setText("Inserisci Username e Password per accedere.");
 
     // Layout verticale per i widget di login
     QVBoxLayout *loginWidgetsLayout = new QVBoxLayout();
-    QLabel *welcomeLabel = new QLabel("Benvenuto in BananoTECH-a", loginPage);
+
+    loginWidgetsLayout->setContentsMargins(10, 10, 10, 10); // Margini interni
+    loginWidgetsLayout->setSpacing(10); // Spaziatura tra i widget
+
+    QLabel *welcomeLabel = new QLabel("Benvenuto in BananoTECH-a", loginFrame);
     welcomeLabel->setAlignment(Qt::AlignCenter);
+    welcomeLabel->setStyleSheet("background-color: #333333; font-size: 24px; font-weight: bold; color: white;");
+
     loginWidgetsLayout->addWidget(welcomeLabel);
     loginWidgetsLayout->addWidget(usernameField, 0, Qt::AlignCenter);
     loginWidgetsLayout->addWidget(passwordField, 0, Qt::AlignCenter);
     loginWidgetsLayout->addWidget(loginButton, 0, Qt::AlignCenter);
     loginWidgetsLayout->addWidget(errorLabel);
 
+    loginFrame->setLayout(loginWidgetsLayout);
+    loginFrame->setAutoFillBackground(true);
+
     // Layout esterno per centrare i widget
     QVBoxLayout *outerLayout = new QVBoxLayout(loginPage);
+    outerLayout->setContentsMargins(0, 0, 0, 0); // Rimuovo i margini
     outerLayout->addStretch(); // Aggiungo uno spazio flessibile sopra
-    outerLayout->addLayout(loginWidgetsLayout); // Aggiungo il layout interno
+    outerLayout->addWidget(loginFrame, 0, Qt::AlignCenter); // Aggiungo il layout interno
     outerLayout->addStretch(); // Aggiungo uno spazio flessibile sotto
 
     loginPage->setLayout(outerLayout);
@@ -101,6 +128,7 @@ void MainWindow::onLoginButtonClicked() {
         errorLabel->setText("");
     } else {
         // Login fallito, mostra un messaggio di errore
+        errorLabel->setStyleSheet("color: red; font-weight: bold; font-size: 16px;");
         errorLabel->setText("Username o password errati.");
     }
 }
