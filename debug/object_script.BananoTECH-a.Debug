@@ -8,6 +8,8 @@ debug/Libro.o
 debug/Media.o
 debug/Rivista.o
 debug/Vinile.o
-debug/mainWindow.o
+debug/MainWindow.o
+debug/LoginPage.o
 debug/qrc_resources.o
-debug/moc_mainWindow.o
+debug/moc_MainWindow.o
+debug/moc_LoginPage.o

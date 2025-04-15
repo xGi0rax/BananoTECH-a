@@ -9,6 +9,8 @@
 #include <QVBoxLayout>
 #include <QWidget>
 #include "../../Modello logico/Headers/Biblioteca.h"
+#include "LoginPage.h"
+#include "MainPage.h"
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -24,7 +26,7 @@ private:
     QStackedWidget *stackedWidget;
 
     // Pagina di login
-    QWidget *loginPage;
+    LoginPage *loginPage;
     QLineEdit *usernameField;
     QLineEdit *passwordField;
     QPushButton *loginButton;

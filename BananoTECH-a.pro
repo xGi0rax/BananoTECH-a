@@ -24,7 +24,8 @@ HEADERS += "Codice/Modello logico/Headers/Biblioteca.h" \
            "Codice/Modello logico/Headers/Media.h" \
            "Codice/Modello logico/Headers/Rivista.h" \
            "Codice/Modello logico/Headers/Vinile.h" \
-           "Codice/GUI/Headers/mainWindow.h" \
+           "Codice/GUI/Headers/MainWindow.h" \
+           "Codice/GUI/Headers/LoginPage.h" \
 
 SOURCES += "main.cpp" \
            "Codice/Modello logico/Sorgenti/Biblioteca.cpp" \
@@ -36,7 +37,8 @@ SOURCES += "main.cpp" \
            "Codice/Modello logico/Sorgenti/Media.cpp" \
            "Codice/Modello logico/Sorgenti/Rivista.cpp" \
            "Codice/Modello logico/Sorgenti/Vinile.cpp" \
-           "Codice/GUI/Sorgenti/mainWindow.cpp"
+           "Codice/GUI/Sorgenti/MainWindow.cpp" \
+           "Codice/GUI/Sorgenti/LoginPage.cpp"
 
 QT += xml core gui widgets
 
