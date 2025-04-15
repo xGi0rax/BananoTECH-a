@@ -137,17 +137,13 @@ int Biblioteca::getNumeroTotaleMedia() const {
 
 bool Biblioteca::prendiInPrestito(const Media* media){
     Media* mediaInBiblioteca = cercaMediaDaID(media->getId());
-    if(mediaInBiblioteca != nullptr){
-        if(mediaInBiblioteca->getDisponibilita()){
-            mediaInBiblioteca->setInPrestito(mediaInBiblioteca->getInPrestito() + 1);
-            if(mediaInBiblioteca->getInPrestito() == mediaInBiblioteca->getNumeroCopie()){
-                mediaInBiblioteca->setDisponibilita(false);
-            }
-            return true;
+    if(mediaInBiblioteca != nullptr && mediaInBiblioteca->getDisponibilita()){
+        mediaInBiblioteca->setInPrestito(mediaInBiblioteca->getInPrestito() + 1);
+        if(mediaInBiblioteca->getInPrestito() == mediaInBiblioteca->getNumeroCopie()){
+            mediaInBiblioteca->setDisponibilita(false);
         }
-        //throw BibliotecaException("Media non disponibile per il prestito (ID: " + media->getId() + ")");
-    }
-    else{
+        return true;        
+    } else{
         //throw BibliotecaException("Media non trovato nella biblioteca (ID: " + media->getId() + ")");
     }
     return false;
@@ -156,20 +152,16 @@ bool Biblioteca::prendiInPrestito(const Media* media){
 bool Biblioteca::restituisci(const Media* media){
     Media* mediaInBiblioteca = cercaMediaDaID(media->getId()); // Cerca il media in biblioteca
     if(mediaInBiblioteca != nullptr){
-        if(mediaInBiblioteca->getInPrestito() > 0){ // Controlla se ci sono copie in prestito (il caso in cui non ci siano copie in prestito è già gestito da cercaMediaDaID)
+        if(mediaInBiblioteca->getInPrestito() > 0){ // Controlla se ci sono copie in prestito 
             mediaInBiblioteca->setInPrestito(mediaInBiblioteca->getInPrestito() - 1);
             if(mediaInBiblioteca->getDisponibilita() == false){
                 mediaInBiblioteca->setDisponibilita(true);
             }
             return true;
-        }
-        else{
+        } else {
             //throw BibliotecaException("Nessuna copia in prestito per questo media (ID: " + media->getId() + ")");
         }
-    }
-    else{
-        //throw BibliotecaException("Media non facente parte della biblioteca (ID: " + media->getId() + ")");
-    }
+    } 
     return false; // Se ritorno false, significa che non ci sono media nella biblioteca con l'id del media che vorrei restituire
 }
 

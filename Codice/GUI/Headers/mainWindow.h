@@ -27,15 +27,9 @@ private:
 
     // Pagina di login
     LoginPage *loginPage;
-    QLineEdit *usernameField;
-    QLineEdit *passwordField;
-    QPushButton *loginButton;
-    QLabel *errorLabel;
 
     // Pagina principale
-    QWidget *mainPage;
-    QLabel *welcomeLabel;
-    QVBoxLayout *mainLayout;
+    MainPage *mainPage;
 
     Biblioteca *biblioteca; // Oggetto Biblioteca per gestire i media
 

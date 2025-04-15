@@ -24,6 +24,7 @@ MainWindow::~MainWindow() {
 void MainWindow::setupLoginPage(){
     // Creazione della pagina di login
     loginPage = new LoginPage(this);
+
     stackedWidget->addWidget(loginPage);
 
     connect(loginPage, &LoginPage::loginAttempted, this, &MainWindow::onLoginButtonClicked);
@@ -32,17 +33,11 @@ void MainWindow::setupLoginPage(){
 
 void MainWindow::setupMainPage(){
     // Creazione della pagina principale
-    mainPage = new QWidget(this);
+    mainPage = new MainPage(this);
 
-    welcomeLabel = new QLabel("Benvenuto nella schermata principale!", mainPage);
-
-    mainLayout = new QVBoxLayout(mainPage);
-    mainLayout->addWidget(welcomeLabel);
-
-    mainPage->setLayout(mainLayout);
-
-    // Aggiungo la pagina principale al QStackedWidget
     stackedWidget->addWidget(mainPage);
+
+    
 }
 
 

@@ -22,13 +22,13 @@ LoginPage::LoginPage(QWidget *parent) : QWidget(parent) {
     usernameField = new QLineEdit(loginFrame);
     usernameField->setPlaceholderText("Username");
     usernameField->setFixedSize(330, 40);
-    usernameField->setStyleSheet("QLineEdit { background-color: #FFFFFF; border: 1px solid #AAAAAA; border-radius: 5px; padding: 5px; font-size: 16px; selection-background-color: #4a90e2; }");
+    usernameField->setStyleSheet("QLineEdit { background-color:rgb(230, 230, 230); border: 1px solid #AAAAAA; border-radius: 5px; padding: 5px; font-size: 16px; selection-background-color: #4a90e2; }");
         
     passwordField = new QLineEdit(loginFrame);
     passwordField->setPlaceholderText("Password");
     passwordField->setEchoMode(QLineEdit::Password);
     passwordField->setFixedSize(330, 40);
-    passwordField->setStyleSheet("QLineEdit { background-color: #FFFFFF; border: 1px solid #AAAAAA; border-radius: 5px; padding: 5px; font-size: 16px; selection-background-color: #4a90e2; }");
+    passwordField->setStyleSheet("QLineEdit { background-color: rgb(230, 230, 230); border: 1px solid #AAAAAA; border-radius: 5px; padding: 5px; font-size: 16px; selection-background-color: #4a90e2; }");
 
     loginButton = new QPushButton("Accedi", loginFrame);
     loginButton->setFixedSize(150, 45);
@@ -37,7 +37,7 @@ LoginPage::LoginPage(QWidget *parent) : QWidget(parent) {
 
     // Label per messaggi di errore
     errorLabel = new QLabel(loginFrame);
-    errorLabel->setStyleSheet("QLabel { color:rgb(230, 229, 229); padding: 5px; font-size: 16px;}");
+    errorLabel->setStyleSheet("QLabel { color:rgb(230, 230, 230); padding: 5px; font-size: 16px;}");
     errorLabel->setAlignment(Qt::AlignCenter);
     errorLabel->setText("Inserisci Username e Password per accedere.");
 
@@ -83,7 +83,7 @@ void LoginPage::showErrorMessage(const QString &message) {
 
 void LoginPage::clearErrorMessage() {
     errorLabel->clear();
-    errorLabel->setStyleSheet("QLabel { color: rgb(230, 229, 229); padding: 5px; font-size: 16px;}"); // Colore originale
+    errorLabel->setStyleSheet("QLabel { color: rgb(230, 230, 230); padding: 5px; font-size: 16px;}"); // Colore originale
 }
 
 void LoginPage::onLoginButtonClicked() {

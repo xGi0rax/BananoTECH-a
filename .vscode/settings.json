@@ -65,7 +65,8 @@
     "mutex": "cpp",
     "semaphore": "cpp",
     "stop_token": "cpp",
-    "thread": "cpp"
+    "thread": "cpp",
+    "qlabel": "cpp"
   },
   "makefile.configureOnOpen": false,
   "C_Cpp_Runner.msvcBatchPath": "",

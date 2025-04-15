@@ -10,6 +10,8 @@ debug/Rivista.o
 debug/Vinile.o
 debug/MainWindow.o
 debug/LoginPage.o
+debug/MainPage.o
 debug/qrc_resources.o
 debug/moc_MainWindow.o
 debug/moc_LoginPage.o
+debug/moc_MainPage.o
