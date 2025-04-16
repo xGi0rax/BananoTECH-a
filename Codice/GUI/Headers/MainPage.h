@@ -18,17 +18,18 @@ class MainPage : public QWidget {
     Q_OBJECT
 public:
     explicit MainPage(QWidget *parent = nullptr);
-
+    void onMediaSelected(QListWidgetItem *item);
 private:
     // Barra superiore
     QPushButton *backButton;
     QPushButton *addMediaButton;
-    QPushButton *editModeButton;
+    //QPushButton *editModeButton;
 
     // Sezione sinistra
     QComboBox *mediaTypeComboBox;
     QLineEdit *minYearLineEdit;
     QLineEdit *maxYearLineEdit;
+    QLineEdit *ratingLineEdit;
     QLineEdit *languageLineEdit;
 
     // Sezione centrale
@@ -40,6 +41,12 @@ private:
     QLabel *mediaInfoLabel;
     QPushButton *borrowButton;
     QPushButton *detailsButton;
+
+    QLabel *mediaTitleLabel;
+    QLabel *mediaAuthorLabel;
+    QLabel *mediaYearLabel;
+    QLabel *mediaRatingLabel;
+    QPushButton *editMediaButton;  // Nuovo pulsante modifica
 
     // Layout
     QVBoxLayout *mainLayout;

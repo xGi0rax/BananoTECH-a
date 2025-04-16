@@ -63,3 +63,13 @@ bool MainWindow::validateLogin(const QString &username, const QString &password)
     //return username == "admin" && password == "admin";
     return !username.isEmpty() && !password.isEmpty();
 }
+
+/*
+connect(MainPage, &MainPage::editMediaRequested, this, [this](const QString &mediaId) {
+    // Qui creerai e mostrerai la pagina di modifica
+    qDebug() << "Apri modifica per media:" << mediaId;
+    // Esempio:
+    // EditPage *editPage = new EditPage(mediaId, this);
+    // stackedWidget->addWidget(editPage);
+    // stackedWidget->setCurrentWidget(editPage);
+});*/
