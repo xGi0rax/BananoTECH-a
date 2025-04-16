@@ -1,0 +1,17 @@
+debug/main.o
+debug/Biblioteca.o
+debug/JsonIO.o
+debug/XmlIO.o
+debug/Film.o
+debug/GiocoDaTavolo.o
+debug/Libro.o
+debug/Media.o
+debug/Rivista.o
+debug/Vinile.o
+debug/MainWindow.o
+debug/LoginPage.o
+debug/MainPage.o
+debug/qrc_resources.o
+debug/moc_MainWindow.o
+debug/moc_LoginPage.o
+debug/moc_MainPage.o
