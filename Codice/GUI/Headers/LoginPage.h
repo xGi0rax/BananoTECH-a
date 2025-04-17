@@ -7,6 +7,7 @@
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QFrame>
+#include <QKeyEvent>
 
 class LoginPage : public QWidget {
     Q_OBJECT
@@ -29,6 +30,9 @@ private:
 
 private slots:
     void onLoginButtonClicked();
+
+protected:
+    void keyPressEvent(QKeyEvent *event) override;
 };
 
 #endif // LOGINPAGE_H

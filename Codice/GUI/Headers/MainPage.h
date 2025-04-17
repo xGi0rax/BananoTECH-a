@@ -13,12 +13,15 @@
 #include <QResizeEvent>
 #include <QPixmap>
 #include <QSizePolicy>
+#include <QCheckBox>
 
 class MainPage : public QWidget {
     Q_OBJECT
+
 public:
     explicit MainPage(QWidget *parent = nullptr);
     void onMediaSelected(QListWidgetItem *item);
+
 private:
     // Barra superiore
     QPushButton *backButton;

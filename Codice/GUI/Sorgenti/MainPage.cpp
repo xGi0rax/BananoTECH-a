@@ -20,6 +20,7 @@ void MainPage::setupUI(){
 
 
     // Menu filtri
+    // Selezione tipo media
     mediaTypeComboBox = new QComboBox();
     mediaTypeComboBox->addItem("Qualsiasi");
     mediaTypeComboBox->addItem("Libro");
@@ -28,28 +29,37 @@ void MainPage::setupUI(){
     mediaTypeComboBox->addItem("Gioco da tavolo");
     mediaTypeComboBox->addItem("Rivista");
 
+    // Campi di input per rating
+    ratingLineEdit = new QLineEdit();
+    ratingLineEdit->setPlaceholderText("da 1 a 5");
+
+    // Checkbox per disponibilità
+    QCheckBox *availableCheckBox = new QCheckBox("Disponibile");
+    availableCheckBox->setChecked(true); // Selezionato di default
+
+    // Campi di input per lingua
+    languageLineEdit = new QLineEdit();
+    languageLineEdit->setPlaceholderText("lingua");
+
+    // Campi di input per anno
     minYearLineEdit = new QLineEdit();
     minYearLineEdit->setPlaceholderText("anno min");
     maxYearLineEdit = new QLineEdit();
     maxYearLineEdit->setPlaceholderText("anno max");
 
-    ratingLineEdit = new QLineEdit();
-    ratingLineEdit->setPlaceholderText("da 1 a 5");
-
-    languageLineEdit = new QLineEdit();
-    languageLineEdit->setPlaceholderText("lingua");
-
     filtersLayout = new QVBoxLayout();
     filtersLayout->addWidget(new QLabel("Tipo media:"));
     filtersLayout->addWidget(mediaTypeComboBox);
+    filtersLayout->addWidget(new QLabel("Rating"));
+    filtersLayout->addWidget(ratingLineEdit);
+    filtersLayout->addWidget(new QLabel("Disponibile:"));
+    filtersLayout->addWidget(availableCheckBox);
+    filtersLayout->addWidget(new QLabel("Lingua:"));
+    filtersLayout->addWidget(languageLineEdit);
     filtersLayout->addWidget(new QLabel("Anno minimo:"));
     filtersLayout->addWidget(minYearLineEdit);
     filtersLayout->addWidget(new QLabel("Anno massimo:"));
     filtersLayout->addWidget(maxYearLineEdit);
-    filtersLayout->addWidget(new QLabel("Rating"));
-    filtersLayout->addWidget(ratingLineEdit);
-    filtersLayout->addWidget(new QLabel("Lingua:"));
-    filtersLayout->addWidget(languageLineEdit);
 
     QGroupBox *filtersGroupBox = new QGroupBox("Filtri");
     filtersGroupBox->setLayout(filtersLayout);
