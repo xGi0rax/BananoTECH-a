@@ -12,7 +12,7 @@ MainPage::MainPage(QWidget *parent) : QWidget(parent) {
 }
 
 void MainPage::setupUI(){
-    // Barra superiore
+    // ---------- Barra superiore ----------------------
     backButton = new QPushButton("Indietro");
 
     addMediaButton = new QPushButton("Aggiungi Media");
@@ -39,7 +39,7 @@ void MainPage::setupUI(){
     topBarLayout->addWidget(backButton, 1);
     topBarLayout->addWidget(addMediaButton, 5);
 
-    // Menu filtri
+    // --------------- Menu filtri -------------------
     // Selezione tipo media
     mediaTypeComboBox = new QComboBox();
     mediaTypeComboBox->addItem("Qualsiasi");
@@ -94,7 +94,7 @@ void MainPage::setupUI(){
     filtersGroupBox->setLayout(filtersLayout);
     filtersGroupBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 
-    // Barra di ricerca e lista media
+    // ---------------- Barra di ricerca e lista media -----------------
     searchBar = new QLineEdit();
     searchBar->setPlaceholderText("Cerca per titolo...");
 
@@ -111,19 +111,19 @@ void MainPage::setupUI(){
     );
 
     vector<Media*> listaMedia = {
-        new Libro("Il Nome della Rosa", "Giallo", 1980, "Italiano", ":/Immagini/default_libro.png", true, 5, "123456789", "Umberto Eco", "Bompiani", 500, 0, "Scaffale A1", 4.5),
-        new Film("Inception", "Fantascienza", 2010, "Inglese", ":/Immagini/default_film.png", true, 3, "Christopher Nolan", 148, {"Leonardo DiCaprio", "Joseph Gordon-Levitt"}, 0, "Scaffale B2", 5.0),
-        new Vinile("The Dark Side of the Moon", "Rock", 1973, "Inglese", ":/Immagini/default_vinile.png", true, 2, "Pink Floyd", 10, 43, 0, "Scaffale C3", 5.0),
-        new GiocoDaTavolo("Catan", "Strategia", 1995, "Italiano", ":/Immagini/default_gioco.png", true, 4, 4, 10, 60, "Klaus Teuber", 0, "Scaffale D4", 4.0),
-        new Rivista("National Geographic", "Scientifica", 2023, "Italiano", ":/Immagini/default_rivista.png", true, 10, "National Geographic Society", 100, "2023-04-01", "Mensile", 0, "Scaffale E5", 4.8),
-        new Rivista("Time", "Attualità", 2023, "Italiano", ":/Immagini/default_rivista.png", true, 10, "Time Inc.", 100, "2023-04-01", "Settimanale", 0, "Scaffale E5", 4.5),
-        new Rivista("Vogue", "Moda", 2023, "Italiano", ":/Immagini/default_rivista.png", true, 10, "Condé Nast", 100, "2023-04-01", "Mensile", 0, "Scaffale E5", 4.2),
-        new Libro("Il Codice Da Vinci", "Giallo", 2003, "Italiano", ":/Immagini/default_libro.png", true, 5, "123456789", "Dan Brown", "Mondadori", 500, 0, "Scaffale A1", 4.0),
-        new Libro("1984", "Fantascienza", 1949, "Italiano", ":/Immagini/default_libro.png", true, 5, "123456789", "George Orwell", "Mondadori", 500, 0, "Scaffale A1", 4.8),
-        new Film("The Shawshank Redemption", "Drammatico", 1994, "Inglese", ":/Immagini/default_film.png", true, 3, "Frank Darabont", 142, {"Tim Robbins", "Morgan Freeman"}, 0, "Scaffale B2", 5.0),
-        new Film("Pulp Fiction", "Commedia", 1994, "Inglese", ":/Immagini/default_film.png", true, 3, "Quentin Tarantino", 154, {"John Travolta", "Uma Thurman"}, 0, "Scaffale B2", 4.5),
-        new GiocoDaTavolo("Ticket to Ride", "Strategia", 2004, "Italiano", ":/Immagini/default_gioco.png", true, 4, 2, 5, 120, "Alan R. Moon", 0, "Scaffale D4", 4.5),
-        new GiocoDaTavolo("Carcassonne", "Strategia", 2000, "Italiano", ":/Immagini/default_gioco.png", true, 4, 2, 5, 35, "Klaus-Jürgen Wrede", 0, "Scaffale D4", 4.0)
+        new Libro("Il Nome della Rosa", "Paperino", "Giallo", 1980, "Italiano", ":/Immagini/default_libro.png", true, 5, "123456789", "Bompiani", 500, 0, "Scaffale A1", 4.5),
+        new Film("Inception", "Paperino", "Fantascienza", 2010, "Inglese", ":/Immagini/default_film.png", true, 3, 148, {"Leonardo DiCaprio", "Joseph Gordon-Levitt"}, 0, "Scaffale B2", 5.0),
+        new Vinile("The Dark Side of the Moon", "Paperino", "Rock", 1973, "Inglese", ":/Immagini/default_vinile.png", true, 2,  10, 43, 0, "Scaffale C3", 5.0),
+        new GiocoDaTavolo("Catan", "Paperino", "Strategia", 1995, "Italiano", ":/Immagini/default_gioco.png", true, 4, 4, 10, 60, "Klaus Teuber", 0, "Scaffale D4", 4.0),
+        new Rivista("National Geographic", "Paperino", "Scientifica", 2023, "Italiano", ":/Immagini/default_rivista.png", true, 10, "National Geographic Society", 100, "2023-04-01", "Mensile", 0, "Scaffale E5", 4.8),
+        new Rivista("Time", "Paperino", "Attualità", 2023, "Italiano", ":/Immagini/default_rivista.png", true, 10, "Time Inc.", 100, "2023-04-01", "Settimanale", 0, "Scaffale E5", 4.5),
+        new Rivista("Vogue", "Paperino", "Moda", 2023, "Italiano", ":/Immagini/default_rivista.png", true, 10, "Condé Nast", 100, "2023-04-01", "Mensile", 0, "Scaffale E5", 4.2),
+        new Libro("Il Codice Da Vinci", "Paperino", "Giallo", 2003, "Italiano", ":/Immagini/default_libro.png", true, 5, "123456789", "Mondadori", 500, 0, "Scaffale A1", 4.0),
+        new Libro("1984", "Paperino", "Fantascienza", 1949, "Italiano", ":/Immagini/default_libro.png", true, 5, "123456789", "Mondadori", 500, 0, "Scaffale A1", 4.8),
+        new Film("The Shawshank Redemption", "Paperino", "Drammatico", 1994, "Inglese", ":/Immagini/default_film.png", true, 3, 142, {"Tim Robbins", "Morgan Freeman"}, 0, "Scaffale B2", 5.0),
+        new Film("Pulp Fiction", "Paperino", "Commedia", 1994, "Inglese", ":/Immagini/default_film.png", true, 3, 154, {"John Travolta", "Uma Thurman"}, 0, "Scaffale B2", 4.5),
+        new GiocoDaTavolo("Ticket to Ride", "Paperino", "Strategia", 2004, "Italiano", ":/Immagini/default_gioco.png", true, 4, 2, 5, 120, "Alan R. Moon", 0, "Scaffale D4", 4.5),
+        new GiocoDaTavolo("Carcassonne", "Paperino", "Strategia", 2000, "Italiano", ":/Immagini/default_gioco.png", true, 4, 2, 5, 35, "Klaus-Jürgen Wrede", 0, "Scaffale D4", 4.0)
     };
 
     for (Media* media : listaMedia) {
@@ -140,13 +140,12 @@ void MainPage::setupUI(){
     centerLayout->addWidget(searchBar);
     centerLayout->addWidget(mediaList);
 
-    // Sezione destra
+    // --------------------- Sezione destra -----------------------------
     mediaImageLabel = new QLabel();
     mediaImageLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     mediaImageLabel->setAlignment(Qt::AlignCenter);
     mediaImageLabel->setStyleSheet(
         "border: 1px solid black; background-color: white;"
-        "QLabel:hover { border: 2px solid rgb(0, 104, 201); }"
     );
     mediaImageLabel->setMinimumSize(200, 300);
 
@@ -155,7 +154,6 @@ void MainPage::setupUI(){
     mediaImageLabel->setScaledContents(false); // Importante per mantenere le proporzioni
 
     mediaInfoLabel = new QLabel("Seleziona un media per vedere i dettagli");
-
     mediaTitleLabel = new QLabel("Titolo: ");
     mediaAuthorLabel = new QLabel("Autore: ");
     mediaYearLabel = new QLabel("Anno: ");
@@ -238,7 +236,7 @@ void MainPage::onMediaSelected(QListWidgetItem *item) {
 
     // Aggiorna la sezione destra con le informazioni del media selezionato
     mediaTitleLabel->setText("Titolo: " + QString::fromStdString(selectedMedia->getTitolo()));
-    mediaAuthorLabel->setText("Autore: " + QString::fromStdString(selectedMedia->getGenere()));
+    mediaAuthorLabel->setText("Autore: " + QString::fromStdString(selectedMedia->getAutore()));
     mediaYearLabel->setText("Anno: " + QString::number(selectedMedia->getAnno()));
 
     // Mostra il rating con le stelline
@@ -257,7 +255,6 @@ void MainPage::onMediaSelected(QListWidgetItem *item) {
             "border: 1px solid black;"
             "background-color: white;"
             "color: gray;"
-            "font-style: italic;"
             "padding: 5px;"
         );
     }

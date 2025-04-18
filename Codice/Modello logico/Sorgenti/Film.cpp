@@ -37,7 +37,6 @@ void Film::toXml(QDomElement& elemento, QDomDocument& doc) const {
     elemento.appendChild(castElement);
 }
 
-
 // Getter
 int Film::getDurata() const{
     return durata;

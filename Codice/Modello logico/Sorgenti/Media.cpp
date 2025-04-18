@@ -41,13 +41,13 @@ void Media::toXml(QDomElement& elemento, QDomDocument& doc) const {
     elemento.setAttribute("rating", rating);
 }
 
-// QString Media::mediaInfo() const {
-//     return QString("%1 - %2 (%3) %4")
-//     .arg(QString::fromStdString(this->getTitolo())) 
-//     .arg(QString::fromStdString(this->getAutore()))
-//     .arg(QString::number(this->getAnno())) 
-//     .arg(QString::number(this->getRating(), 'f', 1));
-// }
+QString Media::mediaInfo() const {
+    return QString("%1 - %2 (%3) %4")
+    .arg(QString::fromStdString(this->getTitolo())) 
+    .arg(QString::fromStdString(this->getAutore()))
+    .arg(QString::number(this->getAnno())) 
+    .arg(QString::number(this->getRating(), 'f', 1));
+}
 
 // Metodi getter
 string Media::getId() const{
