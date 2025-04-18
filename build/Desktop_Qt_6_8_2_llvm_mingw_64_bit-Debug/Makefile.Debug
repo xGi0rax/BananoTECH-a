@@ -152,7 +152,13 @@ compiler_rcc_clean:
 	-$(DEL_FILE) debug\qrc_resources.cpp
 debug/qrc_resources.cpp: ../../resources.qrc \
 		C:/Qt/6.8.2/llvm-mingw_64/bin/rcc.exe \
-		../../Immagini/Sfondo1Definitivo.jpg
+		../../Immagini/icon1.png \
+		../../Immagini/default_libro.png \
+		../../Immagini/default_gioco.png \
+		../../Immagini/Sfondo1Definitivo.jpg \
+		../../Immagini/default_rivista.png \
+		../../Immagini/default_vinile.png \
+		../../Immagini/default_film.png
 	C:\Qt\6.8.2\llvm-mingw_64\bin\rcc.exe -name resources --no-zstd ..\..\resources.qrc -o debug\qrc_resources.cpp
 
 compiler_moc_predefs_make_all: debug/moc_predefs.h
@@ -383,6 +389,7 @@ debug/moc_MainWindow.cpp: ../../Codice/GUI/Headers/MainWindow.h \
 		C:/Qt/6.8.2/llvm-mingw_64/include/QtCore/QString \
 		../../Codice/GUI/Headers/LoginPage.h \
 		C:/Qt/6.8.2/llvm-mingw_64/include/QtWidgets/QFrame \
+		C:/Qt/6.8.2/llvm-mingw_64/include/QtGui/QKeyEvent \
 		../../Codice/GUI/Headers/MainPage.h \
 		C:/Qt/6.8.2/llvm-mingw_64/include/QtWidgets/QHBoxLayout \
 		C:/Qt/6.8.2/llvm-mingw_64/include/QtWidgets/QComboBox \
@@ -409,6 +416,8 @@ debug/moc_MainWindow.cpp: ../../Codice/GUI/Headers/MainWindow.h \
 		C:/Qt/6.8.2/llvm-mingw_64/include/QtGui/QResizeEvent \
 		C:/Qt/6.8.2/llvm-mingw_64/include/QtGui/QPixmap \
 		C:/Qt/6.8.2/llvm-mingw_64/include/QtWidgets/QSizePolicy \
+		C:/Qt/6.8.2/llvm-mingw_64/include/QtWidgets/QCheckBox \
+		C:/Qt/6.8.2/llvm-mingw_64/include/QtWidgets/qcheckbox.h \
 		debug/moc_predefs.h \
 		C:/Qt/6.8.2/llvm-mingw_64/bin/moc.exe
 	C:\Qt\6.8.2\llvm-mingw_64\bin\moc.exe $(DEFINES) --include C:/Users/giaco/Desktop/Banana/BananoTECH-a/build/Desktop_Qt_6_8_2_llvm_mingw_64_bit-Debug/debug/moc_predefs.h -IC:/Qt/6.8.2/llvm-mingw_64/mkspecs/win32-clang-g++ -IC:/Users/giaco/Desktop/Banana/BananoTECH-a -IC:/Users/giaco/Desktop/Banana/BananoTECH-a -IC:/Qt/6.8.2/llvm-mingw_64/include -IC:/Qt/6.8.2/llvm-mingw_64/include/QtWidgets -IC:/Qt/6.8.2/llvm-mingw_64/include/QtGui -IC:/Qt/6.8.2/llvm-mingw_64/include/QtXml -IC:/Qt/6.8.2/llvm-mingw_64/include/QtCore -I. -IC:/msys64/mingw64/include/c++/13.2.0 -IC:/msys64/mingw64/include/c++/13.2.0/x86_64-w64-mingw32 -IC:/msys64/mingw64/include/c++/13.2.0/backward -IC:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/13.2.0/include -IC:/msys64/mingw64/include -IC:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/13.2.0/include-fixed ..\..\Codice\GUI\Headers\MainWindow.h -o debug\moc_MainWindow.cpp
@@ -623,6 +632,7 @@ debug/moc_LoginPage.cpp: ../../Codice/GUI/Headers/LoginPage.h \
 		C:/Qt/6.8.2/llvm-mingw_64/include/QtWidgets/qlayoutitem.h \
 		C:/Qt/6.8.2/llvm-mingw_64/include/QtWidgets/qgridlayout.h \
 		C:/Qt/6.8.2/llvm-mingw_64/include/QtWidgets/QFrame \
+		C:/Qt/6.8.2/llvm-mingw_64/include/QtGui/QKeyEvent \
 		debug/moc_predefs.h \
 		C:/Qt/6.8.2/llvm-mingw_64/bin/moc.exe
 	C:\Qt\6.8.2\llvm-mingw_64\bin\moc.exe $(DEFINES) --include C:/Users/giaco/Desktop/Banana/BananoTECH-a/build/Desktop_Qt_6_8_2_llvm_mingw_64_bit-Debug/debug/moc_predefs.h -IC:/Qt/6.8.2/llvm-mingw_64/mkspecs/win32-clang-g++ -IC:/Users/giaco/Desktop/Banana/BananoTECH-a -IC:/Users/giaco/Desktop/Banana/BananoTECH-a -IC:/Qt/6.8.2/llvm-mingw_64/include -IC:/Qt/6.8.2/llvm-mingw_64/include/QtWidgets -IC:/Qt/6.8.2/llvm-mingw_64/include/QtGui -IC:/Qt/6.8.2/llvm-mingw_64/include/QtXml -IC:/Qt/6.8.2/llvm-mingw_64/include/QtCore -I. -IC:/msys64/mingw64/include/c++/13.2.0 -IC:/msys64/mingw64/include/c++/13.2.0/x86_64-w64-mingw32 -IC:/msys64/mingw64/include/c++/13.2.0/backward -IC:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/13.2.0/include -IC:/msys64/mingw64/include -IC:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/13.2.0/include-fixed ..\..\Codice\GUI\Headers\LoginPage.h -o debug\moc_LoginPage.cpp
@@ -862,6 +872,8 @@ debug/moc_MainPage.cpp: ../../Codice/GUI/Headers/MainPage.h \
 		C:/Qt/6.8.2/llvm-mingw_64/include/QtGui/QResizeEvent \
 		C:/Qt/6.8.2/llvm-mingw_64/include/QtGui/QPixmap \
 		C:/Qt/6.8.2/llvm-mingw_64/include/QtWidgets/QSizePolicy \
+		C:/Qt/6.8.2/llvm-mingw_64/include/QtWidgets/QCheckBox \
+		C:/Qt/6.8.2/llvm-mingw_64/include/QtWidgets/qcheckbox.h \
 		debug/moc_predefs.h \
 		C:/Qt/6.8.2/llvm-mingw_64/bin/moc.exe
 	C:\Qt\6.8.2\llvm-mingw_64\bin\moc.exe $(DEFINES) --include C:/Users/giaco/Desktop/Banana/BananoTECH-a/build/Desktop_Qt_6_8_2_llvm_mingw_64_bit-Debug/debug/moc_predefs.h -IC:/Qt/6.8.2/llvm-mingw_64/mkspecs/win32-clang-g++ -IC:/Users/giaco/Desktop/Banana/BananoTECH-a -IC:/Users/giaco/Desktop/Banana/BananoTECH-a -IC:/Qt/6.8.2/llvm-mingw_64/include -IC:/Qt/6.8.2/llvm-mingw_64/include/QtWidgets -IC:/Qt/6.8.2/llvm-mingw_64/include/QtGui -IC:/Qt/6.8.2/llvm-mingw_64/include/QtXml -IC:/Qt/6.8.2/llvm-mingw_64/include/QtCore -I. -IC:/msys64/mingw64/include/c++/13.2.0 -IC:/msys64/mingw64/include/c++/13.2.0/x86_64-w64-mingw32 -IC:/msys64/mingw64/include/c++/13.2.0/backward -IC:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/13.2.0/include -IC:/msys64/mingw64/include -IC:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/13.2.0/include-fixed ..\..\Codice\GUI\Headers\MainPage.h -o debug\moc_MainPage.cpp
@@ -1047,13 +1059,14 @@ debug/main.o: ../../main.cpp C:/Qt/6.8.2/llvm-mingw_64/include/QtWidgets/QApplic
 		C:/Qt/6.8.2/llvm-mingw_64/include/QtGui/qinputmethod.h \
 		C:/Qt/6.8.2/llvm-mingw_64/include/QtCore/qlocale.h \
 		C:/Qt/6.8.2/llvm-mingw_64/include/QtGui/qguiapplication_platform.h \
+		C:/Qt/6.8.2/llvm-mingw_64/include/QtGui/QIcon \
+		C:/Qt/6.8.2/llvm-mingw_64/include/QtGui/qicon.h \
 		../../Codice/GUI/Headers/mainWindow.h \
 		C:/Qt/6.8.2/llvm-mingw_64/include/QtWidgets/QMainWindow \
 		C:/Qt/6.8.2/llvm-mingw_64/include/QtWidgets/qmainwindow.h \
 		C:/Qt/6.8.2/llvm-mingw_64/include/QtWidgets/qwidget.h \
 		C:/Qt/6.8.2/llvm-mingw_64/include/QtGui/qaction.h \
 		C:/Qt/6.8.2/llvm-mingw_64/include/QtGui/qkeysequence.h \
-		C:/Qt/6.8.2/llvm-mingw_64/include/QtGui/qicon.h \
 		C:/Qt/6.8.2/llvm-mingw_64/include/QtGui/qpalette.h \
 		C:/Qt/6.8.2/llvm-mingw_64/include/QtGui/qbrush.h \
 		C:/Qt/6.8.2/llvm-mingw_64/include/QtGui/qfont.h \
@@ -1105,6 +1118,7 @@ debug/main.o: ../../main.cpp C:/Qt/6.8.2/llvm-mingw_64/include/QtWidgets/QApplic
 		C:/Qt/6.8.2/llvm-mingw_64/include/QtCore/QString \
 		../../Codice/GUI/Headers/LoginPage.h \
 		C:/Qt/6.8.2/llvm-mingw_64/include/QtWidgets/QFrame \
+		C:/Qt/6.8.2/llvm-mingw_64/include/QtGui/QKeyEvent \
 		../../Codice/GUI/Headers/MainPage.h \
 		C:/Qt/6.8.2/llvm-mingw_64/include/QtWidgets/QHBoxLayout \
 		C:/Qt/6.8.2/llvm-mingw_64/include/QtWidgets/QComboBox \
@@ -1130,7 +1144,9 @@ debug/main.o: ../../main.cpp C:/Qt/6.8.2/llvm-mingw_64/include/QtWidgets/QApplic
 		C:/Qt/6.8.2/llvm-mingw_64/include/QtWidgets/qgroupbox.h \
 		C:/Qt/6.8.2/llvm-mingw_64/include/QtGui/QResizeEvent \
 		C:/Qt/6.8.2/llvm-mingw_64/include/QtGui/QPixmap \
-		C:/Qt/6.8.2/llvm-mingw_64/include/QtWidgets/QSizePolicy
+		C:/Qt/6.8.2/llvm-mingw_64/include/QtWidgets/QSizePolicy \
+		C:/Qt/6.8.2/llvm-mingw_64/include/QtWidgets/QCheckBox \
+		C:/Qt/6.8.2/llvm-mingw_64/include/QtWidgets/qcheckbox.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\main.o ..\..\main.cpp
 
 debug/Biblioteca.o: ../../Codice/Modello\ logico/Sorgenti/Biblioteca.cpp ../../Codice/Modello\ logico/Headers/Biblioteca.h \
@@ -2528,6 +2544,7 @@ debug/MainWindow.o: ../../Codice/GUI/Sorgenti/MainWindow.cpp ../../Codice/GUI/He
 		C:/Qt/6.8.2/llvm-mingw_64/include/QtCore/QString \
 		../../Codice/GUI/Headers/LoginPage.h \
 		C:/Qt/6.8.2/llvm-mingw_64/include/QtWidgets/QFrame \
+		C:/Qt/6.8.2/llvm-mingw_64/include/QtGui/QKeyEvent \
 		../../Codice/GUI/Headers/MainPage.h \
 		C:/Qt/6.8.2/llvm-mingw_64/include/QtWidgets/QHBoxLayout \
 		C:/Qt/6.8.2/llvm-mingw_64/include/QtWidgets/QComboBox \
@@ -2553,7 +2570,9 @@ debug/MainWindow.o: ../../Codice/GUI/Sorgenti/MainWindow.cpp ../../Codice/GUI/He
 		C:/Qt/6.8.2/llvm-mingw_64/include/QtWidgets/qgroupbox.h \
 		C:/Qt/6.8.2/llvm-mingw_64/include/QtGui/QResizeEvent \
 		C:/Qt/6.8.2/llvm-mingw_64/include/QtGui/QPixmap \
-		C:/Qt/6.8.2/llvm-mingw_64/include/QtWidgets/QSizePolicy
+		C:/Qt/6.8.2/llvm-mingw_64/include/QtWidgets/QSizePolicy \
+		C:/Qt/6.8.2/llvm-mingw_64/include/QtWidgets/QCheckBox \
+		C:/Qt/6.8.2/llvm-mingw_64/include/QtWidgets/qcheckbox.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\MainWindow.o ..\..\Codice\GUI\Sorgenti\MainWindow.cpp
 
 debug/LoginPage.o: ../../Codice/GUI/Sorgenti/LoginPage.cpp ../../Codice/GUI/Headers/LoginPage.h \
@@ -2765,7 +2784,8 @@ debug/LoginPage.o: ../../Codice/GUI/Sorgenti/LoginPage.cpp ../../Codice/GUI/Head
 		C:/Qt/6.8.2/llvm-mingw_64/include/QtWidgets/qlayout.h \
 		C:/Qt/6.8.2/llvm-mingw_64/include/QtWidgets/qlayoutitem.h \
 		C:/Qt/6.8.2/llvm-mingw_64/include/QtWidgets/qgridlayout.h \
-		C:/Qt/6.8.2/llvm-mingw_64/include/QtWidgets/QFrame
+		C:/Qt/6.8.2/llvm-mingw_64/include/QtWidgets/QFrame \
+		C:/Qt/6.8.2/llvm-mingw_64/include/QtGui/QKeyEvent
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\LoginPage.o ..\..\Codice\GUI\Sorgenti\LoginPage.cpp
 
 debug/MainPage.o: ../../Codice/GUI/Sorgenti/MainPage.cpp ../../Codice/GUI/Headers/MainPage.h \
@@ -3002,7 +3022,9 @@ debug/MainPage.o: ../../Codice/GUI/Sorgenti/MainPage.cpp ../../Codice/GUI/Header
 		C:/Qt/6.8.2/llvm-mingw_64/include/QtWidgets/qgroupbox.h \
 		C:/Qt/6.8.2/llvm-mingw_64/include/QtGui/QResizeEvent \
 		C:/Qt/6.8.2/llvm-mingw_64/include/QtGui/QPixmap \
-		C:/Qt/6.8.2/llvm-mingw_64/include/QtWidgets/QSizePolicy
+		C:/Qt/6.8.2/llvm-mingw_64/include/QtWidgets/QSizePolicy \
+		C:/Qt/6.8.2/llvm-mingw_64/include/QtWidgets/QCheckBox \
+		C:/Qt/6.8.2/llvm-mingw_64/include/QtWidgets/qcheckbox.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\MainPage.o ..\..\Codice\GUI\Sorgenti\MainPage.cpp
 
 debug/qrc_resources.o: debug/qrc_resources.cpp 

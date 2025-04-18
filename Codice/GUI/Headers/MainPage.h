@@ -22,6 +22,9 @@ public:
     explicit MainPage(QWidget *parent = nullptr);
     void onMediaSelected(QListWidgetItem *item);
 
+private slots:
+    void onMediaTypeChanged(int index);
+
 private:
     // Barra superiore
     QPushButton *backButton;
@@ -30,6 +33,7 @@ private:
 
     // Sezione sinistra
     QComboBox *mediaTypeComboBox;
+    QComboBox *genreComboBox;
     QLineEdit *minYearLineEdit;
     QLineEdit *maxYearLineEdit;
     QLineEdit *ratingLineEdit;
@@ -49,7 +53,10 @@ private:
     QLabel *mediaAuthorLabel;
     QLabel *mediaYearLabel;
     QLabel *mediaRatingLabel;
-    QPushButton *editMediaButton;  // Nuovo pulsante modifica
+    QPushButton *editMediaButton; 
+
+    void resizeEvent();
+    QSize originalPixmapSize;
 
     // Layout
     QVBoxLayout *mainLayout;
@@ -58,8 +65,11 @@ private:
     QVBoxLayout *previewLayout;
     QHBoxLayout *contentLayout;
 
-    void setupUI();
-    void updateImageSize();
+    void setupUI(); // metodo per configurare l'interfaccia utente
+    // void setupFilters(); // metodo per configurare i filtri
+    void updateImageSize(); // metodo per aggiornare la dimensione dell'immagine in base alla dimensione del widget
+    void updateGenreComboBox(); // metodo per aggiornare la combobox dei generi in base al tipo di media selezionato
+    // void updateMediaList(); // metodo per aggiornare la lista dei media in base ai filtri selezionati
 
 protected:
     void resizeEvent(QResizeEvent* event) override;

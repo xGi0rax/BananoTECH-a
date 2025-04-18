@@ -1,3 +1,4 @@
+#include <QFile> 
 #include "../Headers/MainPage.h"
 
 MainPage::MainPage(QWidget *parent) : QWidget(parent) {
@@ -18,7 +19,6 @@ void MainPage::setupUI(){
     topBarLayout->addWidget(addMediaButton);
     //topBarLayout->addWidget(editModeButton);
 
-
     // Menu filtri
     // Selezione tipo media
     mediaTypeComboBox = new QComboBox();
@@ -28,6 +28,13 @@ void MainPage::setupUI(){
     mediaTypeComboBox->addItem("Vinile");
     mediaTypeComboBox->addItem("Gioco da tavolo");
     mediaTypeComboBox->addItem("Rivista");
+
+    // Collega il cambiamento del tipo media alla funzione di aggiornamento della combobox dei generi
+    genreComboBox = new QComboBox();
+    genreComboBox->addItem("Qualsiasi genere");
+    updateGenreComboBox(); // Popola i generi in base al tipo selezionato
+
+    connect(mediaTypeComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &MainPage::onMediaTypeChanged);
 
     // Campi di input per rating
     ratingLineEdit = new QLineEdit();
@@ -50,6 +57,8 @@ void MainPage::setupUI(){
     filtersLayout = new QVBoxLayout();
     filtersLayout->addWidget(new QLabel("Tipo media:"));
     filtersLayout->addWidget(mediaTypeComboBox);
+    filtersLayout->addWidget(new QLabel("Genere:")); 
+    filtersLayout->addWidget(genreComboBox);
     filtersLayout->addWidget(new QLabel("Rating"));
     filtersLayout->addWidget(ratingLineEdit);
     filtersLayout->addWidget(new QLabel("Disponibile:"));
@@ -75,10 +84,10 @@ void MainPage::setupUI(){
     mediaList->setMovement(QListView::Static); // Elementi non trascinabili
     mediaList->setSelectionMode(QAbstractItemView::SingleSelection); // Selezione singola
     mediaList->setStyleSheet(
-        "QListWidget { background-color:rgb(0, 104, 201); border: 2px solid rgb(119, 114, 114); }"
+        "QListWidget { background-color:rgb(33, 50, 74); border: 2px solid rgb(119, 114, 114); }"
         "QListWidget::item { border-bottom:3px solid #ddd; padding: 8px; color: white; }"
-        "QListWidget::item:hover { background-color:rgb(255, 230, 0); color: black;}"
-        "QListWidget::item:selected { background-color:rgb(138, 135, 135); color: black; }"
+        "QListWidget::item:hover { background-color:rgb(101, 123, 152); color: white;}"
+        "QListWidget::item:selected { background-color:rgb(255, 208, 0); color: black; }"
     );
 
     QStringList mediaExamples = {
@@ -135,8 +144,15 @@ void MainPage::setupUI(){
     mediaImageLabel = new QLabel();
     mediaImageLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     mediaImageLabel->setAlignment(Qt::AlignCenter);
-    mediaImageLabel->setStyleSheet("border: 1px solid black;");
-    mediaImageLabel->setMinimumSize(150, 150);
+    mediaImageLabel->setStyleSheet(
+        "border: 1px solid black; background-color: white;"
+        "QLabel:hover { border: 2px solid rgb(0, 104, 201); }"
+    );
+    mediaImageLabel->setMinimumSize(200, 300);
+
+    // Imposta la politica di dimensionamento
+    mediaImageLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    mediaImageLabel->setScaledContents(false); // Importante per mantenere le proporzioni
 
     mediaInfoLabel = new QLabel("Seleziona un media per vedere i dettagli");
 
@@ -179,7 +195,7 @@ void MainPage::setupUI(){
     previewLayout->addSpacing(10);
     previewLayout->addWidget(borrowButton);
     previewLayout->addWidget(detailsButton);
-    previewLayout->addWidget(editMediaButton);  // Aggiungi il pulsante
+    previewLayout->addWidget(editMediaButton);
     previewLayout->addStretch();
 
     QGroupBox *previewGroupBox = new QGroupBox("Anteprima");
@@ -207,7 +223,10 @@ void MainPage::resizeEvent(QResizeEvent* event) {
 void MainPage::updateImageSize() {
     if (!mediaImageLabel->pixmap().isNull()) {
         QPixmap original = mediaImageLabel->pixmap();
-        QPixmap scaled = original.scaled(mediaImageLabel->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        // Calcola le dimensioni mantenendo le proporzioni originali
+        QSize labelSize = mediaImageLabel->size();
+        QPixmap scaled = original.scaled(labelSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        
         mediaImageLabel->setPixmap(scaled);
     }
 }
@@ -228,25 +247,61 @@ void MainPage::onMediaSelected(QListWidgetItem *item) {
     mediaYearLabel->setText("Anno: " + year);
     mediaRatingLabel->setText("Rating: " + rating);
 
-    /* Esempio: imposta immagini diverse per tipo
-    QString imagePath = ":/icons/default_media.png";
-    if (type == "Libro") imagePath = ":/icons/book.png";
-    else if (type == "Film") imagePath = ":/icons/movie.png";
-    else if (type == "Vinile") imagePath = ":/icons/vinyl.png";
-    else if (type == "Gioco da tavolo") imagePath = ":/icons/game.png";*/
+    QPixmap pixmap;
 
-    /*QPixmap pixmap(imagePath);
     if (!pixmap.isNull()) {
-        mediaImageLabel->setPixmap(pixmap.scaled(
-            mediaImageLabel->width(), 
-            mediaImageLabel->height(),
-            Qt::KeepAspectRatio,
-            Qt::SmoothTransformation
-        ));
-    }*/
+        originalPixmapSize = pixmap.size();
+        mediaImageLabel->setPixmap(pixmap);
+    } else {
+        mediaImageLabel->setText("Immagine non disponibile");
+        mediaImageLabel->setStyleSheet(
+            "border: 1px solid black;"
+            "background-color: white;"
+            "color: gray;"
+            "font-style: italic;"
+            "padding: 5px;"
+        );
+    }
 
     // Abilita i pulsanti
     borrowButton->setEnabled(true);
     detailsButton->setEnabled(true);
     editMediaButton->setEnabled(true);
+}
+
+void MainPage::updateGenreComboBox() {
+    genreComboBox->clear();
+    genreComboBox->addItem("Qualsiasi genere");
+    
+    int currentType = mediaTypeComboBox->currentIndex();
+    
+    switch(currentType) {
+        case 1: // Libro
+            genreComboBox->addItems({"Fantasy", "Fantascienza", "Horror", "Romanzo storico", 
+                                    "Biografia", "Autobiografia", "Saggio", "Giallo", "Thriller"});
+            break;
+        case 2: // Film
+            genreComboBox->addItems({"Azione", "Avventura", "Commedia", "Drammatico", 
+                                    "Fantascienza", "Horror", "Thriller", "Documentario", "Animazione"});
+            break;
+        case 3: // Vinile
+            genreComboBox->addItems({"Rock", "Pop", "Classica", "Jazz", "Blues", 
+                                    "Metal", "Hip Hop", "Elettronica", "Folk"});
+            break;
+        case 4: // Gioco da tavolo
+            genreComboBox->addItems({"Strategia", "Party game", "Cooperativo", "Giochi di carte", 
+                                    "Giochi di miniature", "Giochi di ruolo", "Astratto"});
+            break;
+        case 5: // Rivista
+            genreComboBox->addItems({"Scientifica", "Culturale", "Attualità", "Moda", 
+                                    "Tecnologia", "Sport", "Fumetti"});
+            break;
+        default: // Qualsiasi o non specificato
+            break;
+    }
+}
+
+void MainPage::onMediaTypeChanged(int index) {
+    Q_UNUSED(index);
+    updateGenreComboBox();
 }

@@ -2,5 +2,10 @@
     <qresource prefix="/">
         <file>Immagini/Sfondo1Definitivo.jpg</file>
         <file>Immagini/icon1.png</file>
+        <file>Immagini/default_libro.png</file>
+        <file>Immagini/default_film.png</file>
+        <file>Immagini/default_vinile.png</file>
+        <file>Immagini/default_rivista.png</file>
+        <file>Immagini/default_gioco.png</file>
     </qresource>
 </RCC>
