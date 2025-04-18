@@ -21,6 +21,7 @@ public:
 
 private slots:
     void onLoginButtonClicked();
+    void showLoginPage(); // Slot per tornare alla LoginPage
 
 private:
     QStackedWidget *stackedWidget;

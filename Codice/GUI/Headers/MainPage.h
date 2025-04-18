@@ -24,6 +24,10 @@ public:
 
 private slots:
     void onMediaTypeChanged(int index);
+    void onBackButtonClicked();
+
+signals:
+    void goToLoginPage(); // Segnale per notificare il cambio alla LoginPage
 
 private:
     // Barra superiore

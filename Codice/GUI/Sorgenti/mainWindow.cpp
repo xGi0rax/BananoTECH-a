@@ -37,9 +37,13 @@ void MainWindow::setupMainPage(){
 
     stackedWidget->addWidget(mainPage);
 
-    
+    // Connetti il segnale al nuovo slot
+    connect(mainPage, &MainPage::goToLoginPage, this, &MainWindow::showLoginPage);
 }
 
+void MainWindow::showLoginPage() {
+    stackedWidget->setCurrentWidget(loginPage); // Cambia alla pagina di login
+}
 
 void MainWindow::onLoginButtonClicked() {
     QString username = loginPage->getUsername();

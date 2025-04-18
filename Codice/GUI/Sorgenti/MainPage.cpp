@@ -1,5 +1,11 @@
 #include <QFile> 
 #include "../Headers/MainPage.h"
+#include "../../Modello logico/Headers/Media.h"
+#include "../../Modello logico/Headers/Libro.h"
+#include "../../Modello logico/Headers/Film.h"
+#include "../../Modello logico/Headers/Vinile.h"
+#include "../../Modello logico/Headers/GiocoDaTavolo.h"
+#include "../../Modello logico/Headers/Rivista.h"
 
 MainPage::MainPage(QWidget *parent) : QWidget(parent) {
     setupUI();
@@ -8,16 +14,30 @@ MainPage::MainPage(QWidget *parent) : QWidget(parent) {
 void MainPage::setupUI(){
     // Barra superiore
     backButton = new QPushButton("Indietro");
+
     addMediaButton = new QPushButton("Aggiungi Media");
     //editModeButton = new QPushButton("Modalità Modifica");
     backButton->setMinimumSize(100, 30);
     addMediaButton->setMinimumSize(100, 30);
     //editModeButton->setMinimumSize(100, 30);
 
+    backButton->setStyleSheet(
+        "QPushButton {"
+        "   background-color: rgb(0, 104, 201);"
+        "   color: white;"
+        "   border: none;"
+        "   border-radius: 4px;"
+        "}"
+        "QPushButton:hover {"
+        "   background-color:rgb(11, 82, 189);"
+        "}"
+    );
+
+    connect(backButton, &QPushButton::clicked, this, &MainPage::onBackButtonClicked);
+
     topBarLayout = new QHBoxLayout();
-    topBarLayout->addWidget(backButton);
-    topBarLayout->addWidget(addMediaButton);
-    //topBarLayout->addWidget(editModeButton);
+    topBarLayout->addWidget(backButton, 1);
+    topBarLayout->addWidget(addMediaButton, 5);
 
     // Menu filtri
     // Selezione tipo media
@@ -90,47 +110,27 @@ void MainPage::setupUI(){
         "QListWidget::item:selected { background-color:rgb(255, 208, 0); color: black; }"
     );
 
-    QStringList mediaExamples = {
-        "Libro: Il Nome della Rosa - Umberto Eco (1980) ★★★★☆",
-        "Film: Inception - Christopher Nolan (2010) ★★★★★",
-        "Vinile: Dark Side of the Moon - Pink Floyd (1973) ★★★★★",
-        "Gioco da tavolo: Catan - Klaus Teuber (1995) ★★★★☆",
-        "Libro: Il Codice Da Vinci - Dan Brown (2003) ★★★☆☆",
-        "Libro: 1984 - George Orwell (1949) ★★★★★",
-        "Libro: Orgoglio e Pregiudizio - Jane Austen (1813) ★★★★☆",
-        "Libro: Il Piccolo Principe - Antoine de Saint-Exupéry (1943) ★★★★★",
-        "Libro: Dracula - Bram Stoker (1897) ★★★☆☆",
-        "Libro: Fahrenheit 451 - Ray Bradbury (1953) ★★★★☆",
-        "Libro: Cime Tempestose - Emily Brontë (1847) ★★☆☆☆",
-        "Film: The Shawshank Redemption - Frank Darabont (1994) ★★★★★",
-        "Film: Pulp Fiction - Quentin Tarantino (1994) ★★★★☆",
-        "Film: Inception - Christopher Nolan (2010) ★★★★★",
-        "Film: La La Land - Damien Chazelle (2016) ★★★☆☆",
-        "Film: Parasite - Bong Joon-ho (2019) ★★★★★",
-        "Film: The Room - Tommy Wiseau (2003) ★☆☆☆☆",
-        "Film: Interstellar - Christopher Nolan (2014) ★★★★☆",
-        "Film: Forrest Gump - Robert Zemeckis (1994) ★★★★★",
-        "Vinile: Thriller - Michael Jackson (1982) ★★★★★",
-        "Vinile: The Dark Side of the Moon - Pink Floyd (1973) ★★★★★",
-        "Vinile: Nevermind - Nirvana (1991) ★★★★☆",
-        "Vinile: Back in Black - AC/DC (1980) ★★★☆☆",
-        "Vinile: Rumours - Fleetwood Mac (1977) ★★★★★",
-        "Gioco da tavolo: Catan - Klaus Teuber (1995) ★★★★☆",
-        "Gioco da tavolo: Ticket to Ride - Alan R. Moon (2004) ★★★★☆",
-        "Gioco da tavolo: Carcassonne - Klaus-Jürgen Wrede (2000) ★★★☆☆",
-        "Gioco da tavolo: Pandemic - Matt Leacock (2008) ★★★★★",
-        "Gioco da tavolo: Monopoly - Elizabeth Magie (1935) ★★☆☆☆",
-        "Rivista: National Geographic - Vari Autori (1888) ★★★★★",
-        "Rivista: Time - Vari Autori (1923) ★★★★☆",
-        "Rivista: The Economist - Vari Autori (1843) ★★★★☆",
-        "Rivista: Vogue - Vari Autori (1892) ★★★☆☆",
-        "Rivista: Scientific American - Vari Autori (1845) ★★★★★"
+    vector<Media*> listaMedia = {
+        new Libro("Il Nome della Rosa", "Giallo", 1980, "Italiano", ":/Immagini/default_libro.png", true, 5, "123456789", "Umberto Eco", "Bompiani", 500, 0, "Scaffale A1", 4.5),
+        new Film("Inception", "Fantascienza", 2010, "Inglese", ":/Immagini/default_film.png", true, 3, "Christopher Nolan", 148, {"Leonardo DiCaprio", "Joseph Gordon-Levitt"}, 0, "Scaffale B2", 5.0),
+        new Vinile("The Dark Side of the Moon", "Rock", 1973, "Inglese", ":/Immagini/default_vinile.png", true, 2, "Pink Floyd", 10, 43, 0, "Scaffale C3", 5.0),
+        new GiocoDaTavolo("Catan", "Strategia", 1995, "Italiano", ":/Immagini/default_gioco.png", true, 4, 4, 10, 60, "Klaus Teuber", 0, "Scaffale D4", 4.0),
+        new Rivista("National Geographic", "Scientifica", 2023, "Italiano", ":/Immagini/default_rivista.png", true, 10, "National Geographic Society", 100, "2023-04-01", "Mensile", 0, "Scaffale E5", 4.8),
+        new Rivista("Time", "Attualità", 2023, "Italiano", ":/Immagini/default_rivista.png", true, 10, "Time Inc.", 100, "2023-04-01", "Settimanale", 0, "Scaffale E5", 4.5),
+        new Rivista("Vogue", "Moda", 2023, "Italiano", ":/Immagini/default_rivista.png", true, 10, "Condé Nast", 100, "2023-04-01", "Mensile", 0, "Scaffale E5", 4.2),
+        new Libro("Il Codice Da Vinci", "Giallo", 2003, "Italiano", ":/Immagini/default_libro.png", true, 5, "123456789", "Dan Brown", "Mondadori", 500, 0, "Scaffale A1", 4.0),
+        new Libro("1984", "Fantascienza", 1949, "Italiano", ":/Immagini/default_libro.png", true, 5, "123456789", "George Orwell", "Mondadori", 500, 0, "Scaffale A1", 4.8),
+        new Film("The Shawshank Redemption", "Drammatico", 1994, "Inglese", ":/Immagini/default_film.png", true, 3, "Frank Darabont", 142, {"Tim Robbins", "Morgan Freeman"}, 0, "Scaffale B2", 5.0),
+        new Film("Pulp Fiction", "Commedia", 1994, "Inglese", ":/Immagini/default_film.png", true, 3, "Quentin Tarantino", 154, {"John Travolta", "Uma Thurman"}, 0, "Scaffale B2", 4.5),
+        new GiocoDaTavolo("Ticket to Ride", "Strategia", 2004, "Italiano", ":/Immagini/default_gioco.png", true, 4, 2, 5, 120, "Alan R. Moon", 0, "Scaffale D4", 4.5),
+        new GiocoDaTavolo("Carcassonne", "Strategia", 2000, "Italiano", ":/Immagini/default_gioco.png", true, 4, 2, 5, 35, "Klaus-Jürgen Wrede", 0, "Scaffale D4", 4.0)
     };
 
-    foreach (const QString &media, mediaExamples) {
-        QListWidgetItem *item = new QListWidgetItem(media, mediaList);
-        // Puoi salvare dati aggiuntivi così:
-        item->setData(Qt::UserRole, media.split(":").first()); // Salva il tipo
+    for (Media* media : listaMedia) {
+        QString mediaInfo = media->mediaInfo(); // Ottieni le informazioni del media
+
+        QListWidgetItem *item = new QListWidgetItem(mediaInfo, mediaList);
+        item->setData(Qt::UserRole, QVariant::fromValue(media)); // Save the media object
     }
 
     // Collega la selezione
@@ -178,7 +178,6 @@ void MainPage::setupUI(){
         "   background-color: rgb(0, 104, 201);"
         "   color: white;"
         "   border: none;"
-        "   padding: 8px;"
         "   border-radius: 4px;"
         "}"
         "QPushButton:hover {"
@@ -232,23 +231,23 @@ void MainPage::updateImageSize() {
 }
 
 void MainPage::onMediaSelected(QListWidgetItem *item) {
-    QString fullText = item->text();
-    
-    // Estrai le informazioni 
-    QString type = fullText.split(":").first();
-    QString title = fullText.split("-")[0].split(":").last().trimmed();
-    QString author = fullText.split("-")[1].split("(").first().trimmed();
-    QString year = fullText.split("(").last().split(")").first();
-    QString rating = fullText.split(")").last().trimmed();
+    Media* selectedMedia = item->data(Qt::UserRole).value<Media*>();
+    if (!selectedMedia) {
+        return;
+    }
 
-    // Aggiorna la sezione destra
-    mediaTitleLabel->setText("Titolo: " + title);
-    mediaAuthorLabel->setText("Autore: " + author);
-    mediaYearLabel->setText("Anno: " + year);
-    mediaRatingLabel->setText("Rating: " + rating);
+    // Aggiorna la sezione destra con le informazioni del media selezionato
+    mediaTitleLabel->setText("Titolo: " + QString::fromStdString(selectedMedia->getTitolo()));
+    mediaAuthorLabel->setText("Autore: " + QString::fromStdString(selectedMedia->getGenere()));
+    mediaYearLabel->setText("Anno: " + QString::number(selectedMedia->getAnno()));
 
-    QPixmap pixmap;
+    // Mostra il rating con le stelline
+    double rating = selectedMedia->getRating();
+    QString stars = QString("Rating: %1 %2").arg(QString("★").repeated(static_cast<int>(rating))).arg(QString::number(rating, 'f', 1));
+    mediaRatingLabel->setText(stars);
 
+    // Aggiorna l'immagine del media
+    QPixmap pixmap(QString::fromStdString(selectedMedia->getImmagine()));
     if (!pixmap.isNull()) {
         originalPixmapSize = pixmap.size();
         mediaImageLabel->setPixmap(pixmap);
@@ -304,4 +303,9 @@ void MainPage::updateGenreComboBox() {
 void MainPage::onMediaTypeChanged(int index) {
     Q_UNUSED(index);
     updateGenreComboBox();
+}
+
+void MainPage::onBackButtonClicked() {
+    // Cambia pagina alla LoginPage
+    emit goToLoginPage(); // Emetti un segnale per notificare il cambio di pagina
 }
