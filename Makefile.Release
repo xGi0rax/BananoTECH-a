@@ -154,7 +154,12 @@ compiler_rcc_clean:
 release/qrc_resources.cpp: resources.qrc \
 		C:/Qt/6.8.1/mingw_64/bin/rcc.exe \
 		Immagini/icon1.png \
-		Immagini/Sfondo1Definitivo.jpg
+		Immagini/default_libro.png \
+		Immagini/default_gioco.png \
+		Immagini/Sfondo1Definitivo.jpg \
+		Immagini/default_rivista.png \
+		Immagini/default_vinile.png \
+		Immagini/default_film.png
 	C:\Qt\6.8.1\mingw_64\bin\rcc.exe -name resources --no-zstd resources.qrc -o release\qrc_resources.cpp
 
 compiler_moc_predefs_make_all: release/moc_predefs.h
@@ -1506,35 +1511,26 @@ release/XmlIO.o: Codice/Modello\ logico/Sorgenti/XmlIO.cpp Codice/Modello\ logic
 
 release/Film.o: Codice/Modello\ logico/Sorgenti/Film.cpp Codice/Modello\ logico/Headers/Film.h \
 		Codice/Modello\ logico/Headers/Media.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/QJsonObject \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qjsonobject.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qjsonvalue.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qcborvalue.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qbytearray.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qrefcount.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qatomic.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qbasicatomic.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qatomic_cxx11.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qgenericatomic.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qcompilerdetection.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qprocessordetection.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qsystemdetection.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/QString \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qstring.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qchar.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qglobal.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qtversionchecks.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtconfiginclude.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qconfig.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtcore-config.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtconfigmacros.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtdeprecationdefinitions.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qtversionchecks.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qtypes.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qassert.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtcoreexports.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qcompilerdetection.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qprocessordetection.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qsystemdetection.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtdeprecationmarkers.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtclasshelpermacros.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qtnoop.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qyieldcpu.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qnamespace.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qglobal.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtpreprocessorsupport.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qassert.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qtnoop.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qtypes.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtversion.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtypeinfo.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qcontainerfwd.h \
@@ -1542,6 +1538,11 @@ release/Film.o: Codice/Modello\ logico/Sorgenti/Film.cpp Codice/Modello\ logico/
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qlogging.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qflags.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qcompare_impl.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qatomic.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qbasicatomic.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qatomic_cxx11.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qgenericatomic.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qyieldcpu.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qconstructormacros.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qdarwinhelpers.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qexceptionhandling.h \
@@ -1561,6 +1562,10 @@ release/Film.o: Codice/Modello\ logico/Sorgenti/Film.cpp Codice/Modello\ logico/
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qcompare.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qcomparehelpers.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/q20type_traits.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringview.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qbytearray.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qrefcount.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qnamespace.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtmetamacros.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qarraydata.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qpair.h \
@@ -1573,6 +1578,19 @@ release/Film.o: Codice/Modello\ logico/Sorgenti/Film.cpp Codice/Modello\ logico/
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qbytearrayalgorithms.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qbytearrayview.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringfwd.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringliteral.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringalgorithms.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qlatin1stringview.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qanystringview.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qutf8stringview.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringtokenizer.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringbuilder.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringconverter.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringconverter_base.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/QJsonObject \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qjsonobject.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qjsonvalue.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qcborvalue.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qcborcommon.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qobjectdefs.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qobjectdefs_impl.h \
@@ -1583,18 +1601,6 @@ release/Film.o: Codice/Modello\ logico/Sorgenti/Film.cpp Codice/Modello\ logico/
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qiodevicebase.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qfloat16.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qhashfunctions.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qstring.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qchar.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringview.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringliteral.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringalgorithms.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qlatin1stringview.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qanystringview.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qutf8stringview.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringtokenizer.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringbuilder.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringconverter.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringconverter_base.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qmath.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qalgorithms.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qiterable.h \
@@ -1633,7 +1639,6 @@ release/Film.o: Codice/Modello\ logico/Sorgenti/Film.cpp Codice/Modello\ logico/
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qendian.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/QJsonArray \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qjsonarray.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/QString \
 		C:/Qt/6.8.1/mingw_64/include/QtXml/QDomElement \
 		C:/Qt/6.8.1/mingw_64/include/QtXml/qdom.h \
 		C:/Qt/6.8.1/mingw_64/include/QtXml/qtxmlglobal.h \
@@ -1644,35 +1649,26 @@ release/Film.o: Codice/Modello\ logico/Sorgenti/Film.cpp Codice/Modello\ logico/
 
 release/GiocoDaTavolo.o: Codice/Modello\ logico/Sorgenti/GiocoDaTavolo.cpp Codice/Modello\ logico/Headers/GiocoDaTavolo.h \
 		Codice/Modello\ logico/Headers/Media.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/QJsonObject \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qjsonobject.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qjsonvalue.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qcborvalue.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qbytearray.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qrefcount.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qatomic.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qbasicatomic.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qatomic_cxx11.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qgenericatomic.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qcompilerdetection.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qprocessordetection.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qsystemdetection.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/QString \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qstring.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qchar.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qglobal.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qtversionchecks.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtconfiginclude.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qconfig.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtcore-config.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtconfigmacros.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtdeprecationdefinitions.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qtversionchecks.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qtypes.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qassert.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtcoreexports.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qcompilerdetection.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qprocessordetection.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qsystemdetection.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtdeprecationmarkers.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtclasshelpermacros.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qtnoop.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qyieldcpu.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qnamespace.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qglobal.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtpreprocessorsupport.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qassert.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qtnoop.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qtypes.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtversion.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtypeinfo.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qcontainerfwd.h \
@@ -1680,6 +1676,11 @@ release/GiocoDaTavolo.o: Codice/Modello\ logico/Sorgenti/GiocoDaTavolo.cpp Codic
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qlogging.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qflags.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qcompare_impl.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qatomic.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qbasicatomic.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qatomic_cxx11.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qgenericatomic.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qyieldcpu.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qconstructormacros.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qdarwinhelpers.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qexceptionhandling.h \
@@ -1699,6 +1700,10 @@ release/GiocoDaTavolo.o: Codice/Modello\ logico/Sorgenti/GiocoDaTavolo.cpp Codic
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qcompare.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qcomparehelpers.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/q20type_traits.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringview.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qbytearray.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qrefcount.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qnamespace.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtmetamacros.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qarraydata.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qpair.h \
@@ -1711,6 +1716,19 @@ release/GiocoDaTavolo.o: Codice/Modello\ logico/Sorgenti/GiocoDaTavolo.cpp Codic
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qbytearrayalgorithms.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qbytearrayview.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringfwd.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringliteral.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringalgorithms.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qlatin1stringview.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qanystringview.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qutf8stringview.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringtokenizer.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringbuilder.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringconverter.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringconverter_base.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/QJsonObject \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qjsonobject.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qjsonvalue.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qcborvalue.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qcborcommon.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qobjectdefs.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qobjectdefs_impl.h \
@@ -1721,18 +1739,6 @@ release/GiocoDaTavolo.o: Codice/Modello\ logico/Sorgenti/GiocoDaTavolo.cpp Codic
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qiodevicebase.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qfloat16.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qhashfunctions.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qstring.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qchar.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringview.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringliteral.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringalgorithms.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qlatin1stringview.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qanystringview.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qutf8stringview.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringtokenizer.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringbuilder.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringconverter.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringconverter_base.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qmath.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qalgorithms.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qiterable.h \
@@ -1769,7 +1775,6 @@ release/GiocoDaTavolo.o: Codice/Modello\ logico/Sorgenti/GiocoDaTavolo.cpp Codic
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qurl.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/quuid.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qendian.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/QString \
 		C:/Qt/6.8.1/mingw_64/include/QtXml/QDomElement \
 		C:/Qt/6.8.1/mingw_64/include/QtXml/qdom.h \
 		C:/Qt/6.8.1/mingw_64/include/QtXml/qtxmlglobal.h \
@@ -1780,35 +1785,26 @@ release/GiocoDaTavolo.o: Codice/Modello\ logico/Sorgenti/GiocoDaTavolo.cpp Codic
 
 release/Libro.o: Codice/Modello\ logico/Sorgenti/Libro.cpp Codice/Modello\ logico/Headers/Libro.h \
 		Codice/Modello\ logico/Headers/Media.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/QJsonObject \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qjsonobject.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qjsonvalue.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qcborvalue.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qbytearray.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qrefcount.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qatomic.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qbasicatomic.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qatomic_cxx11.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qgenericatomic.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qcompilerdetection.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qprocessordetection.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qsystemdetection.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/QString \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qstring.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qchar.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qglobal.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qtversionchecks.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtconfiginclude.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qconfig.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtcore-config.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtconfigmacros.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtdeprecationdefinitions.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qtversionchecks.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qtypes.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qassert.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtcoreexports.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qcompilerdetection.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qprocessordetection.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qsystemdetection.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtdeprecationmarkers.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtclasshelpermacros.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qtnoop.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qyieldcpu.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qnamespace.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qglobal.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtpreprocessorsupport.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qassert.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qtnoop.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qtypes.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtversion.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtypeinfo.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qcontainerfwd.h \
@@ -1816,6 +1812,11 @@ release/Libro.o: Codice/Modello\ logico/Sorgenti/Libro.cpp Codice/Modello\ logic
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qlogging.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qflags.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qcompare_impl.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qatomic.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qbasicatomic.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qatomic_cxx11.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qgenericatomic.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qyieldcpu.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qconstructormacros.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qdarwinhelpers.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qexceptionhandling.h \
@@ -1835,6 +1836,10 @@ release/Libro.o: Codice/Modello\ logico/Sorgenti/Libro.cpp Codice/Modello\ logic
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qcompare.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qcomparehelpers.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/q20type_traits.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringview.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qbytearray.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qrefcount.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qnamespace.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtmetamacros.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qarraydata.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qpair.h \
@@ -1847,6 +1852,19 @@ release/Libro.o: Codice/Modello\ logico/Sorgenti/Libro.cpp Codice/Modello\ logic
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qbytearrayalgorithms.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qbytearrayview.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringfwd.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringliteral.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringalgorithms.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qlatin1stringview.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qanystringview.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qutf8stringview.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringtokenizer.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringbuilder.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringconverter.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringconverter_base.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/QJsonObject \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qjsonobject.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qjsonvalue.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qcborvalue.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qcborcommon.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qobjectdefs.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qobjectdefs_impl.h \
@@ -1857,18 +1875,6 @@ release/Libro.o: Codice/Modello\ logico/Sorgenti/Libro.cpp Codice/Modello\ logic
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qiodevicebase.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qfloat16.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qhashfunctions.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qstring.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qchar.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringview.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringliteral.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringalgorithms.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qlatin1stringview.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qanystringview.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qutf8stringview.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringtokenizer.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringbuilder.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringconverter.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringconverter_base.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qmath.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qalgorithms.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qiterable.h \
@@ -1905,7 +1911,6 @@ release/Libro.o: Codice/Modello\ logico/Sorgenti/Libro.cpp Codice/Modello\ logic
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qurl.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/quuid.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qendian.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/QString \
 		C:/Qt/6.8.1/mingw_64/include/QtXml/QDomElement \
 		C:/Qt/6.8.1/mingw_64/include/QtXml/qdom.h \
 		C:/Qt/6.8.1/mingw_64/include/QtXml/qtxmlglobal.h \
@@ -1915,35 +1920,26 @@ release/Libro.o: Codice/Modello\ logico/Sorgenti/Libro.cpp Codice/Modello\ logic
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\Libro.o "Codice\Modello logico\Sorgenti\Libro.cpp"
 
 release/Media.o: Codice/Modello\ logico/Sorgenti/Media.cpp Codice/Modello\ logico/Headers/Media.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/QJsonObject \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qjsonobject.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qjsonvalue.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qcborvalue.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qbytearray.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qrefcount.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qatomic.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qbasicatomic.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qatomic_cxx11.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qgenericatomic.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qcompilerdetection.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qprocessordetection.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qsystemdetection.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/QString \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qstring.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qchar.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qglobal.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qtversionchecks.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtconfiginclude.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qconfig.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtcore-config.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtconfigmacros.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtdeprecationdefinitions.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qtversionchecks.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qtypes.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qassert.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtcoreexports.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qcompilerdetection.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qprocessordetection.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qsystemdetection.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtdeprecationmarkers.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtclasshelpermacros.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qtnoop.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qyieldcpu.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qnamespace.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qglobal.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtpreprocessorsupport.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qassert.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qtnoop.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qtypes.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtversion.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtypeinfo.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qcontainerfwd.h \
@@ -1951,6 +1947,11 @@ release/Media.o: Codice/Modello\ logico/Sorgenti/Media.cpp Codice/Modello\ logic
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qlogging.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qflags.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qcompare_impl.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qatomic.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qbasicatomic.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qatomic_cxx11.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qgenericatomic.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qyieldcpu.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qconstructormacros.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qdarwinhelpers.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qexceptionhandling.h \
@@ -1970,6 +1971,10 @@ release/Media.o: Codice/Modello\ logico/Sorgenti/Media.cpp Codice/Modello\ logic
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qcompare.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qcomparehelpers.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/q20type_traits.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringview.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qbytearray.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qrefcount.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qnamespace.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtmetamacros.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qarraydata.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qpair.h \
@@ -1982,6 +1987,19 @@ release/Media.o: Codice/Modello\ logico/Sorgenti/Media.cpp Codice/Modello\ logic
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qbytearrayalgorithms.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qbytearrayview.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringfwd.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringliteral.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringalgorithms.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qlatin1stringview.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qanystringview.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qutf8stringview.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringtokenizer.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringbuilder.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringconverter.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringconverter_base.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/QJsonObject \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qjsonobject.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qjsonvalue.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qcborvalue.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qcborcommon.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qobjectdefs.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qobjectdefs_impl.h \
@@ -1992,18 +2010,6 @@ release/Media.o: Codice/Modello\ logico/Sorgenti/Media.cpp Codice/Modello\ logic
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qiodevicebase.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qfloat16.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qhashfunctions.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qstring.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qchar.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringview.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringliteral.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringalgorithms.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qlatin1stringview.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qanystringview.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qutf8stringview.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringtokenizer.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringbuilder.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringconverter.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringconverter_base.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qmath.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qalgorithms.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qiterable.h \
@@ -2045,41 +2051,31 @@ release/Media.o: Codice/Modello\ logico/Sorgenti/Media.cpp Codice/Modello\ logic
 		C:/Qt/6.8.1/mingw_64/include/QtXml/qtxmlglobal.h \
 		C:/Qt/6.8.1/mingw_64/include/QtXml/qtxml-config.h \
 		C:/Qt/6.8.1/mingw_64/include/QtXml/qtxmlexports.h \
-		C:/Qt/6.8.1/mingw_64/include/QtXml/QDomDocument \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/QString
+		C:/Qt/6.8.1/mingw_64/include/QtXml/QDomDocument
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\Media.o "Codice\Modello logico\Sorgenti\Media.cpp"
 
 release/Rivista.o: Codice/Modello\ logico/Sorgenti/Rivista.cpp Codice/Modello\ logico/Headers/Rivista.h \
 		Codice/Modello\ logico/Headers/Media.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/QJsonObject \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qjsonobject.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qjsonvalue.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qcborvalue.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qbytearray.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qrefcount.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qatomic.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qbasicatomic.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qatomic_cxx11.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qgenericatomic.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qcompilerdetection.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qprocessordetection.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qsystemdetection.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/QString \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qstring.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qchar.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qglobal.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qtversionchecks.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtconfiginclude.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qconfig.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtcore-config.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtconfigmacros.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtdeprecationdefinitions.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qtversionchecks.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qtypes.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qassert.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtcoreexports.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qcompilerdetection.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qprocessordetection.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qsystemdetection.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtdeprecationmarkers.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtclasshelpermacros.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qtnoop.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qyieldcpu.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qnamespace.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qglobal.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtpreprocessorsupport.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qassert.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qtnoop.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qtypes.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtversion.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtypeinfo.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qcontainerfwd.h \
@@ -2087,6 +2083,11 @@ release/Rivista.o: Codice/Modello\ logico/Sorgenti/Rivista.cpp Codice/Modello\ l
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qlogging.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qflags.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qcompare_impl.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qatomic.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qbasicatomic.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qatomic_cxx11.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qgenericatomic.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qyieldcpu.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qconstructormacros.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qdarwinhelpers.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qexceptionhandling.h \
@@ -2106,6 +2107,10 @@ release/Rivista.o: Codice/Modello\ logico/Sorgenti/Rivista.cpp Codice/Modello\ l
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qcompare.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qcomparehelpers.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/q20type_traits.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringview.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qbytearray.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qrefcount.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qnamespace.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtmetamacros.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qarraydata.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qpair.h \
@@ -2118,6 +2123,19 @@ release/Rivista.o: Codice/Modello\ logico/Sorgenti/Rivista.cpp Codice/Modello\ l
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qbytearrayalgorithms.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qbytearrayview.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringfwd.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringliteral.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringalgorithms.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qlatin1stringview.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qanystringview.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qutf8stringview.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringtokenizer.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringbuilder.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringconverter.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringconverter_base.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/QJsonObject \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qjsonobject.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qjsonvalue.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qcborvalue.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qcborcommon.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qobjectdefs.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qobjectdefs_impl.h \
@@ -2128,18 +2146,6 @@ release/Rivista.o: Codice/Modello\ logico/Sorgenti/Rivista.cpp Codice/Modello\ l
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qiodevicebase.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qfloat16.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qhashfunctions.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qstring.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qchar.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringview.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringliteral.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringalgorithms.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qlatin1stringview.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qanystringview.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qutf8stringview.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringtokenizer.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringbuilder.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringconverter.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringconverter_base.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qmath.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qalgorithms.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qiterable.h \
@@ -2176,7 +2182,6 @@ release/Rivista.o: Codice/Modello\ logico/Sorgenti/Rivista.cpp Codice/Modello\ l
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qurl.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/quuid.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qendian.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/QString \
 		C:/Qt/6.8.1/mingw_64/include/QtXml/QDomElement \
 		C:/Qt/6.8.1/mingw_64/include/QtXml/qdom.h \
 		C:/Qt/6.8.1/mingw_64/include/QtXml/qtxmlglobal.h \
@@ -2187,35 +2192,26 @@ release/Rivista.o: Codice/Modello\ logico/Sorgenti/Rivista.cpp Codice/Modello\ l
 
 release/Vinile.o: Codice/Modello\ logico/Sorgenti/Vinile.cpp Codice/Modello\ logico/Headers/Vinile.h \
 		Codice/Modello\ logico/Headers/Media.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/QJsonObject \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qjsonobject.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qjsonvalue.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qcborvalue.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qbytearray.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qrefcount.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qatomic.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qbasicatomic.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qatomic_cxx11.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qgenericatomic.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qcompilerdetection.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qprocessordetection.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qsystemdetection.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/QString \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qstring.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qchar.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qglobal.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qtversionchecks.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtconfiginclude.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qconfig.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtcore-config.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtconfigmacros.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtdeprecationdefinitions.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qtversionchecks.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qtypes.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qassert.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtcoreexports.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qcompilerdetection.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qprocessordetection.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qsystemdetection.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtdeprecationmarkers.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtclasshelpermacros.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qtnoop.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qyieldcpu.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qnamespace.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qglobal.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtpreprocessorsupport.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qassert.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qtnoop.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qtypes.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtversion.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtypeinfo.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qcontainerfwd.h \
@@ -2223,6 +2219,11 @@ release/Vinile.o: Codice/Modello\ logico/Sorgenti/Vinile.cpp Codice/Modello\ log
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qlogging.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qflags.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qcompare_impl.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qatomic.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qbasicatomic.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qatomic_cxx11.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qgenericatomic.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qyieldcpu.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qconstructormacros.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qdarwinhelpers.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qexceptionhandling.h \
@@ -2242,6 +2243,10 @@ release/Vinile.o: Codice/Modello\ logico/Sorgenti/Vinile.cpp Codice/Modello\ log
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qcompare.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qcomparehelpers.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/q20type_traits.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringview.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qbytearray.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qrefcount.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qnamespace.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtmetamacros.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qarraydata.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qpair.h \
@@ -2254,6 +2259,19 @@ release/Vinile.o: Codice/Modello\ logico/Sorgenti/Vinile.cpp Codice/Modello\ log
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qbytearrayalgorithms.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qbytearrayview.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringfwd.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringliteral.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringalgorithms.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qlatin1stringview.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qanystringview.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qutf8stringview.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringtokenizer.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringbuilder.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringconverter.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringconverter_base.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/QJsonObject \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qjsonobject.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qjsonvalue.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qcborvalue.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qcborcommon.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qobjectdefs.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qobjectdefs_impl.h \
@@ -2264,18 +2282,6 @@ release/Vinile.o: Codice/Modello\ logico/Sorgenti/Vinile.cpp Codice/Modello\ log
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qiodevicebase.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qfloat16.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qhashfunctions.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qstring.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qchar.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringview.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringliteral.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringalgorithms.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qlatin1stringview.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qanystringview.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qutf8stringview.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringtokenizer.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringbuilder.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringconverter.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringconverter_base.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qmath.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qalgorithms.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qiterable.h \
@@ -2312,7 +2318,6 @@ release/Vinile.o: Codice/Modello\ logico/Sorgenti/Vinile.cpp Codice/Modello\ log
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qurl.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/quuid.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qendian.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/QString \
 		C:/Qt/6.8.1/mingw_64/include/QtXml/QDomElement \
 		C:/Qt/6.8.1/mingw_64/include/QtXml/qdom.h \
 		C:/Qt/6.8.1/mingw_64/include/QtXml/qtxmlglobal.h \
@@ -2784,11 +2789,10 @@ release/LoginPage.o: Codice/GUI/Sorgenti/LoginPage.cpp Codice/GUI/Headers/LoginP
 		C:/Qt/6.8.1/mingw_64/include/QtGui/QKeyEvent
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\LoginPage.o Codice\GUI\Sorgenti\LoginPage.cpp
 
-release/MainPage.o: Codice/GUI/Sorgenti/MainPage.cpp Codice/GUI/Headers/MainPage.h \
-		C:/Qt/6.8.1/mingw_64/include/QtWidgets/QWidget \
-		C:/Qt/6.8.1/mingw_64/include/QtWidgets/qwidget.h \
-		C:/Qt/6.8.1/mingw_64/include/QtWidgets/qtwidgetsglobal.h \
-		C:/Qt/6.8.1/mingw_64/include/QtGui/qtguiglobal.h \
+release/MainPage.o: Codice/GUI/Sorgenti/MainPage.cpp C:/Qt/6.8.1/mingw_64/include/QtCore/QFile \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qfile.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qfiledevice.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qiodevice.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qglobal.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtversionchecks.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtconfiginclude.h \
@@ -2834,11 +2838,8 @@ release/MainPage.o: Codice/GUI/Sorgenti/MainPage.cpp Codice/GUI/Headers/MainPage
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtresource.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qttranslation.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qversiontagging.h \
-		C:/Qt/6.8.1/mingw_64/include/QtGui/qtgui-config.h \
-		C:/Qt/6.8.1/mingw_64/include/QtGui/qtguiexports.h \
-		C:/Qt/6.8.1/mingw_64/include/QtWidgets/qtwidgets-config.h \
-		C:/Qt/6.8.1/mingw_64/include/QtWidgets/qtwidgetsexports.h \
-		C:/Qt/6.8.1/mingw_64/include/QtGui/qwindowdefs.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qiodevicebase.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/qobject.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qobjectdefs.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qnamespace.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qcompare.h \
@@ -2847,8 +2848,6 @@ release/MainPage.o: Codice/GUI/Sorgenti/MainPage.cpp Codice/GUI/Headers/MainPage
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qtmetamacros.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qobjectdefs_impl.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qfunctionaltools_impl.h \
-		C:/Qt/6.8.1/mingw_64/include/QtGui/qwindowdefs_win.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qobject.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qstring.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qchar.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qstringview.h \
@@ -2885,7 +2884,6 @@ release/MainPage.o: Codice/GUI/Sorgenti/MainPage.cpp Codice/GUI/Headers/MainPage
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qscopedpointer.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qmetatype.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qdatastream.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qiodevicebase.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qfloat16.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qmath.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qiterable.h \
@@ -2895,6 +2893,17 @@ release/MainPage.o: Codice/GUI/Sorgenti/MainPage.cpp Codice/GUI/Headers/MainPage
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qscopeguard.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qobject_impl.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qbindingstorage.h \
+		Codice/GUI/Headers/MainPage.h \
+		C:/Qt/6.8.1/mingw_64/include/QtWidgets/QWidget \
+		C:/Qt/6.8.1/mingw_64/include/QtWidgets/qwidget.h \
+		C:/Qt/6.8.1/mingw_64/include/QtWidgets/qtwidgetsglobal.h \
+		C:/Qt/6.8.1/mingw_64/include/QtGui/qtguiglobal.h \
+		C:/Qt/6.8.1/mingw_64/include/QtGui/qtgui-config.h \
+		C:/Qt/6.8.1/mingw_64/include/QtGui/qtguiexports.h \
+		C:/Qt/6.8.1/mingw_64/include/QtWidgets/qtwidgets-config.h \
+		C:/Qt/6.8.1/mingw_64/include/QtWidgets/qtwidgetsexports.h \
+		C:/Qt/6.8.1/mingw_64/include/QtGui/qwindowdefs.h \
+		C:/Qt/6.8.1/mingw_64/include/QtGui/qwindowdefs_win.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qmargins.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/q23utility.h \
 		C:/Qt/6.8.1/mingw_64/include/QtGui/qaction.h \
@@ -2938,7 +2947,6 @@ release/MainPage.o: Codice/GUI/Sorgenti/MainPage.cpp Codice/GUI/Headers/MainPage
 		C:/Qt/6.8.1/mingw_64/include/QtGui/qcursor.h \
 		C:/Qt/6.8.1/mingw_64/include/QtGui/qbitmap.h \
 		C:/Qt/6.8.1/mingw_64/include/QtGui/qevent.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/qiodevice.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qurl.h \
 		C:/Qt/6.8.1/mingw_64/include/QtGui/qeventpoint.h \
 		C:/Qt/6.8.1/mingw_64/include/QtGui/qvector2d.h \
@@ -3020,7 +3028,14 @@ release/MainPage.o: Codice/GUI/Sorgenti/MainPage.cpp Codice/GUI/Headers/MainPage
 		C:/Qt/6.8.1/mingw_64/include/QtGui/QPixmap \
 		C:/Qt/6.8.1/mingw_64/include/QtWidgets/QSizePolicy \
 		C:/Qt/6.8.1/mingw_64/include/QtWidgets/QCheckBox \
-		C:/Qt/6.8.1/mingw_64/include/QtWidgets/qcheckbox.h
+		C:/Qt/6.8.1/mingw_64/include/QtWidgets/qcheckbox.h \
+		Codice/Modello\ logico/Headers/Media.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/QString \
+		Codice/Modello\ logico/Headers/Libro.h \
+		Codice/Modello\ logico/Headers/Film.h \
+		Codice/Modello\ logico/Headers/Vinile.h \
+		Codice/Modello\ logico/Headers/GiocoDaTavolo.h \
+		Codice/Modello\ logico/Headers/Rivista.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\MainPage.o Codice\GUI\Sorgenti\MainPage.cpp
 
 release/qrc_resources.o: release/qrc_resources.cpp 

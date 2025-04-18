@@ -14,6 +14,7 @@ class Media {
 private:
     string id = ""; // Nella forma "AA-X" dove AA è una stringa univoca per ogni biblioteca e X è un numero progressivo univoco per il media all'interno della biblioteca
     string titolo; // Titolo del media
+    string autore; // Autore del media
     string genere; // Genere del media (es. "Fantascienza", "Commedia", etc.)
     int anno; // Anno di pubblicazione
     string lingua; // Lingua del media (es. "Italiano", "Inglese", etc.)
@@ -25,12 +26,13 @@ private:
     double rating; // Valutazione del media (da 1 a 5 stelle)
     
 public:
-    Media(string titolo, string genere, int anno, string lingua, string immagine, bool disponibilita, int numero_copie, int in_prestito = 0, string collocazione = "", double rating = 0.0);
+    Media(string titolo, string autore, string genere, int anno, string lingua, string immagine, bool disponibilita, int numero_copie, int in_prestito = 0, string collocazione = "", double rating = 0.0);
     virtual ~Media() =default;
 
     // Metodi getter
     string getId() const;
     string getTitolo() const;
+    string getAutore() const;
     string getGenere() const;
     int getAnno() const;
     string getLingua() const;
@@ -44,6 +46,7 @@ public:
     // Metodi setter
     void setId(const string& id);
     void setTitolo(const string& titolo);
+    void setAutore(const string& autore);
     void setGenere(const string& genere);
     void setAnno(const int& anno);
     void setLingua(const string& lingua);
@@ -59,7 +62,7 @@ public:
     // Metodo per convertire l'oggetto in un oggetto XML
     virtual void toXml(QDomElement& elemento, QDomDocument& doc) const;
 
-    virtual Qstring mediaInfo() const = 0; // Metodo virtuale puro per ottenere informazioni dettagliate sul media
+    //virtual QString mediaInfo() const = 0; // Metodo virtuale puro per ottenere informazioni dettagliate sul media
 };
 
 #endif // MEDIA_H

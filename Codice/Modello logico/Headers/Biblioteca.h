@@ -43,15 +43,6 @@ public:
     bool restituisci(const Media* media); // Metodo per restituire un media
 
     vector<Media*> getListaMedia() const; // Restituisce la lista dei media
-
-
-
-    // Metodo di debug per stampare tutti i media
-    void stampaMedia() const {
-        for (const Media* media : listaMedia) {
-            media->stampaInfo();
-        }
-    }
 };
 
 #endif // BIBLIOTECA.H

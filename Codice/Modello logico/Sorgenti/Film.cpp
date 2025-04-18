@@ -8,15 +8,12 @@
 #include <QDomElement>
 #include <QDomDocument>
 
-Film::Film(string titolo, string genere, int anno, string lingua, string immagine, bool disponibilita, int numero_copie, string regista, 
-    int durata, vector<string> cast, int in_prestito, string collocazione, double rating) : 
-    Media(titolo, genere, anno, lingua, immagine, disponibilita, numero_copie, in_prestito, collocazione, rating), 
-    regista(regista), durata(durata), cast(cast) {}
+Film::Film(string titolo, string autore, string genere, int anno, string lingua, string immagine, bool disponibilita, int numero_copie, int durata, vector<string> cast, int in_prestito, string collocazione, double rating) : 
+    Media(titolo, autore, genere, anno, lingua, immagine, disponibilita, numero_copie, in_prestito, collocazione, rating),  durata(durata), cast(cast) {}
 
 void Film::toJson(QJsonObject& jsonObj) const {
     Media::toJson(jsonObj);
     jsonObj["tipo"] = "film";
-    jsonObj["regista"] = QString::fromStdString(regista);
     jsonObj["durata"] = durata;
     
     QJsonArray castArray;
@@ -29,7 +26,6 @@ void Film::toJson(QJsonObject& jsonObj) const {
 void Film::toXml(QDomElement& elemento, QDomDocument& doc) const {
     Media::toXml(elemento, doc);
     elemento.setAttribute("tipo", "film");
-    elemento.setAttribute("regista", QString::fromStdString(regista));
     elemento.setAttribute("durata", durata);
     
     QDomElement castElement = doc.createElement("cast");
@@ -43,10 +39,6 @@ void Film::toXml(QDomElement& elemento, QDomDocument& doc) const {
 
 
 // Getter
-string Film::getRegista() const{
-    return regista;
-}
-
 int Film::getDurata() const{
     return durata;
 }
@@ -56,10 +48,6 @@ vector<string> Film::getCast() const{
 }
 
 // Setter
-void Film::setRegista(const string& regista){
-    this->regista = regista;
-}
-
 void Film::setDurata(const int& durata){
     this->durata = durata;
 }

@@ -26,6 +26,7 @@ Media* JsonIO::jsonToMedia(const QJsonObject& json) const{
     // Attributi comuni a tutti i media
     string id = json["id"].toString().toStdString();
     string titolo = json["titolo"].toString().toStdString();
+    string autore = json["autore"].toString().toStdString();
     string genere = json["genere"].toString().toStdString();
     int anno = json["anno"].toInt();
     string lingua = json["lingua"].toString().toStdString();
@@ -40,22 +41,20 @@ Media* JsonIO::jsonToMedia(const QJsonObject& json) const{
     string tipo = json["tipo"].toString().toStdString();
     
     if (tipo == "film") {
-        string regista = json["regista"].toString().toStdString();
         int durata = json["durata"].toInt();
         vector<string> cast;
         QJsonArray jCast = json["cast"].toArray();
         for (const QJsonValue& elemento : jCast) {
             cast.push_back(elemento.toString().toStdString());
         }
-        return new Film(titolo, genere, anno, lingua, immagine, disponibilita, numero_copie, regista, durata, cast, in_prestito, collocazione, rating);
+        return new Film(titolo, autore, genere, anno, lingua, immagine, disponibilita, numero_copie, durata, cast, in_prestito, collocazione, rating);
 
     } else if (tipo == "libro") {
         string isbn = json["isbn"].toString().toStdString();
-        string autore = json["autore"].toString().toStdString();
         string editore = json["editore"].toString().toStdString();
         int numeroPagine = json["numero_pagine"].toInt();
 
-        return new Libro(titolo, genere, anno, lingua, immagine, disponibilita, numero_copie, isbn, autore, editore, numeroPagine, in_prestito, collocazione, rating);
+        return new Libro(titolo, autore, genere, anno, lingua, immagine, disponibilita, numero_copie, isbn, editore, numeroPagine, in_prestito, collocazione, rating);
 
     } else if (tipo == "rivista") {
         string editore = json["editore"].toString().toStdString();
@@ -63,7 +62,7 @@ Media* JsonIO::jsonToMedia(const QJsonObject& json) const{
         string dataPubblicazione = json["data_pubblicazione"].toString().toStdString();
         string periodicita = json["periodicita"].toString().toStdString();
 
-        return new Rivista(titolo, genere, anno, lingua, immagine, disponibilita, numero_copie, editore, numeroPagine, dataPubblicazione, periodicita, in_prestito, collocazione, rating);
+        return new Rivista(titolo, autore, genere, anno, lingua, immagine, disponibilita, numero_copie, editore, numeroPagine, dataPubblicazione, periodicita, in_prestito, collocazione, rating);
 
     } else if (tipo == "gioco") {
         int numeroGiocatori = json["numero_giocatori"].toInt();
@@ -71,14 +70,13 @@ Media* JsonIO::jsonToMedia(const QJsonObject& json) const{
         int durata = json["durata"].toInt();
         string editore = json["editore"].toString().toStdString();
 
-        return new GiocoDaTavolo(titolo, genere, anno, lingua, immagine, disponibilita, numero_copie, numeroGiocatori, etaMinima, durata, editore, in_prestito, collocazione, rating);
+        return new GiocoDaTavolo(titolo, autore, genere, anno, lingua, immagine, disponibilita, numero_copie, numeroGiocatori, etaMinima, durata, editore, in_prestito, collocazione, rating);
 
     } else if (tipo == "vinile") {
-        string artista = json["artista"].toString().toStdString();
         int numeroTracce = json["numero_tracce"].toInt();
         int durata = json["durata"].toInt();
 
-        return new Vinile(titolo, genere, anno, lingua, immagine, disponibilita, numero_copie, artista, numeroTracce, durata, in_prestito, collocazione, rating);
+        return new Vinile(titolo, autore, genere, anno, lingua, immagine, disponibilita, numero_copie, numeroTracce, durata, in_prestito, collocazione, rating);
     }
 
     return nullptr;

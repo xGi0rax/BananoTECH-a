@@ -6,9 +6,7 @@
 #include <QDomElement>
 #include <QDomDocument>
 
-GiocoDaTavolo::GiocoDaTavolo(string titolo, string genere, int anno, string lingua, string immagine, bool disponibilita, 
-    int numero_copie,  int ngiocatori, int durata, int etaMinima, string editore, int in_prestito, string collocazione, double rating) : Media(titolo, genere, anno, lingua, immagine, disponibilita, numero_copie, in_prestito, collocazione, rating), 
-    ngiocatori(ngiocatori), durata(durata), etaMinima(etaMinima), editore(editore) {}
+GiocoDaTavolo::GiocoDaTavolo(string titolo, string autore, string genere, int anno, string lingua, string immagine, bool disponibilita, int numero_copie,  int ngiocatori, int durata, int etaMinima, string editore, int in_prestito, string collocazione, double rating) : Media(titolo, autore, genere, anno, lingua, immagine, disponibilita, numero_copie, in_prestito, collocazione, rating), ngiocatori(ngiocatori), durata(durata), etaMinima(etaMinima), editore(editore) {}
 
 void GiocoDaTavolo::toJson(QJsonObject& jsonObj) const {
     Media::toJson(jsonObj);

@@ -11,7 +11,7 @@ private:
     string periodicita; // Mensile, settimanale, annuale, ecc.
 
 public:
-    Rivista(string titolo, string genere, int anno, string lingua, string immagine, bool disponibilita, int numero_copie, string editore, int n_pagine, string data_pubb, string periodicita, int in_prestito = 0, string collocazione = "", double rating = 0.0);
+    Rivista(string titolo, string autore, string genere, int anno, string lingua, string immagine, bool disponibilita, int numero_copie, string editore, int n_pagine, string data_pubb, string periodicita, int in_prestito = 0, string collocazione = "", double rating = 0.0);
     ~Rivista() = default;
 
     // Metodi getter
@@ -28,16 +28,6 @@ public:
 
     void toJson(QJsonObject& jsonObj) const override;
     void toXml(QDomElement& elemento, QDomDocument& doc) const override;
-
-
-    // Metodo di debug per stampare i dettagli della rivista
-    void stampaInfo() const override{
-        Media::stampaInfo(); // Stampa le informazioni di base del media
-        std::cout << "Editore: " << editore << "\n"
-                  << "Numero di pagine: " << n_pagine << "\n"
-                  << "Data di pubblicazione: " << data_pubb << "\n"
-                  << "Periodicità: " << periodicita << std::endl;
-    }
 };
 
 #endif //RIVISTA_H

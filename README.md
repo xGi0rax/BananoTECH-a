@@ -13,4 +13,6 @@
 - gestione immagine di anteprima della sezione destra della mainPage
 
 ## Per prossima volta:
-### Capire come far scegliere il file Json
+- Capire come far scegliere il file Json
+- Inserire il filtro "disponibilita" nel metodo filtra della classe Biblioteca
+

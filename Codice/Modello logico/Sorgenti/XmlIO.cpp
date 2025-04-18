@@ -23,6 +23,7 @@ Media* XmlIO::xmlToMedia(const QDomElement& elemento) const{
     // attributi comuni a tutti i media
     string id = elemento.attribute("id").toStdString();
     string titolo = elemento.attribute("titolo").toStdString();
+    string autore = elemento.attribute("autore").toStdString();
     string genere = elemento.attribute("genere").toStdString();
     int anno = elemento.attribute("anno").toInt();
     string lingua = elemento.attribute("lingua").toStdString();
@@ -34,7 +35,6 @@ Media* XmlIO::xmlToMedia(const QDomElement& elemento) const{
     double rating = elemento.attribute("rating").toDouble();
 
     if (tipo == "film") {
-        string regista = elemento.attribute("regista").toStdString();
         int durata = elemento.attribute("durata").toInt();
         vector<string> cast; // Vettore per memorizzare il cast
         QDomNodeList castList = elemento.elementsByTagName("attore"); // Ottiene gli attori dal nodo XML
@@ -42,14 +42,13 @@ Media* XmlIO::xmlToMedia(const QDomElement& elemento) const{
             QDomElement attore = castList.at(i).toElement();
             cast.push_back(attore.text().toStdString()); // Aggiunge ogni attore al vettore
         }
-        return new Film(titolo, genere, anno, lingua, immagine, disponibilita, numero_copie, regista, durata, cast, in_prestito, collocazione, rating);
+        return new Film(titolo, autore, genere, anno, lingua, immagine, disponibilita, numero_copie, durata, cast, in_prestito, collocazione, rating);
 
     } else if (tipo == "libro") {
         string isbn = elemento.attribute("isbn").toStdString();
-        string autore = elemento.attribute("autore").toStdString();
         string editore = elemento.attribute("editore").toStdString();
         int numeroPagine = elemento.attribute("numero_pagine").toInt();
-        return new Libro(titolo, genere, anno, lingua, immagine, disponibilita, numero_copie, isbn, autore, editore, numeroPagine, in_prestito, collocazione, rating);
+        return new Libro(titolo, autore, genere, anno, lingua, immagine, disponibilita, numero_copie, isbn, editore, numeroPagine, in_prestito, collocazione, rating);
 
     } else if (tipo == "rivista") {
         string editore = elemento.attribute("editore").toStdString();
@@ -57,7 +56,7 @@ Media* XmlIO::xmlToMedia(const QDomElement& elemento) const{
         string dataPubblicazione = elemento.attribute("data_pubblicazione").toStdString();
         string periodicita = elemento.attribute("periodicita").toStdString();
 
-        return new Rivista(titolo, genere, anno, lingua, immagine, disponibilita, numero_copie, editore, numeroPagine, dataPubblicazione, periodicita, in_prestito, collocazione, rating);
+        return new Rivista(titolo, autore, genere, anno, lingua, immagine, disponibilita, numero_copie, editore, numeroPagine, dataPubblicazione, periodicita, in_prestito, collocazione, rating);
 
     } else if (tipo == "gioco"){
         int numeroGiocatori = elemento.attribute("numero_giocatori").toInt();
@@ -65,14 +64,13 @@ Media* XmlIO::xmlToMedia(const QDomElement& elemento) const{
         int durata = elemento.attribute("durata").toInt();
         string editore = elemento.attribute("editore").toStdString();
 
-        return new GiocoDaTavolo(titolo, genere, anno, lingua, immagine, disponibilita, numero_copie, numeroGiocatori, etaMinima, durata, editore, in_prestito, collocazione, rating);
+        return new GiocoDaTavolo(titolo, autore, genere, anno, lingua, immagine, disponibilita, numero_copie, numeroGiocatori, etaMinima, durata, editore, in_prestito, collocazione, rating);
 
     } else if (tipo == "vinile"){
-        string artista = elemento.attribute("artista").toStdString();
         int numeroTracce = elemento.attribute("numero_tracce").toInt();
         int durata = elemento.attribute("durata").toInt();
 
-        return new Vinile(titolo, genere, anno, lingua, immagine, disponibilita, numero_copie, artista, numeroTracce, durata, in_prestito, collocazione, rating);
+        return new Vinile(titolo, autore, genere, anno, lingua, immagine, disponibilita, numero_copie, numeroTracce, durata, in_prestito, collocazione, rating);
     }
 
     return nullptr;

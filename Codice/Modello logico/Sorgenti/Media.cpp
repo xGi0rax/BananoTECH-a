@@ -5,14 +5,14 @@
 #include <QDomDocument>
 #include <QString>
 
-Media::Media(string titolo, string genere, int anno, string lingua, string immagine, bool disponibilita, 
+Media::Media(string titolo, string autore, string genere, int anno, string lingua, string immagine, bool disponibilita, 
             int numero_copie, int in_prestito, string collocazione, double rating) : 
-            titolo(titolo), genere(genere), anno(anno), lingua(lingua), immagine(immagine), disponibilita(disponibilita), 
-            numero_copie(numero_copie), in_prestito(in_prestito), collocazione(collocazione), rating(rating) {}
+            titolo(titolo), autore(autore), genere(genere), anno(anno), lingua(lingua), immagine(immagine), disponibilita(disponibilita), numero_copie(numero_copie), in_prestito(in_prestito), collocazione(collocazione), rating(rating) {}
 
 void Media::toJson(QJsonObject& jsonObj) const {
     jsonObj["id"] = QString::fromStdString(id);
     jsonObj["titolo"] = QString::fromStdString(titolo);
+    jsonObj["autore"] = QString::fromStdString(autore);
     jsonObj["genere"] = QString::fromStdString(genere);
     jsonObj["anno"] = anno;
     jsonObj["lingua"] = QString::fromStdString(lingua);
@@ -29,6 +29,7 @@ void Media::toXml(QDomElement& elemento, QDomDocument& doc) const {
     Q_UNUSED(doc); // Silenzia il warning per in non uso di doc
     elemento.setAttribute("id", QString::fromStdString(id));
     elemento.setAttribute("titolo", QString::fromStdString(titolo));
+    elemento.setAttribute("autore", QString::fromStdString(autore));
     elemento.setAttribute("genere", QString::fromStdString(genere));
     elemento.setAttribute("anno", anno);
     elemento.setAttribute("lingua", QString::fromStdString(lingua));
@@ -40,13 +41,13 @@ void Media::toXml(QDomElement& elemento, QDomDocument& doc) const {
     elemento.setAttribute("rating", rating);
 }
 
-Qstring Media::mediaInfo() const {
-    return QString("%1 - %2 (%3) %4")
-    .arg(QString::fromStdString(media->getTitolo())) 
-    .arg(QString::fromStdString(media->getGenere()))
-    .arg(QString::number(media->getAnno())) 
-    .arg(QString::number(media->getRating(), 'f', 1));
-}
+// QString Media::mediaInfo() const {
+//     return QString("%1 - %2 (%3) %4")
+//     .arg(QString::fromStdString(this->getTitolo())) 
+//     .arg(QString::fromStdString(this->getAutore()))
+//     .arg(QString::number(this->getAnno())) 
+//     .arg(QString::number(this->getRating(), 'f', 1));
+// }
 
 // Metodi getter
 string Media::getId() const{
@@ -55,6 +56,10 @@ string Media::getId() const{
 
 string Media::getTitolo() const{
     return titolo;
+}
+
+string Media::getAutore() const{
+    return autore;
 }
 
 string Media::getGenere() const{
@@ -100,6 +105,10 @@ void Media::setId(const string& id){
 
 void Media::setTitolo(const string& titolo){
     this->titolo = titolo;
+}
+
+void Media::setAutore(const string& autore){
+    this->autore = autore;
 }
 
 void Media::setGenere(const string& genere){

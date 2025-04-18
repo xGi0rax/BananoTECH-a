@@ -6,15 +6,14 @@
 #include <QDomElement>
 #include <QDomDocument>
 
-Libro::Libro(string titolo, string genere, int anno, string lingua, string immagine, bool disponibilita, 
-    int numero_copie, string isbn, string autore, string editore, int npagine,int in_prestito, string collocazione, double rating) : Media(titolo, genere, anno, lingua, immagine, disponibilita, numero_copie, in_prestito, collocazione, rating), 
-    isbn(isbn), autore(autore), editore(editore), npagine(npagine) {}
+Libro::Libro(string titolo, string autore, string genere, int anno, string lingua, string immagine, bool disponibilita, 
+    int numero_copie, string isbn, string editore, int npagine,int in_prestito, string collocazione, double rating) : Media(titolo, autore, genere, anno, lingua, immagine, disponibilita, numero_copie, in_prestito, collocazione, rating), 
+    isbn(isbn), editore(editore), npagine(npagine) {}
 
 void Libro::toJson(QJsonObject& jsonObj) const {
     Media::toJson(jsonObj);
     jsonObj["tipo"] = "libro";
     jsonObj["isbn"] = QString::fromStdString(isbn);
-    jsonObj["autore"] = QString::fromStdString(autore);
     jsonObj["editore"] = QString::fromStdString(editore);
     jsonObj["numero_pagine"] = npagine;
 }
@@ -24,7 +23,6 @@ void Libro::toXml(QDomElement& elemento, QDomDocument& doc) const {
     Media::toXml(elemento, doc);
     elemento.setAttribute("tipo", "libro");
     elemento.setAttribute("isbn", QString::fromStdString(isbn));
-    elemento.setAttribute("autore", QString::fromStdString(autore));
     elemento.setAttribute("editore", QString::fromStdString(editore));
     elemento.setAttribute("numero_pagine", npagine);
 }
@@ -32,10 +30,6 @@ void Libro::toXml(QDomElement& elemento, QDomDocument& doc) const {
 // Getter
 string Libro::getIsbn() const {
     return isbn;
-}
-
-string Libro::getAutore() const {
-    return autore;
 }
 
 string Libro::getEditore() const {
@@ -50,10 +44,6 @@ int Libro::getNPagine() const {
 
 void Libro::setIsbn(const string& isbn) {
     this->isbn = isbn;
-}
-
-void Libro::setAutore(const string& autore) {
-    this->autore = autore;
 }
 
 void Libro::setEditore(const string& editore) {

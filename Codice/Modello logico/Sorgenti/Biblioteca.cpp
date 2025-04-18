@@ -119,7 +119,6 @@ vector<Media*> Biblioteca::filtra(const string& titolo, const string& tipoMedia,
         if (corrisponde) {
             if (media->getRating() < ratingMin || media->getRating() > ratingMax){
                 corrisponde = false;
-                std::cout << "Questo media non corrisponde, ha rating " << media->getRating() << std::endl;
             }
         }
         
