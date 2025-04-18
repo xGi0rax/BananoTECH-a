@@ -9,7 +9,7 @@
 ### Giacomone
 - pagina "aggiungi"
 - pagina "modifica"
-- modificare file .h e .cpp con autore e con metodo infoMedia
+- modificare file .h e .cpp con autore e con metodo infoMedia  OK
 - gestione immagine di anteprima della sezione destra della mainPage
 
 ## Per prossima volta:
