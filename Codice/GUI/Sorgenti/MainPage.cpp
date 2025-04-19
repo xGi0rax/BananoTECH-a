@@ -12,7 +12,7 @@ MainPage::MainPage(QWidget *parent) : QWidget(parent) {
 }
 
 void MainPage::setupUI(){
-    // ---------- Barra superiore ----------------------
+    // ------------------------- Barra superiore ----------------------------
     backButton = new QPushButton("Indietro");
 
     addMediaButton = new QPushButton("Aggiungi Media");
@@ -21,25 +21,27 @@ void MainPage::setupUI(){
     addMediaButton->setMinimumSize(100, 30);
     //editModeButton->setMinimumSize(100, 30);
 
+    // Tasto indietro
     backButton->setStyleSheet(
         "QPushButton {"
         "   background-color: rgb(0, 104, 201);"
         "   color: white;"
         "   border: none;"
         "   border-radius: 4px;"
+        "   font-size: 12px;"
         "}"
         "QPushButton:hover {"
         "   background-color:rgb(11, 82, 189);"
         "}"
     );
-
     connect(backButton, &QPushButton::clicked, this, &MainPage::onBackButtonClicked);
 
     topBarLayout = new QHBoxLayout();
     topBarLayout->addWidget(backButton, 1);
     topBarLayout->addWidget(addMediaButton, 5);
 
-    // --------------- Menu filtri -------------------
+
+    // ------------------------------- Menu filtri --------------------------------
     // Selezione tipo media
     mediaTypeComboBox = new QComboBox();
     mediaTypeComboBox->addItem("Qualsiasi");
@@ -90,13 +92,15 @@ void MainPage::setupUI(){
     filtersLayout->addWidget(new QLabel("Anno massimo:"));
     filtersLayout->addWidget(maxYearLineEdit);
 
-    QGroupBox *filtersGroupBox = new QGroupBox("Filtri");
+    filtersGroupBox = new QGroupBox("Filtri");
     filtersGroupBox->setLayout(filtersLayout);
     filtersGroupBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 
-    // ---------------- Barra di ricerca e lista media -----------------
+
+    // ------------------------- Barra di ricerca e lista media ------------------------
     searchBar = new QLineEdit();
     searchBar->setPlaceholderText("Cerca per titolo...");
+    searchBar->setStyleSheet("QLineEdit { background-color: rgb(243, 229, 166); border: 2px solid rgb(119, 114, 114); padding: 5px; border-radius: 4px; font-size: 12px; }");
 
     mediaList = new QListWidget();
     mediaList->setViewMode(QListView::ListMode); // Modalità lista (righe)
@@ -104,12 +108,15 @@ void MainPage::setupUI(){
     mediaList->setMovement(QListView::Static); // Elementi non trascinabili
     mediaList->setSelectionMode(QAbstractItemView::SingleSelection); // Selezione singola
     mediaList->setStyleSheet(
-        "QListWidget { background-color:rgb(33, 50, 74); border: 2px solid rgb(119, 114, 114); }"
+        "QListWidget { background-color:rgb(33, 50, 74); border: 2px solid rgb(119, 114, 114); border-radius: 4px; font-size: 14px; }"
         "QListWidget::item { border-bottom:3px solid #ddd; padding: 8px; color: white; }"
         "QListWidget::item:hover { background-color:rgb(101, 123, 152); color: white;}"
         "QListWidget::item:selected { background-color:rgb(255, 208, 0); color: black; }"
+        "QListWidget::item:focus { outline: none; }"
     );
+    mediaList->setMinimumWidth(300); // Imposta un'altezza minima per la lista
 
+    // Lista di esempio
     vector<Media*> listaMedia = {
         new Libro("Il Nome della Rosa", "Paperino", "Giallo", 1980, "Italiano", ":/Immagini/default_libro.png", true, 5, "123456789", "Bompiani", 500, 0, "Scaffale A1", 4.5),
         new Film("Inception", "Paperino", "Fantascienza", 2010, "Inglese", ":/Immagini/default_film.png", true, 3, 148, {"Leonardo DiCaprio", "Joseph Gordon-Levitt"}, 0, "Scaffale B2", 5.0),
@@ -126,6 +133,7 @@ void MainPage::setupUI(){
         new GiocoDaTavolo("Carcassonne", "Paperino", "Strategia", 2000, "Italiano", ":/Immagini/default_gioco.png", true, 4, 2, 5, 35, "Klaus-Jürgen Wrede", 0, "Scaffale D4", 4.0)
     };
 
+
     for (Media* media : listaMedia) {
         QString mediaInfo = media->mediaInfo(); // Ottieni le informazioni del media
 
@@ -133,77 +141,86 @@ void MainPage::setupUI(){
         item->setData(Qt::UserRole, QVariant::fromValue(media)); // Save the media object
     }
 
+    mediaList->setFocusPolicy(Qt::NoFocus); // Disabilita il focus per la lista
+
+
     // Collega la selezione
     connect(mediaList, &QListWidget::itemClicked, this, &MainPage::onMediaSelected);
 
-    QVBoxLayout *centerLayout = new QVBoxLayout();
+    centerLayout = new QVBoxLayout();
     centerLayout->addWidget(searchBar);
     centerLayout->addWidget(mediaList);
 
-    // --------------------- Sezione destra -----------------------------
+
+    // ------------------------------ Sezione destra ----------------------------------
+    previewGroupBox = new QGroupBox("Anteprima");
+    
+    // Label per l'immagine del media
     mediaImageLabel = new QLabel();
-    mediaImageLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    mediaImageLabel->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
     mediaImageLabel->setAlignment(Qt::AlignCenter);
-    mediaImageLabel->setStyleSheet(
-        "border: 1px solid black; background-color: white;"
-    );
-    mediaImageLabel->setMinimumSize(200, 300);
+    mediaImageLabel->setMinimumSize(100, 100);
+    mediaImageLabel->setStyleSheet("border: 1px solid black; background-color: white; color: gray; font-size: 14px;");
+    mediaImageLabel->setText("Nessuna immagine");
 
-    // Imposta la politica di dimensionamento
-    mediaImageLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    mediaImageLabel->setScaledContents(false); // Importante per mantenere le proporzioni
+    // Label per le informazioni del media
+    mediaTitleLabel = new QLabel();
+    mediaAuthorLabel = new QLabel("Seleziona un media per vedere i dettagli");
+    mediaYearLabel = new QLabel();
+    mediaRatingLabel = new QLabel();
 
-    mediaInfoLabel = new QLabel("Seleziona un media per vedere i dettagli");
-    mediaTitleLabel = new QLabel("Titolo: ");
-    mediaAuthorLabel = new QLabel("Autore: ");
-    mediaYearLabel = new QLabel("Anno: ");
-    mediaRatingLabel = new QLabel("Rating: ");
-
-    QString labelStyle = "QLabel { font-size: 14px; margin: 5px; }";
-    mediaTitleLabel->setStyleSheet(labelStyle + "font-weight: bold; font-size: 16px;");
-    mediaAuthorLabel->setStyleSheet(labelStyle);
-    mediaYearLabel->setStyleSheet(labelStyle);
-    mediaRatingLabel->setStyleSheet(labelStyle);
-
-    // Pulsanti per la sezione destra
+    // Pulsanti
     borrowButton = new QPushButton("Prendi in prestito");
     detailsButton = new QPushButton("Approfondisci");
     editMediaButton = new QPushButton("Modifica media");
 
-    // Aggiungi nella funzione setupUI()
     borrowButton->setStyleSheet(
         "QPushButton {"
         "   background-color: rgb(0, 104, 201);"
         "   color: white;"
         "   border: none;"
         "   border-radius: 4px;"
+        "   font-size: 14px;"
+        "   padding: 3px;"
         "}"
         "QPushButton:hover {"
         "   background-color:rgb(11, 82, 189);"
         "}"
     );
 
+    detailsButton->setStyleSheet(
+        "QPushButton {"
+        "   font-size: 14px;"
+        "   padding: 2px;"
+        "}"
+    );
+
+    editMediaButton->setStyleSheet(
+        "QPushButton {"
+        "   font-size: 14px;"
+        "   padding: 2px;"
+        "}"
+    );
+
+    // Layout verticale per la sezione destra
     previewLayout = new QVBoxLayout();
     previewLayout->addWidget(mediaImageLabel);
     previewLayout->addWidget(mediaTitleLabel);
     previewLayout->addWidget(mediaAuthorLabel);
     previewLayout->addWidget(mediaYearLabel);
     previewLayout->addWidget(mediaRatingLabel);
-    previewLayout->addSpacing(10);
+    previewLayout->addStretch();
     previewLayout->addWidget(borrowButton);
     previewLayout->addWidget(detailsButton);
     previewLayout->addWidget(editMediaButton);
-    previewLayout->addStretch();
 
-    QGroupBox *previewGroupBox = new QGroupBox("Anteprima");
     previewGroupBox->setLayout(previewLayout);
-    previewGroupBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 
     // Layout principale
     contentLayout = new QHBoxLayout();
-    contentLayout->addWidget(filtersGroupBox, 1);
-    contentLayout->addLayout(centerLayout, 3);
-    contentLayout->addWidget(previewGroupBox, 2);
+    contentLayout->addWidget(filtersGroupBox, 2);
+    contentLayout->addLayout(centerLayout, 4);
+    contentLayout->addWidget(previewGroupBox, 3);
 
     mainLayout = new QVBoxLayout();
     mainLayout->addLayout(topBarLayout);
@@ -212,43 +229,71 @@ void MainPage::setupUI(){
     setLayout(mainLayout);
 }
 
-void MainPage::resizeEvent(QResizeEvent* event) {
-    QWidget::resizeEvent(event);
-    updateImageSize();
+void MainPage::updateImageSize(){
+    if (!originalPixmap.isNull()) {
+        // Calcola la dimensione massima disponibile per l'immagine
+        int maxImageWidth = this->width() / 3;
+        int availableWidth = qMin(previewGroupBox->width(), maxImageWidth); 
+        int availableHeight = previewGroupBox->height() / 2; // Metà altezza per l'immagine
+        
+        // Calcola la dimensione mantenendo le proporzioni
+        QSize newSize = originalPixmap.size();
+        newSize.scale(availableWidth, availableHeight, Qt::KeepAspectRatio);
+
+        QPixmap background(availableWidth, availableHeight);
+        background.fill(Qt::white);
+        
+        QPainter painter(&background);
+        int x = (availableWidth - newSize.width()) / 2;
+        int y = (availableHeight - newSize.height()) / 2;
+        painter.drawPixmap(x, y, originalPixmap.scaled(newSize, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+
+        // Imposta la dimensione calcolata
+        mediaImageLabel->setPixmap(background);
+        mediaImageLabel->setFixedSize(availableWidth, availableHeight);
+
+        mediaImageLabel->setPixmap(background);
+    } 
 }
 
-void MainPage::updateImageSize() {
-    if (!mediaImageLabel->pixmap().isNull()) {
-        QPixmap original = mediaImageLabel->pixmap();
-        // Calcola le dimensioni mantenendo le proporzioni originali
-        QSize labelSize = mediaImageLabel->size();
-        QPixmap scaled = original.scaled(labelSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        
-        mediaImageLabel->setPixmap(scaled);
-    }
+void MainPage::resizeEvent(QResizeEvent* event) {
+    QWidget::resizeEvent(event);
+
+    int maxImageWidth = this->width() / 3;
+    int imageWidth = qMin(previewGroupBox->width(), maxImageWidth);
+    int imageHeight = previewGroupBox->height() / 2;
+    
+    mediaImageLabel->setFixedSize(imageWidth, imageHeight); 
+
+    updateImageSize();
 }
 
 void MainPage::onMediaSelected(QListWidgetItem *item) {
     Media* selectedMedia = item->data(Qt::UserRole).value<Media*>();
-    if (!selectedMedia) {
-        return;
-    }
+    if (!selectedMedia) return;
+    
+    // Aggiorno l'anteprima con le informazioni del media selezionato
+    mediaTitleLabel->setText(QString::fromStdString(selectedMedia->getTitolo()));
+    mediaTitleLabel->setStyleSheet("font-weight: bold; font-size: 20px;");
+    mediaAuthorLabel->setText(QString::fromStdString(selectedMedia->getAutore()));
+    mediaAuthorLabel->setStyleSheet("font-size: 16px;");
+    mediaYearLabel->setText(QString::number(selectedMedia->getAnno()));
+    mediaYearLabel->setStyleSheet("font-size: 14px;");
 
-    // Aggiorna la sezione destra con le informazioni del media selezionato
-    mediaTitleLabel->setText("Titolo: " + QString::fromStdString(selectedMedia->getTitolo()));
-    mediaAuthorLabel->setText("Autore: " + QString::fromStdString(selectedMedia->getAutore()));
-    mediaYearLabel->setText("Anno: " + QString::number(selectedMedia->getAnno()));
-
-    // Mostra il rating con le stelline
+    // Aggiorno il rating con le stelline
     double rating = selectedMedia->getRating();
     QString stars = QString("Rating: %1 %2").arg(QString("★").repeated(static_cast<int>(rating))).arg(QString::number(rating, 'f', 1));
     mediaRatingLabel->setText(stars);
+    mediaRatingLabel->setStyleSheet("font-size: 14px;");
 
-    // Aggiorna l'immagine del media
+    // Aggiorno l'immagine
     QPixmap pixmap(QString::fromStdString(selectedMedia->getImmagine()));
     if (!pixmap.isNull()) {
-        originalPixmapSize = pixmap.size();
-        mediaImageLabel->setPixmap(pixmap);
+        originalPixmap = pixmap;
+        // Rimuovi il fixed size e usa minimum/maximum size invece
+        mediaImageLabel->setMinimumSize(150, 150); // Dimensione minima
+        mediaImageLabel->setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX); // Dimensione massima illimitata
+        updateImageSize(); // Aggiorna la dimensione dell'immagine
     } else {
         mediaImageLabel->setText("Immagine non disponibile");
         mediaImageLabel->setStyleSheet(
@@ -259,7 +304,7 @@ void MainPage::onMediaSelected(QListWidgetItem *item) {
         );
     }
 
-    // Abilita i pulsanti
+    // Abilito i pulsanti
     borrowButton->setEnabled(true);
     detailsButton->setEnabled(true);
     editMediaButton->setEnabled(true);
@@ -303,6 +348,6 @@ void MainPage::onMediaTypeChanged(int index) {
 }
 
 void MainPage::onBackButtonClicked() {
-    // Cambia pagina alla LoginPage
-    emit goToLoginPage(); // Emetti un segnale per notificare il cambio di pagina
+    // Torna alla pagina LoginPage
+    emit goToLoginPage(); // Emetto un segnale per notificare il cambio di pagina
 }

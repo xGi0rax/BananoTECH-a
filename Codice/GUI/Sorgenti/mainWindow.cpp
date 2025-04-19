@@ -14,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent) {
     stackedWidget->setCurrentWidget(loginPage);
 
     setWindowTitle("BananoTECH-a");
-    resize(800, 600);
+    resize(900, 650);
 }
 
 MainWindow::~MainWindow() {
