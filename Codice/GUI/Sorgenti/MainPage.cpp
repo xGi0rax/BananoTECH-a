@@ -76,21 +76,116 @@ void MainPage::setupUI(){
     maxYearLineEdit = new QLineEdit();
     maxYearLineEdit->setPlaceholderText("anno max");
 
+    // Pulsanti per applicare ed eliminare i filtri
+    applyFiltersButton = new QPushButton("Applica filtri");
+    clearFiltersButton = new QPushButton("Elimina filtri");
+
+    applyFiltersButton->setStyleSheet(
+        "QPushButton {"
+        "   background-color: rgb(255, 208, 0);"
+        "   color: black;"
+        "   border: 2px solid rgb(119, 114, 114);"
+        "   border-radius: 4px;"
+        "   font-size: 12px;"
+        "   padding: 5px;"
+        "}"
+        "QPushButton:hover {"
+        "   background-color: rgb(255, 170, 0);"
+        "}"
+    );
+
+    clearFiltersButton->setStyleSheet(
+        "QPushButton {"
+        "   background-color: rgb(255, 69, 0);"
+        "   color: white;"
+        "   border: 2px solid rgb(119, 114, 114);"
+        "   border-radius: 4px;"
+        "   font-size: 12px;"
+        "   padding: 5px;"
+        "}"
+        "QPushButton:hover {"
+        "   background-color: rgb(200, 50, 0);"
+        "}"
+    );
+
+    // Separatore orizzontale
+    QFrame *separator = new QFrame();
+    separator->setFrameShape(QFrame::HLine);
+    separator->setFrameShadow(QFrame::Sunken);
+
     filtersLayout = new QVBoxLayout();
     filtersLayout->addWidget(new QLabel("Tipo media:"));
     filtersLayout->addWidget(mediaTypeComboBox);
+
+    // Separatore sottile dopo il filtro tipo media
+    QFrame *separator1 = new QFrame();
+    separator1->setFrameShape(QFrame::HLine);
+    separator1->setFrameShadow(QFrame::Sunken);
+    separator1->setMaximumHeight(1);
+    filtersLayout->addWidget(separator1);
+
     filtersLayout->addWidget(new QLabel("Genere:")); 
     filtersLayout->addWidget(genreComboBox);
+
+    // Separatore sottile dopo il filtro genere
+    QFrame *separator2 = new QFrame();
+    separator2->setFrameShape(QFrame::HLine);
+    separator2->setFrameShadow(QFrame::Sunken);
+    separator2->setMaximumHeight(1);
+    filtersLayout->addWidget(separator2);
+
     filtersLayout->addWidget(new QLabel("Rating"));
     filtersLayout->addWidget(ratingLineEdit);
-    filtersLayout->addWidget(new QLabel("Disponibile:"));
+
+    // Separatore sottile dopo il filtro rating
+    QFrame *separator3 = new QFrame();
+    separator3->setFrameShape(QFrame::HLine);
+    separator3->setFrameShadow(QFrame::Sunken);
+    separator3->setMaximumHeight(1);
+    filtersLayout->addWidget(separator3);
+
+    filtersLayout->addWidget(new QLabel("Disponibilità:"));
     filtersLayout->addWidget(availableCheckBox);
+
+    // Separatore sottile dopo il filtro disponibilità
+    QFrame *separator4 = new QFrame();
+    separator4->setFrameShape(QFrame::HLine);
+    separator4->setFrameShadow(QFrame::Sunken);
+    separator4->setMaximumHeight(1);
+    filtersLayout->addWidget(separator4);
+
     filtersLayout->addWidget(new QLabel("Lingua:"));
     filtersLayout->addWidget(languageLineEdit);
+
+    // Separatore sottile dopo il filtro lingua
+    QFrame *separator5 = new QFrame();
+    separator5->setFrameShape(QFrame::HLine);
+    separator5->setFrameShadow(QFrame::Sunken);
+    separator5->setMaximumHeight(1);
+    filtersLayout->addWidget(separator5);
+
     filtersLayout->addWidget(new QLabel("Anno minimo:"));
     filtersLayout->addWidget(minYearLineEdit);
+
+    // Separatore sottile dopo il filtro anno minimo
+    QFrame *separator6 = new QFrame();
+    separator6->setFrameShape(QFrame::HLine);
+    separator6->setFrameShadow(QFrame::Sunken);
+    separator6->setMaximumHeight(1);
+    filtersLayout->addWidget(separator6);
+
     filtersLayout->addWidget(new QLabel("Anno massimo:"));
     filtersLayout->addWidget(maxYearLineEdit);
+
+    QFrame *separator7 = new QFrame();
+    separator7->setFrameShape(QFrame::HLine);
+    separator7->setFrameShadow(QFrame::Sunken);
+    separator7->setMaximumHeight(2);
+    filtersLayout->addWidget(separator7);
+
+    // Aggiunta dei pulsanti al layout contenitore
+    filtersLayout->addWidget(applyFiltersButton);
+    filtersLayout->addWidget(clearFiltersButton);
 
     filtersGroupBox = new QGroupBox("Filtri");
     filtersGroupBox->setLayout(filtersLayout);
@@ -100,20 +195,13 @@ void MainPage::setupUI(){
     // ------------------------- Barra di ricerca e lista media ------------------------
     searchBar = new QLineEdit();
     searchBar->setPlaceholderText("Cerca per titolo...");
-    searchBar->setStyleSheet("QLineEdit { background-color: rgb(243, 229, 166); border: 2px solid rgb(119, 114, 114); padding: 5px; border-radius: 4px; font-size: 12px; }");
+    searchBar->setStyleSheet("QLineEdit { background-color: rgb(255, 208, 0); color: black; border: 2px solid rgb(119, 114, 114); padding: 5px; border-radius: 4px; font-size: 12px; }");
 
     mediaList = new QListWidget();
     mediaList->setViewMode(QListView::ListMode); // Modalità lista (righe)
     mediaList->setResizeMode(QListView::Adjust); // Adatta le dimensioni
     mediaList->setMovement(QListView::Static); // Elementi non trascinabili
     mediaList->setSelectionMode(QAbstractItemView::SingleSelection); // Selezione singola
-    mediaList->setStyleSheet(
-        "QListWidget { background-color:rgb(33, 50, 74); border: 2px solid rgb(119, 114, 114); border-radius: 4px; font-size: 14px; }"
-        "QListWidget::item { border-bottom:3px solid #ddd; padding: 8px; color: white; }"
-        "QListWidget::item:hover { background-color:rgb(101, 123, 152); color: white;}"
-        "QListWidget::item:selected { background-color:rgb(255, 208, 0); color: black; }"
-        "QListWidget::item:focus { outline: none; }"
-    );
     mediaList->setMinimumWidth(300); // Imposta un'altezza minima per la lista
 
     // Lista di esempio
@@ -137,15 +225,41 @@ void MainPage::setupUI(){
     for (Media* media : listaMedia) {
         QString mediaInfo = media->mediaInfo(); // Ottieni le informazioni del media
 
+        // Crea l'elemento della lista
         QListWidgetItem *item = new QListWidgetItem(mediaInfo, mediaList);
-        item->setData(Qt::UserRole, QVariant::fromValue(media)); // Save the media object
+        
+        // Carica l'immagine del media
+        QPixmap pixmap(QString::fromStdString(media->getImmagine()));
+        if (!pixmap.isNull()) {
+            // Ridimensiona l'immagine a una dimensione appropriata per un'icona (es: 32x32 pixel)
+            QPixmap scaledPixmap = pixmap.scaled(32, 32, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+            
+            // Imposta l'immagine ridimensionata come icona dell'elemento
+            item->setIcon(QIcon(scaledPixmap));
+            
+            // Imposta la dimensione del testo in modo che ci sia spazio per l'icona
+            item->setSizeHint(QSize(mediaList->width(), 40)); // Altezza un po' maggiore per accogliere l'icona
+        }
+        
+        // Salva l'oggetto media nei dati dell'elemento
+        item->setData(Qt::UserRole, QVariant::fromValue(media));
     }
 
     mediaList->setFocusPolicy(Qt::NoFocus); // Disabilita il focus per la lista
 
+    mediaList->setIconSize(QSize(27, 27)); // Imposta la dimensione dell'icona
+    mediaList->setStyleSheet(
+    "QListWidget { background-color:rgb(33, 50, 74); border: 2px solid rgb(119, 114, 114); border-radius: 4px; font-size: 14px; }"
+    "QListWidget::item { border-bottom:3px solid #ddd; padding: 8px; padding-left: 4px; color: white; }" // Riduci il padding a sinistra da 40px a 10px
+    "QListWidget::item:hover { background-color:rgb(101, 123, 152); color: white;}"
+    "QListWidget::item:selected { background-color:rgb(255, 208, 0); color: black; }"
+    "QListWidget::item:focus { outline: none; }"
+);
 
     // Collega la selezione
     connect(mediaList, &QListWidget::itemClicked, this, &MainPage::onMediaSelected);
+    connect(applyFiltersButton, &QPushButton::clicked, this, &MainPage::onApplyFiltersClicked);
+    connect(clearFiltersButton, &QPushButton::clicked, this, &MainPage::onClearFiltersClicked);
 
     centerLayout = new QVBoxLayout();
     centerLayout->addWidget(searchBar);
@@ -350,4 +464,21 @@ void MainPage::onMediaTypeChanged(int index) {
 void MainPage::onBackButtonClicked() {
     // Torna alla pagina LoginPage
     emit goToLoginPage(); // Emetto un segnale per notificare il cambio di pagina
+}
+
+void MainPage::onApplyFiltersClicked() {
+    // Logica per applicare i filtri impostati dall'utente
+    // Esempio: aggiorna la lista dei media in base ai filtri
+    qDebug() << "Filtri applicati!";
+}
+
+void MainPage::onClearFiltersClicked() {
+    // Logica per eliminare i filtri impostati
+    mediaTypeComboBox->setCurrentIndex(0);
+    genreComboBox->setCurrentIndex(0);
+    ratingLineEdit->clear();
+    languageLineEdit->clear();
+    minYearLineEdit->clear();
+    maxYearLineEdit->clear();
+    qDebug() << "Filtri eliminati!";
 }

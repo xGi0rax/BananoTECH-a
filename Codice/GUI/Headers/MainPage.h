@@ -28,6 +28,8 @@ public:
 private slots:
     void onMediaTypeChanged(int index);
     void onBackButtonClicked();
+    void onApplyFiltersClicked(); // Slot per applicare i filtri
+    void onClearFiltersClicked(); // Slot per cancellare i filtri
 
 signals:
     void goToLoginPage(); // Segnale per notificare il cambio alla LoginPage
@@ -45,6 +47,8 @@ private:
     QLineEdit *maxYearLineEdit;
     QLineEdit *ratingLineEdit;
     QLineEdit *languageLineEdit;
+    QPushButton *applyFiltersButton; // Pulsante per applicare i filtri
+    QPushButton *clearFiltersButton; // Pulsante per eliminare i filtri
 
     // Sezione centrale
     QLineEdit *searchBar;
