@@ -2,9 +2,9 @@
 ## Compiti x casa:
 ### Giacomino
 - pagina "approfondisci"
-- immagini accanto a media della lista centrale
-- tasto applica filtri e rimuovi filtri
-- sistemare visualizzazione filtri
+- immagini accanto a media della lista centrale OK
+- tasto applica filtri e rimuovi filtri OK
+- sistemare visualizzazione filtri OK
 
 ### Giacomone
 - pagina "aggiungi"
