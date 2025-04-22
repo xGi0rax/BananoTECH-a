@@ -206,19 +206,19 @@ void MainPage::setupUI(){
 
     // Lista di esempio
     vector<Media*> listaMedia = {
-        new Libro("Il Nome della Rosa", "Paperino", "Giallo", 1980, "Italiano", ":/Immagini/default_libro.png", true, 5, "123456789", "Bompiani", 500, 0, "Scaffale A1", 4.5),
-        new Film("Inception", "Paperino", "Fantascienza", 2010, "Inglese", ":/Immagini/default_film.png", true, 3, 148, {"Leonardo DiCaprio", "Joseph Gordon-Levitt"}, 0, "Scaffale B2", 5.0),
-        new Vinile("The Dark Side of the Moon", "Paperino", "Rock", 1973, "Inglese", ":/Immagini/default_vinile.png", true, 2,  10, 43, 0, "Scaffale C3", 5.0),
-        new GiocoDaTavolo("Catan", "Paperino", "Strategia", 1995, "Italiano", ":/Immagini/default_gioco.png", true, 4, 4, 10, 60, "Klaus Teuber", 0, "Scaffale D4", 4.0),
-        new Rivista("National Geographic", "Paperino", "Scientifica", 2023, "Italiano", ":/Immagini/default_rivista.png", true, 10, "National Geographic Society", 100, "2023-04-01", "Mensile", 0, "Scaffale E5", 4.8),
-        new Rivista("Time", "Paperino", "Attualità", 2023, "Italiano", ":/Immagini/default_rivista.png", true, 10, "Time Inc.", 100, "2023-04-01", "Settimanale", 0, "Scaffale E5", 4.5),
-        new Rivista("Vogue", "Paperino", "Moda", 2023, "Italiano", ":/Immagini/default_rivista.png", true, 10, "Condé Nast", 100, "2023-04-01", "Mensile", 0, "Scaffale E5", 4.2),
-        new Libro("Il Codice Da Vinci", "Paperino", "Giallo", 2003, "Italiano", ":/Immagini/default_libro.png", true, 5, "123456789", "Mondadori", 500, 0, "Scaffale A1", 4.0),
-        new Libro("1984", "Paperino", "Fantascienza", 1949, "Italiano", ":/Immagini/default_libro.png", true, 5, "123456789", "Mondadori", 500, 0, "Scaffale A1", 4.8),
-        new Film("The Shawshank Redemption", "Paperino", "Drammatico", 1994, "Inglese", ":/Immagini/default_film.png", true, 3, 142, {"Tim Robbins", "Morgan Freeman"}, 0, "Scaffale B2", 5.0),
-        new Film("Pulp Fiction", "Paperino", "Commedia", 1994, "Inglese", ":/Immagini/default_film.png", true, 3, 154, {"John Travolta", "Uma Thurman"}, 0, "Scaffale B2", 4.5),
-        new GiocoDaTavolo("Ticket to Ride", "Paperino", "Strategia", 2004, "Italiano", ":/Immagini/default_gioco.png", true, 4, 2, 5, 120, "Alan R. Moon", 0, "Scaffale D4", 4.5),
-        new GiocoDaTavolo("Carcassonne", "Paperino", "Strategia", 2000, "Italiano", ":/Immagini/default_gioco.png", true, 4, 2, 5, 35, "Klaus-Jürgen Wrede", 0, "Scaffale D4", 4.0)
+        new Libro("Il Nome della Rosa", "Paperino", "Giallo", 1980, "Italiano", ":/Immagini/LogoLibro1.png", true, 5, "123456789", "Bompiani", 500, 0, "Scaffale A1", 4.5),
+        new Film("Inception", "Paperino", "Fantascienza", 2010, "Inglese", ":/Immagini/LogoFilm1.png", true, 3, 148, {"Leonardo DiCaprio", "Joseph Gordon-Levitt"}, 0, "Scaffale B2", 5.0),
+        new Vinile("The Dark Side of the Moon", "Paperino", "Rock", 1973, "Inglese", ":/Immagini/LogoVinile1.png", true, 2,  10, 43, 0, "Scaffale C3", 5.0),
+        new GiocoDaTavolo("Catan", "Paperino", "Strategia", 1995, "Italiano", ":/Immagini/LogoGioco1.png", true, 4, 4, 10, 60, "Klaus Teuber", 0, "Scaffale D4", 4.0),
+        new Rivista("National Geographic", "Paperino", "Scientifica", 2023, "Italiano", ":/Immagini/LogoRivista1.png", true, 10, "National Geographic Society", 100, "2023-04-01", "Mensile", 0, "Scaffale E5", 4.8),
+        new Rivista("Time", "Paperino", "Attualità", 2023, "Italiano", ":/Immagini/LogoRivista1.png", true, 10, "Time Inc.", 100, "2023-04-01", "Settimanale", 0, "Scaffale E5", 4.5),
+        new Rivista("Vogue", "Paperino", "Moda", 2023, "Italiano", ":/Immagini/LogoRivista1.png", true, 10, "Condé Nast", 100, "2023-04-01", "Mensile", 0, "Scaffale E5", 4.2),
+        new Libro("Il Codice Da Vinci", "Paperino", "Giallo", 2003, "Italiano", ":/Immagini/LogoLibro1.png", true, 5, "123456789", "Mondadori", 500, 0, "Scaffale A1", 4.0),
+        new Libro("1984", "Paperino", "Fantascienza", 1949, "Italiano", ":/Immagini/LogoLibro1.png", true, 5, "123456789", "Mondadori", 500, 0, "Scaffale A1", 4.8),
+        new Film("The Shawshank Redemption", "Paperino", "Drammatico", 1994, "Inglese", ":/Immagini/LogoFilm1.png", true, 3, 142, {"Tim Robbins", "Morgan Freeman"}, 0, "Scaffale B2", 5.0),
+        new Film("Pulp Fiction", "Paperino", "Commedia", 1994, "Inglese", ":/Immagini/LogoFilm1.png", true, 3, 154, {"John Travolta", "Uma Thurman"}, 0, "Scaffale B2", 4.5),
+        new GiocoDaTavolo("Ticket to Ride", "Paperino", "Strategia", 2004, "Italiano", ":/Immagini/LogoGioco1.png", true, 4, 2, 5, 120, "Alan R. Moon", 0, "Scaffale D4", 4.5),
+        new GiocoDaTavolo("Carcassonne", "Paperino", "Strategia", 2000, "Italiano", ":/Immagini/LogoGioco1.png", true, 4, 2, 5, 35, "Klaus-Jürgen Wrede", 0, "Scaffale D4", 4.0)
     };
 
 
@@ -249,8 +249,8 @@ void MainPage::setupUI(){
 
     mediaList->setIconSize(QSize(27, 27)); // Imposta la dimensione dell'icona
     mediaList->setStyleSheet(
-    "QListWidget { background-color:rgb(33, 50, 74); border: 2px solid rgb(119, 114, 114); border-radius: 4px; font-size: 14px; }"
-    "QListWidget::item { border-bottom:3px solid #ddd; padding: 8px; padding-left: 4px; color: white; }" // Riduci il padding a sinistra da 40px a 10px
+    "QListWidget { background-color:rgb(81, 125, 187); border: 2px solid rgb(119, 114, 114); border-radius: 4px; font-size: 14px; }"
+    "QListWidget::item { border-bottom:3px solid #ddd; padding: 8px; padding-left: 4px; color: white; }"
     "QListWidget::item:hover { background-color:rgb(101, 123, 152); color: white;}"
     "QListWidget::item:selected { background-color:rgb(255, 208, 0); color: black; }"
     "QListWidget::item:focus { outline: none; }"

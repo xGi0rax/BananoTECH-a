@@ -154,12 +154,12 @@ compiler_rcc_clean:
 release/qrc_resources.cpp: resources.qrc \
 		C:/Qt/6.8.1/mingw_64/bin/rcc.exe \
 		Immagini/icon1.png \
-		Immagini/default_libro.png \
-		Immagini/default_gioco.png \
+		Immagini/LogoGioco1.png \
 		Immagini/Sfondo1Definitivo.jpg \
-		Immagini/default_rivista.png \
-		Immagini/default_vinile.png \
-		Immagini/default_film.png
+		Immagini/LogoRivista1.png \
+		Immagini/LogoLibro1.png \
+		Immagini/LogoVinile1.png \
+		Immagini/LogoFilm1.png
 	C:\Qt\6.8.1\mingw_64\bin\rcc.exe -name resources --no-zstd resources.qrc -o release\qrc_resources.cpp
 
 compiler_moc_predefs_make_all: release/moc_predefs.h
@@ -419,6 +419,9 @@ release/moc_MainWindow.cpp: Codice/GUI/Headers/MainWindow.h \
 		C:/Qt/6.8.1/mingw_64/include/QtWidgets/QSizePolicy \
 		C:/Qt/6.8.1/mingw_64/include/QtWidgets/QCheckBox \
 		C:/Qt/6.8.1/mingw_64/include/QtWidgets/qcheckbox.h \
+		C:/Qt/6.8.1/mingw_64/include/QtWidgets/QListWidgetItem \
+		C:/Qt/6.8.1/mingw_64/include/QtGui/QPainter \
+		C:/Qt/6.8.1/mingw_64/include/QtGui/qpainter.h \
 		release/moc_predefs.h \
 		C:/Qt/6.8.1/mingw_64/bin/moc.exe
 	C:\Qt\6.8.1\mingw_64\bin\moc.exe $(DEFINES) --include "C:/Users/Huawei/Desktop/Università/2023-24/2 Anno/2. Secondo semestre/PAO - progetto/BananoTECH-a/release/moc_predefs.h" -IC:/Qt/6.8.1/mingw_64/mkspecs/win32-g++ -I"C:/Users/Huawei/Desktop/Università/2023-24/2 Anno/2. Secondo semestre/PAO - progetto/BananoTECH-a" -I"C:/Users/Huawei/Desktop/Università/2023-24/2 Anno/2. Secondo semestre/PAO - progetto/BananoTECH-a" -IC:/Qt/6.8.1/mingw_64/include -IC:/Qt/6.8.1/mingw_64/include/QtWidgets -IC:/Qt/6.8.1/mingw_64/include/QtGui -IC:/Qt/6.8.1/mingw_64/include/QtXml -IC:/Qt/6.8.1/mingw_64/include/QtCore -IC:/msys64/mingw64/include/c++/13.2.0 -IC:/msys64/mingw64/include/c++/13.2.0/x86_64-w64-mingw32 -IC:/msys64/mingw64/include/c++/13.2.0/backward -IC:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/13.2.0/include -IC:/msys64/mingw64/include -IC:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/13.2.0/include-fixed Codice\GUI\Headers\MainWindow.h -o release\moc_MainWindow.cpp
@@ -875,6 +878,9 @@ release/moc_MainPage.cpp: Codice/GUI/Headers/MainPage.h \
 		C:/Qt/6.8.1/mingw_64/include/QtWidgets/QSizePolicy \
 		C:/Qt/6.8.1/mingw_64/include/QtWidgets/QCheckBox \
 		C:/Qt/6.8.1/mingw_64/include/QtWidgets/qcheckbox.h \
+		C:/Qt/6.8.1/mingw_64/include/QtWidgets/QListWidgetItem \
+		C:/Qt/6.8.1/mingw_64/include/QtGui/QPainter \
+		C:/Qt/6.8.1/mingw_64/include/QtGui/qpainter.h \
 		release/moc_predefs.h \
 		C:/Qt/6.8.1/mingw_64/bin/moc.exe
 	C:\Qt\6.8.1\mingw_64\bin\moc.exe $(DEFINES) --include "C:/Users/Huawei/Desktop/Università/2023-24/2 Anno/2. Secondo semestre/PAO - progetto/BananoTECH-a/release/moc_predefs.h" -IC:/Qt/6.8.1/mingw_64/mkspecs/win32-g++ -I"C:/Users/Huawei/Desktop/Università/2023-24/2 Anno/2. Secondo semestre/PAO - progetto/BananoTECH-a" -I"C:/Users/Huawei/Desktop/Università/2023-24/2 Anno/2. Secondo semestre/PAO - progetto/BananoTECH-a" -IC:/Qt/6.8.1/mingw_64/include -IC:/Qt/6.8.1/mingw_64/include/QtWidgets -IC:/Qt/6.8.1/mingw_64/include/QtGui -IC:/Qt/6.8.1/mingw_64/include/QtXml -IC:/Qt/6.8.1/mingw_64/include/QtCore -IC:/msys64/mingw64/include/c++/13.2.0 -IC:/msys64/mingw64/include/c++/13.2.0/x86_64-w64-mingw32 -IC:/msys64/mingw64/include/c++/13.2.0/backward -IC:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/13.2.0/include -IC:/msys64/mingw64/include -IC:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/13.2.0/include-fixed Codice\GUI\Headers\MainPage.h -o release\moc_MainPage.cpp
@@ -1147,7 +1153,10 @@ release/main.o: main.cpp C:/Qt/6.8.1/mingw_64/include/QtWidgets/QApplication \
 		C:/Qt/6.8.1/mingw_64/include/QtGui/QPixmap \
 		C:/Qt/6.8.1/mingw_64/include/QtWidgets/QSizePolicy \
 		C:/Qt/6.8.1/mingw_64/include/QtWidgets/QCheckBox \
-		C:/Qt/6.8.1/mingw_64/include/QtWidgets/qcheckbox.h
+		C:/Qt/6.8.1/mingw_64/include/QtWidgets/qcheckbox.h \
+		C:/Qt/6.8.1/mingw_64/include/QtWidgets/QListWidgetItem \
+		C:/Qt/6.8.1/mingw_64/include/QtGui/QPainter \
+		C:/Qt/6.8.1/mingw_64/include/QtGui/qpainter.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\main.o main.cpp
 
 release/Biblioteca.o: Codice/Modello\ logico/Sorgenti/Biblioteca.cpp Codice/Modello\ logico/Headers/Biblioteca.h \
@@ -2573,7 +2582,10 @@ release/MainWindow.o: Codice/GUI/Sorgenti/MainWindow.cpp Codice/GUI/Headers/Main
 		C:/Qt/6.8.1/mingw_64/include/QtGui/QPixmap \
 		C:/Qt/6.8.1/mingw_64/include/QtWidgets/QSizePolicy \
 		C:/Qt/6.8.1/mingw_64/include/QtWidgets/QCheckBox \
-		C:/Qt/6.8.1/mingw_64/include/QtWidgets/qcheckbox.h
+		C:/Qt/6.8.1/mingw_64/include/QtWidgets/qcheckbox.h \
+		C:/Qt/6.8.1/mingw_64/include/QtWidgets/QListWidgetItem \
+		C:/Qt/6.8.1/mingw_64/include/QtGui/QPainter \
+		C:/Qt/6.8.1/mingw_64/include/QtGui/qpainter.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\MainWindow.o Codice\GUI\Sorgenti\MainWindow.cpp
 
 release/LoginPage.o: Codice/GUI/Sorgenti/LoginPage.cpp Codice/GUI/Headers/LoginPage.h \
@@ -3029,6 +3041,9 @@ release/MainPage.o: Codice/GUI/Sorgenti/MainPage.cpp C:/Qt/6.8.1/mingw_64/includ
 		C:/Qt/6.8.1/mingw_64/include/QtWidgets/QSizePolicy \
 		C:/Qt/6.8.1/mingw_64/include/QtWidgets/QCheckBox \
 		C:/Qt/6.8.1/mingw_64/include/QtWidgets/qcheckbox.h \
+		C:/Qt/6.8.1/mingw_64/include/QtWidgets/QListWidgetItem \
+		C:/Qt/6.8.1/mingw_64/include/QtGui/QPainter \
+		C:/Qt/6.8.1/mingw_64/include/QtGui/qpainter.h \
 		Codice/Modello\ logico/Headers/Media.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/QString \
 		Codice/Modello\ logico/Headers/Libro.h \
