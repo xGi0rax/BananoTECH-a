@@ -2,17 +2,14 @@
 ## Compiti x casa:
 ### Giacomino
 - pagina "approfondisci"
-- immagini accanto a media della lista centrale OK
-- tasto applica filtri e rimuovi filtri OK
-- sistemare visualizzazione filtri OK
+- sistemare visualizzazione filtri (linee)
 
 ### Giacomone
 - pagina "aggiungi"
 - pagina "modifica"
-- modificare file .h e .cpp con autore e con metodo infoMedia  OK
-- gestione immagine di anteprima della sezione destra della mainPage
+- Inserire il filtro "disponibilita" nel metodo filtra della classe Biblioteca
 
 ## Per prossima volta:
+- Tasti modifica e rimuovi su ogni media della lista
 - Capire come far scegliere il file Json
-- Inserire il filtro "disponibilita" nel metodo filtra della classe Biblioteca
 
