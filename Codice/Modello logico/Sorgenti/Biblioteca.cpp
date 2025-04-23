@@ -73,7 +73,7 @@ Media* Biblioteca::cercaMediaDaID(const string& id) const{
     return nullptr;
 }
 
-vector<Media*> Biblioteca::filtra(const string& titolo, const string& tipoMedia, const string& genere, int annoMin, int annoMax, const string& lingua, double ratingMin, double ratingMax) const {
+vector<Media*> Biblioteca::filtra(const string& titolo, const string& tipoMedia, const string& genere, double ratingMin, double ratingMax, bool disponibilita, const string& lingua, int annoMin, int annoMax) const {
     
     vector<Media*> risultati;
 
@@ -104,9 +104,15 @@ vector<Media*> Biblioteca::filtra(const string& titolo, const string& tipoMedia,
             if (media->getGenere().find(genere) == string::npos)
                 corrisponde = false;
         }
-        // Filtro per anno
+        // Filtro per rating
         if (corrisponde) {
-            if (media->getAnno() < annoMin || media->getAnno() > annoMax)
+            if (media->getRating() < ratingMin || media->getRating() > ratingMax){
+                corrisponde = false;
+            }
+        }
+        // Filtro per disponibilità
+        if (corrisponde && disponibilita) {
+            if (!media->getDisponibilita())
                 corrisponde = false;
         }
         // Filtro per lingua
@@ -115,12 +121,11 @@ vector<Media*> Biblioteca::filtra(const string& titolo, const string& tipoMedia,
                 corrisponde = false;
             }
         }
-        // Filtro per rating
+        // Filtro per anno
         if (corrisponde) {
-            if (media->getRating() < ratingMin || media->getRating() > ratingMax){
+            if (media->getAnno() < annoMin || media->getAnno() > annoMax)
                 corrisponde = false;
-            }
-        }
+        }        
         
         // Aggiunta media ai risultati se corrisponde ai filtri
         if (corrisponde) {

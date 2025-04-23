@@ -29,11 +29,12 @@ public:
     vector<Media*> filtra(const string& titolo = "",
                             const string& tipoMedia = "",
                             const string& genere = "",
-                            int annoMin = 1200,
-                            int annoMax = 2050,
-                            const string& lingua = "",
                             double ratingMin = 0.0,
-                            double ratingMax = 5.0
+                            double ratingMax = 5.0,
+                            bool disponibilita = true,
+                            const string& lingua = "",
+                            int annoMin = 1200,
+                            int annoMax = 2050
                             ) const;
     
     int getNumeroTotaleMedia() const;
