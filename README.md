@@ -7,7 +7,7 @@
 ### Giacomone
 - pagina "aggiungi"
 - pagina "modifica"
-- Inserire il filtro "disponibilita" nel metodo filtra della classe Biblioteca
+- Inserire il filtro "disponibilita" nel metodo filtra della classe Biblioteca OK
 
 ## Per prossima volta:
 - Tasti modifica e rimuovi su ogni media della lista
