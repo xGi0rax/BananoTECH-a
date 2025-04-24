@@ -11,7 +11,9 @@ debug/Vinile.o
 debug/MainWindow.o
 debug/LoginPage.o
 debug/MainPage.o
+debug/AddPage.o
 debug/qrc_resources.o
 debug/moc_MainWindow.o
 debug/moc_LoginPage.o
 debug/moc_MainPage.o
+debug/moc_AddPage.o

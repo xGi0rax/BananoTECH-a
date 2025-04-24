@@ -11,6 +11,7 @@
 #include "../../Modello logico/Headers/Biblioteca.h"
 #include "LoginPage.h"
 #include "MainPage.h"
+#include "AddPage.h"
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -21,7 +22,9 @@ public:
 
 private slots:
     void onLoginButtonClicked();
-    void showLoginPage(); // Slot per tornare alla LoginPage
+    void switchToLoginPage(); // Slot per tornare alla LoginPage
+    void switchToMainPage(); // Slot per passare alla MainPage
+    void switchToAddPage(); // Slot per passare alla AddPage
 
 private:
     QStackedWidget *stackedWidget;
@@ -34,8 +37,12 @@ private:
 
     Biblioteca *biblioteca; // Oggetto Biblioteca per gestire i media
 
+    // Pagina di aggiunta media
+    AddPage *addPage;
+
     void setupLoginPage();
     void setupMainPage();
+    void setupAddPage();
     bool validateLogin(const QString &username, const QString &password);
 };
 

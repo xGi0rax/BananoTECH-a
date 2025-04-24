@@ -17,6 +17,7 @@
 #include <QListWidgetItem>
 #include <QPixmap>
 #include <QPainter>
+#include "AddPage.h"
 
 class MainPage : public QWidget {
     Q_OBJECT
@@ -26,13 +27,15 @@ public:
     void onMediaSelected(QListWidgetItem *item);
 
 private slots:
-    void onMediaTypeChanged(int index);
-    void onBackButtonClicked();
+    void onBackButtonClicked();  // Slot per il tasto indietro
+    void onMediaTypeChanged(int index); // Slot per il cambio del tipo di media nei filtri
     void onApplyFiltersClicked(); // Slot per applicare i filtri
     void onClearFiltersClicked(); // Slot per cancellare i filtri
+    void onAddMediaButtonClicked(); // Slot per aggiungere un nuovo media
 
 signals:
     void goToLoginPage(); // Segnale per notificare il cambio alla LoginPage
+    void goToAddPage(); // Segnale per notificare il cambio alla AddPage
 
 private:
     // Barra superiore

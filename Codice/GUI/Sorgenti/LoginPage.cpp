@@ -34,6 +34,9 @@ LoginPage::LoginPage(QWidget *parent) : QWidget(parent) {
     loginButton->setFixedSize(150, 45);
     loginButton->setStyleSheet("QPushButton { background-color:rgb(230, 209, 26); border: 1px solid #AAAAAA; border-radius: 5px; padding: 8px 16px; font-size: 18px;}"
         "QPushButton:hover { background-color: rgb(184, 174, 90); }");
+    
+        // Collegamento del pulsante di login
+    connect(loginButton, &QPushButton::clicked, this, &LoginPage::onLoginButtonClicked);
 
     // Label per messaggi di errore
     errorLabel = new QLabel(loginFrame);
@@ -41,10 +44,10 @@ LoginPage::LoginPage(QWidget *parent) : QWidget(parent) {
     errorLabel->setAlignment(Qt::AlignCenter);
     errorLabel->setText("Inserisci Username e Password per accedere.");
 
-    // Layout verticale per i widget di login
+    // Layout verticale per il contenuto del frame
     QVBoxLayout *loginWidgetsLayout = new QVBoxLayout();
 
-    loginWidgetsLayout->setContentsMargins(10, 10, 10, 10); // Margini interni
+    loginWidgetsLayout->setContentsMargins(10, 10, 10, 10); 
     loginWidgetsLayout->setSpacing(10); // Spaziatura tra i widget
 
     loginWidgetsLayout->addWidget(welcomeLabel);
@@ -64,8 +67,7 @@ LoginPage::LoginPage(QWidget *parent) : QWidget(parent) {
 
     this->setLayout(outerLayout);
 
-    // Collegamento del pulsante di login
-    connect(loginButton, &QPushButton::clicked, this, &LoginPage::onLoginButtonClicked);
+    
 }
 
 QString LoginPage::getUsername() const {
@@ -83,7 +85,7 @@ void LoginPage::showErrorMessage(const QString &message) {
 
 void LoginPage::clearErrorMessage() {
     errorLabel->clear();
-    errorLabel->setStyleSheet("QLabel { color: rgb(230, 230, 230); padding: 5px; font-size: 16px;}"); // Colore originale
+    errorLabel->setStyleSheet("QLabel { color: rgb(230, 230, 230); padding: 5px; font-size: 16px; border: 0px;}"); // Colore originale
 }
 
 void LoginPage::onLoginButtonClicked() {

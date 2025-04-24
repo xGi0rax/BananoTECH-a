@@ -1,12 +1,12 @@
 /****************************************************************************
-** Meta object code from reading C++ file 'MainPage.h'
+** Meta object code from reading C++ file 'AddPage.h'
 **
 ** Created by: The Qt Meta Object Compiler version 68 (Qt 6.8.1)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
-#include "../Codice/GUI/Headers/MainPage.h"
+#include "../Codice/GUI/Headers/AddPage.h"
 #include <QtGui/qtextcursor.h>
 #include <QtCore/qmetatype.h>
 
@@ -17,7 +17,7 @@
 
 #include <QtCore/qxptype_traits.h>
 #if !defined(Q_MOC_OUTPUT_REVISION)
-#error "The header file 'MainPage.h' doesn't include <QObject>."
+#error "The header file 'AddPage.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 68
 #error "This file was generated using the moc from 6.8.1. It"
 #error "cannot be used with the include files from this version of Qt."
@@ -32,28 +32,28 @@ QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 QT_WARNING_DISABLE_GCC("-Wuseless-cast")
 namespace {
-struct qt_meta_tag_ZN8MainPageE_t {};
+struct qt_meta_tag_ZN7AddPageE_t {};
 } // unnamed namespace
 
 
 #ifdef QT_MOC_HAS_STRINGDATA
-static constexpr auto qt_meta_stringdata_ZN8MainPageE = QtMocHelpers::stringData(
-    "MainPage",
-    "goToLoginPage",
+static constexpr auto qt_meta_stringdata_ZN7AddPageE = QtMocHelpers::stringData(
+    "AddPage",
+    "goBackToMainPage",
     "",
-    "goToAddPage",
     "onBackButtonClicked",
+    "onConfirmTypeButtonClicked",
+    "onSaveMediaButtonClicked",
+    "onCancelButtonClicked",
     "onMediaTypeChanged",
     "index",
-    "onApplyFiltersClicked",
-    "onClearFiltersClicked",
-    "onAddMediaButtonClicked"
+    "onUploadButtonClicked"
 );
 #else  // !QT_MOC_HAS_STRINGDATA
 #error "qtmochelpers.h not found or too old."
 #endif // !QT_MOC_HAS_STRINGDATA
 
-Q_CONSTINIT static const uint qt_meta_data_ZN8MainPageE[] = {
+Q_CONSTINIT static const uint qt_meta_data_ZN7AddPageE[] = {
 
  // content:
       12,       // revision
@@ -64,109 +64,102 @@ Q_CONSTINIT static const uint qt_meta_data_ZN8MainPageE[] = {
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       2,       // signalCount
+       1,       // signalCount
 
  // signals: name, argc, parameters, tag, flags, initial metatype offsets
        1,    0,   56,    2, 0x06,    1 /* Public */,
-       3,    0,   57,    2, 0x06,    2 /* Public */,
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
+       3,    0,   57,    2, 0x08,    2 /* Private */,
        4,    0,   58,    2, 0x08,    3 /* Private */,
-       5,    1,   59,    2, 0x08,    4 /* Private */,
-       7,    0,   62,    2, 0x08,    6 /* Private */,
-       8,    0,   63,    2, 0x08,    7 /* Private */,
+       5,    0,   59,    2, 0x08,    4 /* Private */,
+       6,    0,   60,    2, 0x08,    5 /* Private */,
+       7,    1,   61,    2, 0x08,    6 /* Private */,
        9,    0,   64,    2, 0x08,    8 /* Private */,
 
  // signals: parameters
     QMetaType::Void,
-    QMetaType::Void,
 
  // slots: parameters
     QMetaType::Void,
-    QMetaType::Void, QMetaType::Int,    6,
     QMetaType::Void,
     QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void, QMetaType::Int,    8,
     QMetaType::Void,
 
        0        // eod
 };
 
-Q_CONSTINIT const QMetaObject MainPage::staticMetaObject = { {
+Q_CONSTINIT const QMetaObject AddPage::staticMetaObject = { {
     QMetaObject::SuperData::link<QWidget::staticMetaObject>(),
-    qt_meta_stringdata_ZN8MainPageE.offsetsAndSizes,
-    qt_meta_data_ZN8MainPageE,
+    qt_meta_stringdata_ZN7AddPageE.offsetsAndSizes,
+    qt_meta_data_ZN7AddPageE,
     qt_static_metacall,
     nullptr,
-    qt_incomplete_metaTypeArray<qt_meta_tag_ZN8MainPageE_t,
+    qt_incomplete_metaTypeArray<qt_meta_tag_ZN7AddPageE_t,
         // Q_OBJECT / Q_GADGET
-        QtPrivate::TypeAndForceComplete<MainPage, std::true_type>,
-        // method 'goToLoginPage'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'goToAddPage'
+        QtPrivate::TypeAndForceComplete<AddPage, std::true_type>,
+        // method 'goBackToMainPage'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'onBackButtonClicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'onConfirmTypeButtonClicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'onSaveMediaButtonClicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'onCancelButtonClicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'onMediaTypeChanged'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<int, std::false_type>,
-        // method 'onApplyFiltersClicked'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'onClearFiltersClicked'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'onAddMediaButtonClicked'
+        // method 'onUploadButtonClicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>
     >,
     nullptr
 } };
 
-void MainPage::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
+void AddPage::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
-    auto *_t = static_cast<MainPage *>(_o);
+    auto *_t = static_cast<AddPage *>(_o);
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
-        case 0: _t->goToLoginPage(); break;
-        case 1: _t->goToAddPage(); break;
-        case 2: _t->onBackButtonClicked(); break;
-        case 3: _t->onMediaTypeChanged((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
-        case 4: _t->onApplyFiltersClicked(); break;
-        case 5: _t->onClearFiltersClicked(); break;
-        case 6: _t->onAddMediaButtonClicked(); break;
+        case 0: _t->goBackToMainPage(); break;
+        case 1: _t->onBackButtonClicked(); break;
+        case 2: _t->onConfirmTypeButtonClicked(); break;
+        case 3: _t->onSaveMediaButtonClicked(); break;
+        case 4: _t->onCancelButtonClicked(); break;
+        case 5: _t->onMediaTypeChanged((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
+        case 6: _t->onUploadButtonClicked(); break;
         default: ;
         }
     }
     if (_c == QMetaObject::IndexOfMethod) {
         int *result = reinterpret_cast<int *>(_a[0]);
         {
-            using _q_method_type = void (MainPage::*)();
-            if (_q_method_type _q_method = &MainPage::goToLoginPage; *reinterpret_cast<_q_method_type *>(_a[1]) == _q_method) {
+            using _q_method_type = void (AddPage::*)();
+            if (_q_method_type _q_method = &AddPage::goBackToMainPage; *reinterpret_cast<_q_method_type *>(_a[1]) == _q_method) {
                 *result = 0;
-                return;
-            }
-        }
-        {
-            using _q_method_type = void (MainPage::*)();
-            if (_q_method_type _q_method = &MainPage::goToAddPage; *reinterpret_cast<_q_method_type *>(_a[1]) == _q_method) {
-                *result = 1;
                 return;
             }
         }
     }
 }
 
-const QMetaObject *MainPage::metaObject() const
+const QMetaObject *AddPage::metaObject() const
 {
     return QObject::d_ptr->metaObject ? QObject::d_ptr->dynamicMetaObject() : &staticMetaObject;
 }
 
-void *MainPage::qt_metacast(const char *_clname)
+void *AddPage::qt_metacast(const char *_clname)
 {
     if (!_clname) return nullptr;
-    if (!strcmp(_clname, qt_meta_stringdata_ZN8MainPageE.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_ZN7AddPageE.stringdata0))
         return static_cast<void*>(this);
     return QWidget::qt_metacast(_clname);
 }
 
-int MainPage::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
+int AddPage::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
     _id = QWidget::qt_metacall(_c, _id, _a);
     if (_id < 0)
@@ -185,14 +178,8 @@ int MainPage::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 }
 
 // SIGNAL 0
-void MainPage::goToLoginPage()
+void AddPage::goBackToMainPage()
 {
     QMetaObject::activate(this, &staticMetaObject, 0, nullptr);
-}
-
-// SIGNAL 1
-void MainPage::goToAddPage()
-{
-    QMetaObject::activate(this, &staticMetaObject, 1, nullptr);
 }
 QT_WARNING_POP

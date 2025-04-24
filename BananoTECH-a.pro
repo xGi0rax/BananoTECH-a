@@ -27,6 +27,7 @@ HEADERS += "Codice/Modello logico/Headers/Biblioteca.h" \
            "Codice/GUI/Headers/MainWindow.h" \
            "Codice/GUI/Headers/LoginPage.h" \
            "Codice/GUI/Headers/MainPage.h" \
+           "Codice/GUI/Headers/AddPage.h" \
 
 SOURCES += "main.cpp" \
            "Codice/Modello logico/Sorgenti/Biblioteca.cpp" \
@@ -41,6 +42,7 @@ SOURCES += "main.cpp" \
            "Codice/GUI/Sorgenti/MainWindow.cpp" \
            "Codice/GUI/Sorgenti/LoginPage.cpp" \
            "Codice/GUI/Sorgenti/MainPage.cpp" \
+           "Codice/GUI/Sorgenti/AddPage.cpp" \
 
 QT += xml core gui widgets
 

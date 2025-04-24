@@ -28,13 +28,15 @@ void MainPage::setupUI(){
         "   color: white;"
         "   border: none;"
         "   border-radius: 4px;"
-        "   font-size: 12px;"
+        "   font-size: 14px;"
         "}"
         "QPushButton:hover {"
         "   background-color:rgb(11, 82, 189);"
         "}"
     );
     connect(backButton, &QPushButton::clicked, this, &MainPage::onBackButtonClicked);
+    connect(addMediaButton, &QPushButton::clicked, this, &MainPage::onAddMediaButtonClicked);
+
 
     topBarLayout = new QHBoxLayout();
     topBarLayout->addWidget(backButton, 1);
@@ -456,6 +458,9 @@ void MainPage::updateGenreComboBox() {
     }
 }
 
+// -----------------------------
+// --------------SLOTS----------
+// -----------------------------
 void MainPage::onMediaTypeChanged(int index) {
     Q_UNUSED(index);
     updateGenreComboBox();
@@ -481,4 +486,8 @@ void MainPage::onClearFiltersClicked() {
     minYearLineEdit->clear();
     maxYearLineEdit->clear();
     qDebug() << "Filtri eliminati!";
+}
+
+void MainPage::onAddMediaButtonClicked() {
+    emit goToAddPage(); // Emetto un segnale per passare alla pagina di aggiunta media
 }

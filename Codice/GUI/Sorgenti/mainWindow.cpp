@@ -9,9 +9,10 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent) {
     // Configurazione delle pagine
     setupLoginPage();
     setupMainPage();
+    setupAddPage();
 
     // Mostra inizialmente la pagina di login
-    stackedWidget->setCurrentWidget(loginPage);
+    stackedWidget->setCurrentWidget(addPage);
 
     setWindowTitle("BananoTECH-a");
     resize(900, 650);
@@ -37,12 +38,33 @@ void MainWindow::setupMainPage(){
 
     stackedWidget->addWidget(mainPage);
 
-    // Connetti il segnale al nuovo slot
-    connect(mainPage, &MainPage::goToLoginPage, this, &MainWindow::showLoginPage);
+    // Connetto il segnale allo slot per tornare alla pagina di login
+    connect(mainPage, &MainPage::goToLoginPage, this, &MainWindow::switchToLoginPage);
+
+    // Connetto il segnale per passare alla pagina di aggiunta media
+    connect(mainPage, &MainPage::goToAddPage, this, &MainWindow::switchToAddPage);
 }
 
-void MainWindow::showLoginPage() {
+void MainWindow::setupAddPage(){
+    // Creazione della pagina di aggiunta media
+    addPage = new AddPage(this);
+
+    stackedWidget->addWidget(addPage);
+
+    // Connetto il segnale per tornare alla pagina principale
+    connect(addPage, &AddPage::goBackToMainPage, this, &MainWindow::switchToMainPage);
+}
+
+void MainWindow::switchToLoginPage() {
     stackedWidget->setCurrentWidget(loginPage); // Cambia alla pagina di login
+}
+
+void MainWindow::switchToMainPage() {
+    stackedWidget->setCurrentWidget(mainPage); // Cambia alla pagina principale
+}
+
+void MainWindow::switchToAddPage() {
+    stackedWidget->setCurrentWidget(addPage); // Cambia alla pagina di aggiunta media
 }
 
 void MainWindow::onLoginButtonClicked() {
@@ -67,13 +89,3 @@ bool MainWindow::validateLogin(const QString &username, const QString &password)
     //return username == "admin" && password == "admin";
     return !username.isEmpty() && !password.isEmpty();
 }
-
-/*
-connect(MainPage, &MainPage::editMediaRequested, this, [this](const QString &mediaId) {
-    // Qui creerai e mostrerai la pagina di modifica
-    qDebug() << "Apri modifica per media:" << mediaId;
-    // Esempio:
-    // EditPage *editPage = new EditPage(mediaId, this);
-    // stackedWidget->addWidget(editPage);
-    // stackedWidget->setCurrentWidget(editPage);
-});*/

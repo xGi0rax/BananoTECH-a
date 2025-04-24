@@ -11,7 +11,9 @@ release/Vinile.o
 release/MainWindow.o
 release/LoginPage.o
 release/MainPage.o
+release/AddPage.o
 release/qrc_resources.o
 release/moc_MainWindow.o
 release/moc_LoginPage.o
 release/moc_MainPage.o
+release/moc_AddPage.o
