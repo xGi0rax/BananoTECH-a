@@ -5,9 +5,7 @@
 - sistemare visualizzazione filtri (linee)
 
 ### Giacomone
-- pagina "aggiungi"
-    - implementare salvataggio media nel sistema
-    
+- pagina "aggiungi": implementare salvataggio media nel sistema
 - pagina "modifica"
 - Inserire il filtro "disponibilita" nel metodo filtra della classe Biblioteca OK
 - controllare che segnali e slot siano corretti

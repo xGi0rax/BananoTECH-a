@@ -7,7 +7,7 @@ class Rivista: public Media{
 private:
     string editore; // Editore della rivista
     int n_pagine; // Numero di pagine
-    string data_pubb; // Data di pubblicazione (formato: "YYYY-MM-DD")
+    string data_pubb; // Data di pubblicazione (formato: "DD-MM-YYYY")
     string periodicita; // Mensile, settimanale, annuale, ecc.
 
 public:

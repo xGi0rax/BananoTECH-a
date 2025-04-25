@@ -69,37 +69,37 @@ private:
     // Campi comuni a tutti i media
     QLineEdit *titleEdit;
     QLineEdit *authorEdit;
-    QSpinBox *yearEdit;
     QComboBox *genreComboBox;
-    QLineEdit *descriptionEdit;
+    QSpinBox *yearEdit;
+    QLineEdit *languageEdit;
     QSpinBox *ratingEdit;
     
     // Campi specifici per i vari tipi di media
     // Per Film
-    QLineEdit *directorEdit;
-    QSpinBox *durationEdit;
+    QSpinBox *durationFilmEdit;
+    QLineEdit *castEdit; // Vettore di stringhe per gli attori
     
     // Per Libro
-    QLineEdit *publisherEdit;
-    QSpinBox *pagesEdit;
     QLineEdit *isbnEdit;
+    QLineEdit *editorLibroEdit;
+    QSpinBox *pagesLibroEdit;
     
     // Per Vinile
     QSpinBox *trackCountEdit;
-    QComboBox *recordTypeComboBox; // 33, 45, 78 rpm
+    QSpinBox *durationVinileEdit;
     
     // Per Rivista
-    QLineEdit *publisherRivistaEdit;
-    QSpinBox *issueNumberEdit;
-    QComboBox *periodicityComboBox; // settimanale, mensile, ecc.
+    QLineEdit *editorRivistaEdit;
+    QSpinBox *pagesRivistaEdit;
+    QDateEdit *publicationDateEdit;
+    QComboBox *periodicityComboBox;
     
     // Per Gioco Da Tavolo
-    QSpinBox *minPlayersEdit;
     QSpinBox *maxPlayersEdit;
-    QSpinBox *minAgeEdit;
     QSpinBox *playTimeEdit;
+    QSpinBox *minAgeEdit;
+    QLineEdit *editorGiocoEdit;
     
-    QPushButton *saveMediaButton;
     QPushButton *cancelButton;
     
     // Metodi privati di configurazione UI
