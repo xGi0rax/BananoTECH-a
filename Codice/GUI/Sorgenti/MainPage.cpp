@@ -6,9 +6,71 @@
 #include "../../Modello logico/Headers/Vinile.h"
 #include "../../Modello logico/Headers/GiocoDaTavolo.h"
 #include "../../Modello logico/Headers/Rivista.h"
+#include <QMessageBox>
+#include <QApplication>
 
 MainPage::MainPage(QWidget *parent) : QWidget(parent) {
     setupUI();
+
+    // Inizializza i pulsanti per la lista ma li nasconde inizialmente
+    buttonsContainer = new QWidget(mediaList);
+    buttonsContainer->hide();
+    
+    QHBoxLayout* buttonsLayout = new QHBoxLayout(buttonsContainer);
+    buttonsLayout->setContentsMargins(0, 0, 0, 0);
+    buttonsLayout->setSpacing(6);
+    
+    // Crea i pulsanti
+    listEditButton = new QPushButton();
+    listEditButton->setToolTip("Modifica");
+    listEditButton->setFixedSize(30, 30); // Dimensione circolare
+    listEditButton->setStyleSheet(
+        "QPushButton {"
+        "   background-color: rgb(138, 238, 101);"
+        "   color: black;"
+        "   border: 2px solid rgb(119, 114, 114);"
+        "   border-radius: 15px;" // Metà della larghezza per renderlo circolare
+        "   font-size: 12px;"
+        "   font-weight: bold;"
+        "   text-align: center;"
+        "}"
+        "QPushButton:hover {"
+        "   background-color: rgb(118, 218, 81);"
+        "}"
+    );
+    listEditButton->setIcon(QIcon(":/Immagini/matita.png"));
+    
+    listDeleteButton = new QPushButton();
+    listDeleteButton->setToolTip("Rimuovi");
+    listDeleteButton->setFixedSize(30, 30); // Dimensione circolare
+    listDeleteButton->setStyleSheet(
+        "QPushButton {"
+        "   background-color: rgb(254, 131, 123);"
+        "   color: black;"
+        "   border: 2px solid rgb(119, 114, 114);"
+        "   border-radius: 15px;" // Metà della larghezza per renderlo circolare
+        "   font-size: 12px;"
+        "   font-weight: bold;"
+        "   text-align: center;"
+        "}"
+        "QPushButton:hover {"
+        "   background-color: rgb(234, 111, 103);"
+        "}"
+    );
+    listDeleteButton->setIcon(QIcon(":/Immagini/cestino.png"));
+    
+    // Aggiungi i pulsanti al layout
+    buttonsLayout->addWidget(listEditButton);
+    buttonsLayout->addWidget(listDeleteButton);
+    
+    // Collega i segnali
+    connect(listEditButton, &QPushButton::clicked, this, &MainPage::onEditButtonClicked);
+    connect(listDeleteButton, &QPushButton::clicked, this, &MainPage::onDeleteButtonClicked);
+    
+    // Collega il cambio di selezione per nascondere i pulsanti
+    connect(mediaList, &QListWidget::currentRowChanged, this, [this](int) { 
+        hideActionButtons(); 
+    });
 }
 
 void MainPage::setupUI(){
@@ -424,7 +486,114 @@ void MainPage::onMediaSelected(QListWidgetItem *item) {
     borrowButton->setEnabled(true);
     detailsButton->setEnabled(true);
     editMediaButton->setEnabled(true);
+
+    // Mostra i pulsanti di azione per la riga selezionata
+    int row = mediaList->row(item);
+    showActionButtons(row);
 }
+
+void MainPage::showActionButtons(int row) {
+    // Nascondi eventuali pulsanti precedentemente mostrati
+    hideActionButtons();
+    
+    if (row < 0 || row >= mediaList->count()) return;
+    
+    // Ottieni l'item e il suo rect
+    QListWidgetItem* item = mediaList->item(row);
+    QRect rect = mediaList->visualItemRect(item);
+    
+    // Calcola la larghezza dei pulsanti
+    int buttonWidth = buttonsContainer->sizeHint().width();
+    int buttonHeight = buttonsContainer->sizeHint().height();
+    
+    // Ottieni il testo dell'elemento e calcola approssimativamente la larghezza del testo
+    QString itemText = item->text();
+    QFontMetrics fontMetrics(mediaList->font());
+    int textWidth = fontMetrics.horizontalAdvance(itemText) + 40; // Aggiungi margine per l'icona e spazio extra
+    
+    // Assicurati che la larghezza del testo non superi il 70% della larghezza dell'elemento
+    int maxTextWidth = rect.width() * 0.7;
+    if (textWidth > maxTextWidth) {
+        textWidth = maxTextWidth;
+    }
+    
+    // Posiziona i pulsanti a destra del testo, con un margine di sicurezza
+    int xPosition = rect.left() + textWidth + 15; // 15px di margine dopo il testo
+    
+    // Se i pulsanti finissero fuori dal campo visibile, riposizionali
+    if (xPosition + buttonWidth > rect.right()) {
+        xPosition = rect.right() - buttonWidth - 5; // 5px di margine dal bordo destro
+    }
+    
+    // Centramento verticale
+    int yPosition = rect.top() + (rect.height() - buttonHeight) / 2;
+    
+    buttonsContainer->setGeometry(xPosition, yPosition, buttonWidth, buttonHeight);
+    buttonsContainer->show();
+    
+    // Memorizza l'item corrente per riferimento futuro
+    mediaList->setCurrentRow(row);
+}
+
+void MainPage::hideActionButtons() {
+    buttonsContainer->hide();
+}
+
+void MainPage::onEditButtonClicked() {
+    // Ottieni l'elemento correntemente selezionato
+    QListWidgetItem* currentItem = mediaList->currentItem();
+    if (!currentItem) return;
+    
+    Media* selectedMedia = currentItem->data(Qt::UserRole).value<Media*>();
+    if (!selectedMedia) return;
+    
+    // Qui puoi implementare la logica per aprire la finestra di modifica
+    QMessageBox::information(this, "Modifica Media", 
+                            QString("Modifica di '%1' in fase di implementazione").arg(
+                              QString::fromStdString(selectedMedia->getTitolo())));
+}
+
+void MainPage::onDeleteButtonClicked() {
+    // Ottieni l'elemento correntemente selezionato
+    QListWidgetItem* currentItem = mediaList->currentItem();
+    if (!currentItem) return;
+    
+    Media* selectedMedia = currentItem->data(Qt::UserRole).value<Media*>();
+    if (!selectedMedia) return;
+    
+    // Chiedi conferma prima di eliminare
+    QString message = QString("Sei sicuro di voler rimuovere '%1' dalla biblioteca?").arg(QString::fromStdString(selectedMedia->getTitolo()));
+    
+    QMessageBox::StandardButton reply = QMessageBox::question(this, "Conferma eliminazione", message, QMessageBox::Yes | QMessageBox::No);
+    
+    if (reply == QMessageBox::Yes) {
+        // Rimuovi l'elemento dalla lista e elimina l'oggetto
+        delete mediaList->takeItem(mediaList->row(currentItem));
+        delete selectedMedia;
+        
+        // Nascondi i pulsanti di azione
+        hideActionButtons();
+        
+        // Resetta l'anteprima
+        mediaTitleLabel->setText("");
+        mediaAuthorLabel->setText("Seleziona un media per vedere i dettagli");
+        mediaYearLabel->setText("");
+        mediaRatingLabel->setText("");
+        mediaImageLabel->setText("Nessuna immagine");
+        mediaImageLabel->setStyleSheet(
+            "border: 1px solid black;"
+            "background-color: white;"
+            "color: gray;"
+            "padding: 5px;"
+        );
+        
+        // Disabilita i pulsanti dell'anteprima
+        borrowButton->setEnabled(false);
+        detailsButton->setEnabled(false);
+        editMediaButton->setEnabled(false);
+    }
+}
+
 
 void MainPage::updateGenreComboBox() {
     genreComboBox->clear();

@@ -32,6 +32,8 @@ private slots:
     void onApplyFiltersClicked(); // Slot per applicare i filtri
     void onClearFiltersClicked(); // Slot per cancellare i filtri
     void onAddMediaButtonClicked(); // Slot per aggiungere un nuovo media
+    void onEditButtonClicked(); // Slot per il pulsante di modifica del media
+    void onDeleteButtonClicked(); // Slot per il pulsante di rimozione del media dalla lista
 
 signals:
     void goToLoginPage(); // Segnale per notificare il cambio alla LoginPage
@@ -68,6 +70,15 @@ private:
     QLabel *mediaYearLabel;
     QLabel *mediaRatingLabel;
     QPushButton *editMediaButton; 
+
+    // Widget per i pulsanti nella lista
+    QPushButton* listEditButton;
+    QPushButton* listDeleteButton;
+    QWidget* buttonsContainer;
+
+    // Metodi per la gestione dei pulsanti nella lista
+    void showActionButtons(int row);
+    void hideActionButtons();
 
     // Layout
     QVBoxLayout *mainLayout;

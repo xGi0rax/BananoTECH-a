@@ -7,5 +7,7 @@
         <file>Immagini/LogoGioco1.png</file>
         <file>Immagini/LogoRivista1.png</file>
         <file>Immagini/LogoVinile1.png</file>
+        <file>Immagini/matita.png</file>
+        <file>Immagini/cestino.png</file>
     </qresource>
 </RCC>
