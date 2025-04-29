@@ -27,16 +27,16 @@ MainPage::MainPage(QWidget *parent) : QWidget(parent) {
     listEditButton->setFixedSize(30, 30); // Dimensione circolare
     listEditButton->setStyleSheet(
         "QPushButton {"
-        "   background-color: rgb(138, 238, 101);"
+        "   background-color: rgb(131, 187, 222);"
         "   color: black;"
-        "   border: 2px solid rgb(119, 114, 114);"
+        "   border: 2px solid rgb(92, 92, 93);"
         "   border-radius: 15px;" // Metà della larghezza per renderlo circolare
         "   font-size: 12px;"
         "   font-weight: bold;"
         "   text-align: center;"
         "}"
         "QPushButton:hover {"
-        "   background-color: rgb(118, 218, 81);"
+        "   background-color: rgb(87, 163, 210);"
         "}"
     );
     listEditButton->setIcon(QIcon(":/Immagini/matita.png"));
@@ -46,16 +46,16 @@ MainPage::MainPage(QWidget *parent) : QWidget(parent) {
     listDeleteButton->setFixedSize(30, 30); // Dimensione circolare
     listDeleteButton->setStyleSheet(
         "QPushButton {"
-        "   background-color: rgb(254, 131, 123);"
+        "   background-color: rgb(240, 107, 70);"
         "   color: black;"
-        "   border: 2px solid rgb(119, 114, 114);"
+        "   border: 2px solid rgb(92, 92, 93);"
         "   border-radius: 15px;" // Metà della larghezza per renderlo circolare
         "   font-size: 12px;"
         "   font-weight: bold;"
         "   text-align: center;"
         "}"
         "QPushButton:hover {"
-        "   background-color: rgb(234, 111, 103);"
+        "   background-color: rgb(250, 81, 34);"
         "}"
     );
     listDeleteButton->setIcon(QIcon(":/Immagini/cestino.png"));
@@ -411,6 +411,16 @@ void MainPage::setupUI(){
     mainLayout->addLayout(contentLayout);
 
     setLayout(mainLayout);
+
+    connect(detailsButton, &QPushButton::clicked, this, [this]() {
+        QListWidgetItem* currentItem = mediaList->currentItem();
+        if (!currentItem) return;
+        
+        Media* selectedMedia = currentItem->data(Qt::UserRole).value<Media*>();
+        if (!selectedMedia) return;
+        
+        emit goToDetailsPage(selectedMedia);
+    });
 }
 
 void MainPage::updateImageSize(){

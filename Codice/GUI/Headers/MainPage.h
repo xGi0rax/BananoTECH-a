@@ -18,6 +18,7 @@
 #include <QPixmap>
 #include <QPainter>
 #include "AddPage.h"
+#include "../../Modello logico/Headers/Media.h"
 #include "../../Modello logico/Headers/Biblioteca.h"
 
 class MainPage : public QWidget {
@@ -39,6 +40,7 @@ private slots:
 signals:
     void goToLoginPage(); // Segnale per notificare il cambio alla LoginPage
     void goToAddPage(); // Segnale per notificare il cambio alla AddPage
+    void goToDetailsPage(Media* media); // Segnale per notificare il cambio alla DetailsPage
 
 private:
     // Barra superiore

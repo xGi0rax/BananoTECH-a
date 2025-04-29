@@ -11,6 +11,7 @@
 #include "LoginPage.h"
 #include "MainPage.h"
 #include "AddPage.h"
+#include "DetailsPage.h"  // Aggiungo l'include per la nuova pagina
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -24,6 +25,7 @@ private slots:
     void switchToLoginPage(); // Slot per tornare alla LoginPage
     void switchToMainPage(); // Slot per passare alla MainPage
     void switchToAddPage(); // Slot per passare alla AddPage
+    void switchToDetailsPage(Media* media); // Slot per passare alla DetailsPage
 
 private:
     QStackedWidget *stackedWidget;
@@ -36,10 +38,16 @@ private:
 
     // Pagina di aggiunta media
     AddPage *addPage;
+    
+    // Pagina dettagli media
+    DetailsPage *detailsPage;
+
+    Biblioteca *biblioteca; // Oggetto Biblioteca per gestire i media
 
     void setupLoginPage();
     void setupMainPage();
     void setupAddPage();
+    void setupDetailsPage();
     bool validateLogin(const QString &username, const QString &password);
 };
 
