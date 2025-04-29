@@ -8,7 +8,6 @@
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QWidget>
-#include "../../Modello logico/Headers/Biblioteca.h"
 #include "LoginPage.h"
 #include "MainPage.h"
 #include "AddPage.h"
@@ -34,8 +33,6 @@ private:
 
     // Pagina principale
     MainPage *mainPage;
-
-    Biblioteca *biblioteca; // Oggetto Biblioteca per gestire i media
 
     // Pagina di aggiunta media
     AddPage *addPage;

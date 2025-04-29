@@ -19,7 +19,11 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent) {
 }
 
 MainWindow::~MainWindow() {
-    delete biblioteca;
+    // Deallocazione delle pagine
+    delete loginPage;
+    delete mainPage;
+    delete addPage;
+    delete stackedWidget;
 }
 
 void MainWindow::setupLoginPage(){
