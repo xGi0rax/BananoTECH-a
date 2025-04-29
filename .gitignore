@@ -1,0 +1,36 @@
+# === FILE E CARTELLE DI BUILD ===
+*.o
+*.obj
+*.exe
+*.a
+*.so
+*.dll
+*.lib
+
+# Makefile generati automaticamente
+Makefile
+Makefile.*
+
+# Cartelle di build di Qt Creator
+build*/
+debug/
+release/
+
+# === FILE SPECIFICI DI QT CREATOR ===
+*.qmake.stash
+*.pro.user
+*.pro.user.*
+*.autosave
+*.creator*
+*.user
+*.user.*
+
+# === FILE TEMPORANEI E DI BACKUP ===
+*.log
+*.tmp
+*.bak
+*~
+
+# === FILE DI SISTEMA (Windows/macOS) ===
+Thumbs.db
+.DS_Store
