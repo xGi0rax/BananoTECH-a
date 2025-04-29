@@ -8,7 +8,6 @@
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QWidget>
-#include "../../Modello logico/Headers/Biblioteca.h"
 #include "LoginPage.h"
 #include "MainPage.h"
 #include "AddPage.h"

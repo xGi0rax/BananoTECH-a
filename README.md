@@ -3,6 +3,7 @@
 ### Giacomino
 - pagina "approfondisci"
 - sistemare visualizzazione filtri (linee)
+- tasti modifica e rimuovi su ogni media della lista OK
 
 ### Giacomone
 - pagina "aggiungi": implementare salvataggio media nel sistema
@@ -12,6 +13,5 @@
 - capire a cosa serve clearErrorMessage in LoginPage
 
 ## Per prossima volta:
-- Tasti modifica e rimuovi su ogni media della lista
 - Capire come far scegliere il file Json
 

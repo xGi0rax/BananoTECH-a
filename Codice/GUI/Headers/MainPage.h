@@ -19,6 +19,7 @@
 #include <QPainter>
 #include "AddPage.h"
 #include "../../Modello logico/Headers/Media.h"
+#include "../../Modello logico/Headers/Biblioteca.h"
 
 class MainPage : public QWidget {
     Q_OBJECT
@@ -29,7 +30,7 @@ public:
 
 private slots:
     void onBackButtonClicked();  // Slot per il tasto indietro
-    void onMediaTypeChanged(int index); // Slot per il cambio del tipo di media nei filtri
+    void onMediaTypeChanged(); // Slot per il cambio del tipo di media nei filtri
     void onApplyFiltersClicked(); // Slot per applicare i filtri
     void onClearFiltersClicked(); // Slot per cancellare i filtri
     void onAddMediaButtonClicked(); // Slot per aggiungere un nuovo media
@@ -47,21 +48,21 @@ private:
     QPushButton *addMediaButton;
     //QPushButton *editModeButton;
 
-    // Sezione sinistra
+    // Sezione sinistra (Filtri)
     QComboBox *mediaTypeComboBox;
     QComboBox *genreComboBox;
     QLineEdit *minYearLineEdit;
     QLineEdit *maxYearLineEdit;
     QLineEdit *ratingLineEdit;
     QLineEdit *languageLineEdit;
-    QPushButton *applyFiltersButton; // Pulsante per applicare i filtri
-    QPushButton *clearFiltersButton; // Pulsante per eliminare i filtri
+    QPushButton *applyFiltersButton;
+    QPushButton *clearFiltersButton;
 
-    // Sezione centrale
+    // Sezione centrale (Barra di ricerca e lista media)
     QLineEdit *searchBar;
     QListWidget *mediaList;
 
-    // Sezione destra
+    // Sezione destra (Immagine di anteprima e dettagli principali media)
     QPixmap originalPixmap;
     QLabel *mediaImageLabel;
     QLabel *mediaInfoLabel;
@@ -93,6 +94,9 @@ private:
     QGroupBox *filtersGroupBox;
     QGroupBox *previewGroupBox;
 
+    Biblioteca *biblioteca; // Oggetto Biblioteca per gestire i media
+
+    void setupBiblioteca(); // metodo per inizializzare la biblioteca
     void setupUI(); // metodo per configurare l'interfaccia utente
     // void setupFilters(); // metodo per configurare i filtri
     void updateGenreComboBox(); // metodo per aggiornare la combobox dei generi in base al tipo di media selezionato

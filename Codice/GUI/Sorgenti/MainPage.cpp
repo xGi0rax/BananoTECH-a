@@ -71,17 +71,23 @@ MainPage::MainPage(QWidget *parent) : QWidget(parent) {
     connect(mediaList, &QListWidget::currentRowChanged, this, [this](int) { 
         hideActionButtons(); 
     });
+    setupBiblioteca(); // Inizializza la biblioteca
+    setupUI(); // Configura l'interfaccia utente
+}
+
+void MainPage::setupBiblioteca() {
+    string id = "VC";
+    biblioteca = new Biblioteca(id); // Inizializza la biblioteca
+
+    // Prendere i media da un file JSON o XML
 }
 
 void MainPage::setupUI(){
     // ------------------------- Barra superiore ----------------------------
     backButton = new QPushButton("Indietro");
-
     addMediaButton = new QPushButton("Aggiungi Media");
-    //editModeButton = new QPushButton("Modalità Modifica");
     backButton->setMinimumSize(100, 30);
     addMediaButton->setMinimumSize(100, 30);
-    //editModeButton->setMinimumSize(100, 30);
 
     // Tasto indietro
     backButton->setStyleSheet(
@@ -99,7 +105,6 @@ void MainPage::setupUI(){
     connect(backButton, &QPushButton::clicked, this, &MainPage::onBackButtonClicked);
     connect(addMediaButton, &QPushButton::clicked, this, &MainPage::onAddMediaButtonClicked);
 
-
     topBarLayout = new QHBoxLayout();
     topBarLayout->addWidget(backButton, 1);
     topBarLayout->addWidget(addMediaButton, 5);
@@ -112,10 +117,10 @@ void MainPage::setupUI(){
     mediaTypeComboBox->addItem("Libro");
     mediaTypeComboBox->addItem("Film");
     mediaTypeComboBox->addItem("Vinile");
-    mediaTypeComboBox->addItem("Gioco da tavolo");
     mediaTypeComboBox->addItem("Rivista");
-
-    // Collega il cambiamento del tipo media alla funzione di aggiornamento della combobox dei generi
+    mediaTypeComboBox->addItem("Gioco da tavolo");
+    
+    // Collego il cambiamento del tipo media alla funzione di aggiornamento della combobox dei generi
     genreComboBox = new QComboBox();
     genreComboBox->addItem("Qualsiasi genere");
     updateGenreComboBox(); // Popola i generi in base al tipo selezionato
@@ -267,6 +272,8 @@ void MainPage::setupUI(){
     mediaList->setMovement(QListView::Static); // Elementi non trascinabili
     mediaList->setSelectionMode(QAbstractItemView::SingleSelection); // Selezione singola
     mediaList->setMinimumWidth(300); // Imposta un'altezza minima per la lista
+
+
 
     // Lista di esempio
     vector<Media*> listaMedia = {
@@ -613,24 +620,23 @@ void MainPage::updateGenreComboBox() {
     
     switch(currentType) {
         case 1: // Libro
-            genreComboBox->addItems({"Fantasy", "Fantascienza", "Horror", "Romanzo storico", 
-                                    "Biografia", "Autobiografia", "Saggio", "Giallo", "Thriller"});
+            genreComboBox->addItems({"Avventura", "Biografia", "Biografia", "Fantasy",                                  "Giallo", "Horror", "Romanzo", "Storico", "Saggio", "Thriller"});
             break;
         case 2: // Film
-            genreComboBox->addItems({"Azione", "Avventura", "Commedia", "Drammatico", 
-                                    "Fantascienza", "Horror", "Thriller", "Documentario", "Animazione"});
+            genreComboBox->addItems({"Animazione", "Azione", "Avventura", "Commedia", 
+                                    "Documentario", "Drammatico", "Fantasy", "Horror", "Romantico", "Sci-Fi", "Thriller"});
             break;
         case 3: // Vinile
-            genreComboBox->addItems({"Rock", "Pop", "Classica", "Jazz", "Blues", 
-                                    "Metal", "Hip Hop", "Elettronica", "Folk"});
+            genreComboBox->addItems({"Alternative", "Blues", "Classica", "Country", "Elettronica", "Folk", "Hip Hop", 
+                                    "Jazz", "Metal", "Pop", "Rock"});
             break;
         case 4: // Gioco da tavolo
-            genreComboBox->addItems({"Strategia", "Party game", "Cooperativo", "Giochi di carte", 
-                                    "Giochi di miniature", "Giochi di ruolo", "Astratto"});
+            genreComboBox->addItems({"Astratto", "Cooperativo", "Giochi di carte", "Giochi di miniature", 
+                                    "Giochi di ruolo", "Party game", "Strategia"});
             break;
         case 5: // Rivista
-            genreComboBox->addItems({"Scientifica", "Culturale", "Attualità", "Moda", 
-                                    "Tecnologia", "Sport", "Fumetti"});
+            genreComboBox->addItems({"Attualità", "Arte", "Cucina","Culturale", "Economia", "Intrattenimento", "Moda",  "Salute",
+                                    "Scientifica", "Sport", "Tecnologia", "Viaggi"});
             break;
         default: // Qualsiasi o non specificato
             break;
@@ -640,8 +646,7 @@ void MainPage::updateGenreComboBox() {
 // -----------------------------
 // --------------SLOTS----------
 // -----------------------------
-void MainPage::onMediaTypeChanged(int index) {
-    Q_UNUSED(index);
+void MainPage::onMediaTypeChanged() {
     updateGenreComboBox();
 }
 

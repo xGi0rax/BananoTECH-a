@@ -290,7 +290,7 @@ void AddPage::setupFilmDetailsPage(QWidget *container) {
     authorEdit->setStyleSheet(inputStyle);
 
     genreComboBox = new QComboBox(scrollWidget);
-    genreComboBox->addItems({"Animazione", "Azione", "Commedia", "Documentario", "Drammatico", "Fantasy", "Horror", "Romantico", "Sci-Fi", "Thriller", "Altro"});
+    genreComboBox->addItems({"Animazione", "Azione", "Avventura", "Commedia", "Documentario", "Drammatico", "Fantasy", "Horror", "Romantico", "Sci-Fi", "Thriller", "Altro"});
     genreComboBox->setStyleSheet(inputStyle);
 
     yearEdit = new QSpinBox(scrollWidget);
@@ -416,7 +416,7 @@ void AddPage::setupLibroDetailsPage(QWidget *container) {
     authorEdit->setStyleSheet(inputStyle);
 
     genreComboBox = new QComboBox(scrollWidget);
-    genreComboBox->addItems({"Avventura", "Biografia", "Fantascienza", "Fantasy", "Giallo", "Horror", "Romanzo", "Storico", "Thriller", "Altro"});
+    genreComboBox->addItems({"Avventura", "Biografia", "Fantasy" "Giallo", "Horror", "Romanzo", "Storico", "Saggio", "Thriller", "Altro"});
     genreComboBox->setStyleSheet(inputStyle);
 
     yearEdit = new QSpinBox(scrollWidget);
@@ -547,7 +547,7 @@ void AddPage::setupVinileDetailsPage(QWidget *container) {
     authorEdit->setStyleSheet(inputStyle);
 
     genreComboBox = new QComboBox(scrollWidget);
-    genreComboBox->addItems({"Alternative", "Blues", "Country", "Jazz", "Musica classica", "Musica elettronica", "Pop", "Rock", "Altro"});
+    genreComboBox->addItems({"Alternative", "Blues", "Classica","Country", "Elettronica", "Folk", "Hip Hop", "Jazz", "Metal", "Pop", "Rock", "Altro"});
     genreComboBox->setStyleSheet(inputStyle);
 
     yearEdit = new QSpinBox(scrollWidget);
@@ -674,7 +674,7 @@ void AddPage::setupRivistaDetailsPage(QWidget *container) {
     authorEdit->setStyleSheet(inputStyle);
 
     genreComboBox = new QComboBox(scrollWidget);
-    genreComboBox->addItems({"Arte", "Cucina", "Economia", "Intrattenimento", "Moda", "Salute", "Scienza", "Sport", "Tecnologia", "Viaggi", "Altro"});
+    genreComboBox->addItems({"Attualità", "Arte", "Cucina", "Culturale","Economia", "Intrattenimento", "Moda", "Salute", "Scientifica", "Sport", "Tecnologia", "Viaggi", "Altro"});
     genreComboBox->setStyleSheet(inputStyle);
 
     yearEdit = new QSpinBox(scrollWidget);
