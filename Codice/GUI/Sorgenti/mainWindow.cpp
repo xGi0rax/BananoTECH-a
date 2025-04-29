@@ -8,9 +8,6 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent) {
 
     // Configurazione delle pagine
     setupLoginPage();
-    setupMainPage();
-    setupAddPage();
-    setupDetailsPage();
 
     // Mostra inizialmente la pagina di login
     stackedWidget->setCurrentWidget(loginPage);
@@ -94,6 +91,9 @@ void MainWindow::onLoginButtonClicked() {
     if (validateLogin(username, password)) {
         // Login riuscito, mostra la pagina principale
         loginPage->clearErrorMessage();
+        setupMainPage();
+        setupAddPage();
+        setupDetailsPage();
         stackedWidget->setCurrentWidget(mainPage);
     } else {
         // Login fallito, mostra un messaggio di errore

@@ -6,8 +6,14 @@
 #include "../../Modello logico/Headers/Vinile.h"
 #include "../../Modello logico/Headers/GiocoDaTavolo.h"
 #include "../../Modello logico/Headers/Rivista.h"
+#include "../../Modello logico/Headers/Biblioteca.h"
+#include "../../Modello logico/Headers/IOStrategy.h"
+#include "../../Modello logico/Headers/JsonIO.h"
+#include "../../Modello logico/Headers/XmlIO.h"
 #include <QMessageBox>
 #include <QApplication>
+#include <QFileDialog>
+#include <QDebug>
 
 MainPage::MainPage(QWidget *parent) : QWidget(parent) {
     setupBiblioteca(); // Inizializza la biblioteca
@@ -78,7 +84,47 @@ void MainPage::setupBiblioteca() {
     string id = "VC";
     biblioteca = new Biblioteca(id); // Inizializza la biblioteca
 
-    // Prendere i media da un file JSON o XML
+    // Apri una finestra di dialogo per selezionare un file JSON o XML
+    QFileDialog fileDialog(this);
+    fileDialog.setWindowTitle("Seleziona un file di biblioteca");
+    fileDialog.setFileMode(QFileDialog::ExistingFile);
+    fileDialog.setNameFilter("File supportati (*.json *.xml)");
+    fileDialog.setViewMode(QFileDialog::Detail);
+    
+    QString filePath;
+    bool success = false;
+
+    // Se l'utente ha selezionato un file
+    if (fileDialog.exec()) {
+        QStringList selectedFiles = fileDialog.selectedFiles();
+        if (!selectedFiles.isEmpty()) {
+            filePath = selectedFiles.first();
+            
+            if (filePath.endsWith(".json", Qt::CaseInsensitive)) {
+                JsonIO jsonLoader;
+                success = jsonLoader.caricaDaFile(*biblioteca, filePath.toStdString());
+            } else if (filePath.endsWith(".xml", Qt::CaseInsensitive)) {
+                XmlIO xmlLoader;
+                success = xmlLoader.caricaDaFile(*biblioteca, filePath.toStdString());
+            } else {
+                QMessageBox::warning(this, "Errore di caricamento", 
+                                    "Formato file non supportato. Utilizzare un file .json o .xml.");
+            }
+        }
+    } else {
+        // L'utente ha annullato la selezione
+        QMessageBox::information(this, "Informazione", 
+                              "Nessun file selezionato. Verrà utilizzata una biblioteca vuota.");
+    }
+
+    if (!success && !filePath.isEmpty()) {
+        QMessageBox::warning(this, "Errore di caricamento", 
+                            "Impossibile caricare i dati dal file specificato.\n"
+                            "Verrà utilizzata una biblioteca vuota.");
+    } else if (success) {
+        QMessageBox::information(this, "Caricamento completato", 
+                                "I dati della biblioteca sono stati caricati con successo.");
+    }
 }
 
 void MainPage::setupUI(){
@@ -127,11 +173,13 @@ void MainPage::setupUI(){
     connect(mediaTypeComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &MainPage::onMediaTypeChanged);
 
     // Campi di input per rating
-    ratingLineEdit = new QLineEdit();
-    ratingLineEdit->setPlaceholderText("da 1 a 5");
+    ratingMinLineEdit = new QLineEdit();
+    ratingMinLineEdit->setPlaceholderText("0.0");
+    ratingMaxLineEdit = new QLineEdit();
+    ratingMaxLineEdit->setPlaceholderText("5.0");
 
     // Checkbox per disponibilità
-    QCheckBox *availableCheckBox = new QCheckBox("Disponibile");
+    availableCheckBox = new QCheckBox("Disponibile");
     availableCheckBox->setChecked(true); // Selezionato di default
 
     // Campi di input per lingua
@@ -203,7 +251,8 @@ void MainPage::setupUI(){
     filtersLayout->addWidget(separator2);
 
     filtersLayout->addWidget(new QLabel("Rating"));
-    filtersLayout->addWidget(ratingLineEdit);
+    filtersLayout->addWidget(ratingMinLineEdit);
+    filtersLayout->addWidget(ratingMaxLineEdit);
 
     // Separatore sottile dopo il filtro rating
     QFrame *separator3 = new QFrame();
@@ -272,48 +321,9 @@ void MainPage::setupUI(){
     mediaList->setSelectionMode(QAbstractItemView::SingleSelection); // Selezione singola
     mediaList->setMinimumWidth(300); // Imposta un'altezza minima per la lista
 
+    vector<Media*> listaMedia = biblioteca->getListaMedia(); // Ottieni la lista dei media dalla biblioteca
 
-
-    // Lista di esempio
-    vector<Media*> listaMedia = {
-        new Libro("Il Nome della Rosa", "Paperino", "Giallo", 1980, "Italiano", ":/Immagini/LogoLibro1.png", true, 5, "123456789", "Bompiani", 500, 0, "Scaffale A1", 4.5),
-        new Film("Inception", "Paperino", "Fantascienza", 2010, "Inglese", ":/Immagini/LogoFilm1.png", true, 3, 148, {"Leonardo DiCaprio", "Joseph Gordon-Levitt"}, 0, "Scaffale B2", 5.0),
-        new Vinile("The Dark Side of the Moon", "Paperino", "Rock", 1973, "Inglese", ":/Immagini/LogoVinile1.png", true, 2,  10, 43, 0, "Scaffale C3", 5.0),
-        new GiocoDaTavolo("Catan", "Paperino", "Strategia", 1995, "Italiano", ":/Immagini/LogoGioco1.png", true, 4, 4, 10, 60, "Klaus Teuber", 0, "Scaffale D4", 4.0),
-        new Rivista("National Geographic", "Paperino", "Scientifica", 2023, "Italiano", ":/Immagini/LogoRivista1.png", true, 10, "National Geographic Society", 100, "2023-04-01", "Mensile", 0, "Scaffale E5", 4.8),
-        new Rivista("Time", "Paperino", "Attualità", 2023, "Italiano", ":/Immagini/LogoRivista1.png", true, 10, "Time Inc.", 100, "2023-04-01", "Settimanale", 0, "Scaffale E5", 4.5),
-        new Rivista("Vogue", "Paperino", "Moda", 2023, "Italiano", ":/Immagini/LogoRivista1.png", true, 10, "Condé Nast", 100, "2023-04-01", "Mensile", 0, "Scaffale E5", 4.2),
-        new Libro("Il Codice Da Vinci", "Paperino", "Giallo", 2003, "Italiano", ":/Immagini/LogoLibro1.png", true, 5, "123456789", "Mondadori", 500, 0, "Scaffale A1", 4.0),
-        new Libro("1984", "Paperino", "Fantascienza", 1949, "Italiano", ":/Immagini/LogoLibro1.png", true, 5, "123456789", "Mondadori", 500, 0, "Scaffale A1", 4.8),
-        new Film("The Shawshank Redemption", "Paperino", "Drammatico", 1994, "Inglese", ":/Immagini/LogoFilm1.png", true, 3, 142, {"Tim Robbins", "Morgan Freeman"}, 0, "Scaffale B2", 5.0),
-        new Film("Pulp Fiction", "Paperino", "Commedia", 1994, "Inglese", ":/Immagini/LogoFilm1.png", true, 3, 154, {"John Travolta", "Uma Thurman"}, 0, "Scaffale B2", 4.5),
-        new GiocoDaTavolo("Ticket to Ride", "Paperino", "Strategia", 2004, "Italiano", ":/Immagini/LogoGioco1.png", true, 4, 2, 5, 120, "Alan R. Moon", 0, "Scaffale D4", 4.5),
-        new GiocoDaTavolo("Carcassonne", "Paperino", "Strategia", 2000, "Italiano", ":/Immagini/LogoGioco1.png", true, 4, 2, 5, 35, "Klaus-Jürgen Wrede", 0, "Scaffale D4", 4.0)
-    };
-
-
-    for (Media* media : listaMedia) {
-        QString mediaInfo = media->mediaInfo(); // Ottieni le informazioni del media
-
-        // Crea l'elemento della lista
-        QListWidgetItem *item = new QListWidgetItem(mediaInfo, mediaList);
-        
-        // Carica l'immagine del media
-        QPixmap pixmap(QString::fromStdString(media->getImmagine()));
-        if (!pixmap.isNull()) {
-            // Ridimensiona l'immagine a una dimensione appropriata per un'icona (es: 32x32 pixel)
-            QPixmap scaledPixmap = pixmap.scaled(32, 32, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-            
-            // Imposta l'immagine ridimensionata come icona dell'elemento
-            item->setIcon(QIcon(scaledPixmap));
-            
-            // Imposta la dimensione del testo in modo che ci sia spazio per l'icona
-            item->setSizeHint(QSize(mediaList->width(), 40)); // Altezza un po' maggiore per accogliere l'icona
-        }
-        
-        // Salva l'oggetto media nei dati dell'elemento
-        item->setData(Qt::UserRole, QVariant::fromValue(media));
-    }
+    updateMediaList(listaMedia); // Popola la lista con i media
 
     mediaList->setFocusPolicy(Qt::NoFocus); // Disabilita il focus per la lista
 
@@ -629,13 +639,13 @@ void MainPage::updateGenreComboBox() {
             genreComboBox->addItems({"Alternative", "Blues", "Classica", "Country", "Elettronica", "Folk", "Hip Hop", 
                                     "Jazz", "Metal", "Pop", "Rock"});
             break;
-        case 4: // Gioco da tavolo
-            genreComboBox->addItems({"Astratto", "Cooperativo", "Giochi di carte", "Giochi di miniature", 
-                                    "Giochi di ruolo", "Party game", "Strategia"});
-            break;
-        case 5: // Rivista
+        case 4: // Rivista
             genreComboBox->addItems({"Attualità", "Arte", "Cucina","Culturale", "Economia", "Intrattenimento", "Moda",  "Salute",
                                     "Scientifica", "Sport", "Tecnologia", "Viaggi"});
+            break;
+        case 5: // Gioco da tavolo
+            genreComboBox->addItems({"Astratto", "Cooperativo", "Giochi di carte", "Giochi di miniature", 
+                                    "Giochi di ruolo", "Party game", "Strategia"});
             break;
         default: // Qualsiasi o non specificato
             break;
@@ -655,16 +665,47 @@ void MainPage::onBackButtonClicked() {
 }
 
 void MainPage::onApplyFiltersClicked() {
-    // Logica per applicare i filtri impostati dall'utente
-    // Esempio: aggiorna la lista dei media in base ai filtri
-    qDebug() << "Filtri applicati!";
+    // Logica per applicare i filtri impostati
+    string mediaType = mediaTypeComboBox->currentText().toStdString();
+    if (mediaType == "Qualsiasi") {
+        mediaType = ""; // Se l'utente ha selezionato "Qualsiasi", non applicare il filtro
+    }
+
+    string genre = genreComboBox->currentText().toStdString();
+    if (genre == "Qualsiasi genere") {
+        genre = ""; // Se l'utente ha selezionato "Qualsiasi genere", non applicare il filtro
+    }
+
+    double ratingMin = ratingMinLineEdit->text().toDouble();
+    double ratingMax = ratingMaxLineEdit->text().toDouble();
+    if (ratingMax == 0) {
+        ratingMax = 5.0; // Se l'utente non ha inserito un valore, impostalo a 5.0
+    }
+
+    string language = languageLineEdit->text().toStdString();
+
+    int minYear = minYearLineEdit->text().toInt();
+    int maxYear = maxYearLineEdit->text().toInt();
+    if (maxYear == 0) {
+        maxYear = 3000; // Se l'utente non ha inserito un valore, impostalo a 3000
+    }
+    bool available = availableCheckBox->isChecked();
+
+    vector<Media*> listaFiltrata = biblioteca->filtra("", mediaType, genre, ratingMin, ratingMax, available, language, minYear, maxYear);
+
+    if (listaFiltrata.empty()) {
+        QMessageBox::information(this, "Nessun risultato", "Nessun media trovato con i filtri selezionati.");
+    } else{
+        updateMediaList(listaFiltrata);
+    }    
 }
 
 void MainPage::onClearFiltersClicked() {
     // Logica per eliminare i filtri impostati
     mediaTypeComboBox->setCurrentIndex(0);
     genreComboBox->setCurrentIndex(0);
-    ratingLineEdit->clear();
+    ratingMinLineEdit->clear();
+    ratingMaxLineEdit->clear();
     languageLineEdit->clear();
     minYearLineEdit->clear();
     maxYearLineEdit->clear();
@@ -673,4 +714,31 @@ void MainPage::onClearFiltersClicked() {
 
 void MainPage::onAddMediaButtonClicked() {
     emit goToAddPage(); // Emetto un segnale per passare alla pagina di aggiunta media
+}
+
+void MainPage::updateMediaList(vector<Media*> listaFiltrata){
+    mediaList->clear(); // Pulisci la lista esistente
+
+    for (Media* media : listaFiltrata) {
+        QString mediaInfo = media->mediaInfo(); // Ottieni le informazioni del media
+
+        // Crea l'elemento della lista
+        QListWidgetItem *item = new QListWidgetItem(mediaInfo, mediaList);
+        
+        // Carica l'immagine del media
+        QPixmap pixmap(QString::fromStdString(media->getImmagine()));
+        if (!pixmap.isNull()) {
+            // Ridimensiona l'immagine a una dimensione appropriata per un'icona (es: 32x32 pixel)
+            QPixmap scaledPixmap = pixmap.scaled(32, 32, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+            
+            // Imposta l'immagine ridimensionata come icona dell'elemento
+            item->setIcon(QIcon(scaledPixmap));
+            
+            // Imposta la dimensione del testo in modo che ci sia spazio per l'icona
+            item->setSizeHint(QSize(mediaList->width(), 40)); // Altezza un po' maggiore per accogliere l'icona
+        }
+        
+        // Salva l'oggetto media nei dati dell'elemento
+        item->setData(Qt::UserRole, QVariant::fromValue(media));
+    }
 }

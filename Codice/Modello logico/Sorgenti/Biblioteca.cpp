@@ -91,7 +91,7 @@ vector<Media*> Biblioteca::filtra(const string& titolo, const string& tipoMedia,
                 corrisponde = false;
             else if (tipoMedia == "Vinile" && dynamic_cast<Vinile*>(media) == nullptr)
                 corrisponde = false;
-            else if (tipoMedia == "Gioco" && dynamic_cast<GiocoDaTavolo*>(media) == nullptr)
+            else if (tipoMedia == "Gioco da tavolo" && dynamic_cast<GiocoDaTavolo*>(media) == nullptr)
                 corrisponde = false;
         }
         // Filtro per titolo
@@ -111,9 +111,10 @@ vector<Media*> Biblioteca::filtra(const string& titolo, const string& tipoMedia,
             }
         }
         // Filtro per disponibilità
-        if (corrisponde && disponibilita) {
-            if (!media->getDisponibilita())
-                corrisponde = false;
+        if (corrisponde) {
+            if ((disponibilita && !media->getDisponibilita()) || (!disponibilita && media->getDisponibilita())) {
+            corrisponde = false;
+            }
         }
         // Filtro per lingua
         if (corrisponde && !lingua.empty()) {

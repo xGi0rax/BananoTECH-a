@@ -53,10 +53,12 @@ private:
     QComboBox *genreComboBox;
     QLineEdit *minYearLineEdit;
     QLineEdit *maxYearLineEdit;
-    QLineEdit *ratingLineEdit;
+    QLineEdit *ratingMinLineEdit;
+    QLineEdit *ratingMaxLineEdit;
     QLineEdit *languageLineEdit;
     QPushButton *applyFiltersButton;
     QPushButton *clearFiltersButton;
+    QCheckBox *availableCheckBox;
 
     // Sezione centrale (Barra di ricerca e lista media)
     QLineEdit *searchBar;
@@ -100,7 +102,7 @@ private:
     void setupUI(); // metodo per configurare l'interfaccia utente
     // void setupFilters(); // metodo per configurare i filtri
     void updateGenreComboBox(); // metodo per aggiornare la combobox dei generi in base al tipo di media selezionato
-    // void updateMediaList(); // metodo per aggiornare la lista dei media in base ai filtri selezionati
+    void updateMediaList(vector<Media*> listaFiltrata); // metodo per aggiornare la lista dei media in base ai filtri selezionati
 
 protected:
     void resizeEvent(QResizeEvent* event) override;
