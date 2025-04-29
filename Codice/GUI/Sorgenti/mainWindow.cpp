@@ -10,9 +10,10 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent) {
     setupLoginPage();
     setupMainPage();
     setupAddPage();
+    setupDetailsPage();
 
     // Mostra inizialmente la pagina di login
-    stackedWidget->setCurrentWidget(addPage);
+    stackedWidget->setCurrentWidget(loginPage);
 
     setWindowTitle("BananoTECH-a");
     resize(900, 650);
@@ -55,6 +56,16 @@ void MainWindow::setupAddPage(){
     connect(addPage, &AddPage::goBackToMainPage, this, &MainWindow::switchToMainPage);
 }
 
+void MainWindow::setupDetailsPage(){
+    // Creazione della pagina di dettaglio media
+    detailsPage = new DetailsPage(this);
+
+    stackedWidget->addWidget(detailsPage);
+
+    // Connetto il segnale per tornare alla pagina principale
+    connect(detailsPage, &DetailsPage::goBackToMainPage, this, &MainWindow::switchToMainPage);
+}
+
 void MainWindow::switchToLoginPage() {
     stackedWidget->setCurrentWidget(loginPage); // Cambia alla pagina di login
 }
@@ -65,6 +76,11 @@ void MainWindow::switchToMainPage() {
 
 void MainWindow::switchToAddPage() {
     stackedWidget->setCurrentWidget(addPage); // Cambia alla pagina di aggiunta media
+}
+
+void MainWindow::switchToDetailsPage(Media* media) {
+    detailsPage->setMedia(media);
+    stackedWidget->setCurrentWidget(detailsPage);
 }
 
 void MainWindow::onLoginButtonClicked() {
