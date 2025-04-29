@@ -10,7 +10,8 @@
 #include <QApplication>
 
 MainPage::MainPage(QWidget *parent) : QWidget(parent) {
-    setupUI();
+    setupBiblioteca(); // Inizializza la biblioteca
+    setupUI(); // Configura l'interfaccia utente
 
     // Inizializza i pulsanti per la lista ma li nasconde inizialmente
     buttonsContainer = new QWidget(mediaList);
@@ -71,8 +72,6 @@ MainPage::MainPage(QWidget *parent) : QWidget(parent) {
     connect(mediaList, &QListWidget::currentRowChanged, this, [this](int) { 
         hideActionButtons(); 
     });
-    setupBiblioteca(); // Inizializza la biblioteca
-    setupUI(); // Configura l'interfaccia utente
 }
 
 void MainPage::setupBiblioteca() {

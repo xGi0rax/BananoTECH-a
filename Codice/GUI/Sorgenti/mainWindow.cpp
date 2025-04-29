@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent) {
     setupAddPage();
 
     // Mostra inizialmente la pagina di login
-    stackedWidget->setCurrentWidget(addPage);
+    stackedWidget->setCurrentWidget(loginPage);
 
     setWindowTitle("BananoTECH-a");
     resize(900, 650);

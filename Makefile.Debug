@@ -162,7 +162,9 @@ debug/qrc_resources.cpp: resources.qrc \
 		Immagini/icon1.png \
 		Immagini/LogoGioco1.png \
 		Immagini/Sfondo1Definitivo.jpg \
+		Immagini/matita.png \
 		Immagini/LogoRivista1.png \
+		Immagini/cestino.png \
 		Immagini/LogoLibro1.png \
 		Immagini/LogoVinile1.png \
 		Immagini/LogoFilm1.png
@@ -391,9 +393,6 @@ debug/moc_MainWindow.cpp: Codice/GUI/Headers/MainWindow.h \
 		C:/Qt/6.8.1/mingw_64/include/QtWidgets/qlayoutitem.h \
 		C:/Qt/6.8.1/mingw_64/include/QtWidgets/qgridlayout.h \
 		C:/Qt/6.8.1/mingw_64/include/QtWidgets/QWidget \
-		Codice/Modello\ logico/Headers/Biblioteca.h \
-		Codice/Modello\ logico/Headers/Media.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/QString \
 		Codice/GUI/Headers/LoginPage.h \
 		C:/Qt/6.8.1/mingw_64/include/QtWidgets/QFrame \
 		C:/Qt/6.8.1/mingw_64/include/QtGui/QKeyEvent \
@@ -445,6 +444,9 @@ debug/moc_MainWindow.cpp: Codice/GUI/Headers/MainWindow.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qcalendar.h \
 		C:/Qt/6.8.1/mingw_64/include/QtWidgets/QScrollArea \
 		C:/Qt/6.8.1/mingw_64/include/QtWidgets/qscrollarea.h \
+		Codice/Modello\ logico/Headers/Biblioteca.h \
+		Codice/Modello\ logico/Headers/Media.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/QString \
 		debug/moc_predefs.h \
 		C:/Qt/6.8.1/mingw_64/bin/moc.exe
 	C:\Qt\6.8.1\mingw_64\bin\moc.exe $(DEFINES) --include "C:/Users/Huawei/Desktop/Università/2023-24/2 Anno/2. Secondo semestre/PAO - progetto/BananoTECH-a/debug/moc_predefs.h" -IC:/Qt/6.8.1/mingw_64/mkspecs/win32-g++ -I"C:/Users/Huawei/Desktop/Università/2023-24/2 Anno/2. Secondo semestre/PAO - progetto/BananoTECH-a" -I"C:/Users/Huawei/Desktop/Università/2023-24/2 Anno/2. Secondo semestre/PAO - progetto/BananoTECH-a" -IC:/Qt/6.8.1/mingw_64/include -IC:/Qt/6.8.1/mingw_64/include/QtWidgets -IC:/Qt/6.8.1/mingw_64/include/QtGui -IC:/Qt/6.8.1/mingw_64/include/QtXml -IC:/Qt/6.8.1/mingw_64/include/QtCore -IC:/msys64/mingw64/include/c++/13.2.0 -IC:/msys64/mingw64/include/c++/13.2.0/x86_64-w64-mingw32 -IC:/msys64/mingw64/include/c++/13.2.0/backward -IC:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/13.2.0/include -IC:/msys64/mingw64/include -IC:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/13.2.0/include-fixed Codice\GUI\Headers\MainWindow.h -o debug\moc_MainWindow.cpp
@@ -923,6 +925,9 @@ debug/moc_MainPage.cpp: Codice/GUI/Headers/MainPage.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qcalendar.h \
 		C:/Qt/6.8.1/mingw_64/include/QtWidgets/QScrollArea \
 		C:/Qt/6.8.1/mingw_64/include/QtWidgets/qscrollarea.h \
+		Codice/Modello\ logico/Headers/Biblioteca.h \
+		Codice/Modello\ logico/Headers/Media.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/QString \
 		debug/moc_predefs.h \
 		C:/Qt/6.8.1/mingw_64/bin/moc.exe
 	C:\Qt\6.8.1\mingw_64\bin\moc.exe $(DEFINES) --include "C:/Users/Huawei/Desktop/Università/2023-24/2 Anno/2. Secondo semestre/PAO - progetto/BananoTECH-a/debug/moc_predefs.h" -IC:/Qt/6.8.1/mingw_64/mkspecs/win32-g++ -I"C:/Users/Huawei/Desktop/Università/2023-24/2 Anno/2. Secondo semestre/PAO - progetto/BananoTECH-a" -I"C:/Users/Huawei/Desktop/Università/2023-24/2 Anno/2. Secondo semestre/PAO - progetto/BananoTECH-a" -IC:/Qt/6.8.1/mingw_64/include -IC:/Qt/6.8.1/mingw_64/include/QtWidgets -IC:/Qt/6.8.1/mingw_64/include/QtGui -IC:/Qt/6.8.1/mingw_64/include/QtXml -IC:/Qt/6.8.1/mingw_64/include/QtCore -IC:/msys64/mingw64/include/c++/13.2.0 -IC:/msys64/mingw64/include/c++/13.2.0/x86_64-w64-mingw32 -IC:/msys64/mingw64/include/c++/13.2.0/backward -IC:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/13.2.0/include -IC:/msys64/mingw64/include -IC:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/13.2.0/include-fixed Codice\GUI\Headers\MainPage.h -o debug\moc_MainPage.cpp
@@ -1409,9 +1414,6 @@ debug/main.o: main.cpp C:/Qt/6.8.1/mingw_64/include/QtWidgets/QApplication \
 		C:/Qt/6.8.1/mingw_64/include/QtWidgets/qlayoutitem.h \
 		C:/Qt/6.8.1/mingw_64/include/QtWidgets/qgridlayout.h \
 		C:/Qt/6.8.1/mingw_64/include/QtWidgets/QWidget \
-		Codice/Modello\ logico/Headers/Biblioteca.h \
-		Codice/Modello\ logico/Headers/Media.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/QString \
 		Codice/GUI/Headers/LoginPage.h \
 		C:/Qt/6.8.1/mingw_64/include/QtWidgets/QFrame \
 		C:/Qt/6.8.1/mingw_64/include/QtGui/QKeyEvent \
@@ -1462,7 +1464,10 @@ debug/main.o: main.cpp C:/Qt/6.8.1/mingw_64/include/QtWidgets/QApplication \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qdatetime.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qcalendar.h \
 		C:/Qt/6.8.1/mingw_64/include/QtWidgets/QScrollArea \
-		C:/Qt/6.8.1/mingw_64/include/QtWidgets/qscrollarea.h
+		C:/Qt/6.8.1/mingw_64/include/QtWidgets/qscrollarea.h \
+		Codice/Modello\ logico/Headers/Biblioteca.h \
+		Codice/Modello\ logico/Headers/Media.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/QString
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\main.o main.cpp
 
 debug/Biblioteca.o: Codice/Modello\ logico/Sorgenti/Biblioteca.cpp Codice/Modello\ logico/Headers/Biblioteca.h \
@@ -2855,9 +2860,6 @@ debug/MainWindow.o: Codice/GUI/Sorgenti/MainWindow.cpp Codice/GUI/Headers/MainWi
 		C:/Qt/6.8.1/mingw_64/include/QtWidgets/qlayoutitem.h \
 		C:/Qt/6.8.1/mingw_64/include/QtWidgets/qgridlayout.h \
 		C:/Qt/6.8.1/mingw_64/include/QtWidgets/QWidget \
-		Codice/Modello\ logico/Headers/Biblioteca.h \
-		Codice/Modello\ logico/Headers/Media.h \
-		C:/Qt/6.8.1/mingw_64/include/QtCore/QString \
 		Codice/GUI/Headers/LoginPage.h \
 		C:/Qt/6.8.1/mingw_64/include/QtWidgets/QFrame \
 		C:/Qt/6.8.1/mingw_64/include/QtGui/QKeyEvent \
@@ -2908,7 +2910,10 @@ debug/MainWindow.o: Codice/GUI/Sorgenti/MainWindow.cpp Codice/GUI/Headers/MainWi
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qdatetime.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qcalendar.h \
 		C:/Qt/6.8.1/mingw_64/include/QtWidgets/QScrollArea \
-		C:/Qt/6.8.1/mingw_64/include/QtWidgets/qscrollarea.h
+		C:/Qt/6.8.1/mingw_64/include/QtWidgets/qscrollarea.h \
+		Codice/Modello\ logico/Headers/Biblioteca.h \
+		Codice/Modello\ logico/Headers/Media.h \
+		C:/Qt/6.8.1/mingw_64/include/QtCore/QString
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\MainWindow.o Codice\GUI\Sorgenti\MainWindow.cpp
 
 debug/LoginPage.o: Codice/GUI/Sorgenti/LoginPage.cpp Codice/GUI/Headers/LoginPage.h \
@@ -3386,13 +3391,20 @@ debug/MainPage.o: Codice/GUI/Sorgenti/MainPage.cpp C:/Qt/6.8.1/mingw_64/include/
 		C:/Qt/6.8.1/mingw_64/include/QtCore/qcalendar.h \
 		C:/Qt/6.8.1/mingw_64/include/QtWidgets/QScrollArea \
 		C:/Qt/6.8.1/mingw_64/include/QtWidgets/qscrollarea.h \
+		Codice/Modello\ logico/Headers/Biblioteca.h \
 		Codice/Modello\ logico/Headers/Media.h \
 		C:/Qt/6.8.1/mingw_64/include/QtCore/QString \
 		Codice/Modello\ logico/Headers/Libro.h \
 		Codice/Modello\ logico/Headers/Film.h \
 		Codice/Modello\ logico/Headers/Vinile.h \
 		Codice/Modello\ logico/Headers/GiocoDaTavolo.h \
-		Codice/Modello\ logico/Headers/Rivista.h
+		Codice/Modello\ logico/Headers/Rivista.h \
+		C:/Qt/6.8.1/mingw_64/include/QtWidgets/QMessageBox \
+		C:/Qt/6.8.1/mingw_64/include/QtWidgets/qmessagebox.h \
+		C:/Qt/6.8.1/mingw_64/include/QtWidgets/qdialog.h \
+		C:/Qt/6.8.1/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
+		C:/Qt/6.8.1/mingw_64/include/QtWidgets/QApplication \
+		C:/Qt/6.8.1/mingw_64/include/QtWidgets/qapplication.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\MainPage.o Codice\GUI\Sorgenti\MainPage.cpp
 
 debug/AddPage.o: Codice/GUI/Sorgenti/AddPage.cpp Codice/GUI/Headers/AddPage.h \
@@ -3648,7 +3660,9 @@ debug/AddPage.o: Codice/GUI/Sorgenti/AddPage.cpp Codice/GUI/Headers/AddPage.h \
 		C:/Qt/6.8.1/mingw_64/include/QtWidgets/qdialog.h \
 		C:/Qt/6.8.1/mingw_64/include/QtWidgets/QMessageBox \
 		C:/Qt/6.8.1/mingw_64/include/QtWidgets/qmessagebox.h \
-		C:/Qt/6.8.1/mingw_64/include/QtWidgets/qdialogbuttonbox.h
+		C:/Qt/6.8.1/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
+		C:/Qt/6.8.1/mingw_64/include/QtWidgets/QSplitter \
+		C:/Qt/6.8.1/mingw_64/include/QtWidgets/qsplitter.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\AddPage.o Codice\GUI\Sorgenti\AddPage.cpp
 
 debug/qrc_resources.o: debug/qrc_resources.cpp 
