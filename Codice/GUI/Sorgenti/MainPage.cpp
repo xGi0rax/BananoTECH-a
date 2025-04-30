@@ -84,6 +84,8 @@ void MainPage::setupBiblioteca() {
     string id = "VC";
     biblioteca = new Biblioteca(id); // Inizializza la biblioteca
 
+    QMessageBox::information(this, "Informazione", "Ora seleziona un file .xml o .json a tua scelta!");
+
     // Apri una finestra di dialogo per selezionare un file JSON o XML
     QFileDialog fileDialog(this);
     fileDialog.setWindowTitle("Seleziona un file di biblioteca");
@@ -123,7 +125,7 @@ void MainPage::setupBiblioteca() {
                             "Verrà utilizzata una biblioteca vuota.");
     } else if (success) {
         QMessageBox::information(this, "Caricamento completato", 
-                                "I dati della biblioteca sono stati caricati con successo.");
+                                "I dati della biblioteca sono stati caricati con successo!");
     }
 }
 
@@ -168,6 +170,8 @@ void MainPage::setupUI(){
     // Collego il cambiamento del tipo media alla funzione di aggiornamento della combobox dei generi
     genreComboBox = new QComboBox();
     genreComboBox->addItem("Qualsiasi genere");
+    genreComboBox->setEnabled(false); // Inizialmente disabilitato
+    genreComboBox->setToolTip("Seleziona prima un tipo di media specifico"); // Tooltip esplicativo
     updateGenreComboBox(); // Popola i generi in base al tipo selezionato
 
     connect(mediaTypeComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &MainPage::onMediaTypeChanged);
@@ -224,81 +228,28 @@ void MainPage::setupUI(){
         "}"
     );
 
-    // Separatore orizzontale
-    QFrame *separator = new QFrame();
-    separator->setFrameShape(QFrame::HLine);
-    separator->setFrameShadow(QFrame::Sunken);
-
     filtersLayout = new QVBoxLayout();
     filtersLayout->addWidget(new QLabel("Tipo media:"));
     filtersLayout->addWidget(mediaTypeComboBox);
 
-    // Separatore sottile dopo il filtro tipo media
-    QFrame *separator1 = new QFrame();
-    separator1->setFrameShape(QFrame::HLine);
-    separator1->setFrameShadow(QFrame::Sunken);
-    separator1->setMaximumHeight(1);
-    filtersLayout->addWidget(separator1);
-
     filtersLayout->addWidget(new QLabel("Genere:")); 
     filtersLayout->addWidget(genreComboBox);
-
-    // Separatore sottile dopo il filtro genere
-    QFrame *separator2 = new QFrame();
-    separator2->setFrameShape(QFrame::HLine);
-    separator2->setFrameShadow(QFrame::Sunken);
-    separator2->setMaximumHeight(1);
-    filtersLayout->addWidget(separator2);
 
     filtersLayout->addWidget(new QLabel("Rating"));
     filtersLayout->addWidget(ratingMinLineEdit);
     filtersLayout->addWidget(ratingMaxLineEdit);
 
-    // Separatore sottile dopo il filtro rating
-    QFrame *separator3 = new QFrame();
-    separator3->setFrameShape(QFrame::HLine);
-    separator3->setFrameShadow(QFrame::Sunken);
-    separator3->setMaximumHeight(1);
-    filtersLayout->addWidget(separator3);
-
     filtersLayout->addWidget(new QLabel("Disponibilità:"));
     filtersLayout->addWidget(availableCheckBox);
-
-    // Separatore sottile dopo il filtro disponibilità
-    QFrame *separator4 = new QFrame();
-    separator4->setFrameShape(QFrame::HLine);
-    separator4->setFrameShadow(QFrame::Sunken);
-    separator4->setMaximumHeight(1);
-    filtersLayout->addWidget(separator4);
 
     filtersLayout->addWidget(new QLabel("Lingua:"));
     filtersLayout->addWidget(languageLineEdit);
 
-    // Separatore sottile dopo il filtro lingua
-    QFrame *separator5 = new QFrame();
-    separator5->setFrameShape(QFrame::HLine);
-    separator5->setFrameShadow(QFrame::Sunken);
-    separator5->setMaximumHeight(1);
-    filtersLayout->addWidget(separator5);
-
     filtersLayout->addWidget(new QLabel("Anno minimo:"));
     filtersLayout->addWidget(minYearLineEdit);
 
-    // Separatore sottile dopo il filtro anno minimo
-    QFrame *separator6 = new QFrame();
-    separator6->setFrameShape(QFrame::HLine);
-    separator6->setFrameShadow(QFrame::Sunken);
-    separator6->setMaximumHeight(1);
-    filtersLayout->addWidget(separator6);
-
     filtersLayout->addWidget(new QLabel("Anno massimo:"));
     filtersLayout->addWidget(maxYearLineEdit);
-
-    QFrame *separator7 = new QFrame();
-    separator7->setFrameShape(QFrame::HLine);
-    separator7->setFrameShadow(QFrame::Sunken);
-    separator7->setMaximumHeight(2);
-    filtersLayout->addWidget(separator7);
 
     // Aggiunta dei pulsanti al layout contenitore
     filtersLayout->addWidget(applyFiltersButton);
@@ -492,6 +443,7 @@ void MainPage::onMediaSelected(QListWidgetItem *item) {
 
     // Aggiorno l'immagine
     QPixmap pixmap(QString::fromStdString(selectedMedia->getImmagine()));
+
     if (!pixmap.isNull()) {
         originalPixmap = pixmap;
         // Rimuovi il fixed size e usa minimum/maximum size invece
@@ -629,7 +581,7 @@ void MainPage::updateGenreComboBox() {
     
     switch(currentType) {
         case 1: // Libro
-            genreComboBox->addItems({"Avventura", "Biografia", "Biografia", "Fantasy",                                  "Giallo", "Horror", "Romanzo", "Storico", "Saggio", "Thriller"});
+            genreComboBox->addItems({"Avventura", "Biografia", "Biografia", "Fantasy", "Giallo", "Horror", "Romanzo", "Storico", "Saggio", "Thriller"});
             break;
         case 2: // Film
             genreComboBox->addItems({"Animazione", "Azione", "Avventura", "Commedia", 
@@ -657,6 +609,17 @@ void MainPage::updateGenreComboBox() {
 // -----------------------------
 void MainPage::onMediaTypeChanged() {
     updateGenreComboBox();
+    
+    // Abilita la combobox dei generi solo se è stato selezionato un tipo di media specifico
+    int selectedIndex = mediaTypeComboBox->currentIndex();
+    
+    if (selectedIndex == 0) { // "Qualsiasi" è selezionato
+        genreComboBox->setEnabled(false);
+        genreComboBox->setToolTip("Seleziona prima un tipo di media specifico");
+    } else {
+        genreComboBox->setEnabled(true);
+        genreComboBox->setToolTip(""); // Rimuove il tooltip
+    }
 }
 
 void MainPage::onBackButtonClicked() {
@@ -704,41 +667,68 @@ void MainPage::onClearFiltersClicked() {
     // Logica per eliminare i filtri impostati
     mediaTypeComboBox->setCurrentIndex(0);
     genreComboBox->setCurrentIndex(0);
+    genreComboBox->setEnabled(false); // Disabilita nuovamente quando i filtri sono cancellati
+    genreComboBox->setToolTip("Seleziona prima un tipo di media specifico");
     ratingMinLineEdit->clear();
     ratingMaxLineEdit->clear();
     languageLineEdit->clear();
     minYearLineEdit->clear();
     maxYearLineEdit->clear();
-    qDebug() << "Filtri eliminati!";
+    availableCheckBox->setChecked(true); // Reset checkbox disponibilità a stato predefinito
+    
+    // Ripristina la lista con tutti i media disponibili in biblioteca
+    vector<Media*> listaCompleta = biblioteca->getListaMedia();
+    updateMediaList(listaCompleta);
+    
+    // Opzionale: mostra messaggio di conferma all'utente
+    QMessageBox::information(this, "Filtri eliminati", "I filtri sono stati eliminati e la lista è stata ripristinata.");
 }
 
 void MainPage::onAddMediaButtonClicked() {
     emit goToAddPage(); // Emetto un segnale per passare alla pagina di aggiunta media
 }
 
-void MainPage::updateMediaList(vector<Media*> listaFiltrata){
+void MainPage::updateMediaList(vector<Media*> listaFiltrata) {
     mediaList->clear(); // Pulisci la lista esistente
 
     for (Media* media : listaFiltrata) {
         QString mediaInfo = media->mediaInfo(); // Ottieni le informazioni del media
 
         // Crea l'elemento della lista
-        QListWidgetItem *item = new QListWidgetItem(mediaInfo, mediaList);
+        QListWidgetItem *item = new QListWidgetItem(mediaList);
         
-        // Carica l'immagine del media
-        QPixmap pixmap(QString::fromStdString(media->getImmagine()));
-        if (!pixmap.isNull()) {
-            // Ridimensiona l'immagine a una dimensione appropriata per un'icona (es: 32x32 pixel)
-            QPixmap scaledPixmap = pixmap.scaled(32, 32, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-            
-            // Imposta l'immagine ridimensionata come icona dell'elemento
-            item->setIcon(QIcon(scaledPixmap));
-            
-            // Imposta la dimensione del testo in modo che ci sia spazio per l'icona
-            item->setSizeHint(QSize(mediaList->width(), 40)); // Altezza un po' maggiore per accogliere l'icona
+        // Imposta il testo dell'elemento
+        item->setText(mediaInfo);
+        
+        // Determina l'icona in base al tipo di media
+        QString iconPath;
+        
+        if (dynamic_cast<Libro*>(media)) {
+            iconPath = ":/Immagini/LogoLibro1.png";
+        } 
+        else if (dynamic_cast<Film*>(media)) {
+            iconPath = ":/Immagini/LogoFilm1.png";
+        } 
+        else if (dynamic_cast<Vinile*>(media)) {
+            iconPath = ":/Immagini/LogoVinile1.png";
+        } 
+        else if (dynamic_cast<Rivista*>(media)) {
+            iconPath = ":/Immagini/LogoRivista1.png";
+        } 
+        else if (dynamic_cast<GiocoDaTavolo*>(media)) {
+            iconPath = ":/Immagini/LogoGioco1.png";
         }
         
-        // Salva l'oggetto media nei dati dell'elemento
+        // Imposta l'icona specifica per il tipo di media
+        if (!iconPath.isEmpty()) {
+            QIcon icon(iconPath);
+            item->setIcon(icon);
+        }
+        
+        // Imposta la dimensione dell'elemento per avere spazio sufficiente
+        item->setSizeHint(QSize(mediaList->width(), 48));
+        
+        // IMPORTANTE: Salva l'oggetto media nei dati dell'elemento
         item->setData(Qt::UserRole, QVariant::fromValue(media));
     }
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <biblioteca>
-    <media tipo="film" id="VC-1" titolo="Inception" autore="Christopher Nolan" genere="Fantascienza" anno="2010" lingua="Italiano" immagine="inception.jpg" disponibilita="1" numero_copie="5" in_prestito="0" collocazione="PG-13" rating="4.8" durata="148">
+    <media tipo="film" id="VC-1" titolo="Inception" autore="Christopher Nolan" genere="Fantascienza" anno="2010" lingua="Italiano" immagine="conte_montecristo.jpg" disponibilita="1" numero_copie="5" in_prestito="0" collocazione="PG-13" rating="4.8" durata="148">
         <cast>
             <attore>Leonardo DiCaprio</attore>
             <attore>Joseph Gordon-Levitt</attore>
