@@ -6,6 +6,7 @@
 - togliere linee sui filtri
 - collegare tasto per eliminare i filtri a metodo filtra con filtri vuoti
 - popolare file json e file xml con un po' di esempi con relative immagini corrette (almeno 2 x ogni genere di ogni media)
+- dare feedback all'apertura della finestra dopo il login per scegliere il file json/xml (per esempio "scegli il file da caricare") 
 
 ### Giacomone
 - pagina "aggiungi": implementare salvataggio media nel sistema
