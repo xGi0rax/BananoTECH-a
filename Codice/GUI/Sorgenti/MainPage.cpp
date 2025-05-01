@@ -733,3 +733,29 @@ void MainPage::updateMediaList(vector<Media*> listaFiltrata) {
         item->setData(Qt::UserRole, QVariant::fromValue(media));
     }
 }
+
+void MainPage::onNewMediaCreated(Media* newMedia) {
+    // Aggiungo il nuovo media alla lista della biblioteca
+    biblioteca->aggiungiMedia(newMedia);
+    
+    // Aggiorno la lista dei media visualizzati
+    updateMediaList(biblioteca->getListaMedia());
+    
+    // Resetta l'anteprima
+    mediaTitleLabel->setText("");
+    mediaAuthorLabel->setText("Seleziona un media per vedere i dettagli");
+    mediaYearLabel->setText("");
+    mediaRatingLabel->setText("");
+    mediaImageLabel->setText("Nessuna immagine");
+    mediaImageLabel->setStyleSheet(
+        "border: 1px solid black;"
+        "background-color: white;"
+        "color: gray;"
+        "padding: 5px;"
+    );
+    
+    // Disabilita i pulsanti dell'anteprima
+    borrowButton->setEnabled(false);
+    detailsButton->setEnabled(false);
+    editMediaButton->setEnabled(false);
+}

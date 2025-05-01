@@ -11,7 +11,7 @@
 - popolare file json e file xml con un po' di esempi con relative immagini corrette (almeno 2 x ogni genere di ogni media)
 
 ### Giacomone
-- pagina "aggiungi": implementare salvataggio media nel sistema
+- pagina "aggiungi": implementare salvataggio media nel sistema OK
 - pagina "modifica"
 - controllare che segnali e slot siano corretti
 - capire a cosa serve clearErrorMessage in LoginPage

@@ -55,6 +55,9 @@ void MainWindow::setupAddPage(){
 
     // Connetto il segnale per tornare alla pagina principale
     connect(addPage, &AddPage::goBackToMainPage, this, &MainWindow::switchToMainPage);
+
+    // Connetto il segnale per la creazione del media
+    connect(addPage, &AddPage::mediaCreated, mainPage, &MainPage::onNewMediaCreated);
 }
 
 void MainWindow::setupDetailsPage(){

@@ -45,11 +45,9 @@ bool FilmDetailsWidget::validateData() {
 }
 
 Media* FilmDetailsWidget::createMedia() {
-    if (!validateData()) {
-        return nullptr;
-    }
-    
-    // Estrai il cast dalla stringa separata da virgole
+    // Il controllo di valità è già stato fatto da validateData() in AddPage una volta premuto il pulsante "Salva Media" (metodo onSaveMediaButtonClicked())
+
+    // Estraggo il cast dalla stringa separata da virgole
     vector<string> cast;
     QString castString = castEdit->text();
     QStringList castList = castString.split(",", Qt::SkipEmptyParts);
@@ -57,7 +55,7 @@ Media* FilmDetailsWidget::createMedia() {
         cast.push_back(actor.trimmed().toStdString());
     }
     
-    // Crea e restituisci un nuovo oggetto Film
+    // Creo e restituisco un nuovo oggetto Film
     return new Film(
         titleEdit->text().toStdString(),
         authorEdit->text().toStdString(),

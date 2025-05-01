@@ -77,7 +77,6 @@ private:
     // Metodi privati di configurazione UI
     void setupUI();
     void setupSelectionPage();
-    void setupDetailsPages();
     void showSelectionPage();
 };
 

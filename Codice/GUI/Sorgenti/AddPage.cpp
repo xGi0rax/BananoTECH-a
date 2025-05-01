@@ -110,7 +110,6 @@ void AddPage::setupUI() {
 
     // Setup delle pagine di dettaglio dei media
     detailsStackedWidget = new QStackedWidget();
-    setupDetailsPages();
     mainContentStack->addWidget(detailsStackedWidget);
 
     // Aggiungi l'area principale al divisore
@@ -231,11 +230,6 @@ void AddPage::setupSelectionPage() {
     selectionLayout->insertStretch(0, 1);
 }
 
-void AddPage::setupDetailsPages() {
-    // Inizializza currentDetailsWidget a nullptr
-    currentDetailsWidget = nullptr;
-}
-
 void AddPage::showSelectionPage() {
     // Reset della selezione
     if (mediaTypeGroup->checkedButton()) {
@@ -244,7 +238,7 @@ void AddPage::showSelectionPage() {
         mediaTypeGroup->setExclusive(true);
     }
     
-    // Mostra la pagina di selezione
+    // Mostro la pagina di selezione
     mainContentStack->setCurrentWidget(selectionWidget);
 }
 
@@ -253,7 +247,7 @@ void AddPage::onBackButtonClicked() {
 }
 
 void AddPage::onConfirmTypeButtonClicked() {
-    // Verifica che sia selezionato un tipo di media
+    // Verifico che sia selezionato un tipo di media
     if (!mediaTypeGroup->checkedButton()) {
         QMessageBox::warning(this, "Errore", "Seleziona un tipo di media!");
         return;
@@ -313,7 +307,7 @@ void AddPage::onSaveMediaButtonClicked() {
 
     // Controllo se tutti i campi sono stati inseriti
     if (!currentDetailsWidget->validateData()) {
-        QMessageBox::warning(this, "Errore", "Compila tutti i campi obbligatori!");
+        QMessageBox::warning(this, "Errore", "Tutti i campi sono obbligatori!");
         return;
     }
     
@@ -331,6 +325,15 @@ void AddPage::onSaveMediaButtonClicked() {
         
         QMessageBox::information(this, "Salvataggio", "Media salvato con successo!");
         
+        // Resetto la selezione e mostro la pagina di selezione
+        if (mediaTypeGroup->checkedButton()) {
+            mediaTypeGroup->setExclusive(false);
+            mediaTypeGroup->checkedButton()->setChecked(false);
+            mediaTypeGroup->setExclusive(true);
+        }
+        // Mostro la pagina di selezione
+        mainContentStack->setCurrentWidget(selectionWidget);
+
         // Torna alla pagina principale
         emit goBackToMainPage();
     } else {

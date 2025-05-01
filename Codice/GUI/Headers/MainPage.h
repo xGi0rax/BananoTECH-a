@@ -28,7 +28,7 @@ public:
     explicit MainPage(QWidget *parent = nullptr);
     void onMediaSelected(QListWidgetItem *item);
 
-private slots:
+public slots:
     void onBackButtonClicked();  // Slot per il tasto indietro
     void onMediaTypeChanged(); // Slot per il cambio del tipo di media nei filtri
     void onApplyFiltersClicked(); // Slot per applicare i filtri
@@ -36,6 +36,7 @@ private slots:
     void onAddMediaButtonClicked(); // Slot per aggiungere un nuovo media
     void onEditButtonClicked(); // Slot per il pulsante di modifica del media
     void onDeleteButtonClicked(); // Slot per il pulsante di rimozione del media dalla lista
+    void onNewMediaCreated(Media* newMedia); // Slot per aggiungere un nuovo media alla lista
 
 signals:
     void goToLoginPage(); // Segnale per notificare il cambio alla LoginPage
