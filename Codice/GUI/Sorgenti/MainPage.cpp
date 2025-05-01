@@ -86,7 +86,7 @@ void MainPage::setupBiblioteca() {
 
     // Apri una finestra di dialogo per selezionare un file JSON o XML
     QFileDialog fileDialog(this);
-    fileDialog.setWindowTitle("Seleziona un file di biblioteca");
+    fileDialog.setWindowTitle("Seleziona un file Json o Xml per importare i dati");
     fileDialog.setFileMode(QFileDialog::ExistingFile);
     fileDialog.setNameFilter("File supportati (*.json *.xml)");
     fileDialog.setViewMode(QFileDialog::Detail);
@@ -629,7 +629,7 @@ void MainPage::updateGenreComboBox() {
     
     switch(currentType) {
         case 1: // Libro
-            genreComboBox->addItems({"Avventura", "Biografia", "Biografia", "Fantasy",                                  "Giallo", "Horror", "Romanzo", "Storico", "Saggio", "Thriller"});
+            genreComboBox->addItems({"Avventura", "Biografia", "Biografia", "Fantasy", "Giallo", "Horror", "Romanzo", "Storico", "Saggio", "Thriller"});
             break;
         case 2: // Film
             genreComboBox->addItems({"Animazione", "Azione", "Avventura", "Commedia", 

@@ -7,6 +7,10 @@
 *.dll
 *.lib
 
+release/moc_*.cpp
+debug/moc_*.cpp
+build*/moc_*.cpp
+
 # Makefile generati automaticamente
 Makefile
 Makefile.*
