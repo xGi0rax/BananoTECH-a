@@ -22,13 +22,13 @@ LoginPage::LoginPage(QWidget *parent) : QWidget(parent) {
     usernameField = new QLineEdit(loginFrame);
     usernameField->setPlaceholderText("Username");
     usernameField->setFixedSize(330, 40);
-    usernameField->setStyleSheet("QLineEdit { background-color:rgb(159, 154, 154); color: black; border: 1px solid #AAAAAA; border-radius: 5px; padding: 5px; font-size: 16px; selection-background-color: #4a90e2; }");
+    usernameField->setStyleSheet("QLineEdit { background-color:rgb(237, 236, 236); color: black; border: 1px solid #AAAAAA; border-radius: 5px; padding: 5px; font-size: 16px; selection-background-color: #4a90e2; }");
         
     passwordField = new QLineEdit(loginFrame);
     passwordField->setPlaceholderText("Password");
     passwordField->setEchoMode(QLineEdit::Password);
     passwordField->setFixedSize(330, 40);
-    passwordField->setStyleSheet("QLineEdit { background-color: rgb(159, 154, 154); color: black; border: 1px solid #AAAAAA; border-radius: 5px; padding: 5px; font-size: 16px; selection-background-color: #4a90e2; }");
+    passwordField->setStyleSheet("QLineEdit { background-color: rgb(237, 236, 236); color: black; border: 1px solid #AAAAAA; border-radius: 5px; padding: 5px; font-size: 16px; selection-background-color: #4a90e2; }");
 
     loginButton = new QPushButton("Accedi", loginFrame);
     loginButton->setFixedSize(150, 45);

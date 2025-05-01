@@ -84,7 +84,8 @@ void MainPage::setupBiblioteca() {
     string id = "VC";
     biblioteca = new Biblioteca(id); // Inizializza la biblioteca
 
-    QMessageBox::information(this, "Informazione", "Ora seleziona un file .xml o .json a tua scelta!");
+    // Piuttosto farei che creiamo una schermata in cui chiediamo se l'utente vuole caricare un file oppure se vuole avviare una biblioteca vuota
+    //QMessageBox::information(this, "Informazione", "Ora seleziona un file .xml o .json a tua scelta!");
 
     // Apri una finestra di dialogo per selezionare un file JSON o XML
     QFileDialog fileDialog(this);

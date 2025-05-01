@@ -15,6 +15,13 @@
 #include <QSpinBox>
 #include <QDateEdit>
 #include <QScrollArea>
+#include "Widgets/MediaDetailsWidget.h"
+#include "Widgets/FilmDetailsWidget.h"
+#include "Widgets/LibroDetailsWidget.h"
+#include "Widgets/VinileDetailsWidget.h"
+#include "Widgets/RivistaDetailsWidget.h"
+#include "Widgets/GiocoDetailsWidget.h"
+
 
 class AddPage : public QWidget {
     Q_OBJECT
@@ -24,13 +31,12 @@ public:
 
 signals:
     void goBackToMainPage(); // Segnale per tornare alla pagina principale
+    void mediaCreated(Media *media); // Segnale per passare il nuovo media creato
 
 private slots:
     void onBackButtonClicked();
     void onConfirmTypeButtonClicked();
     void onSaveMediaButtonClicked();
-    void onCancelButtonClicked();
-    void onMediaTypeChanged(int index);
     void onUploadButtonClicked();
 
 private:
@@ -63,42 +69,8 @@ private:
 
     // Widget per l'inserimento dei campi del nuovo media
     QStackedWidget *detailsStackedWidget;
-    
-    // DA CONTROLLARE DA QUA IN GIU'
 
-    // Campi comuni a tutti i media
-    QLineEdit *titleEdit;
-    QLineEdit *authorEdit;
-    QComboBox *genreComboBox;
-    QSpinBox *yearEdit;
-    QLineEdit *languageEdit;
-    QSpinBox *ratingEdit;
-    
-    // Campi specifici per i vari tipi di media
-    // Per Film
-    QSpinBox *durationFilmEdit;
-    QLineEdit *castEdit; // Vettore di stringhe per gli attori
-    
-    // Per Libro
-    QLineEdit *isbnEdit;
-    QLineEdit *editorLibroEdit;
-    QSpinBox *pagesLibroEdit;
-    
-    // Per Vinile
-    QSpinBox *trackCountEdit;
-    QSpinBox *durationVinileEdit;
-    
-    // Per Rivista
-    QLineEdit *editorRivistaEdit;
-    QSpinBox *pagesRivistaEdit;
-    QDateEdit *publicationDateEdit;
-    QComboBox *periodicityComboBox;
-    
-    // Per Gioco Da Tavolo
-    QSpinBox *maxPlayersEdit;
-    QSpinBox *playTimeEdit;
-    QSpinBox *minAgeEdit;
-    QLineEdit *editorGiocoEdit;
+    MediaDetailsWidget *currentDetailsWidget;
     
     QPushButton *cancelButton;
     
@@ -106,14 +78,7 @@ private:
     void setupUI();
     void setupSelectionPage();
     void setupDetailsPages();
-    void setupFilmDetailsPage(QWidget *container);
-    void setupLibroDetailsPage(QWidget *container);
-    void setupVinileDetailsPage(QWidget *container);
-    void setupRivistaDetailsPage(QWidget *container);
-    void setupGiocoDetailsPage(QWidget *container);
-    
     void showSelectionPage();
-    void showDetailsPage(MediaType type);
 };
 
 #endif // ADDPAGE_H

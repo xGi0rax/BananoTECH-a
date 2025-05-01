@@ -140,13 +140,12 @@ void AddPage::onUploadButtonClicked() {
 }
 
 void AddPage::setupSelectionPage() {
-
     // Inizializzo il widget per la selezione del tipo di media
     selectionWidget = new QWidget(this);
 
     // Layout verticale per il contenuto del frame
     QVBoxLayout *selectionLayout = new QVBoxLayout(selectionWidget);
-    selectionLayout->setContentsMargins(10, 10, 10, 10);
+    selectionLayout->setContentsMargins(40, 40, 40, 40);
     selectionLayout->setSpacing(20);
 
     // Label con scritta
@@ -156,7 +155,7 @@ void AddPage::setupSelectionPage() {
     selectionLayout->addWidget(selectionLabel);
 
     // ButtonGroup di radio button per la selezione del tipo di media
-    mediaTypeGroup = new QButtonGroup(selectionWidget);
+    mediaTypeGroup = new QButtonGroup(this);
     filmRadio = new QRadioButton("Film", selectionWidget);
     libroRadio = new QRadioButton("Libro", selectionWidget);
     vinileRadio = new QRadioButton("Vinile", selectionWidget);
@@ -233,700 +232,20 @@ void AddPage::setupSelectionPage() {
 }
 
 void AddPage::setupDetailsPages() {
-    // Crea widget per ogni tipo di media
-    QWidget *filmWidget = new QWidget();
-    QWidget *libroWidget = new QWidget();
-    QWidget *vinileWidget = new QWidget();
-    QWidget *rivistaWidget = new QWidget();
-    QWidget *giocoWidget = new QWidget();
-    
-    // Setup delle pagine di dettaglio per ogni tipo di media
-    setupFilmDetailsPage(filmWidget);
-    setupLibroDetailsPage(libroWidget);
-    setupVinileDetailsPage(vinileWidget);
-    setupRivistaDetailsPage(rivistaWidget);
-    setupGiocoDetailsPage(giocoWidget);
-    
-    // Aggiungi le pagine al widget stack
-    detailsStackedWidget->addWidget(filmWidget);    // indice 0
-    detailsStackedWidget->addWidget(libroWidget);   // indice 1
-    detailsStackedWidget->addWidget(vinileWidget);  // indice 2
-    detailsStackedWidget->addWidget(rivistaWidget); // indice 3
-    detailsStackedWidget->addWidget(giocoWidget);   // indice 4
-}
-
-void AddPage::setupFilmDetailsPage(QWidget *container) {
-    QVBoxLayout *layout = new QVBoxLayout(container);
-    layout->setContentsMargins(20, 20, 20, 20);
-    
-    QScrollArea *scrollArea = new QScrollArea();
-    scrollArea->setWidgetResizable(true);
-    scrollArea->setFrameShape(QFrame::NoFrame);
-    scrollArea->setStyleSheet("background: transparent;");
-    
-    QWidget *scrollWidget = new QWidget();
-    QFormLayout *formLayout = new QFormLayout(scrollWidget);
-    formLayout->setSpacing(15);
-    formLayout->setLabelAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    formLayout->setFormAlignment(Qt::AlignLeft | Qt::AlignTop);
-    
-    QLabel *titleLabel = new QLabel("Dettagli Film", scrollWidget);
-    titleLabel->setStyleSheet("font-size: 18px; font-weight: bold; margin-bottom: 10px;");
-    titleLabel->setAlignment(Qt::AlignCenter);
-    formLayout->addRow(titleLabel);
-    
-    // Stile comune per le etichette
-    QString labelStyle = "QLabel { font-size: 14px; }";
-    
-    // Stile comune per i campi di input
-    QString inputStyle = "QLineEdit, QSpinBox, QComboBox { font-size: 14px; padding: 6px; min-height: 28px; }";
-
-    // Campi comuni
-    titleEdit = new QLineEdit(scrollWidget);
-    titleEdit->setStyleSheet(inputStyle);
-    titleEdit->setMinimumWidth(400);
-
-    authorEdit = new QLineEdit(scrollWidget);
-    authorEdit->setStyleSheet(inputStyle);
-
-    genreComboBox = new QComboBox(scrollWidget);
-    genreComboBox->addItems({"Animazione", "Azione", "Avventura", "Commedia", "Documentario", "Drammatico", "Fantasy", "Horror", "Romantico", "Sci-Fi", "Thriller", "Altro"});
-    genreComboBox->setStyleSheet(inputStyle);
-
-    yearEdit = new QSpinBox(scrollWidget);
-    yearEdit->setRange(1880, 2100);
-    yearEdit->setValue(2024);
-    yearEdit->setStyleSheet(inputStyle);
-    
-    languageEdit = new QLineEdit(scrollWidget);
-    languageEdit->setStyleSheet(inputStyle);
-    
-    ratingEdit = new QSpinBox(scrollWidget);
-    ratingEdit->setRange(1.0, 5.0);
-    ratingEdit->setStyleSheet(inputStyle);
-    
-    // Campi specifici per film
-    durationFilmEdit = new QSpinBox(scrollWidget);
-    durationFilmEdit->setRange(1, 999);
-    durationFilmEdit->setSuffix(" min");
-    durationFilmEdit->setStyleSheet(inputStyle);
-
-    castEdit = new QLineEdit(scrollWidget);
-    castEdit->setStyleSheet(inputStyle);
-    castEdit->setPlaceholderText("(separati da virgola)");
-    
-    // Etichette con stile migliorato
-    QLabel *titleLbl = new QLabel("Titolo:");
-    titleLbl->setStyleSheet(labelStyle);
-    QLabel *languageLbl = new QLabel("Lingua:");
-    languageLbl->setStyleSheet(labelStyle);
-    QLabel *authorLbl = new QLabel("Regista:");
-    authorLbl->setStyleSheet(labelStyle);
-    QLabel *yearLbl = new QLabel("Anno:");
-    yearLbl->setStyleSheet(labelStyle);
-    QLabel *durationLbl = new QLabel("Durata:");
-    durationLbl->setStyleSheet(labelStyle);
-    QLabel *genreLbl = new QLabel("Genere:");
-    genreLbl->setStyleSheet(labelStyle);
-    QLabel *castLbl = new QLabel("Attori:");
-    castLbl->setStyleSheet(labelStyle);
-    QLabel *ratingLbl = new QLabel("Valutazione:");
-    ratingLbl->setStyleSheet(labelStyle);
-
-    // Aggiungi i campi al form
-    formLayout->addRow(titleLbl, titleEdit);
-    formLayout->addRow(authorLbl, authorEdit);
-    formLayout->addRow(genreLbl, genreComboBox);
-    formLayout->addRow(yearLbl, yearEdit);
-    formLayout->addRow(languageLbl, languageEdit);
-    formLayout->addRow(durationLbl, durationFilmEdit);
-    formLayout->addRow(castLbl, castEdit);
-    formLayout->addRow(ratingLbl, ratingEdit);
-    
-    // Aggiungo spazio vuoto in fondo
-    formLayout->addItem(new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding));
-    
-    scrollArea->setWidget(scrollWidget);
-    layout->addWidget(scrollArea, 1);
-    
-    // Pulsante Annulla
-    QHBoxLayout *buttonLayout = new QHBoxLayout();
-    cancelButton = new QPushButton("Annulla");
-    cancelButton->setMinimumSize(150, 45);
-        
-    cancelButton->setStyleSheet(
-        "QPushButton {"
-        "   background-color: rgb(200, 0, 0);"
-        "   color: white;"
-        "   border: none;"
-        "   border-radius: 4px;"
-        "   font-size: 14px;"
-        "   padding: 8px 16px;"
-        "   min-width: 100px;"
-        "}"
-        "QPushButton:hover {"
-        "   background-color: rgb(150, 0, 0);"
-        "}"
-    );
-    
-    connect(cancelButton, &QPushButton::clicked, this, &AddPage::onCancelButtonClicked);
-    
-    buttonLayout->addStretch();
-    buttonLayout->addWidget(cancelButton);
-    buttonLayout->addStretch();
-    
-    QVBoxLayout *buttonContainerLayout = new QVBoxLayout();
-    buttonContainerLayout->addLayout(buttonLayout);
-    buttonContainerLayout->addSpacing(10);
-    
-    layout->addLayout(buttonContainerLayout); // Aggiungi il layout dei pulsanti in basso
-}
-
-void AddPage::setupLibroDetailsPage(QWidget *container) {
-    QVBoxLayout *layout = new QVBoxLayout(container);layout->setContentsMargins(20, 20, 20, 20);
-    
-    QScrollArea *scrollArea = new QScrollArea();
-    scrollArea->setWidgetResizable(true);
-    scrollArea->setFrameShape(QFrame::NoFrame);
-    scrollArea->setStyleSheet("background: transparent;");
-    
-    QWidget *scrollWidget = new QWidget();
-    QFormLayout *formLayout = new QFormLayout(scrollWidget);
-    formLayout->setSpacing(15);
-    formLayout->setLabelAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    formLayout->setFormAlignment(Qt::AlignLeft | Qt::AlignTop);
-    
-    QLabel *titleLabel = new QLabel("Dettagli Libro", scrollWidget);
-    titleLabel->setStyleSheet("font-size: 18px; font-weight: bold; margin-bottom: 10px;");
-    titleLabel->setAlignment(Qt::AlignCenter);
-    formLayout->addRow(titleLabel);
-    
-    // Stile comune per le etichette
-    QString labelStyle = "QLabel { font-size: 14px; }";
-    
-    // Stile comune per i campi di input
-    QString inputStyle = "QLineEdit, QSpinBox, QComboBox { font-size: 14px; padding: 6px; min-height: 28px; }";
-
-    // Campi comuni
-    titleEdit = new QLineEdit(scrollWidget);
-    titleEdit->setStyleSheet(inputStyle);
-    titleEdit->setMinimumWidth(400);
-
-    authorEdit = new QLineEdit(scrollWidget);
-    authorEdit->setStyleSheet(inputStyle);
-
-    genreComboBox = new QComboBox(scrollWidget);
-    genreComboBox->addItems({"Avventura", "Biografia", "Fantasy" "Giallo", "Horror", "Romanzo", "Storico", "Saggio", "Thriller", "Altro"});
-    genreComboBox->setStyleSheet(inputStyle);
-
-    yearEdit = new QSpinBox(scrollWidget);
-    yearEdit->setRange(1880, 2100);
-    yearEdit->setValue(2024);
-    yearEdit->setStyleSheet(inputStyle);
-    
-    languageEdit = new QLineEdit(scrollWidget);
-    languageEdit->setStyleSheet(inputStyle);
-    
-    ratingEdit = new QSpinBox(scrollWidget);
-    ratingEdit->setRange(1.0, 5.0);
-    ratingEdit->setStyleSheet(inputStyle);
-    
-    // Campi specifici per libro
-    isbnEdit = new QLineEdit(scrollWidget);
-    isbnEdit->setStyleSheet(inputStyle);
-
-    editorLibroEdit = new QLineEdit(scrollWidget);
-    editorLibroEdit->setStyleSheet(inputStyle);
-
-    pagesLibroEdit = new QSpinBox(scrollWidget);
-    pagesLibroEdit->setRange(1, 9999);
-    pagesLibroEdit->setStyleSheet(inputStyle);
-    
-    // Etichette con stile migliorato
-    QLabel *titleLbl = new QLabel("Titolo:");
-    titleLbl->setStyleSheet(labelStyle);
-    QLabel *authorLbl = new QLabel("Autore:");
-    authorLbl->setStyleSheet(labelStyle);
-    QLabel *genreLbl = new QLabel("Genere:");
-    genreLbl->setStyleSheet(labelStyle);
-    QLabel *yearLbl = new QLabel("Anno:");
-    yearLbl->setStyleSheet(labelStyle);
-    QLabel *languageLbl = new QLabel("Lingua:");
-    languageLbl->setStyleSheet(labelStyle);
-    QLabel *isbnLbl = new QLabel("ISBN:");
-    isbnLbl->setStyleSheet(labelStyle);
-    QLabel *editorLbl = new QLabel("Editore:");
-    editorLbl->setStyleSheet(labelStyle);
-    QLabel *pagesLbl = new QLabel("Pagine:");
-    pagesLbl->setStyleSheet(labelStyle);
-    QLabel *ratingLbl = new QLabel("Valutazione:");
-    ratingLbl->setStyleSheet(labelStyle);
-
-    // Aggiungi i campi al form
-    formLayout->addRow(titleLbl, titleEdit);
-    formLayout->addRow(authorLbl, authorEdit);
-    formLayout->addRow(genreLbl, genreComboBox);
-    formLayout->addRow(yearLbl, yearEdit);
-    formLayout->addRow(languageLbl, languageEdit);
-    formLayout->addRow(isbnLbl, isbnEdit);
-    formLayout->addRow(editorLbl, editorLibroEdit);
-    formLayout->addRow(pagesLbl, pagesLibroEdit);
-    formLayout->addRow(ratingLbl, ratingEdit);
-
-    // Aggiungo spazio vuoto in fondo
-    formLayout->addItem(new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding));
-    
-    scrollArea->setWidget(scrollWidget);
-    layout->addWidget(scrollArea, 1);
-    
-    // Pulsante Annulla
-    QHBoxLayout *buttonLayout = new QHBoxLayout();
-    cancelButton = new QPushButton("Annulla");
-    cancelButton->setMinimumSize(150, 45);
-    
-    cancelButton->setStyleSheet(
-        "QPushButton {"
-        "   background-color: rgb(200, 0, 0);"
-        "   color: white;"
-        "   border: none;"
-        "   border-radius: 4px;"
-        "   font-size: 14px;"
-        "   padding: 8px 16px;"
-        "   min-width: 100px;"
-        "}"
-        "QPushButton:hover {"
-        "   background-color: rgb(150, 0, 0);"
-        "}"
-    );
-    
-    connect(cancelButton, &QPushButton::clicked, this, &AddPage::onCancelButtonClicked);
-    
-    buttonLayout->addStretch();
-    buttonLayout->addWidget(cancelButton);
-    buttonLayout->addStretch();
-    
-    QVBoxLayout *buttonContainerLayout = new QVBoxLayout();
-    buttonContainerLayout->addLayout(buttonLayout);
-    buttonContainerLayout->addSpacing(10);
-
-    layout->addLayout(buttonContainerLayout);
-}
-
-void AddPage::setupVinileDetailsPage(QWidget *container) {
-    QVBoxLayout *layout = new QVBoxLayout(container);
-    layout->setContentsMargins(20, 20, 20, 30);
-    
-    QScrollArea *scrollArea = new QScrollArea();
-    scrollArea->setWidgetResizable(true);
-    scrollArea->setFrameShape(QFrame::NoFrame);
-    scrollArea->setStyleSheet("background: transparent;");
-    
-    QWidget *scrollWidget = new QWidget();
-    QFormLayout *formLayout = new QFormLayout(scrollWidget);
-    formLayout->setSpacing(15);
-    formLayout->setLabelAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    formLayout->setFormAlignment(Qt::AlignLeft | Qt::AlignTop);
-    
-    QLabel *titleLabel = new QLabel("Dettagli Vinile", scrollWidget);
-    titleLabel->setStyleSheet("font-size: 18px; font-weight: bold; margin-bottom: 10px;");
-    titleLabel->setAlignment(Qt::AlignCenter);
-    formLayout->addRow(titleLabel);
-    
-    // Stile comune per le etichette
-    QString labelStyle = "QLabel { font-size: 14px; }";
-    
-    // Stile comune per i campi di input
-    QString inputStyle = "QLineEdit, QSpinBox, QComboBox { font-size: 14px; padding: 6px; min-height: 28px; }";
-
-    // Campi comuni
-    titleEdit = new QLineEdit(scrollWidget);
-    titleEdit->setStyleSheet(inputStyle);
-    titleEdit->setMinimumWidth(400);
-
-    authorEdit = new QLineEdit(scrollWidget);
-    authorEdit->setStyleSheet(inputStyle);
-
-    genreComboBox = new QComboBox(scrollWidget);
-    genreComboBox->addItems({"Alternative", "Blues", "Classica","Country", "Elettronica", "Folk", "Hip Hop", "Jazz", "Metal", "Pop", "Rock", "Altro"});
-    genreComboBox->setStyleSheet(inputStyle);
-
-    yearEdit = new QSpinBox(scrollWidget);
-    yearEdit->setRange(1880, 2100);
-    yearEdit->setValue(2024);
-    yearEdit->setStyleSheet(inputStyle);
-    
-    languageEdit = new QLineEdit(scrollWidget);
-    languageEdit->setStyleSheet(inputStyle);
-    
-    ratingEdit = new QSpinBox(scrollWidget);
-    ratingEdit->setRange(1.0, 5.0);
-    ratingEdit->setStyleSheet(inputStyle);
-    
-    // Campi specifici per vinile
-    trackCountEdit = new QSpinBox(scrollWidget);
-    trackCountEdit->setRange(1, 99);
-    trackCountEdit->setStyleSheet(inputStyle);
-
-    durationVinileEdit = new QSpinBox(scrollWidget);
-    durationVinileEdit->setRange(1, 999);
-    durationVinileEdit->setSuffix(" min");
-    durationVinileEdit->setStyleSheet(inputStyle);
-    
-    // Etichette con stile migliorato
-    QLabel *titleLbl = new QLabel("Titolo album:");
-    titleLbl->setStyleSheet(labelStyle);
-    QLabel *authorLbl = new QLabel("Artista o gruppo:");
-    authorLbl->setStyleSheet(labelStyle);
-    QLabel *genreLbl = new QLabel("Genere:");
-    genreLbl->setStyleSheet(labelStyle);
-    QLabel *yearLbl = new QLabel("Anno:");
-    yearLbl->setStyleSheet(labelStyle);
-    QLabel *languageLbl = new QLabel("Lingua:");
-    languageLbl->setStyleSheet(labelStyle);
-    QLabel *trackCountLbl = new QLabel("Numero Tracce:");
-    trackCountLbl->setStyleSheet(labelStyle);
-    QLabel *durationLbl = new QLabel("Durata:");
-    durationLbl->setStyleSheet(labelStyle);
-    QLabel *ratingLbl = new QLabel("Valutazione:");
-    ratingLbl->setStyleSheet(labelStyle);
-
-    // Aggiungi i campi al form
-    formLayout->addRow(titleLbl, titleEdit);
-    formLayout->addRow(authorLbl, authorEdit);
-    formLayout->addRow(genreLbl, genreComboBox);
-    formLayout->addRow(yearLbl, yearEdit);
-    formLayout->addRow(languageLbl, languageEdit);
-    formLayout->addRow(trackCountLbl, trackCountEdit);
-    formLayout->addRow(durationLbl, durationVinileEdit);
-    formLayout->addRow(ratingLbl, ratingEdit);
-    
-    // Aggiungo spazio vuoto in fondo
-    formLayout->addItem(new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding));
-
-    scrollArea->setWidget(scrollWidget);
-    layout->addWidget(scrollArea, 1);
-    
-    // Pulsante Annulla
-    QHBoxLayout *buttonLayout = new QHBoxLayout();
-    cancelButton = new QPushButton("Annulla");
-    cancelButton->setMinimumSize(150, 45);
-    
-    cancelButton->setStyleSheet(
-        "QPushButton {"
-        "   background-color: rgb(200, 0, 0);"
-        "   color: white;"
-        "   border: none;"
-        "   border-radius: 4px;"
-        "   font-size: 14px;"
-        "   padding: 8px 16px;"
-        "   min-width: 100px;"
-        "}"
-        "QPushButton:hover {"
-        "   background-color: rgb(150, 0, 0);"
-        "}"
-    );
-    
-    connect(cancelButton, &QPushButton::clicked, this, &AddPage::onCancelButtonClicked);
-
-    buttonLayout->addStretch();
-    buttonLayout->addWidget(cancelButton);
-    buttonLayout->addStretch();
-    
-    QVBoxLayout *buttonContainerLayout = new QVBoxLayout();
-    buttonContainerLayout->addLayout(buttonLayout);
-    buttonContainerLayout->addSpacing(10);
-    
-    layout->addLayout(buttonContainerLayout);
-}
-
-void AddPage::setupRivistaDetailsPage(QWidget *container) {
-    QVBoxLayout *layout = new QVBoxLayout(container);
-    layout->setContentsMargins(20, 20, 20, 30);
-    
-    QScrollArea *scrollArea = new QScrollArea();
-    scrollArea->setWidgetResizable(true);
-    scrollArea->setFrameShape(QFrame::NoFrame);
-    scrollArea->setStyleSheet("background: transparent;");
-    
-    QWidget *scrollWidget = new QWidget();
-    QFormLayout *formLayout = new QFormLayout(scrollWidget);
-    formLayout->setSpacing(15);
-    formLayout->setLabelAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    formLayout->setFormAlignment(Qt::AlignLeft | Qt::AlignTop);
-    
-    QLabel *titleLabel = new QLabel("Dettagli Rivista", scrollWidget);
-    titleLabel->setStyleSheet("font-size: 18px; font-weight: bold; margin-bottom: 10px;");
-    titleLabel->setAlignment(Qt::AlignCenter);
-    formLayout->addRow(titleLabel);
-    
-    // Stile comune per le etichette
-    QString labelStyle = "QLabel { font-size: 14px; }";
-    
-    // Stile comune per i campi di input
-    QString inputStyle = "QLineEdit, QSpinBox, QComboBox { font-size: 14px; padding: 6px; min-height: 28px; }";
-
-    // Campi comuni
-    titleEdit = new QLineEdit(scrollWidget);
-    titleEdit->setStyleSheet(inputStyle);
-    titleEdit->setMinimumWidth(400);
-
-    authorEdit = new QLineEdit(scrollWidget);
-    authorEdit->setStyleSheet(inputStyle);
-
-    genreComboBox = new QComboBox(scrollWidget);
-    genreComboBox->addItems({"Attualità", "Arte", "Cucina", "Culturale","Economia", "Intrattenimento", "Moda", "Salute", "Scientifica", "Sport", "Tecnologia", "Viaggi", "Altro"});
-    genreComboBox->setStyleSheet(inputStyle);
-
-    yearEdit = new QSpinBox(scrollWidget);
-    yearEdit->setRange(1880, 2100);
-    yearEdit->setValue(2024);
-    yearEdit->setStyleSheet(inputStyle);
-    
-    languageEdit = new QLineEdit(scrollWidget);
-    languageEdit->setStyleSheet(inputStyle);
-    
-    ratingEdit = new QSpinBox(scrollWidget);
-    ratingEdit->setRange(1.0, 5.0);
-    ratingEdit->setStyleSheet(inputStyle);
-    
-    // Campi specifici per rivista
-    editorRivistaEdit = new QLineEdit(scrollWidget);
-    editorRivistaEdit->setStyleSheet(inputStyle);
-
-    pagesRivistaEdit = new QSpinBox(scrollWidget);
-    pagesRivistaEdit->setRange(1, 9999);
-    pagesRivistaEdit->setStyleSheet(inputStyle);
-
-    publicationDateEdit = new QDateEdit(scrollWidget);
-    publicationDateEdit->setDisplayFormat("dd/MM/yyyy");
-    publicationDateEdit->setStyleSheet(inputStyle);
-    
-    periodicityComboBox = new QComboBox(scrollWidget);
-    periodicityComboBox->addItems({"Settimanale", "Mensile", "Trimestrale", "Semestrale", "Annuale"});
-    periodicityComboBox->setStyleSheet(inputStyle);
-    
-    // Etichette con stile migliorato
-    QLabel *titleLbl = new QLabel("Titolo:");
-    titleLbl->setStyleSheet(labelStyle);
-    QLabel *authorLbl = new QLabel("Autore:");
-    authorLbl->setStyleSheet(labelStyle);
-    QLabel *genreLbl = new QLabel("Genere:");
-    genreLbl->setStyleSheet(labelStyle);
-    QLabel *yearLbl = new QLabel("Anno:");
-    yearLbl->setStyleSheet(labelStyle);
-    QLabel *languageLbl = new QLabel("Lingua:");
-    languageLbl->setStyleSheet(labelStyle);
-    QLabel *editorLbl = new QLabel("Editore:");
-    editorLbl->setStyleSheet(labelStyle);
-    QLabel *pagesLbl = new QLabel("Pagine:");
-    pagesLbl->setStyleSheet(labelStyle);
-    QLabel *publicationDateLbl = new QLabel("Pubblicazione:");
-    publicationDateLbl->setStyleSheet(labelStyle);
-    QLabel *periodicityLbl = new QLabel("Periodicità:");
-    periodicityLbl->setStyleSheet(labelStyle);
-    QLabel *ratingLbl = new QLabel("Valutazione:");
-    ratingLbl->setStyleSheet(labelStyle);
-
-    // Aggiungi i campi al form
-    formLayout->addRow(titleLbl, titleEdit);
-    formLayout->addRow(authorLbl, authorEdit);
-    formLayout->addRow(genreLbl, genreComboBox);
-    formLayout->addRow(yearLbl, yearEdit);
-    formLayout->addRow(languageLbl, languageEdit);
-    formLayout->addRow(editorLbl, editorRivistaEdit);
-    formLayout->addRow(pagesLbl, pagesRivistaEdit);
-    formLayout->addRow(publicationDateLbl, publicationDateEdit);
-    formLayout->addRow(periodicityLbl, periodicityComboBox);
-    formLayout->addRow(ratingLbl, ratingEdit);  
-    
-    // Aggiungo spazio vuoto in fondo
-    formLayout->addItem(new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding));
-
-    scrollArea->setWidget(scrollWidget);
-    layout->addWidget(scrollArea, 1);
-    
-    // Pulsante Annulla
-    QHBoxLayout *buttonLayout = new QHBoxLayout();
-    cancelButton = new QPushButton("Annulla");
-    cancelButton->setMinimumSize(150, 45);
-    
-    cancelButton->setStyleSheet(
-        "QPushButton {"
-        "   background-color: rgb(200, 0, 0);"
-        "   color: white;"
-        "   border: none;"
-        "   border-radius: 4px;"
-        "   font-size: 14px;"
-        "   padding: 8px 16px;"
-        "   min-width: 100px;"
-        "}"
-        "QPushButton:hover {"
-        "   background-color: rgb(150, 0, 0);"
-        "}"
-    );
-    
-    connect(cancelButton, &QPushButton::clicked, this, &AddPage::onCancelButtonClicked);
-
-    buttonLayout->addStretch();
-    buttonLayout->addWidget(cancelButton);
-    buttonLayout->addStretch();
-    
-    QVBoxLayout *buttonContainerLayout = new QVBoxLayout();
-    buttonContainerLayout->addLayout(buttonLayout);
-    buttonContainerLayout->addSpacing(10);
-    
-    layout->addLayout(buttonContainerLayout);
-}
-
-void AddPage::setupGiocoDetailsPage(QWidget *container) {
-    QVBoxLayout *layout = new QVBoxLayout(container);
-    layout->setContentsMargins(20, 20, 20, 30);
-    
-    QScrollArea *scrollArea = new QScrollArea();
-    scrollArea->setWidgetResizable(true);
-    scrollArea->setFrameShape(QFrame::NoFrame);
-    scrollArea->setStyleSheet("background: transparent;");
-    
-    QWidget *scrollWidget = new QWidget();
-    QFormLayout *formLayout = new QFormLayout(scrollWidget);
-    formLayout->setSpacing(15);
-    formLayout->setLabelAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    formLayout->setFormAlignment(Qt::AlignLeft | Qt::AlignTop);
-    
-    QLabel *titleLabel = new QLabel("Dettagli Gioco da Tavolo", scrollWidget);
-    titleLabel->setStyleSheet("font-size: 18px; font-weight: bold; margin-bottom: 10px;");
-    titleLabel->setAlignment(Qt::AlignCenter);
-    formLayout->addRow(titleLabel);
-    
-    // Stile comune per le etichette
-    QString labelStyle = "QLabel { font-size: 14px; }";
-    
-    // Stile comune per i campi di input
-    QString inputStyle = "QLineEdit, QSpinBox, QComboBox { font-size: 14px; padding: 6px; min-height: 28px; }";
-
-    // Campi comuni
-    titleEdit = new QLineEdit(scrollWidget);
-    titleEdit->setStyleSheet(inputStyle);
-    titleEdit->setMinimumWidth(400);
-
-    authorEdit = new QLineEdit(scrollWidget);
-    authorEdit->setStyleSheet(inputStyle);
-
-    genreComboBox = new QComboBox(scrollWidget);
-    genreComboBox->addItems({"Avventura", "Carte", "Cooperativo", "Deduzione", "Economico", "Fantasy", "Guerra", "Party Game", "Strategia", "Altro"});
-    genreComboBox->setStyleSheet(inputStyle);
-
-    yearEdit = new QSpinBox(scrollWidget);
-    yearEdit->setRange(1880, 2100);
-    yearEdit->setValue(2024);
-    yearEdit->setStyleSheet(inputStyle);
-    
-    languageEdit = new QLineEdit(scrollWidget);
-    languageEdit->setStyleSheet(inputStyle);
-    
-    ratingEdit = new QSpinBox(scrollWidget);
-    ratingEdit->setRange(1.0, 5.0);
-    ratingEdit->setStyleSheet(inputStyle);
-    
-    
-    // Campi specifici per gioco da tavolo
-    maxPlayersEdit = new QSpinBox(scrollWidget);
-    maxPlayersEdit->setRange(1, 99);
-    maxPlayersEdit->setStyleSheet(inputStyle);
-
-    playTimeEdit = new QSpinBox(scrollWidget);
-    playTimeEdit->setRange(1, 999);
-    playTimeEdit->setSuffix(" min");
-    playTimeEdit->setStyleSheet(inputStyle);
-    
-    minAgeEdit = new QSpinBox(scrollWidget);
-    minAgeEdit->setRange(1, 99);
-    minAgeEdit->setSuffix(" anni");
-    minAgeEdit->setStyleSheet(inputStyle);
-    
-    editorGiocoEdit = new QLineEdit(scrollWidget);
-    editorGiocoEdit->setStyleSheet(inputStyle);
-    
-    // Etichette con stile migliorato
-    QLabel *titleLbl = new QLabel("Titolo:");
-    titleLbl->setStyleSheet(labelStyle);
-    QLabel *authorLbl = new QLabel("Autore:");
-    authorLbl->setStyleSheet(labelStyle);
-    QLabel *genreLbl = new QLabel("Genere:");
-    genreLbl->setStyleSheet(labelStyle);
-    QLabel *yearLbl = new QLabel("Anno:");
-    yearLbl->setStyleSheet(labelStyle);
-    QLabel *languageLbl = new QLabel("Lingua:");
-    languageLbl->setStyleSheet(labelStyle);
-    QLabel *maxPlayersLbl = new QLabel("Numero Giocatori:");
-    maxPlayersLbl->setStyleSheet(labelStyle);
-    QLabel *durationLbl = new QLabel("Durata:");
-    durationLbl->setStyleSheet(labelStyle);
-    QLabel *minAgeLbl = new QLabel("Età Minima:");
-    minAgeLbl->setStyleSheet(labelStyle);
-    QLabel *editorLbl = new QLabel("Editore:");
-    editorLbl->setStyleSheet(labelStyle); 
-    QLabel *ratingLbl = new QLabel("Valutazione:");
-    ratingLbl->setStyleSheet(labelStyle);
-
-    // Aggiungi i campi al form
-    formLayout->addRow(titleLbl, titleEdit);
-    formLayout->addRow(authorLbl, authorEdit);
-    formLayout->addRow(genreLbl, genreComboBox);
-    formLayout->addRow(yearLbl, yearEdit);
-    formLayout->addRow(languageLbl, languageEdit);
-    formLayout->addRow(maxPlayersLbl, maxPlayersEdit);
-    formLayout->addRow(durationLbl, playTimeEdit);
-    formLayout->addRow(minAgeLbl, minAgeEdit);
-    formLayout->addRow(editorLbl, editorGiocoEdit);
-    formLayout->addRow(ratingLbl, ratingEdit);    
-    
-    // Aggiungo spazio vuoto in fondo
-    formLayout->addItem(new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding));
-
-    scrollArea->setWidget(scrollWidget);
-    layout->addWidget(scrollArea, 1);
-    
-    // Pulsante Annulla
-    QHBoxLayout *buttonLayout = new QHBoxLayout();
-    cancelButton = new QPushButton("Annulla");
-    cancelButton->setMinimumSize(150, 45);
-    
-    cancelButton->setStyleSheet(
-        "QPushButton {"
-        "   background-color: rgb(200, 0, 0);"
-        "   color: white;"
-        "   border: none;"
-        "   border-radius: 4px;"
-        "   font-size: 14px;"
-        "   padding: 8px 16px;"
-        "   min-width: 100px;"
-        "}"
-        "QPushButton:hover {"
-        "   background-color: rgb(150, 0, 0);"
-        "}"
-    );
-    
-    connect(cancelButton, &QPushButton::clicked, this, &AddPage::onCancelButtonClicked);
-
-    buttonLayout->addStretch();
-    buttonLayout->addWidget(cancelButton);
-    buttonLayout->addStretch();
-    
-    QVBoxLayout *buttonContainerLayout = new QVBoxLayout();
-    buttonContainerLayout->addLayout(buttonLayout);
-    buttonContainerLayout->addSpacing(10);
-    
-    layout->addLayout(buttonContainerLayout);
+    // Inizializza currentDetailsWidget a nullptr
+    currentDetailsWidget = nullptr;
 }
 
 void AddPage::showSelectionPage() {
+    // Reset della selezione
+    if (mediaTypeGroup->checkedButton()) {
+        mediaTypeGroup->setExclusive(false);
+        mediaTypeGroup->checkedButton()->setChecked(false);
+        mediaTypeGroup->setExclusive(true);
+    }
+    
+    // Mostra la pagina di selezione
     mainContentStack->setCurrentWidget(selectionWidget);
-}
-
-void AddPage::showDetailsPage(MediaType type) {
-    detailsStackedWidget->setCurrentIndex(static_cast<int>(type));
-    mainContentStack->setCurrentWidget(detailsStackedWidget);
 }
 
 void AddPage::onBackButtonClicked() {
@@ -934,40 +253,87 @@ void AddPage::onBackButtonClicked() {
 }
 
 void AddPage::onConfirmTypeButtonClicked() {
-    // Controlla quale tipo di media è stato selezionato
+    // Verifica che sia selezionato un tipo di media
+    if (!mediaTypeGroup->checkedButton()) {
+        QMessageBox::warning(this, "Errore", "Seleziona un tipo di media!");
+        return;
+    }
+
     int selectedId = mediaTypeGroup->checkedId();
-    showDetailsPage(static_cast<MediaType>(selectedId));
+
+    if (selectedId < 0) {
+        QMessageBox::warning(this, "Errore", "ID non valido");
+        return;
+    }
+
+    // Rimuovi il widget corrente se esiste
+    if (currentDetailsWidget) {
+        detailsStackedWidget->removeWidget(currentDetailsWidget);
+        delete currentDetailsWidget;
+        currentDetailsWidget = nullptr;
+    }
+    
+    // Crea un nuovo widget in base al tipo selezionato
+    MediaType mediaType = static_cast<MediaType>(selectedId);
+    
+    switch (mediaType) {
+        case FILM:
+            currentDetailsWidget = new FilmDetailsWidget();
+            break;
+        case LIBRO:
+            currentDetailsWidget = new LibroDetailsWidget();
+            break;
+        case VINILE:
+            currentDetailsWidget = new VinileDetailsWidget();
+            break;
+        case RIVISTA:
+            currentDetailsWidget = new RivistaDetailsWidget();
+            break;
+        case GIOCO_DA_TAVOLO:
+            currentDetailsWidget = new GiocoDetailsWidget();
+            break;
+        default:
+            QMessageBox::warning(this, "Errore", "Tipo di media non valido!");
+            return;
+    }
+
+    connect(currentDetailsWidget, &MediaDetailsWidget::cancelled, this, &AddPage::showSelectionPage);
+    
+    // Aggiungi il widget al layout e mostralo
+    detailsStackedWidget->addWidget(currentDetailsWidget);
+    detailsStackedWidget->setCurrentWidget(currentDetailsWidget);
+    mainContentStack->setCurrentWidget(detailsStackedWidget);
 }
 
 void AddPage::onSaveMediaButtonClicked() {
-    // Controllo base che i campi principali non siano vuoti
-    if (titleEdit->text().isEmpty()) {
-        QMessageBox::warning(this, "Campo obbligatorio", "Il titolo è obbligatorio");
+    if (!currentDetailsWidget) {
+        QMessageBox::warning(this, "Errore", "Nessun widget attivo trovato!");
+        return;
+    }
+
+    // Controllo se tutti i campi sono stati inseriti
+    if (!currentDetailsWidget->validateData()) {
+        QMessageBox::warning(this, "Errore", "Compila tutti i campi obbligatori!");
         return;
     }
     
-    // Qui potresti creare l'istanza specifica di media (Film, Libro, etc.)
-    // e salvarla nel sistema
-    
-    QMessageBox::information(this, "Salvataggio", "Media salvato con successo!");
-    
-    // Dopo il salvataggio, torna alla pagina principale
-    emit goBackToMainPage();
-}
+    // Crea l'oggetto media usando il widget attualmente visualizzato
+    Media* newMedia = currentDetailsWidget->createMedia();
 
-void AddPage::onCancelButtonClicked() {
-    // Se siamo nella pagina di dettaglio, torna alla pagina di selezione
-    if (detailsStackedWidget->isVisible()) {
-        showSelectionPage();
-    } else {
-        // Altrimenti torna alla pagina principale
+    if (newMedia) {
+        // Imposta l'immagine del media se è stata selezionata
+        if (!selectedImagePath.isEmpty()) {
+            newMedia->setImmagine(selectedImagePath.toStdString());
+        }
+        
+        // Emetti un segnale con il nuovo media creato
+        emit mediaCreated(newMedia);
+        
+        QMessageBox::information(this, "Salvataggio", "Media salvato con successo!");
+        
+        // Torna alla pagina principale
         emit goBackToMainPage();
+    } else {
+        QMessageBox::warning(this, "Errore", "Errore nella creazione del media!");
     }
-}
-
-void AddPage::onMediaTypeChanged(int index) {
-    Q_UNUSED(index);
-    // Aggiorna i generi disponibili in base al tipo di media
-    // (Questa funzione può essere utilizzata se decidi di cambiare 
-    // dinamicamente il tipo di media in fase di editing)
 }

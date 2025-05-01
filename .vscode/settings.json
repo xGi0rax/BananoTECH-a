@@ -67,7 +67,8 @@
     "stop_token": "cpp",
     "thread": "cpp",
     "qlabel": "cpp",
-    "qcheckbox": "cpp"
+    "qcheckbox": "cpp",
+    "qvboxlayout": "cpp"
   },
   "makefile.configureOnOpen": false,
   "C_Cpp_Runner.msvcBatchPath": "",
