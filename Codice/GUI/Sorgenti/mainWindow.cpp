@@ -45,6 +45,9 @@ void MainWindow::setupMainPage(){
 
     // Connetto il segnale per passare alla pagina di aggiunta media
     connect(mainPage, &MainPage::goToAddPage, this, &MainWindow::switchToAddPage);
+
+    // Connetto il segnale per passare alla pagina di dettaglio media
+    connect(mainPage, &MainPage::goToDetailsPage, this, &MainWindow::switchToDetailsPage);
 }
 
 void MainWindow::setupAddPage(){

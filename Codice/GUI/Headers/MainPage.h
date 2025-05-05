@@ -104,6 +104,7 @@ private:
     // void setupFilters(); // metodo per configurare i filtri
     void updateGenreComboBox(); // metodo per aggiornare la combobox dei generi in base al tipo di media selezionato
     void updateMediaList(vector<Media*> listaFiltrata); // metodo per aggiornare la lista dei media in base ai filtri selezionati
+    void onDetailsButtonClicked();
 
 protected:
     void resizeEvent(QResizeEvent* event) override;

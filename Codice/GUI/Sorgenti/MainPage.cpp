@@ -211,7 +211,7 @@ void MainPage::setupUI(){
     mediaList->setResizeMode(QListView::Adjust); // Adatta le dimensioni
     mediaList->setMovement(QListView::Static); // Elementi non trascinabili
     mediaList->setSelectionMode(QAbstractItemView::SingleSelection); // Selezione singola
-    mediaList->setMinimumWidth(300); // Imposta un'altezza minima per la lista
+    mediaList->setMinimumWidth(450); // Imposta un'altezza minima per la lista
 
     vector<Media*> listaMedia = biblioteca->getListaMedia(); // Ottieni la lista dei media dalla biblioteca
 
@@ -314,6 +314,7 @@ void MainPage::setupUI(){
 
     // Label per le informazioni del media
     mediaTitleLabel = new QLabel();
+    mediaTitleLabel->setMinimumWidth(350);
     mediaAuthorLabel = new QLabel("Seleziona un media per vedere i dettagli");
     mediaYearLabel = new QLabel();
     mediaRatingLabel = new QLabel();
@@ -377,16 +378,7 @@ void MainPage::setupUI(){
 
     setLayout(mainLayout);
 
-    connect(detailsButton, &QPushButton::clicked, this, [this]() {
-        QListWidgetItem* currentItem = mediaList->currentItem();
-        if (!currentItem) return;
-        
-        Media* selectedMedia = currentItem->data(Qt::UserRole).value<Media*>();
-        if (!selectedMedia) return;
-        
-        emit goToDetailsPage(selectedMedia);
-    });
-}
+    connect(detailsButton, &QPushButton::clicked, this, &MainPage::onDetailsButtonClicked);}
 
 void MainPage::updateImageSize(){
     if (!originalPixmap.isNull()) {
@@ -500,7 +492,7 @@ void MainPage::showActionButtons(int row) {
     }
     
     // Posiziona i pulsanti a destra del testo, con un margine di sicurezza
-    int xPosition = rect.left() + textWidth + 15; // 15px di margine dopo il testo
+    int xPosition = rect.left() + textWidth + 20; // 20px di margine dopo il testo
     
     // Se i pulsanti finissero fuori dal campo visibile, riposizionali
     if (xPosition + buttonWidth > rect.right()) {
@@ -758,4 +750,26 @@ void MainPage::onNewMediaCreated(Media* newMedia) {
     borrowButton->setEnabled(false);
     detailsButton->setEnabled(false);
     editMediaButton->setEnabled(false);
+}
+
+void MainPage::onDetailsButtonClicked() {
+    QListWidgetItem* currentItem = mediaList->currentItem();
+    if (!currentItem) {
+        QMessageBox::warning(this, "Errore", "Nessun elemento selezionato.");
+        return; // Esci subito se non c'è una selezione
+    }
+    
+    QVariant mediaData = currentItem->data(Qt::UserRole);
+    if (!mediaData.isValid()) {
+        QMessageBox::warning(this, "Errore", "Il media selezionato non è valido.");
+        return;
+    }
+    
+    Media* selectedMedia = mediaData.value<Media*>();
+    if (!selectedMedia) {
+        QMessageBox::warning(this, "Errore", "Elemento selezionato non valido.");
+        return;
+    }
+    
+    emit goToDetailsPage(selectedMedia);
 }

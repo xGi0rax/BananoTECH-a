@@ -13,8 +13,21 @@ void DetailsPage::setupUI() {
     mainLayout->setContentsMargins(20, 20, 20, 20);
     
     // Pulsante indietro
-    backButton = new QPushButton("Indietro", this);
-    backButton->setStyleSheet("QPushButton { background-color: #0068C9; color: white; padding: 8px 20px; font-size: 14px; border: none; border-radius: 4px; } QPushButton:hover { background-color: #0B52BD; }");
+    backButton = new QPushButton("Indietro");
+    backButton->setMinimumSize(100, 30); // Stesse dimensioni degli altri pulsanti
+    backButton->setCursor(Qt::PointingHandCursor);
+    backButton->setStyleSheet(
+        "QPushButton {"
+        "   background-color: rgb(0, 104, 201);"
+        "   color: white;"
+        "   border: none;"
+        "   border-radius: 4px;"
+        "   font-size: 14px;"
+        "}"
+        "QPushButton:hover {"
+        "   background-color:rgb(11, 82, 189);"
+        "}"
+    );
     connect(backButton, &QPushButton::clicked, this, &DetailsPage::onBackButtonClicked);
     
     QHBoxLayout *headerLayout = new QHBoxLayout();
@@ -37,7 +50,7 @@ void DetailsPage::setupUI() {
     imageLabel = new QLabel();
     imageLabel->setFixedSize(250, 350);
     imageLabel->setScaledContents(true);
-    imageLabel->setStyleSheet("border: 1px solid #CCCCCC;");
+    imageLabel->setStyleSheet("border: 1px rgb(60, 58, 58);");
     
     // Dettagli base
     QVBoxLayout *basicDetailsLayout = new QVBoxLayout();
@@ -48,17 +61,21 @@ void DetailsPage::setupUI() {
     genreLabel = new QLabel();
     yearLabel = new QLabel();
     availabilityLabel = new QLabel();
+    //da aggiungere altri campi
     
     titleLabel->setStyleSheet("font-size: 20px; font-weight: bold;");
     authorLabel->setStyleSheet("font-size: 16px;");
     genreLabel->setStyleSheet("font-size: 14px;");
     yearLabel->setStyleSheet("font-size: 14px;");
     availabilityLabel->setStyleSheet("font-size: 16px; font-weight: bold;");
+    //da aggiungere altri campi
     
     basicDetailsLayout->addWidget(titleLabel);
     basicDetailsLayout->addWidget(authorLabel);
     basicDetailsLayout->addWidget(genreLabel);
     basicDetailsLayout->addWidget(yearLabel);
+    //da aggiungere altri campi
+
     basicDetailsLayout->addSpacing(20);
     basicDetailsLayout->addWidget(availabilityLabel);
     
@@ -85,7 +102,7 @@ void DetailsPage::setupUI() {
     
     contentLayout->addLayout(mediaDetailsLayout);
     
-    // Sezione per dettagli specifici
+    // Sezione per dettagli specifici, da sistemare
     QFrame *separatorLine = new QFrame();
     separatorLine->setFrameShape(QFrame::HLine);
     separatorLine->setFrameShadow(QFrame::Sunken);

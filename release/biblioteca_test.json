@@ -31,7 +31,7 @@
       "numero_copie": 5,
       "in_prestito": 2,
       "rating": 4.6,
-      "immagine": "steve_jobs.jpg"
+      "immagine": "../../../../BananoTECH-a/Immagini/steve_jobs.jpg"
     },
     {
       "id": "VC-3",
@@ -48,7 +48,7 @@
       "numero_copie": 8,
       "in_prestito": 3,
       "rating": 4.8,
-      "immagine": "harry_potter_1.jpg"
+      "immagine": "../../../../BananoTECH-a/Immagini/harry_potter_1.jpg"
     },
     {
       "id": "VC-4",
@@ -65,7 +65,7 @@
       "numero_copie": 6,
       "in_prestito": 2,
       "rating": 4.7,
-      "immagine": "orient_express.jpg"
+      "immagine": "../../../../BananoTECH-a/Immagini/orient_express.jpg"
     },
     {
       "id": "VC-5",
@@ -82,7 +82,7 @@
       "numero_copie": 4,
       "in_prestito": 1,
       "rating": 4.6,
-      "immagine": "it.jpg"
+      "immagine": "../../../../BananoTECH-a/Immagini/it.jpg"
     },
     {
       "id": "VC-6",
@@ -99,7 +99,7 @@
       "numero_copie": 6,
       "in_prestito": 2,
       "rating": 4.7,
-      "immagine": "orgoglio_pregiudizio.jpg"
+      "immagine": "../../../../BananoTECH-a/Immagini/orgoglio_pregiudizio.jpg"
     },
     {
       "id": "VC-7",
@@ -116,7 +116,7 @@
       "numero_copie": 5,
       "in_prestito": 2,
       "rating": 4.8,
-      "immagine": "pilastri_terra.jpg"
+      "immagine": "../../../../BananoTECH-a/Immagini/pilastri_terra.jpg"
     },
     {
       "id": "VC-8",
@@ -133,7 +133,7 @@
       "numero_copie": 7,
       "in_prestito": 4,
       "rating": 4.8,
-      "immagine": "sapiens.jpg"
+      "immagine": "../../../../BananoTECH-a/Immagini/sapiens.jpg"
     },
     {
       "id": "VC-9",
@@ -150,7 +150,7 @@
       "numero_copie": 6,
       "in_prestito": 1,
       "rating": 4.7,
-      "immagine": "silenzio_innocenti.jpg"
+      "immagine": "../../../../BananoTECH-a/Immagini/silenzio_innocenti.jpg"
     },
     {
       "id": "VC-10",
@@ -166,7 +166,7 @@
       "numero_copie": 6,
       "in_prestito": 2,
       "rating": 4.6,
-      "immagine": "frozen.jpg"
+      "immagine": "../../../../BananoTECH-a/Immagini/frozen.jpg"
     },
     {
       "id": "VC-11",
@@ -182,7 +182,7 @@
       "numero_copie": 4,
       "in_prestito": 0,
       "rating": 4.7,
-      "immagine": "die_hard.jpg"
+      "immagine": "../../../../BananoTECH-a/Immagini/die_hard.jpg"
     },
     {
       "id": "VC-12",
@@ -198,7 +198,7 @@
       "numero_copie": 5,
       "in_prestito": 1,
       "rating": 4.8,
-      "immagine": "indiana_jones.jpg"
+      "immagine": "../../../../BananoTECH-a/Immagini/indiana_jones.jpg"
     },
     {
       "id": "VC-13",
@@ -214,7 +214,7 @@
       "numero_copie": 5,
       "in_prestito": 2,
       "rating": 4.5,
-      "immagine": "pretty_woman.jpg"
+      "immagine": "../../../../BananoTECH-a/Immagini/pretty_woman.jpg"
     },
     {
       "id": "VC-14",
@@ -230,7 +230,7 @@
       "numero_copie": 3,
       "in_prestito": 0,
       "rating": 4.6,
-      "immagine": "marcia_pinguini.jpg"
+      "immagine": "../../../../BananoTECH-a/Immagini/marcia_pinguini.jpg"
     },
     {
       "id": "VC-15",
@@ -246,7 +246,7 @@
       "numero_copie": 6,
       "in_prestito": 1,
       "rating": 4.9,
-      "immagine": "padrino.jpg"
+      "immagine": "../../../../BananoTECH-a/Immagini/padrino.jpg"
     },
     {
       "id": "VC-16",
@@ -262,7 +262,7 @@
       "numero_copie": 7,
       "in_prestito": 2,
       "rating": 4.9,
-      "immagine": "lotr_fellowship.jpg"
+      "immagine": "../../../../BananoTECH-a/Immagini/lotr_fellowship.jpg"
     },
     {
       "id": "VC-17",
@@ -278,7 +278,7 @@
       "numero_copie": 4,
       "in_prestito": 0,
       "rating": 4.7,
-      "immagine": "shining_film.jpg"
+      "immagine": "../../../../BananoTECH-a/Immagini/shining_film.jpg"
     },
     {
       "id": "VC-18",
@@ -294,7 +294,7 @@
       "numero_copie": 5,
       "in_prestito": 2,
       "rating": 4.4,
-      "immagine": "notting_hill.jpg"
+      "immagine": "../../../../BananoTECH-a/Immagini/notting_hill.jpg"
     },
     {
       "id": "VC-19",
@@ -310,7 +310,7 @@
       "numero_copie": 4,
       "in_prestito": 1,
       "rating": 4.8,
-      "immagine": "blade_runner.jpg"
+      "immagine": "../../../../BananoTECH-a/Immagini/blade_runner.jpg"
     },
     {
       "id": "VC-20",
@@ -326,7 +326,7 @@
       "numero_copie": 5,
       "in_prestito": 1,
       "rating": 4.8,
-      "immagine": "silenzio_innocenti_film.jpg"
+      "immagine": "../../../../BananoTECH-a/Immagini/silenzio_innocenti_film.jpg"
     },
     {
       "id": "VC-21",
@@ -342,7 +342,7 @@
       "numero_copie": 3,
       "in_prestito": 1,
       "rating": 4.9,
-      "immagine": "nevermind.jpg"
+      "immagine": "../../../../BananoTECH-a/Immagini/nevermind.jpg"
     },
     {
       "id": "VC-22",
@@ -358,7 +358,7 @@
       "numero_copie": 4,
       "in_prestito": 1,
       "rating": 4.9,
-      "immagine": "kind_of_blue.jpg"
+      "immagine": "../../../../BananoTECH-a/Immagini/kind_of_blue.jpg"
     },
     {
       "id": "VC-23",
@@ -374,7 +374,7 @@
       "numero_copie": 3,
       "in_prestito": 0,
       "rating": 4.8,
-      "immagine": "quattro_stagioni.jpg"
+      "immagine": "../../../../BananoTECH-a/Immagini/quattro_stagioni.jpg"
     },
     {
       "id": "VC-24",
@@ -390,7 +390,7 @@
       "numero_copie": 2,
       "in_prestito": 0,
       "rating": 4.6,
-      "immagine": "ring_of_fire.jpg"
+      "immagine": "../../../../BananoTECH-a/Immagini/ring_of_fire.jpg"
     },
     {
       "id": "VC-25",
@@ -406,7 +406,7 @@
       "numero_copie": 3,
       "in_prestito": 1,
       "rating": 4.7,
-      "immagine": "random_access_memories.jpg"
+      "immagine": "../../../../BananoTECH-a/Immagini/random_access_memories.jpg"
     },
     {
       "id": "VC-26",
@@ -422,7 +422,7 @@
       "numero_copie": 2,
       "in_prestito": 0,
       "rating": 4.5,
-      "immagine": "woodstock.jpg"
+      "immagine": "../../../../BananoTECH-a/Immagini/woodstock.jpg"
     },
     {
       "id": "VC-27",
@@ -438,7 +438,7 @@
       "numero_copie": 3,
       "in_prestito": 1,
       "rating": 4.7,
-      "immagine": "chronic.jpg"
+      "immagine": "../../../../BananoTECH-a/Immagini/chronic.jpg"
     },
     {
       "id": "VC-28",
@@ -454,7 +454,7 @@
       "numero_copie": 2,
       "in_prestito": 0,
       "rating": 4.9,
-      "immagine": "love_supreme.jpg"
+      "immagine": "../../../../BananoTECH-a/Immagini/love_supreme.jpg"
     },
     {
       "id": "VC-29",
@@ -470,7 +470,7 @@
       "numero_copie": 4,
       "in_prestito": 1,
       "rating": 4.9,
-      "immagine": "master_puppets.jpg"
+      "immagine": "../../../../BananoTECH-a/Immagini/master_puppets.jpg"
     },
     {
       "id": "VC-30",
@@ -486,7 +486,7 @@
       "numero_copie": 5,
       "in_prestito": 2,
       "rating": 4.9,
-      "immagine": "thriller.jpg"
+      "immagine": "../../../../BananoTECH-a/Immagini/thriller.jpg"
     },
     {
       "id": "VC-31",
@@ -502,7 +502,7 @@
       "numero_copie": 6,
       "in_prestito": 1,
       "rating": 4.9,
-      "immagine": "abbey_road.jpg"
+      "immagine": "../../../../BananoTECH-a/Immagini/abbey_road.jpg"
     },
     {
       "id": "VC-32",
@@ -519,7 +519,7 @@
       "numero_copie": 10,
       "in_prestito": 2,
       "rating": 4.5,
-      "immagine": "time.jpg"
+      "immagine": "../../../../BananoTECH-a/Immagini/time.jpg"
     },
     {
       "id": "VC-33",
@@ -536,7 +536,7 @@
       "numero_copie": 5,
       "in_prestito": 1,
       "rating": 4.6,
-      "immagine": "artforum.jpg"
+      "immagine": "../../../../BananoTECH-a/Immagini/artforum.jpg"
     },
     {
       "id": "VC-34",
@@ -553,7 +553,7 @@
       "numero_copie": 8,
       "in_prestito": 3,
       "rating": 4.7,
-      "immagine": "cucina_italiana.jpg"
+      "immagine": "../../../../BananoTECH-a/Immagini/cucina_italiana.jpg"
     },
     {
       "id": "VC-35",
@@ -570,7 +570,7 @@
       "numero_copie": 7,
       "in_prestito": 2,
       "rating": 4.8,
-      "immagine": "new_yorker.jpg"
+      "immagine": "../../../../BananoTECH-a/Immagini/new_yorker.jpg"
     },
     {
       "id": "VC-36",
@@ -587,7 +587,7 @@
       "numero_copie": 8,
       "in_prestito": 4,
       "rating": 4.7,
-      "immagine": "economist.jpg"
+      "immagine": "../../../../BananoTECH-a/Immagini/economist.jpg"
     },
     {
       "id": "VC-37",
@@ -604,7 +604,7 @@
       "numero_copie": 12,
       "in_prestito": 5,
       "rating": 4.4,
-      "immagine": "vanity_fair.jpg"
+      "immagine": "../../../../BananoTECH-a/Immagini/vanity_fair.jpg"
     },
     {
       "id": "VC-38",
@@ -621,7 +621,7 @@
       "numero_copie": 10,
       "in_prestito": 4,
       "rating": 4.6,
-      "immagine": "vogue.jpg"
+      "immagine": "../../../../BananoTECH-a/Immagini/vogue.jpg"
     },
     {
       "id": "VC-39",
@@ -638,7 +638,7 @@
       "numero_copie": 8,
       "in_prestito": 3,
       "rating": 4.3,
-      "immagine": "mens_health.jpg"
+      "immagine": "../../../../BananoTECH-a/Immagini/mens_health.jpg"
     },
     {
       "id": "VC-40",
@@ -655,7 +655,7 @@
       "numero_copie": 6,
       "in_prestito": 2,
       "rating": 4.8,
-      "immagine": "scientific_american.jpg"
+      "immagine": "../../../../BananoTECH-a/Immagini/scientific_american.jpg"
     },
     {
       "id": "VC-41",
@@ -672,7 +672,7 @@
       "numero_copie": 15,
       "in_prestito": 5,
       "rating": 4.5,
-      "immagine": "gazzetta_sport.jpg"
+      "immagine": "../../../../BananoTECH-a/Immagini/gazzetta_sport.jpg"
     },
     {
       "id": "VC-42",
@@ -689,7 +689,7 @@
       "numero_copie": 8,
       "in_prestito": 3,
       "rating": 4.7,
-      "immagine": "wired.jpg"
+      "immagine": "../../../../BananoTECH-a/Immagini/wired.jpg"
     },
     {
       "id": "VC-43",
@@ -706,7 +706,7 @@
       "numero_copie": 10,
       "in_prestito": 4,
       "rating": 4.9,
-      "immagine": "national_geographic.jpg"
+      "immagine": "../../../../BananoTECH-a/Immagini/national_geographic.jpg"
     },
     {
       "id": "VC-44",
@@ -723,7 +723,7 @@
       "numero_copie": 3,
       "in_prestito": 0,
       "rating": 4.9,
-      "immagine": "go.jpg"
+      "immagine": "../../../../BananoTECH-a/Immagini/go.jpg"
     },
     {
       "id": "VC-45",
@@ -740,7 +740,7 @@
       "numero_copie": 4,
       "in_prestito": 1,
       "rating": 4.7,
-      "immagine": "pandemic.jpg"
+      "immagine": "../../../../BananoTECH-a/Immagini/pandemic.jpg"
     },
     {
       "id": "VC-46",
@@ -757,24 +757,7 @@
       "numero_copie": 5,
       "in_prestito": 2,
       "rating": 4.8,
-      "immagine": "magic.jpg"
-    },
-    {
-      "id": "VC-47",
-      "tipo": "gioco",
-      "titolo": "Warhammer 40,000",
-      "autore": "Games Workshop",
-      "anno": 1987,
-      "genere": "Giochi di miniature",
-      "eta_minima": 12,
-      "numero_giocatori": 2,
-      "durata": 120,
-      "collocazione": "Sezione G4",
-      "disponibilita": true,
-      "numero_copie": 3,
-      "in_prestito": 1,
-      "rating": 4.6,
-      "immagine": "warhammer.jpg"
+      "immagine": "../../../../BananoTECH-a/Immagini/magic.jpg"
     },
     {
       "id": "VC-48",
@@ -791,7 +774,7 @@
       "numero_copie": 6,
       "in_prestito": 2,
       "rating": 4.7,
-      "immagine": "catan.jpg"
+      "immagine": "../../../../BananoTECH-a/Immagini/catan.jpg"
     },
     {
       "id": "VC-49",
@@ -808,6 +791,6 @@
       "numero_copie": 4,
       "in_prestito": 1,
       "rating": 4.9,
-      "immagine": "dnd.jpg"
+      "immagine": "../../../../BananoTECH-a/Immagini/dnd.jpg"
     }
 ]
