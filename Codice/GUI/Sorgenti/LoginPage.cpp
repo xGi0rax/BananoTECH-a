@@ -89,6 +89,7 @@ void LoginPage::clearErrorMessage() {
 }
 
 void LoginPage::onLoginButtonClicked() {
+    clearErrorMessage(); // Pulisci eventuali messaggi di errore precedenti
     emit loginAttempted(); // Emissione del segnale di tentativo di login
 }
 

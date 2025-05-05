@@ -13,16 +13,17 @@
 ### Giacomone
 - pagina "aggiungi": implementare salvataggio media nel sistema OK
 - pagina "modifica"
-- controllare che segnali e slot siano corretti
-- capire a cosa serve clearErrorMessage in LoginPage
+- capire a cosa serve clearErrorMessage in LoginPage OK
 - capire perchè non si vedono le immaginine su modifica ed elimina
 
 # Cose da fare:
 - capire come sistemare correttamente i tastini modifica e rimuovi
 - collegare tali tasti alle funzioni giuste
+- far funzionare la barra di ricerca
 
 ## Modifiche minori:
 - label con scritta "Inserire username e password" che quando si torna indietro da mainpage scompare
 - lag quando si seleziona un media dalla lista
 - lag quando si ridimensiona la finestra mentre c'è un media selezionato
 - colori vari
+- controllare che segnali e slot siano corretti

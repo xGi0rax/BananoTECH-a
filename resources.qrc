@@ -7,8 +7,7 @@
         <file>Immagini/LogoGioco1.png</file>
         <file>Immagini/LogoRivista1.png</file>
         <file>Immagini/LogoVinile1.png</file>
-        <file>Immagini/matita.png</file>
-        <file>Immagini/cestino.png</file>
-        <file>Immagini/conte_montecristo.jpg</file>
+        <file>Immagini/BottoneCestino.png</file>
+        <file>Immagini/BottoneMatita.png</file>
     </qresource>
 </RCC>

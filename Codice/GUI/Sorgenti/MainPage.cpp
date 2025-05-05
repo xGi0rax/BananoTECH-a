@@ -18,66 +18,6 @@
 MainPage::MainPage(QWidget *parent) : QWidget(parent) {
     setupBiblioteca(); // Inizializza la biblioteca
     setupUI(); // Configura l'interfaccia utente
-
-    // Inizializza i pulsanti per la lista ma li nasconde inizialmente
-    buttonsContainer = new QWidget(mediaList);
-    buttonsContainer->hide();
-    
-    QHBoxLayout* buttonsLayout = new QHBoxLayout(buttonsContainer);
-    buttonsLayout->setContentsMargins(0, 0, 0, 0);
-    buttonsLayout->setSpacing(6);
-    
-    // Crea i pulsanti
-    listEditButton = new QPushButton();
-    listEditButton->setToolTip("Modifica");
-    listEditButton->setFixedSize(30, 30); // Dimensione circolare
-    listEditButton->setStyleSheet(
-        "QPushButton {"
-        "   background-color: rgb(131, 187, 222);"
-        "   color: black;"
-        "   border: 2px solid rgb(92, 92, 93);"
-        "   border-radius: 15px;" // Metà della larghezza per renderlo circolare
-        "   font-size: 12px;"
-        "   font-weight: bold;"
-        "   text-align: center;"
-        "}"
-        "QPushButton:hover {"
-        "   background-color: rgb(87, 163, 210);"
-        "}"
-    );
-    listEditButton->setIcon(QIcon(":/Immagini/matita.png"));
-    
-    listDeleteButton = new QPushButton();
-    listDeleteButton->setToolTip("Rimuovi");
-    listDeleteButton->setFixedSize(30, 30); // Dimensione circolare
-    listDeleteButton->setStyleSheet(
-        "QPushButton {"
-        "   background-color: rgb(240, 107, 70);"
-        "   color: black;"
-        "   border: 2px solid rgb(92, 92, 93);"
-        "   border-radius: 15px;" // Metà della larghezza per renderlo circolare
-        "   font-size: 12px;"
-        "   font-weight: bold;"
-        "   text-align: center;"
-        "}"
-        "QPushButton:hover {"
-        "   background-color: rgb(250, 81, 34);"
-        "}"
-    );
-    listDeleteButton->setIcon(QIcon(":/Immagini/cestino.png"));
-    
-    // Aggiungi i pulsanti al layout
-    buttonsLayout->addWidget(listEditButton);
-    buttonsLayout->addWidget(listDeleteButton);
-    
-    // Collega i segnali
-    connect(listEditButton, &QPushButton::clicked, this, &MainPage::onEditButtonClicked);
-    connect(listDeleteButton, &QPushButton::clicked, this, &MainPage::onDeleteButtonClicked);
-    
-    // Collega il cambio di selezione per nascondere i pulsanti
-    connect(mediaList, &QListWidget::currentRowChanged, this, [this](int) { 
-        hideActionButtons(); 
-    });
 }
 
 void MainPage::setupBiblioteca() {
@@ -286,7 +226,7 @@ void MainPage::setupUI(){
     "QListWidget::item:hover { background-color:rgb(101, 123, 152); color: white;}"
     "QListWidget::item:selected { background-color:rgb(255, 208, 0); color: black; }"
     "QListWidget::item:focus { outline: none; }"
-);
+    );
 
     // Collega la selezione
     connect(mediaList, &QListWidget::itemClicked, this, &MainPage::onMediaSelected);
@@ -297,8 +237,71 @@ void MainPage::setupUI(){
     centerLayout->addWidget(searchBar);
     centerLayout->addWidget(mediaList);
 
+    // Inizializzo i pulsantini da visualizzare quando un elemento è selezionato ma li nascondo inizialmente
+    buttonsContainer = new QWidget(mediaList);
+    buttonsContainer->hide();
+    
+    QHBoxLayout* buttonsLayout = new QHBoxLayout(buttonsContainer);
+    buttonsLayout->setContentsMargins(0, 0, 0, 0);
+    buttonsLayout->setSpacing(6);
+    
+    // Crea i pulsanti
+    listEditButton = new QPushButton();
+    listEditButton->setToolTip("Modifica");
+    listEditButton->setFixedSize(26, 26); // Imposto la dimensione del bottone
+    QPixmap editIcon(":/Immagini/BottoneMatita.png");
+    listEditButton->setIcon(QIcon(editIcon));
+    listEditButton->setIconSize(QSize(16, 16));
+    listEditButton->setStyleSheet(
+        "QPushButton {"
+    "   background-color: rgb(131, 187, 222);"
+    "   color: black;"
+    "   border: 2px solid rgb(92, 92, 93);"
+    "   border-radius: 13px;"
+    "   font-size: 12px;"
+    "   font-weight: bold;"
+    "   text-align: center;"
+    "   padding: 2px;"
+    "}"
+        "QPushButton:hover {"
+        "   background-color: rgb(87, 163, 210);"
+        "}"
+    );
+    
+    listDeleteButton = new QPushButton();
+    listDeleteButton->setToolTip("Rimuovi");
+    listDeleteButton->setFixedSize(26, 26); // Imposto la dimensione del bottone
+    QPixmap deleteIcon(":/Immagini/BottoneCestino.png");
+    listDeleteButton->setIcon(QIcon(deleteIcon));
+    listDeleteButton->setIconSize(QSize(20, 20));
+    listDeleteButton->setStyleSheet(
+        "QPushButton {"
+        "   background-color: rgb(240, 107, 70);"
+        "   color: black;"
+        "   border: 2px solid rgb(92, 92, 93);"
+        "   border-radius: 13px;"
+        "   font-size: 12px;"
+        "   font-weight: bold;"
+        "   text-align: center;"
+        "}"
+        "QPushButton:hover {"
+        "   background-color: rgb(250, 81, 34);"
+        "}"
+    );
+    
+    // Aggiungi i pulsanti al layout
+    buttonsLayout->addWidget(listEditButton);
+    buttonsLayout->addWidget(listDeleteButton);
+    
+    // Collego i segnali
+    connect(listEditButton, &QPushButton::clicked, this, &MainPage::onEditButtonClicked);
+    connect(listDeleteButton, &QPushButton::clicked, this, &MainPage::onDeleteButtonClicked);
+    
+    // Collego il cambio di selezione per nascondere i pulsanti
+    connect(mediaList, &QListWidget::currentRowChanged, this, &MainPage::hideActionButtons);
 
-    // ------------------------------ Sezione destra ----------------------------------
+
+    // ------------------------------------- Sezione destra ----------------------------------------
     previewGroupBox = new QGroupBox("Anteprima");
     
     // Label per l'immagine del media
@@ -680,9 +683,6 @@ void MainPage::onClearFiltersClicked() {
     // Ripristina la lista con tutti i media disponibili in biblioteca
     vector<Media*> listaCompleta = biblioteca->getListaMedia();
     updateMediaList(listaCompleta);
-    
-    // Opzionale: mostra messaggio di conferma all'utente
-    QMessageBox::information(this, "Filtri eliminati", "I filtri sono stati eliminati e la lista è stata ripristinata.");
 }
 
 void MainPage::onAddMediaButtonClicked() {
