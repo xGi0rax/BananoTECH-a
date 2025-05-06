@@ -3,19 +3,16 @@
 
 ### Giacomino
 - pagina "approfondisci"
-- fare in modo che quando l'utente non sceglie nessun file tra json e xml, possa aggiungere dei nuovi media e infine esportare tutto in un nuovo file json/xml
+- pagina dopo Login con due bottoni, uno per caricare da file esistente e uno per creare una biblioteca nuova (quindi basta andare in Mainpage una volta schiacciato il bottone) in modo che si possa aggiungere dei nuovi media e infine esportare tutto in un nuovo file json/xml
 - popolare file xml con un po' di esempi con relative immagini corrette (almeno 2 x ogni genere di ogni media)
 
 ### Giacomone
-- pagina "aggiungi": implementare salvataggio media nel sistema OK
 - pagina "modifica"
-- capire a cosa serve clearErrorMessage in LoginPage OK
-- capire perchè non si vedono le immaginine su modifica ed elimina
+- capire perchè non si spostano i bottoni modifica ed elimina seguendo la lista
+- far funzionare la barra di ricerca
 
 # Cose da fare:
-- capire come sistemare correttamente i tastini modifica e rimuovi
-- collegare tali tasti alle funzioni giuste
-- far funzionare la barra di ricerca
+
 
 ## Modifiche minori:
 - label con scritta "Inserire username e password" che quando si torna indietro da mainpage scompare
