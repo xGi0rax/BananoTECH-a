@@ -11,9 +11,6 @@
 - capire perchè non si spostano i bottoni modifica ed elimina seguendo la lista
 - far funzionare la barra di ricerca
 
-# Cose da fare:
-
-
 ## Modifiche minori:
 - label con scritta "Inserire username e password" che quando si torna indietro da mainpage scompare
 - lag quando si seleziona un media dalla lista
