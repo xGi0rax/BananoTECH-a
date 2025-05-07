@@ -2,7 +2,7 @@
 ## Compiti x casa:
 
 ### Giacomino
-- pagina "approfondisci"
+- pagina "approfondisci" e snellimento codice di detailsPage
 - pagina dopo Login con due bottoni, uno per caricare da file esistente e uno per creare una biblioteca nuova (quindi basta andare in Mainpage una volta schiacciato il bottone) in modo che si possa aggiungere dei nuovi media e infine esportare tutto in un nuovo file json/xml
 - popolare file xml con un po' di esempi con relative immagini corrette (almeno 2 x ogni genere di ogni media)
 
