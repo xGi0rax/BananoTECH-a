@@ -16,6 +16,12 @@
 #include "../../Modello logico/Headers/Rivista.h"
 #include "../../Modello logico/Headers/GiocoDaTavolo.h"
 
+#include "Widgets/FilmDetailsWidget.h"
+#include "Widgets/LibroDetailsWidget.h"
+#include "Widgets/VinileDetailsWidget.h"
+#include "Widgets/RivistaDetailsWidget.h"
+#include "Widgets/GiocoDetailsWidget.h"
+
 class DetailsPage : public QWidget {
     Q_OBJECT
 
@@ -41,20 +47,19 @@ private:
     QLabel* yearLabel;
     QLabel* imageLabel;
     QLabel* availabilityLabel;
+    QLabel* copiesLabel;
     QPushButton* backButton;
     QPushButton* borrowButton;
     QPushButton* returnButton;
     QVBoxLayout* specificDetailsLayout;
 
+    QWidget* currentDetailsWidget;
+
     void setupUI();
     void updateUI();
     void clearSpecificDetails();
     void setupSpecificDetails(Media* media);
-    void setupFilmDetails(Film* film);
-    void setupLibroDetails(Libro* libro);
-    void setupVinileDetails(Vinile* vinile);
-    void setupRivistaDetails(Rivista* rivista);
-    void setupGiocoDetails(GiocoDaTavolo* gioco);
+    QWidget* createViewWidgetForMedia(Media* media);
 };
 
 #endif // DETAILSPAGE_H

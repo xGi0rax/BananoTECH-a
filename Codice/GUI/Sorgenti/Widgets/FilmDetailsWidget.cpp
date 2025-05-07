@@ -72,3 +72,55 @@ Media* FilmDetailsWidget::createMedia() {
         static_cast<float>(ratingEdit->value())
     );
 }
+
+void FilmDetailsWidget::setMedia(Film* film) {
+    if (!film) return;
+    
+    // Impostiamo i valori nei campi esistenti
+    titleEdit->setText(QString::fromStdString(film->getTitolo()));
+    authorEdit->setText(QString::fromStdString(film->getAutore()));
+    
+    // Trova e seleziona il genere corretto nella combobox
+    QString genere = QString::fromStdString(film->getGenere());
+    int genreIndex = genreComboBox->findText(genere);
+    if (genreIndex >= 0) {
+        genreComboBox->setCurrentIndex(genreIndex);
+    } else {
+        genreComboBox->setCurrentText(genere);
+    }
+    
+    yearEdit->setValue(film->getAnno());
+    languageEdit->setText(QString::fromStdString(film->getLingua()));
+    durationFilmEdit->setValue(film->getDurata());
+    
+    // Gestisci il cast
+    QString castText;
+    const vector<string>& cast = film->getCast();
+    for (size_t i = 0; i < cast.size(); ++i) {
+        castText += QString::fromStdString(cast[i]);
+        if (i < cast.size() - 1) {
+            castText += ", ";
+        }
+    }
+    castEdit->setText(castText);
+}
+
+void FilmDetailsWidget::setReadOnly(bool readOnly) {
+    // Imposta tutti i campi in modalità sola lettura
+    titleEdit->setReadOnly(readOnly);
+    authorEdit->setReadOnly(readOnly);
+    genreComboBox->setEnabled(!readOnly);
+    yearEdit->setReadOnly(readOnly);
+    languageEdit->setReadOnly(readOnly);
+    durationFilmEdit->setReadOnly(readOnly);
+    castEdit->setReadOnly(readOnly);
+    
+    // Nascondi pulsanti se in modalità lettura
+    if (readOnly) {
+        if (saveButton) saveButton->hide();
+        if (cancelButton) cancelButton->hide();
+    } else {
+        if (saveButton) saveButton->show();
+        if (cancelButton) cancelButton->show();
+    }
+}

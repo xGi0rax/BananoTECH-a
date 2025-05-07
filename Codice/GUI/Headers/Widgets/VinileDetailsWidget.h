@@ -2,6 +2,7 @@
 #define VINILEDETAILSWIDGET_H
 
 #include "MediaDetailsWidget.h"
+#include "../../../Modello logico/Headers/Vinile.h" 
 #include <QSpinBox>
 
 class VinileDetailsWidget : public MediaDetailsWidget {
@@ -16,6 +17,9 @@ public:
     
     bool validateData() override;
     Media* createMedia() override;
+
+    void setMedia(Vinile* vinile);
+    void setReadOnly(bool readOnly);
     
 protected:
     void addSpecificFields() override;

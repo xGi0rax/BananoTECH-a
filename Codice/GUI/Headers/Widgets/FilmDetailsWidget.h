@@ -2,6 +2,7 @@
 #define FILMDETAILSWIDGET_H
 
 #include "MediaDetailsWidget.h"
+#include "../../../Modello logico/Headers/Film.h"
 #include <QSpinBox>
 #include <QLineEdit>
 
@@ -18,6 +19,9 @@ public:
     // Implementazione dei metodi virtuali della classe base
     bool validateData() override;
     Media* createMedia() override;
+
+    void setMedia(Film* film);
+    void setReadOnly(bool readOnly);
     
 protected:
     void addSpecificFields() override;

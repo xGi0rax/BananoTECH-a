@@ -2,6 +2,7 @@
 #define RIVISTADETAILSWIDGET_H
 
 #include "MediaDetailsWidget.h"
+#include "../../../Modello logico/Headers/Rivista.h"
 #include <QSpinBox>
 #include <QLineEdit>
 #include <QDateEdit>
@@ -16,11 +17,14 @@ public:
     // Getters specifici
     QString getEditore() const { return editorRivistaEdit->text(); }
     int getNumPagine() const { return pagesRivistaEdit->value(); }
-    QDate getDataPubblicazione() const { return publicationDateEdit->date(); }
+    QDate getDataPubb() const { return publicationDateEdit->date(); }
     QString getPeriodicita() const { return periodicityComboBox->currentText(); }
     
     bool validateData() override;
     Media* createMedia() override;
+
+    void setMedia(Rivista* rivista);
+    void setReadOnly(bool readOnly);
     
 protected:
     void addSpecificFields() override;

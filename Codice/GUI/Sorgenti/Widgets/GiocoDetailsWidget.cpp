@@ -82,3 +82,48 @@ Media* GiocoDetailsWidget::createMedia() {
         static_cast<float>(ratingEdit->value())
     );
 }
+
+void GiocoDetailsWidget::setMedia(GiocoDaTavolo* gioco) {
+    if (!gioco) return;
+    
+    // Impostiamo i valori nei campi esistenti
+    titleEdit->setText(QString::fromStdString(gioco->getTitolo()));
+    authorEdit->setText(QString::fromStdString(gioco->getAutore()));
+    
+    // Trova e seleziona il genere corretto nella combobox
+    QString genere = QString::fromStdString(gioco->getGenere());
+    int genreIndex = genreComboBox->findText(genere);
+    if (genreIndex >= 0) {
+        genreComboBox->setCurrentIndex(genreIndex);
+    } else {
+        genreComboBox->setCurrentText(genere);
+    }
+    
+    yearEdit->setValue(gioco->getAnno());
+    languageEdit->setText(QString::fromStdString(gioco->getLingua()));
+    maxPlayersEdit->setValue(gioco->getNGiocatori());
+    minAgeEdit->setValue(gioco->getEtaMinima());
+    editorGiocoEdit->setText(QString::fromStdString(gioco->getEditore()));
+}
+
+void GiocoDetailsWidget::setReadOnly(bool readOnly) {
+    // Imposta tutti i campi in modalità sola lettura
+    titleEdit->setReadOnly(readOnly);
+    authorEdit->setReadOnly(readOnly);
+    genreComboBox->setEnabled(!readOnly);
+    yearEdit->setReadOnly(readOnly);
+    languageEdit->setReadOnly(readOnly);
+    maxPlayersEdit->setReadOnly(readOnly);
+    playTimeEdit->setReadOnly(readOnly);
+    minAgeEdit->setReadOnly(readOnly);
+    editorGiocoEdit->setReadOnly(readOnly);
+    
+    // Nascondi pulsanti se in modalità lettura
+    if (readOnly) {
+        if (saveButton) saveButton->hide();
+        if (cancelButton) cancelButton->hide();
+    } else {
+        if (saveButton) saveButton->show();
+        if (cancelButton) cancelButton->show();
+    }
+}

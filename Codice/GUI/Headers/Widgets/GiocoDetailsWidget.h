@@ -2,6 +2,7 @@
 #define GIOCODETAILSWIDGET_H
 
 #include "MediaDetailsWidget.h"
+#include "../../../Modello logico/Headers/GiocoDaTavolo.h"
 #include <QSpinBox>
 #include <QLineEdit>
 
@@ -19,6 +20,9 @@ public:
     
     bool validateData() override;
     Media* createMedia() override;
+
+    void setMedia(GiocoDaTavolo* gioco);
+    void setReadOnly(bool readOnly);
     
 protected:
     void addSpecificFields() override;

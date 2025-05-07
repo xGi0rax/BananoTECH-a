@@ -82,3 +82,63 @@ Media* RivistaDetailsWidget::createMedia() {
         static_cast<float>(ratingEdit->value())
     );
 }
+
+void RivistaDetailsWidget::setMedia(Rivista* rivista) {
+    if (!rivista) return;
+    
+    // Impostiamo i valori nei campi esistenti
+    titleEdit->setText(QString::fromStdString(rivista->getTitolo()));
+    authorEdit->setText(QString::fromStdString(rivista->getAutore()));
+    
+    // Trova e seleziona il genere corretto nella combobox
+    QString genere = QString::fromStdString(rivista->getGenere());
+    int genreIndex = genreComboBox->findText(genere);
+    if (genreIndex >= 0) {
+        genreComboBox->setCurrentIndex(genreIndex);
+    } else {
+        genreComboBox->setCurrentText(genere);
+    }
+    
+    yearEdit->setValue(rivista->getAnno());
+    languageEdit->setText(QString::fromStdString(rivista->getLingua()));
+    editorRivistaEdit->setText(QString::fromStdString(rivista->getEditore()));
+    pagesRivistaEdit->setValue(rivista->getNPagine());
+    
+    // Gestione della data di pubblicazione
+    QString dateStr = QString::fromStdString(rivista->getDataPubb());
+    QDate date = QDate::fromString(dateStr, "dd/MM/yyyy");
+    if (date.isValid()) {
+        publicationDateEdit->setDate(date);
+    }
+    
+    // Imposta periodicità
+    QString periodicita = QString::fromStdString(rivista->getPeriodicita());
+    int periodicityIndex = periodicityComboBox->findText(periodicita);
+    if (periodicityIndex >= 0) {
+        periodicityComboBox->setCurrentIndex(periodicityIndex);
+    } else {
+        periodicityComboBox->setCurrentText(periodicita);
+    }
+}
+
+void RivistaDetailsWidget::setReadOnly(bool readOnly) {
+    // Imposta tutti i campi in modalità sola lettura
+    titleEdit->setReadOnly(readOnly);
+    authorEdit->setReadOnly(readOnly);
+    genreComboBox->setEnabled(!readOnly);
+    yearEdit->setReadOnly(readOnly);
+    languageEdit->setReadOnly(readOnly);
+    editorRivistaEdit->setReadOnly(readOnly);
+    pagesRivistaEdit->setReadOnly(readOnly);
+    publicationDateEdit->setReadOnly(readOnly);
+    periodicityComboBox->setEnabled(!readOnly);
+    
+    // Nascondi pulsanti se in modalità lettura
+    if (readOnly) {
+        if (saveButton) saveButton->hide();
+        if (cancelButton) cancelButton->hide();
+    } else {
+        if (saveButton) saveButton->show();
+        if (cancelButton) cancelButton->show();
+    }
+}

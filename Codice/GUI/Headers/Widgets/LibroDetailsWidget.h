@@ -2,6 +2,7 @@
 #define LIBRODETAILSWIDGET_H
 
 #include "MediaDetailsWidget.h"
+#include "../../../Modello logico/Headers/Libro.h"
 #include <QSpinBox>
 #include <QLineEdit>
 
@@ -18,6 +19,9 @@ public:
     
     bool validateData() override;
     Media* createMedia() override;
+
+    void setMedia(Libro* libro);
+    void setReadOnly(bool readOnly);
     
 protected:
     void addSpecificFields() override;

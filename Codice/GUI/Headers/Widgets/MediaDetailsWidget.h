@@ -51,6 +51,7 @@ protected:
     QSpinBox *yearEdit;
     QLineEdit *languageEdit;
     QDoubleSpinBox *ratingEdit;
+    QPushButton *saveButton;
     QPushButton *cancelButton;
 
     // Metodi per setup UI

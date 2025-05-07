@@ -64,3 +64,45 @@ Media* VinileDetailsWidget::createMedia() {
         static_cast<float>(ratingEdit->value())
     );
 }
+
+void VinileDetailsWidget::setMedia(Vinile* vinile) {
+    if (!vinile) return;
+    
+    // Impostiamo i valori nei campi esistenti
+    titleEdit->setText(QString::fromStdString(vinile->getTitolo()));
+    authorEdit->setText(QString::fromStdString(vinile->getAutore()));
+    
+    // Trova e seleziona il genere corretto nella combobox
+    QString genere = QString::fromStdString(vinile->getGenere());
+    int genreIndex = genreComboBox->findText(genere);
+    if (genreIndex >= 0) {
+        genreComboBox->setCurrentIndex(genreIndex);
+    } else {
+        genreComboBox->setCurrentText(genere);
+    }
+    
+    yearEdit->setValue(vinile->getAnno());
+    languageEdit->setText(QString::fromStdString(vinile->getLingua()));
+    trackCountEdit->setValue(vinile->getNTracce());
+    durationVinileEdit->setValue(vinile->getDurata());
+}
+
+void VinileDetailsWidget::setReadOnly(bool readOnly) {
+    // Imposta tutti i campi in modalità sola lettura
+    titleEdit->setReadOnly(readOnly);
+    authorEdit->setReadOnly(readOnly);
+    genreComboBox->setEnabled(!readOnly);
+    yearEdit->setReadOnly(readOnly);
+    languageEdit->setReadOnly(readOnly);
+    trackCountEdit->setReadOnly(readOnly);
+    durationVinileEdit->setReadOnly(readOnly);
+    
+    // Nascondi pulsanti se in modalità lettura
+    if (readOnly) {
+        if (saveButton) saveButton->hide();
+        if (cancelButton) cancelButton->hide();
+    } else {
+        if (saveButton) saveButton->show();
+        if (cancelButton) cancelButton->show();
+    }
+}

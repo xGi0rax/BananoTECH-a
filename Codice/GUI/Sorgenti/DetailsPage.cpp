@@ -54,36 +54,35 @@ void DetailsPage::setupUI() {
     
     // Dettagli base
     QVBoxLayout *basicDetailsLayout = new QVBoxLayout();
-    basicDetailsLayout->setSpacing(10);
+    basicDetailsLayout->setSpacing(15);
     
     titleLabel = new QLabel();
     authorLabel = new QLabel();
     genreLabel = new QLabel();
     yearLabel = new QLabel();
     availabilityLabel = new QLabel();
-    //da aggiungere altri campi
+    copiesLabel = new QLabel();
     
     titleLabel->setStyleSheet("font-size: 20px; font-weight: bold;");
     authorLabel->setStyleSheet("font-size: 16px;");
     genreLabel->setStyleSheet("font-size: 14px;");
     yearLabel->setStyleSheet("font-size: 14px;");
     availabilityLabel->setStyleSheet("font-size: 16px; font-weight: bold;");
-    //da aggiungere altri campi
-    
+    copiesLabel->setStyleSheet("font-size: 14px; font-weight: bold;"); 
+
     basicDetailsLayout->addWidget(titleLabel);
     basicDetailsLayout->addWidget(authorLabel);
     basicDetailsLayout->addWidget(genreLabel);
     basicDetailsLayout->addWidget(yearLabel);
-    //da aggiungere altri campi
-
-    basicDetailsLayout->addSpacing(20);
+    basicDetailsLayout->addWidget(copiesLabel); 
+    basicDetailsLayout->addSpacing(10);
     basicDetailsLayout->addWidget(availabilityLabel);
     
     // Pulsanti per prestito/restituzione
     borrowButton = new QPushButton("Prendi in prestito");
     returnButton = new QPushButton("Restituisci");
     
-    borrowButton->setStyleSheet("QPushButton { background-color: #00A000; color: white; padding: 10px 20px; font-size: 14px; border: none; border-radius: 4px; } QPushButton:hover { background-color: #008000; }");
+    borrowButton->setStyleSheet("QPushButton { background-color: #00A000; color: white; padding: 10px 20px; font-size: 14px; border: none; border-radius: 4px; } QPushButton:hover { background-color: #008000; } QPushButton:disabled { background-color: #888888; }");
     returnButton->setStyleSheet("QPushButton { background-color: #C00000; color: white; padding: 10px 20px; font-size: 14px; border: none; border-radius: 4px; } QPushButton:hover { background-color: #A00000; }");
     
     connect(borrowButton, &QPushButton::clicked, this, &DetailsPage::onBorrowButtonClicked);
@@ -141,6 +140,14 @@ void DetailsPage::updateUI() {
     genreLabel->setText("Genere: " + QString::fromStdString(currentMedia->getGenere()));
     yearLabel->setText("Anno: " + QString::number(currentMedia->getAnno()));
     
+    // Calcolo e visualizzo le copie disponibili
+    int totalCopies = currentMedia->getNumeroCopie();
+    int loanedCopies = currentMedia->getInPrestito();
+    int availableCopies = totalCopies - loanedCopies;
+    
+    copiesLabel->setText("Copie disponibili: " + QString::number(availableCopies) + 
+                         " su " + QString::number(totalCopies) + " totali");
+    
     // Gestisco l'immagine
     QString imagePath = QString::fromStdString(currentMedia->getImmagine());
     if (imagePath.isEmpty() || !QFile::exists(imagePath)) {
@@ -152,16 +159,27 @@ void DetailsPage::updateUI() {
     
     // Aggiorno stato disponibilità
     if (currentMedia->getDisponibilita()) {
-        availabilityLabel->setText("Disponibile");
-        availabilityLabel->setStyleSheet("font-size: 16px; font-weight: bold; color: green;");
-        borrowButton->setVisible(true);
-        returnButton->setVisible(false);
+        if (availableCopies > 0) {
+            availabilityLabel->setText("Disponibile");
+            availabilityLabel->setStyleSheet("font-size: 16px; font-weight: bold; color: green;");
+        } else {
+            availabilityLabel->setText("Non disponibile (tutte le copie in prestito)");
+            availabilityLabel->setStyleSheet("font-size: 16px; font-weight: bold; color: orange;");
+        }
     } else {
         availabilityLabel->setText("Non disponibile");
         availabilityLabel->setStyleSheet("font-size: 16px; font-weight: bold; color: red;");
-        borrowButton->setVisible(false);
-        returnButton->setVisible(true);
     }
+    
+    // Mostro sempre entrambi i pulsanti, ma li abilito/disabilito in base alla disponibilità
+    borrowButton->setVisible(true);
+    returnButton->setVisible(true);
+    
+    // Pulsante "Prendi in prestito" abilitato solo se ci sono copie disponibili
+    borrowButton->setEnabled(availableCopies > 0);
+    
+    // Pulsante "Restituisci" abilitato solo se ci sono copie in prestito
+    returnButton->setEnabled(loanedCopies > 0);
     
     // Pulisco e ricreo i dettagli specifici
     clearSpecificDetails();
@@ -177,124 +195,59 @@ void DetailsPage::clearSpecificDetails() {
         }
         delete item;
     }
+    
+    currentDetailsWidget = nullptr;
 }
 
 void DetailsPage::setupSpecificDetails(Media* media) {
     if (!media) return;
     
-    // Uso RTTI (Run-Time Type Information) per determinare il tipo di media
+    // Crea un widget appropriato in base al tipo di media
+    currentDetailsWidget = createViewWidgetForMedia(media);
+    
+    if (currentDetailsWidget) {
+        // Imposta alcune proprietà per la visualizzazione
+        currentDetailsWidget->setProperty("viewOnly", true);
+        specificDetailsLayout->addWidget(currentDetailsWidget);
+    }
+}
+
+QWidget* DetailsPage::createViewWidgetForMedia(Media* media) {
+    QWidget* widget = nullptr;
+    
     if (Film* film = dynamic_cast<Film*>(media)) {
-        setupFilmDetails(film);
-    } else if (Libro* libro = dynamic_cast<Libro*>(media)) {
-        setupLibroDetails(libro);
-    } else if (Vinile* vinile = dynamic_cast<Vinile*>(media)) {
-        setupVinileDetails(vinile);
-    } else if (Rivista* rivista = dynamic_cast<Rivista*>(media)) {
-        setupRivistaDetails(rivista);
-    } else if (GiocoDaTavolo* gioco = dynamic_cast<GiocoDaTavolo*>(media)) {
-        setupGiocoDetails(gioco);
+        // Crea un FilmDetailsWidget e configuralo per la visualizzazione
+        FilmDetailsWidget* filmWidget = new FilmDetailsWidget();
+        filmWidget->setMedia(film);
+        filmWidget->setReadOnly(true);  // Imposta la modalità sola lettura
+        widget = filmWidget;
+    } 
+    else if (Libro* libro = dynamic_cast<Libro*>(media)) {
+        LibroDetailsWidget* libroWidget = new LibroDetailsWidget();
+        libroWidget->setMedia(libro);
+        libroWidget->setReadOnly(true);
+        widget = libroWidget;
+    } 
+    else if (Vinile* vinile = dynamic_cast<Vinile*>(media)) {
+        VinileDetailsWidget* vinileWidget = new VinileDetailsWidget();
+        vinileWidget->setMedia(vinile);
+        vinileWidget->setReadOnly(true);
+        widget = vinileWidget;
+    } 
+    else if (Rivista* rivista = dynamic_cast<Rivista*>(media)) {
+        RivistaDetailsWidget* rivistaWidget = new RivistaDetailsWidget();
+        rivistaWidget->setMedia(rivista);
+        rivistaWidget->setReadOnly(true);
+        widget = rivistaWidget;
+    } 
+    else if (GiocoDaTavolo* gioco = dynamic_cast<GiocoDaTavolo*>(media)) {
+        GiocoDetailsWidget* giocoWidget = new GiocoDetailsWidget();
+        giocoWidget->setMedia(gioco);
+        giocoWidget->setReadOnly(true);
+        widget = giocoWidget;
     }
-}
-
-void DetailsPage::setupFilmDetails(Film* film) {
-    // Durata
-    QLabel *durationLabel = new QLabel("Durata: " + QString::number(film->getDurata()) + " minuti");
-    durationLabel->setStyleSheet("font-size: 14px;");
-    specificDetailsLayout->addWidget(durationLabel);
     
-    // Cast
-    const vector<string>& cast = film->getCast();
-    if (!cast.empty()) {
-        QLabel *castTitle = new QLabel("Cast:");
-        castTitle->setStyleSheet("font-size: 14px; font-weight: bold;");
-        specificDetailsLayout->addWidget(castTitle);
-        
-        QString castStr;
-        for (size_t i = 0; i < cast.size(); ++i) {
-            castStr += QString::fromStdString(cast[i]);
-            if (i < cast.size() - 1) {
-                castStr += ", ";
-            }
-        }
-        
-        QLabel *castLabel = new QLabel(castStr);
-        castLabel->setWordWrap(true);
-        castLabel->setStyleSheet("font-size: 14px;");
-        specificDetailsLayout->addWidget(castLabel);
-    }
-}
-
-void DetailsPage::setupLibroDetails(Libro* libro) {
-    // ISBN
-    QLabel *isbnLabel = new QLabel("ISBN: " + QString::fromStdString(libro->getIsbn()));
-    isbnLabel->setStyleSheet("font-size: 14px;");
-    specificDetailsLayout->addWidget(isbnLabel);
-    
-    // Editore
-    QLabel *editorLabel = new QLabel("Editore: " + QString::fromStdString(libro->getEditore()));
-    editorLabel->setStyleSheet("font-size: 14px;");
-    specificDetailsLayout->addWidget(editorLabel);
-    
-    // Pagine
-    QLabel *pagesLabel = new QLabel("Pagine: " + QString::number(libro->getNPagine()));
-    pagesLabel->setStyleSheet("font-size: 14px;");
-    specificDetailsLayout->addWidget(pagesLabel);
-}
-
-void DetailsPage::setupVinileDetails(Vinile* vinile) {
-    // Numero di tracce
-    QLabel *tracksLabel = new QLabel("Numero tracce: " + QString::number(vinile->getNTracce()));
-    tracksLabel->setStyleSheet("font-size: 14px;");
-    specificDetailsLayout->addWidget(tracksLabel);
-    
-    // Durata
-    QLabel *durationLabel = new QLabel("Durata: " + QString::number(vinile->getDurata()) + " minuti");
-    durationLabel->setStyleSheet("font-size: 14px;");
-    specificDetailsLayout->addWidget(durationLabel);
-}
-
-void DetailsPage::setupRivistaDetails(Rivista* rivista) {
-    // Editore
-    QLabel *editorLabel = new QLabel("Editore: " + QString::fromStdString(rivista->getEditore()));
-    editorLabel->setStyleSheet("font-size: 14px;");
-    specificDetailsLayout->addWidget(editorLabel);
-    
-    // Pagine
-    QLabel *pagesLabel = new QLabel("Pagine: " + QString::number(rivista->getNPagine()));
-    pagesLabel->setStyleSheet("font-size: 14px;");
-    specificDetailsLayout->addWidget(pagesLabel);
-    
-    // Data di pubblicazione
-    QLabel *dateLabel = new QLabel("Data pubblicazione: " + QString::fromStdString(rivista->getDataPubb()));
-    dateLabel->setStyleSheet("font-size: 14px;");
-    specificDetailsLayout->addWidget(dateLabel);
-    
-    // Periodicità
-    QLabel *periodicityLabel = new QLabel("Periodicità: " + QString::fromStdString(rivista->getPeriodicita()));
-    periodicityLabel->setStyleSheet("font-size: 14px;");
-    specificDetailsLayout->addWidget(periodicityLabel);
-}
-
-void DetailsPage::setupGiocoDetails(GiocoDaTavolo* gioco) {
-    // Numero di giocatori
-    QLabel *playersLabel = new QLabel("Giocatori: " + QString::number(gioco->getNGiocatori()));
-    playersLabel->setStyleSheet("font-size: 14px;");
-    specificDetailsLayout->addWidget(playersLabel);
-    
-    // Durata
-    QLabel *durationLabel = new QLabel("Durata: " + QString::number(gioco->getDurata()) + " minuti");
-    durationLabel->setStyleSheet("font-size: 14px;");
-    specificDetailsLayout->addWidget(durationLabel);
-    
-    // Età minima
-    QLabel *ageLabel = new QLabel("Età minima: " + QString::number(gioco->getEtaMinima()) + " anni");
-    ageLabel->setStyleSheet("font-size: 14px;");
-    specificDetailsLayout->addWidget(ageLabel);
-    
-    // Editore
-    QLabel *editorLabel = new QLabel("Editore: " + QString::fromStdString(gioco->getEditore()));
-    editorLabel->setStyleSheet("font-size: 14px;");
-    specificDetailsLayout->addWidget(editorLabel);
+    return widget;
 }
 
 void DetailsPage::onBackButtonClicked() {
@@ -302,7 +255,12 @@ void DetailsPage::onBackButtonClicked() {
 }
 
 void DetailsPage::onBorrowButtonClicked() {
-    if (currentMedia && currentMedia->getDisponibilita()) {
+    if (!currentMedia) return;
+    
+    // Verifico che il media sia disponibile e che ci siano copie disponibili
+    int availableCopies = currentMedia->getNumeroCopie() - currentMedia->getInPrestito();
+    
+    if (currentMedia->getDisponibilita() && availableCopies > 0) {
         QMessageBox::StandardButton reply = QMessageBox::question(this, 
             "Conferma prestito", 
             "Confermi di voler prendere in prestito questo media?",
@@ -310,8 +268,12 @@ void DetailsPage::onBorrowButtonClicked() {
         
         if (reply == QMessageBox::Yes) {
             // Aggiorno lo stato del media
-            currentMedia->setDisponibilita(false);
-           // currentMedia->incrementaPrestiti();
+            currentMedia->setInPrestito(currentMedia->getInPrestito() + 1); // Incremento il contatore dei prestiti
+            
+            // Se era l'ultima copia disponibile, imposto il media come non disponibile
+            if (currentMedia->getNumeroCopie() - currentMedia->getInPrestito() == 0) {
+                currentMedia->setDisponibilita(false);
+            }
             
             // Aggiorno l'interfaccia
             updateUI();
@@ -321,19 +283,29 @@ void DetailsPage::onBorrowButtonClicked() {
             
             QMessageBox::information(this, "Prestito", "Media preso in prestito con successo!");
         }
+    } else {
+        QMessageBox::warning(this, "Prestito non disponibile", 
+            "Questo media non è attualmente disponibile per il prestito.");
     }
 }
 
 void DetailsPage::onReturnButtonClicked() {
-    if (currentMedia && !currentMedia->getDisponibilita()) {
-        QMessageBox::StandardButton reply = QMessageBox::question(this, 
-            "Conferma restituzione", 
-            "Confermi di voler restituire questo media?",
-            QMessageBox::Yes | QMessageBox::No);
-        
-        if (reply == QMessageBox::Yes) {
-            // Aggiorno lo stato del media
-            currentMedia->setDisponibilita(true);
+    if (!currentMedia) return;
+    
+    QMessageBox::StandardButton reply = QMessageBox::question(this, 
+        "Conferma restituzione", 
+        "Confermi di voler restituire questo media?",
+        QMessageBox::Yes | QMessageBox::No);
+    
+    if (reply == QMessageBox::Yes) {
+        // Aggiorno lo stato del media
+        if (currentMedia->getInPrestito() > 0) {
+            currentMedia->setInPrestito(currentMedia->getInPrestito() - 1); // Decremento il contatore dei prestiti
+            
+            // Se il media era segnato come non disponibile, ora lo rendiamo disponibile
+            if (!currentMedia->getDisponibilita()) {
+                currentMedia->setDisponibilita(true);
+            }
             
             // Aggiorno l'interfaccia
             updateUI();
@@ -342,6 +314,8 @@ void DetailsPage::onReturnButtonClicked() {
             emit mediaReturned(currentMedia);
             
             QMessageBox::information(this, "Restituzione", "Media restituito con successo!");
+        } else {
+            QMessageBox::warning(this, "Errore", "Nessuna copia di questo media risulta in prestito!");
         }
     }
 }
