@@ -55,6 +55,7 @@ public:
     void setNumeroCopie(const int& n_copie);
     void setInPrestito(const int& in_prestito);
     void setCollocazione(const string& coll);
+    void setRating(const double& rating);
 
     // Metodo per convertire l'oggetto in un oggetto JSON
     virtual void toJson(QJsonObject& jsonObj) const;

@@ -143,3 +143,6 @@ void Media::setCollocazione(const string& coll){
     this->collocazione = coll;
 }
 
+void Media::setRating(const double& rating){
+    this->rating = rating;
+}
