@@ -35,6 +35,7 @@ HEADERS += "Codice/Modello logico/Headers/Biblioteca.h" \
            "Codice/GUI/Headers/Widgets/VinileDetailsWidget.h" \
            "Codice/GUI/Headers/Widgets/GiocoDetailsWidget.h" \
            "Codice/GUI/Headers/Widgets/MediaDetailsWidget.h" \
+           "Codice/GUI/Headers/LibraryChoicePage.h"\
 
 SOURCES += "main.cpp" \
            "Codice/Modello logico/Sorgenti/Biblioteca.cpp" \
@@ -57,6 +58,7 @@ SOURCES += "main.cpp" \
            "Codice/GUI/Sorgenti/Widgets/RivistaDetailsWidget.cpp" \
            "Codice/GUI/Sorgenti/Widgets/GiocoDetailsWidget.cpp" \
            "Codice/GUI/Sorgenti/Widgets/MediaDetailsWidget.cpp" \
+           "Codice/GUI/Sorgenti/LibraryChoicePage.cpp"\
 
 QT += xml core gui widgets
 

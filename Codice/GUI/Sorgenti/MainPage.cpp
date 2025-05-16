@@ -15,59 +15,15 @@
 #include <QFileDialog>
 #include <QDebug>
 
-MainPage::MainPage(QWidget *parent) : QWidget(parent) {
-    setupBiblioteca(); // Inizializza la biblioteca
-    setupUI(); // Configura l'interfaccia utente
-}
-
-void MainPage::setupBiblioteca() {
-    string id = "VC";
-    biblioteca = new Biblioteca(id); // Inizializza la biblioteca
-
-    // Piuttosto farei che creiamo una schermata in cui chiediamo se l'utente vuole caricare un file oppure se vuole avviare una biblioteca vuota
-    //QMessageBox::information(this, "Informazione", "Ora seleziona un file .xml o .json a tua scelta!");
-
-    // Apri una finestra di dialogo per selezionare un file JSON o XML
-    QFileDialog fileDialog(this);
-    fileDialog.setWindowTitle("Seleziona un file Json o Xml per importare i dati");
-    fileDialog.setFileMode(QFileDialog::ExistingFile);
-    fileDialog.setNameFilter("File supportati (*.json *.xml)");
-    fileDialog.setViewMode(QFileDialog::Detail);
-    
-    QString filePath;
-    bool success = false;
-
-    // Se l'utente ha selezionato un file
-    if (fileDialog.exec()) {
-        QStringList selectedFiles = fileDialog.selectedFiles();
-        if (!selectedFiles.isEmpty()) {
-            filePath = selectedFiles.first();
-            
-            if (filePath.endsWith(".json", Qt::CaseInsensitive)) {
-                JsonIO jsonLoader;
-                success = jsonLoader.caricaDaFile(*biblioteca, filePath.toStdString());
-            } else if (filePath.endsWith(".xml", Qt::CaseInsensitive)) {
-                XmlIO xmlLoader;
-                success = xmlLoader.caricaDaFile(*biblioteca, filePath.toStdString());
-            } else {
-                QMessageBox::warning(this, "Errore di caricamento", 
-                                    "Formato file non supportato. Utilizzare un file .json o .xml.");
-            }
-        }
+MainPage::MainPage(QWidget *parent, Biblioteca* biblio) : QWidget(parent) {
+    // Se viene passata una biblioteca, la usiamo, altrimenti ne creiamo una nuova
+    if (biblio) {
+        biblioteca = biblio;
     } else {
-        // L'utente ha annullato la selezione
-        QMessageBox::information(this, "Informazione", 
-                              "Nessun file selezionato. Verrà utilizzata una biblioteca vuota.");
+        string id = "VC";
+        biblioteca = new Biblioteca(id);
     }
-
-    if (!success && !filePath.isEmpty()) {
-        QMessageBox::warning(this, "Errore di caricamento", 
-                            "Impossibile caricare i dati dal file specificato.\n"
-                            "Verrà utilizzata una biblioteca vuota.");
-    } else if (success) {
-        QMessageBox::information(this, "Caricamento completato", 
-                                "I dati della biblioteca sono stati caricati con successo!");
-    }
+    setupUI(); // Configura l'interfaccia utente
 }
 
 void MainPage::setupUI(){
@@ -97,6 +53,25 @@ void MainPage::setupUI(){
     topBarLayout->addWidget(backButton, 1);
     topBarLayout->addWidget(addMediaButton, 5);
 
+    // Aggiungi un nuovo pulsante per l'esportazione
+    QPushButton* exportButton = new QPushButton("Esporta biblioteca");
+    exportButton->setMinimumSize(150, 30);
+    exportButton->setStyleSheet(
+        "QPushButton {"
+        "   background-color: rgb(0, 153, 51);"
+        "   color: white;"
+        "   border: none;"
+        "   border-radius: 4px;"
+        "   font-size: 14px;"
+        "}"
+        "QPushButton:hover {"
+        "   background-color: rgb(0, 128, 43);"
+        "}"
+    );
+    connect(exportButton, &QPushButton::clicked, this, &MainPage::onExportLibraryButtonClicked);
+    
+    // Aggiungi il pulsante al layout esistente (ad esempio, nella barra superiore)
+    topBarLayout->addWidget(exportButton);
 
     // ------------------------------- Menu filtri --------------------------------
     // Selezione tipo media
@@ -772,4 +747,37 @@ void MainPage::onDetailsButtonClicked() {
     }
     
     emit goToDetailsPage(selectedMedia);
+}
+
+void MainPage::onExportLibraryButtonClicked() {
+    QFileDialog fileDialog(this);
+    fileDialog.setAcceptMode(QFileDialog::AcceptSave);
+    fileDialog.setWindowTitle("Esporta biblioteca");
+    fileDialog.setFileMode(QFileDialog::AnyFile);
+    fileDialog.setNameFilter("File JSON (*.json);;File XML (*.xml)");
+    fileDialog.setDefaultSuffix("json");
+    
+    if (fileDialog.exec()) {
+        QStringList selectedFiles = fileDialog.selectedFiles();
+        if (!selectedFiles.isEmpty()) {
+            QString filePath = selectedFiles.first();
+            bool success = false;
+            
+            if (filePath.endsWith(".json", Qt::CaseInsensitive)) {
+                JsonIO jsonSaver;
+                success = jsonSaver.salvaSuFile(*biblioteca, filePath.toStdString());
+            } else if (filePath.endsWith(".xml", Qt::CaseInsensitive)) {
+                XmlIO xmlSaver;
+                success = xmlSaver.salvaSuFile(*biblioteca, filePath.toStdString());
+            }
+            
+            if (success) {
+                QMessageBox::information(this, "Esportazione completata", 
+                    "La biblioteca è stata esportata con successo!");
+            } else {
+                QMessageBox::warning(this, "Errore di esportazione", 
+                    "Impossibile esportare la biblioteca nel file specificato.");
+            }
+        }
+    }
 }

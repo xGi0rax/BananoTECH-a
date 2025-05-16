@@ -9,6 +9,7 @@
 #include <QVBoxLayout>
 #include <QWidget>
 #include "LoginPage.h"
+#include "LibraryChoicePage.h"
 #include "MainPage.h"
 #include "AddPage.h"
 #include "DetailsPage.h"  // Aggiungo l'include per la nuova pagina
@@ -23,6 +24,8 @@ public:
 private slots:
     void onLoginButtonClicked();
     void switchToLoginPage(); // Slot per tornare alla LoginPage
+    void switchToLibraryChoicePage(); // Slot per la pagina di scelta biblioteca
+    void onLibraryReady(Biblioteca* biblioteca); // Slot per gestire la biblioteca 
     void switchToMainPage(); // Slot per passare alla MainPage
     void switchToAddPage(); // Slot per passare alla AddPage
     void switchToDetailsPage(Media* media); // Slot per passare alla DetailsPage
@@ -32,6 +35,9 @@ private:
 
     // Pagina di login
     LoginPage *loginPage;
+
+    // Pagina di scelta della biblioteca
+    LibraryChoicePage *libraryChoicePage;
 
     // Pagina principale
     MainPage *mainPage;
@@ -45,7 +51,8 @@ private:
     Biblioteca *biblioteca; // Oggetto Biblioteca per gestire i media
 
     void setupLoginPage();
-    void setupMainPage();
+    void setupLibraryChoicePage();
+    void setupMainPage(Biblioteca* biblioteca);
     void setupAddPage();
     void setupDetailsPage();
     bool validateLogin(const QString &username, const QString &password);
