@@ -8,6 +8,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent) {
 
     // Configurazione delle pagine
     setupLoginPage();
+    setupLibraryChoicePage(); // Aggiunta della pagina di scelta biblioteca
 
     // Mostra inizialmente la pagina di login
     stackedWidget->setCurrentWidget(loginPage);
@@ -19,8 +20,10 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent) {
 MainWindow::~MainWindow() {
     // Deallocazione delle pagine
     delete loginPage;
-    delete mainPage;
-    delete addPage;
+    delete libraryChoicePage; // Deallocazione della pagina di scelta biblioteca
+    if (mainPage) delete mainPage;
+    if (addPage) delete addPage;
+    if (detailsPage) delete detailsPage; // Deallocazione della pagina di dettagli media
     delete stackedWidget;
 }
 
@@ -33,11 +36,18 @@ void MainWindow::setupLoginPage(){
     connect(loginPage, &LoginPage::loginAttempted, this, &MainWindow::onLoginButtonClicked);
 }
 
+void MainWindow::setupLibraryChoicePage() {
+    // Creazione della nuova pagina di scelta biblioteca
+    libraryChoicePage = new LibraryChoicePage(this);
+    stackedWidget->addWidget(libraryChoicePage);
+    
+    connect(libraryChoicePage, &LibraryChoicePage::libraryReady, this, &MainWindow::onLibraryReady);
+}
 
-void MainWindow::setupMainPage(){
-    // Creazione della pagina principale
-    mainPage = new MainPage(this);
-
+void MainWindow::setupMainPage(Biblioteca* biblioteca){
+    // Creazione della pagina principale con la biblioteca fornita
+    mainPage = new MainPage(this, biblioteca); // Passa la biblioteca caricata
+    
     stackedWidget->addWidget(mainPage);
 
     // Connetto il segnale allo slot per tornare alla pagina di login
@@ -77,6 +87,18 @@ void MainWindow::switchToLoginPage() {
     stackedWidget->setCurrentWidget(loginPage); // Cambia alla pagina di login
 }
 
+void MainWindow::switchToLibraryChoicePage() {
+    stackedWidget->setCurrentWidget(libraryChoicePage); // Cambia alla pagina di scelta biblioteca
+}
+
+void MainWindow::onLibraryReady(Biblioteca* biblioteca) {
+    // Quando la biblioteca è pronta, configuriamo le altre pagine e passiamo a MainPage
+    setupMainPage(biblioteca); // Passiamo la biblioteca ricevuta
+    setupAddPage();
+    setupDetailsPage();
+    switchToMainPage();
+}
+
 void MainWindow::switchToMainPage() {
     stackedWidget->setCurrentWidget(mainPage); // Cambia alla pagina principale
 }
@@ -95,18 +117,15 @@ void MainWindow::onLoginButtonClicked() {
     QString password = loginPage->getPassword();
 
     if (validateLogin(username, password)) {
-        // Login riuscito, mostra la pagina principale
+        // Login riuscito, mostra la pagina di scelta biblioteca
         loginPage->clearErrorMessage();
-        setupMainPage();
-        setupAddPage();
-        setupDetailsPage();
-        stackedWidget->setCurrentWidget(mainPage);
+        switchToLibraryChoicePage(); // Ora andiamo alla pagina di scelta biblioteca
+        
     } else {
         // Login fallito, mostra un messaggio di errore
         loginPage->showErrorMessage("Username o password errati. Riprova.");
     }
 }
-
 
 bool MainWindow::validateLogin(const QString &username, const QString &password) {
     // Qui puoi implementare la logica di validazione del login

@@ -25,7 +25,7 @@ class MainPage : public QWidget {
     Q_OBJECT
 
 public:
-    explicit MainPage(QWidget *parent = nullptr);
+    explicit MainPage(QWidget *parent = nullptr, Biblioteca* biblioteca = nullptr);
     void onMediaSelected(QListWidgetItem *item);
 
 public slots:
@@ -37,6 +37,7 @@ public slots:
     void onEditButtonClicked(); // Slot per il pulsante di modifica del media
     void onDeleteButtonClicked(); // Slot per il pulsante di rimozione del media dalla lista
     void onNewMediaCreated(Media* newMedia); // Slot per aggiungere un nuovo media alla lista
+    void onExportLibraryButtonClicked(); // Nuovo slot per esportare la biblioteca
 
 signals:
     void goToLoginPage(); // Segnale per notificare il cambio alla LoginPage
@@ -99,8 +100,8 @@ private:
 
     Biblioteca *biblioteca; // Oggetto Biblioteca per gestire i media
 
-    void setupBiblioteca(); // metodo per inizializzare la biblioteca
     void setupUI(); // metodo per configurare l'interfaccia utente
+    
     // void setupFilters(); // metodo per configurare i filtri
     void updateGenreComboBox(); // metodo per aggiornare la combobox dei generi in base al tipo di media selezionato
     void updateMediaList(vector<Media*> listaFiltrata); // metodo per aggiornare la lista dei media in base ai filtri selezionati
