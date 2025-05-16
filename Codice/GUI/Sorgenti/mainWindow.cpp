@@ -23,7 +23,8 @@ MainWindow::~MainWindow() {
     delete libraryChoicePage; // Deallocazione della pagina di scelta biblioteca
     if (mainPage) delete mainPage;
     if (addPage) delete addPage;
-    if (detailsPage) delete detailsPage; // Deallocazione della pagina di dettagli media
+    if (detailsPage) delete detailsPage;
+    if (modifyPage) delete modifyPage;
     delete stackedWidget;
 }
 
@@ -50,13 +51,17 @@ void MainWindow::setupMainPage(Biblioteca* biblioteca){
     
     stackedWidget->addWidget(mainPage);
 
-    // Connetto il segnale allo slot per tornare alla pagina di login
+    // Connetto i sengali derivanti dai bottoni della MainPage ai metodi della MainWindow per cambiare pagina
+    // Tornare alla pagina di login
     connect(mainPage, &MainPage::goToLoginPage, this, &MainWindow::switchToLoginPage);
 
-    // Connetto il segnale per passare alla pagina di aggiunta media
+    // Passare alla pagina di aggiunta media
     connect(mainPage, &MainPage::goToAddPage, this, &MainWindow::switchToAddPage);
 
-    // Connetto il segnale per passare alla pagina di dettaglio media
+    // Passare alla pagina di modifica media
+    connect(mainPage, &MainPage::goToModifyPage, this, &MainWindow::switchToModifyPage);
+
+    // Passare alla pagina di dettaglio media
     connect(mainPage, &MainPage::goToDetailsPage, this, &MainWindow::switchToDetailsPage);
 }
 
@@ -71,6 +76,16 @@ void MainWindow::setupAddPage(){
 
     // Connetto il segnale per la creazione del media
     connect(addPage, &AddPage::mediaCreated, mainPage, &MainPage::onNewMediaCreated);
+}
+
+void MainWindow::setupModifyPage(){
+    // Creazione della pagina di modifica media
+    modifyPage = new ModifyPage(this);
+
+    stackedWidget->addWidget(modifyPage);
+
+    // Connetto il segnale per tornare alla pagina principale
+    connect(modifyPage, &ModifyPage::goBackToMainPage, this, &MainWindow::switchToMainPage);
 }
 
 void MainWindow::setupDetailsPage(){
@@ -112,6 +127,11 @@ void MainWindow::switchToDetailsPage(Media* media) {
     stackedWidget->setCurrentWidget(detailsPage);
 }
 
+void MainWindow::switchToModifyPage(Media* media) {
+    modifyPage->setMedia(media);
+    stackedWidget->setCurrentWidget(modifyPage);
+}
+
 void MainWindow::onLoginButtonClicked() {
     QString username = loginPage->getUsername();
     QString password = loginPage->getPassword();
@@ -119,8 +139,10 @@ void MainWindow::onLoginButtonClicked() {
     if (validateLogin(username, password)) {
         // Login riuscito, mostra la pagina di scelta biblioteca
         loginPage->clearErrorMessage();
-        switchToLibraryChoicePage(); // Ora andiamo alla pagina di scelta biblioteca
-        
+        setupMainPage();
+        setupAddPage();
+        setupDetailsPage();
+        stackedWidget->setCurrentWidget(mainPage);
     } else {
         // Login fallito, mostra un messaggio di errore
         loginPage->showErrorMessage("Username o password errati. Riprova.");

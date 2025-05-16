@@ -488,62 +488,6 @@ void MainPage::hideActionButtons() {
     buttonsContainer->hide();
 }
 
-void MainPage::onEditButtonClicked() {
-    // Ottieni l'elemento correntemente selezionato
-    QListWidgetItem* currentItem = mediaList->currentItem();
-    if (!currentItem) return;
-    
-    Media* selectedMedia = currentItem->data(Qt::UserRole).value<Media*>();
-    if (!selectedMedia) return;
-    
-    // Qui puoi implementare la logica per aprire la finestra di modifica
-    QMessageBox::information(this, "Modifica Media", 
-                            QString("Modifica di '%1' in fase di implementazione").arg(
-                              QString::fromStdString(selectedMedia->getTitolo())));
-}
-
-void MainPage::onDeleteButtonClicked() {
-    // Ottieni l'elemento correntemente selezionato
-    QListWidgetItem* currentItem = mediaList->currentItem();
-    if (!currentItem) return;
-    
-    Media* selectedMedia = currentItem->data(Qt::UserRole).value<Media*>();
-    if (!selectedMedia) return;
-    
-    // Chiedi conferma prima di eliminare
-    QString message = QString("Sei sicuro di voler rimuovere '%1' dalla biblioteca?").arg(QString::fromStdString(selectedMedia->getTitolo()));
-    
-    QMessageBox::StandardButton reply = QMessageBox::question(this, "Conferma eliminazione", message, QMessageBox::Yes | QMessageBox::No);
-    
-    if (reply == QMessageBox::Yes) {
-        // Rimuovi l'elemento dalla lista e elimina l'oggetto
-        delete mediaList->takeItem(mediaList->row(currentItem));
-        delete selectedMedia;
-        
-        // Nascondi i pulsanti di azione
-        hideActionButtons();
-        
-        // Resetta l'anteprima
-        mediaTitleLabel->setText("");
-        mediaAuthorLabel->setText("Seleziona un media per vedere i dettagli");
-        mediaYearLabel->setText("");
-        mediaRatingLabel->setText("");
-        mediaImageLabel->setText("Nessuna immagine");
-        mediaImageLabel->setStyleSheet(
-            "border: 1px solid black;"
-            "background-color: white;"
-            "color: gray;"
-            "padding: 5px;"
-        );
-        
-        // Disabilita i pulsanti dell'anteprima
-        borrowButton->setEnabled(false);
-        detailsButton->setEnabled(false);
-        editMediaButton->setEnabled(false);
-    }
-}
-
-
 void MainPage::updateGenreComboBox() {
     genreComboBox->clear();
     genreComboBox->addItem("Qualsiasi genere");
@@ -656,6 +600,64 @@ void MainPage::onAddMediaButtonClicked() {
     emit goToAddPage(); // Emetto un segnale per passare alla pagina di aggiunta media
 }
 
+void MainPage::onEditButtonClicked() {
+    // Ottieni l'elemento correntemente selezionato
+    QListWidgetItem* currentItem = mediaList->currentItem();
+    if (!currentItem) return;
+    
+    Media* selectedMedia = currentItem->data(Qt::UserRole).value<Media*>();
+    if (!selectedMedia){ 
+        QMessageBox::warning(this, "Errore", "Media selezionato non valido.");
+        return;
+    }
+
+    qDebug() << "Media selezionato e passato alla modifypage:" << selectedMedia->getTitolo();
+
+    // Passa l'oggetto media alla pagina di modifica
+    emit goToModifyPage(selectedMedia);
+}
+
+void MainPage::onDeleteButtonClicked() {
+    // Ottieni l'elemento correntemente selezionato
+    QListWidgetItem* currentItem = mediaList->currentItem();
+    if (!currentItem) return;
+    
+    Media* selectedMedia = currentItem->data(Qt::UserRole).value<Media*>();
+    if (!selectedMedia) return;
+    
+    // Chiedi conferma prima di eliminare
+    QString message = QString("Sei sicuro di voler rimuovere '%1' dalla biblioteca?").arg(QString::fromStdString(selectedMedia->getTitolo()));
+    
+    QMessageBox::StandardButton reply = QMessageBox::question(this, "Conferma eliminazione", message, QMessageBox::Yes | QMessageBox::No);
+    
+    if (reply == QMessageBox::Yes) {
+        // Rimuovi l'elemento dalla lista e elimina l'oggetto
+        delete mediaList->takeItem(mediaList->row(currentItem));
+        delete selectedMedia;
+        
+        // Nascondi i pulsanti di azione
+        hideActionButtons();
+        
+        // Resetta l'anteprima
+        mediaTitleLabel->setText("");
+        mediaAuthorLabel->setText("Seleziona un media per vedere i dettagli");
+        mediaYearLabel->setText("");
+        mediaRatingLabel->setText("");
+        mediaImageLabel->setText("Nessuna immagine");
+        mediaImageLabel->setStyleSheet(
+            "border: 1px solid black;"
+            "background-color: white;"
+            "color: gray;"
+            "padding: 5px;"
+        );
+        
+        // Disabilita i pulsanti dell'anteprima
+        borrowButton->setEnabled(false);
+        detailsButton->setEnabled(false);
+        editMediaButton->setEnabled(false);
+    }
+}
+
 void MainPage::updateMediaList(vector<Media*> listaFiltrata) {
     mediaList->clear(); // Pulisci la lista esistente
 
@@ -706,6 +708,29 @@ void MainPage::onNewMediaCreated(Media* newMedia) {
     biblioteca->aggiungiMedia(newMedia);
     
     // Aggiorno la lista dei media visualizzati
+    updateMediaList(biblioteca->getListaMedia());
+    
+    // Resetta l'anteprima
+    mediaTitleLabel->setText("");
+    mediaAuthorLabel->setText("Seleziona un media per vedere i dettagli");
+    mediaYearLabel->setText("");
+    mediaRatingLabel->setText("");
+    mediaImageLabel->setText("Nessuna immagine");
+    mediaImageLabel->setStyleSheet(
+        "border: 1px solid black;"
+        "background-color: white;"
+        "color: gray;"
+        "padding: 5px;"
+    );
+    
+    // Disabilita i pulsanti dell'anteprima
+    borrowButton->setEnabled(false);
+    detailsButton->setEnabled(false);
+    editMediaButton->setEnabled(false);
+}
+
+void MainPage::onMediaEdited() {
+    // Aggiorna la lista dei media visualizzati
     updateMediaList(biblioteca->getListaMedia());
     
     // Resetta l'anteprima

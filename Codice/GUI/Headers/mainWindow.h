@@ -12,7 +12,8 @@
 #include "LibraryChoicePage.h"
 #include "MainPage.h"
 #include "AddPage.h"
-#include "DetailsPage.h"  // Aggiungo l'include per la nuova pagina
+#include "ModifyPage.h"
+#include "DetailsPage.h"
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -28,6 +29,7 @@ private slots:
     void onLibraryReady(Biblioteca* biblioteca); // Slot per gestire la biblioteca 
     void switchToMainPage(); // Slot per passare alla MainPage
     void switchToAddPage(); // Slot per passare alla AddPage
+    void switchToModifyPage(Media* media); // Slot per passare alla ModifyPage
     void switchToDetailsPage(Media* media); // Slot per passare alla DetailsPage
 
 private:
@@ -44,17 +46,23 @@ private:
 
     // Pagina di aggiunta media
     AddPage *addPage;
+
+    // Pagina di modifica dei media
+    ModifyPage *modifyPage;
     
     // Pagina dettagli media
     DetailsPage *detailsPage;
 
     Biblioteca *biblioteca; // Oggetto Biblioteca per gestire i media
 
+    // Metodi per setuppare le pagine
     void setupLoginPage();
     void setupLibraryChoicePage();
     void setupMainPage(Biblioteca* biblioteca);
     void setupAddPage();
+    void setupModifyPage();
     void setupDetailsPage();
+
     bool validateLogin(const QString &username, const QString &password);
 };
 

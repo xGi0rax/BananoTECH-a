@@ -5,6 +5,7 @@
 #include "../Headers/Vinile.h"
 #include "../Headers/GiocoDaTavolo.h"
 #include "../Headers/Rivista.h"
+#include <QDebug>
 
 
 Biblioteca::Biblioteca(string& idBiblio) : idBiblioteca(idBiblio), nextIdmedia(1) {}
@@ -51,6 +52,17 @@ Media* Biblioteca::cercaMediaDaT_A_G(const string& titolo, int anno, const strin
     }
     // throw std::runtime_error("Il media non esiste in biblioteca.");
     return nullptr; // Se non trovato, ritorna nullptr
+}
+
+bool Biblioteca::modificaMedia(const string& id, Media* media) {
+    for (auto it = listaMedia.begin(); it != listaMedia.end(); ++it) {
+        if ((*it)->getId() == id) {
+            delete *it; // Elimina il vecchio media
+            *it = media; // Sostituisci con il nuovo media
+            return true;
+        }
+    }
+    return false;
 }
 
 bool Biblioteca::rimuoviMedia(string& id){

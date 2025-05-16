@@ -6,8 +6,7 @@ LibroDetailsWidget::LibroDetailsWidget(QWidget *parent) : MediaDetailsWidget(par
     setupBaseUI("Dettagli Libro");
     
     // Imposta generi specifici per libro
-    genreComboBox->addItems({"Avventura", "Biografia", "Fantasy", "Giallo", "Horror", 
-                          "Romanzo", "Storico", "Saggio", "Thriller", "Altro"});
+    genreComboBox->addItems({"Avventura", "Biografia", "Fantasy", "Giallo", "Horror", "Romanzo", "Storico", "Saggio", "Thriller", "Altro"});
 }
 
 void LibroDetailsWidget::addSpecificFields() {

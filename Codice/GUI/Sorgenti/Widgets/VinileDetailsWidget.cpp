@@ -6,8 +6,7 @@ VinileDetailsWidget::VinileDetailsWidget(QWidget *parent) : MediaDetailsWidget(p
     setupBaseUI("Dettagli Vinile");
     
     // Imposta generi specifici per vinile
-    genreComboBox->addItems({"Alternative", "Blues", "Classica", "Country", "Elettronica", 
-                          "Folk", "Hip Hop", "Jazz", "Metal", "Pop", "Rock", "Altro"});
+    genreComboBox->addItems({"Alternative", "Blues", "Classica", "Country", "Elettronica", "Folk", "Hip Hop", "Jazz", "Metal", "Pop", "Rock", "Altro"});
 }
 
 void VinileDetailsWidget::addSpecificFields() {

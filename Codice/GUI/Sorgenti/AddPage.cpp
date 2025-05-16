@@ -86,7 +86,7 @@ void AddPage::setupUI() {
         "QPushButton {"
         "   background-color: rgb(0, 128, 0);"
         "   color: white;"
-        "   border: 2px solid rgb(119, 114, 114);;"
+        "   border: 2px solid rgb(119, 114, 114);"
         "   border-radius: 6px;"
         "   font-size: 18px;"
         "   font-weight: bold;"

@@ -68,7 +68,9 @@
     "thread": "cpp",
     "qlabel": "cpp",
     "qcheckbox": "cpp",
-    "qvboxlayout": "cpp"
+    "qvboxlayout": "cpp",
+    "qmessagebox": "cpp",
+    "qwidget": "cpp"
   },
   "makefile.configureOnOpen": false,
   "C_Cpp_Runner.msvcBatchPath": "",

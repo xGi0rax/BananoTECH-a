@@ -27,18 +27,11 @@ public:
     virtual bool validateData() = 0;
     virtual Media* createMedia() = 0;
     
-    QString getTitle() const { return titleEdit->text(); }
-    QString getAuthor() const { return authorEdit->text(); }
-    QString getGenre() const { return genreComboBox->currentText(); }
-    int getYear() const { return yearEdit->value(); }
-    QString getLanguage() const { return languageEdit->text(); }
-    double getRating() const { return ratingEdit->value(); }
-    
 signals:
     void cancelled();
     
 protected:
-    // UI elements comuni
+    // Elementi UI comuni
     QScrollArea *scrollArea;
     QWidget *scrollWidget;
     QFormLayout *formLayout;
@@ -51,6 +44,7 @@ protected:
     QSpinBox *yearEdit;
     QLineEdit *languageEdit;
     QDoubleSpinBox *ratingEdit;
+    
     QPushButton *saveButton;
     QPushButton *cancelButton;
 

@@ -6,8 +6,7 @@ GiocoDetailsWidget::GiocoDetailsWidget(QWidget *parent) : MediaDetailsWidget(par
     setupBaseUI("Dettagli Gioco da Tavolo");
     
     // Imposta generi specifici per giochi
-    genreComboBox->addItems({"Avventura", "Carte", "Cooperativo", "Deduzione", "Economico", 
-                          "Fantasy", "Guerra", "Party Game", "Strategia", "Altro"});
+    genreComboBox->addItems({"Avventura", "Carte", "Cooperativo", "Deduzione", "Economico", "Fantasy", "Guerra", "Party Game", "Strategia", "Altro"});
 }
 
 void GiocoDetailsWidget::addSpecificFields() {

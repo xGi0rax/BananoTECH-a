@@ -6,8 +6,7 @@ RivistaDetailsWidget::RivistaDetailsWidget(QWidget *parent) : MediaDetailsWidget
     setupBaseUI("Dettagli Rivista");
     
     // Imposta generi specifici per rivista
-    genreComboBox->addItems({"Attualità", "Arte", "Cucina", "Culturale", "Economia", 
-                          "Intrattenimento", "Moda", "Salute", "Scientifica", "Sport", "Tecnologia", "Viaggi", "Altro"});
+    genreComboBox->addItems({"Attualità", "Arte", "Cucina", "Culturale", "Economia", "Intrattenimento", "Moda", "Salute", "Scientifica", "Sport", "Tecnologia", "Viaggi", "Altro"});
 }
 
 void RivistaDetailsWidget::addSpecificFields() {

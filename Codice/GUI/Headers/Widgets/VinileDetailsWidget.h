@@ -11,6 +11,7 @@ class VinileDetailsWidget : public MediaDetailsWidget {
 public:
     explicit VinileDetailsWidget(QWidget *parent = nullptr);
     
+    // SERVONO ?????
     // Getters specifici
     int getNumTracce() const { return trackCountEdit->value(); }
     int getDurata() const { return durationVinileEdit->value(); }

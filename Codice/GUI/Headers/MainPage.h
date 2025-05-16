@@ -38,10 +38,12 @@ public slots:
     void onDeleteButtonClicked(); // Slot per il pulsante di rimozione del media dalla lista
     void onNewMediaCreated(Media* newMedia); // Slot per aggiungere un nuovo media alla lista
     void onExportLibraryButtonClicked(); // Nuovo slot per esportare la biblioteca
+    void onMediaEdited(); // Slot per aggiornare un media esistente
 
 signals:
     void goToLoginPage(); // Segnale per notificare il cambio alla LoginPage
     void goToAddPage(); // Segnale per notificare il cambio alla AddPage
+    void goToModifyPage(Media* media); // Segnale per notificare il cambio alla ModifyPage
     void goToDetailsPage(Media* media); // Segnale per notificare il cambio alla DetailsPage
 
 private:
