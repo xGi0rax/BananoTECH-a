@@ -111,6 +111,7 @@ void MainWindow::onLibraryReady(Biblioteca* biblioteca) {
     setupMainPage(biblioteca); // Passiamo la biblioteca ricevuta
     setupAddPage();
     setupDetailsPage();
+    setupModifyPage();
     switchToMainPage();
 }
 
@@ -139,10 +140,7 @@ void MainWindow::onLoginButtonClicked() {
     if (validateLogin(username, password)) {
         // Login riuscito, mostra la pagina di scelta biblioteca
         loginPage->clearErrorMessage();
-        setupMainPage();
-        setupAddPage();
-        setupDetailsPage();
-        stackedWidget->setCurrentWidget(mainPage);
+        switchToLibraryChoicePage();
     } else {
         // Login fallito, mostra un messaggio di errore
         loginPage->showErrorMessage("Username o password errati. Riprova.");

@@ -26,6 +26,7 @@ debug/FilmModifyWidget.o
 debug/RivistaModifyWidget.o
 debug/VinileModifyWidget.o
 debug/GiocoModifyWidget.o
+debug/LibraryChoicePage.o
 debug/qrc_resources.o
 debug/moc_MainWindow.o
 debug/moc_LoginPage.o
@@ -45,3 +46,4 @@ debug/moc_VinileModifyWidget.o
 debug/moc_FilmModifyWidget.o
 debug/moc_RivistaModifyWidget.o
 debug/moc_GiocoModifyWidget.o
+debug/moc_LibraryChoicePage.o

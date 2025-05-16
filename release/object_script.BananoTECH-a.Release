@@ -26,6 +26,7 @@ release/FilmModifyWidget.o
 release/RivistaModifyWidget.o
 release/VinileModifyWidget.o
 release/GiocoModifyWidget.o
+release/LibraryChoicePage.o
 release/qrc_resources.o
 release/moc_MainWindow.o
 release/moc_LoginPage.o
@@ -45,3 +46,4 @@ release/moc_VinileModifyWidget.o
 release/moc_FilmModifyWidget.o
 release/moc_RivistaModifyWidget.o
 release/moc_GiocoModifyWidget.o
+release/moc_LibraryChoicePage.o
