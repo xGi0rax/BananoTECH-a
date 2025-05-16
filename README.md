@@ -1,15 +1,41 @@
 # BananoTECH-a
-## Compiti x casa:
 
-### Giacomino
-- pagina "approfondisci" e snellimento codice di detailsPage
-- pagina dopo Login con due bottoni, uno per caricare da file esistente e uno per creare una biblioteca nuova (quindi basta andare in Mainpage una volta schiacciato il bottone) in modo che si possa aggiungere dei nuovi media e infine esportare tutto in un nuovo file json/xml
-- popolare file xml con un po' di esempi con relative immagini corrette (almeno 2 x ogni genere di ogni media)
+## Gestione polimorfismo
+### creare un'unica classe widget per tutti i tipi di media (es. FilmWidget.h e FilmWidget.cpp) che contenga tutti i metodi per approfondimento/modifica/aggiunta, modificare quindi tutte le pagine di approfondimento/modifica/aggiunta che devono essere adattate alla struttura delle varie pagine per i widget
 
-### Giacomone
-- pagina "modifica"
-- capire perchè non si spostano i bottoni modifica ed elimina seguendo la lista
-- far funzionare la barra di ricerca
+## Cose da sistemare ASSOLUTAMENTE
+--> sistemare pagina di LibraryChoice:
+  -  deve avere lo stesso stile della LoginPage
+  -  collegare tasto indietro
+    
+--> sistemare mainPage:
+  - collegare tasto indietro della mainPage alla LibraryChoicePage e non alla LoginPage
+  - cambiare proporzioni e colori della mainPage
+  - tasti modifica e rimuovi da "attaccare" ad ogni media della lista (non devono spostarsi con lo scroll)
+  - collegare tasto per prendere in prestito (deve essere applicato a Json/Xml)
+  - collegare tasto modifica media alla ModifyPage
+  - risolvere crash di approfondisci
+  - far funzionare barra di ricerca
+  - far funzionare visualizzazione immagini in anteprima
+  - modificare tasto esporta:
+    - bisogna nominarlo "Salva modifiche"
+    - deve sovrascrivere il file Json se selezionato all'inizio, altrimenti deve crearne uno nuovo (cosa che attualmente funziona)
+      
+--> sistemare DetailsPage:
+  - sistemare grafica e dettagli specifici
+  - posizionare i tasti e aggiungere "Richiedi ad altra biblioteca"
+  - collegare Prendi in prestito e Restituisci (il valore di copie disponibili deve salvarsi nel Json/Xml)
+  - aggiungere voce "collocazione" ai dettagli (dettaglio di ogni media)
+  - quando si schiaccia restituisci devi comparire un pop-up che mostri tutti gli id di tutti i media con quel titolo e che permetta di inserire l'id del media che si vuole restituire, nel caso in cui questo id non faccia parte della biblioteca allora deve comparire un messaggio di errore (scrivere nella relazione che il fatto che nel pop-up compaiano tutti gli id è perchè si tratta di una biblioteca idelae, se fosse reale allora gli id sono riportati esclusivamente sull'ettichetta dei media)
+    
+--> sistemare ModifyPage:
+    - sistemare colori vari (ti prego)
+    - le modifiche salvate devo essere visibili nella mainPage
+    - aggiungere voce collocazione
+  
+--> nuovo pop-up che chiede se si è sicuri di uscire se non si hanno salvato le modifiche
+
+--> popolare file xml con un po' di esempi con relative immagini corrette (almeno 2 x ogni genere di ogni media)
 
 ## Modifiche minori:
 - label con scritta "Inserire username e password" che quando si torna indietro da mainpage scompare
@@ -17,3 +43,5 @@
 - lag quando si ridimensiona la finestra mentre c'è un media selezionato
 - colori vari
 - controllare che segnali e slot siano corretti
+- controllare tutti i commenti (rimuovere quelli superflui e aggiungerne per spiegare i vari metodi)
+- controllare di non aver utilizzato getType
