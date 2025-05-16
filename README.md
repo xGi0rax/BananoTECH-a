@@ -3,8 +3,12 @@
 ## Gestione polimorfismo
 ### creare un'unica classe widget per tutti i tipi di media (es. FilmWidget.h e FilmWidget.cpp) che contenga tutti i metodi per approfondimento/modifica/aggiunta, modificare quindi tutte le pagine di approfondimento/modifica/aggiunta che devono essere adattate alla struttura delle varie pagine per i widget
 
+### Divisione classi:
+### Giacomino: rivista, vinile
+### Giacomone: gioco, film, libro
+
 ## Cose da sistemare ASSOLUTAMENTE
---> sistemare pagina di LibraryChoice:
+--> sistemare pagina di LibraryChoice: (Giacomino)
   -  deve avere lo stesso stile della LoginPage
   -  collegare tasto indietro
     
@@ -37,6 +41,8 @@
 
 --> popolare file xml con un po' di esempi con relative immagini corrette (almeno 2 x ogni genere di ogni media)
 
+--> modicare i media del Json aggiungendo attributo lingua
+
 ## Modifiche minori:
 - label con scritta "Inserire username e password" che quando si torna indietro da mainpage scompare
 - lag quando si seleziona un media dalla lista
@@ -44,4 +50,5 @@
 - colori vari
 - controllare che segnali e slot siano corretti
 - controllare tutti i commenti (rimuovere quelli superflui e aggiungerne per spiegare i vari metodi)
+- controllare tutti i const
 - controllare di non aver utilizzato getType
