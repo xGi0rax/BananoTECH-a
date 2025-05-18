@@ -3,9 +3,9 @@
 ## Gestione polimorfismo
 ### creare un'unica classe widget per tutti i tipi di media (es. FilmWidget.h e FilmWidget.cpp) che contenga tutti i metodi per approfondimento/modifica/aggiunta, modificare quindi tutte le pagine di approfondimento/modifica/aggiunta che devono essere adattate alla struttura delle varie pagine per i widget
 
-### Divisione classi:
-### Giacomino: rivista, vinile
-### Giacomone: gioco, film, libro
+### Classi fatte. Rimane da fare adattamento
+
+
 
 ## Cose da sistemare ASSOLUTAMENTE
 --> sistemare pagina di LibraryChoice: (Giacomino)
