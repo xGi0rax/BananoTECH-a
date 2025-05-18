@@ -7,7 +7,7 @@ VinileModifyWidget::VinileModifyWidget(QWidget* parent) : MediaModifyWidget(pare
 
 void VinileModifyWidget::addSpecificFields() {
     // Imposta generi specifici per vinile
-    genreComboBox->addItems({"Blues", "Classical", "Country", "Disco", "Electronic", "Folk", "Funk", "Hip Hop", "Jazz", "Metal", "Pop", "Punk", "Reggae", "Rock", "Soul"});
+    genreComboBox->addItems({"Alternative", "Blues", "Classica", "Country", "Disco", "Elettronica", "Folk", "Funk", "Hip Hop", "Jazz", "Metal", "Pop", "Punk", "Reggae", "Rock", "Soul", "Altro"});
     
     // Se abbiamo già un media, impostiamo il genere
     if (currentMedia) {

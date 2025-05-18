@@ -26,7 +26,7 @@ public:
     virtual bool validateData() = 0;  // Validazione dei dati inseriti
     virtual bool applyChanges() = 0;  // Applicazione delle modifiche (per modifyPage)
     virtual Media* createMedia() = 0; // Creazione di un nuovo oggetto Media (per AddPage)
-    virtual void setMedia(Media* media) = 0; // Impostazione dell'oggetto Media corrente
+    virtual void setReadOnly(bool readOnly) = 0; // Imposta i campi come di sola lettura
 
 protected:
     Media* currentMedia;
@@ -47,8 +47,8 @@ protected:
 
     // Metodi per setup UI
     void setupBaseUI(const QString &title);
-    void setCurrentValues();
-    virtual void addSpecificFields() = 0; // Implementato nelle classi derivate
+    virtual void addSpecificFields() = 0; // Per aggiungere i campi specifici del tipo del media
+    virtual void setCurrentValues() = 0; // Per impostare i valori del media corrente nei campi
     void addStandardFields();
     void onCancelClicked();
 

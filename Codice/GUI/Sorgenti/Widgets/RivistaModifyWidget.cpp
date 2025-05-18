@@ -8,7 +8,7 @@ RivistaModifyWidget::RivistaModifyWidget(QWidget* parent) : MediaModifyWidget(pa
 
 void RivistaModifyWidget::addSpecificFields() {
     // Imposta generi specifici per rivista
-    genreComboBox->addItems({"Attualità", "Arte", "Cucina", "Cultura", "Economia", "Informatica", "Moda", "Natura", "Scienza", "Sport", "Tecnologia", "Viaggi"});
+    genreComboBox->addItems({"Attualità", "Arte", "Cucina", "Cultura", "Economia", "Intrattenimento", "Informatica", "Moda", "Natura", "Salute", "Scienza", "Sport", "Tecnologia", "Viaggi", "Altro"});
     
     // Se abbiamo già un media, impostiamo il genere
     if (currentMedia) {

@@ -1,4 +1,5 @@
 #include "../../Headers/Widgets/MediaWidget.h"
+#include <QDebug>
 
 MediaWidget::MediaWidget(QWidget *parent) : QWidget(parent), currentMedia(nullptr) {
 }
@@ -100,7 +101,41 @@ void MediaWidget::setCurrentValues() {
         yearEdit->setValue(currentMedia->getAnno());
         languageEdit->setText(QString::fromStdString(currentMedia->getLingua()));
         ratingEdit->setValue(currentMedia->getRating());
+    }else{
+        qDebug() << "currentMedia is null";
     }
+}
+
+bool MediaWidget::validateData() {
+    return !titleEdit->text().isEmpty() && 
+           !authorEdit->text().isEmpty() && 
+           !genreComboBox->currentText().isEmpty() &&
+           yearEdit->value() > 0 && 
+           !languageEdit->text().isEmpty() &&
+           ratingEdit->value() > 0;
+}
+
+bool MediaWidget::applyChanges() {
+    if (!validateData() || !currentMedia)
+        return false;
+
+    currentMedia->setTitolo(titleEdit->text().toStdString());
+    currentMedia->setAutore(authorEdit->text().toStdString());
+    currentMedia->setGenere(genreComboBox->currentText().toStdString());
+    currentMedia->setAnno(yearEdit->value());
+    currentMedia->setLingua(languageEdit->text().toStdString());
+    currentMedia->setRating(ratingEdit->value());
+
+    return true;
+}
+
+void MediaWidget::setReadOnly(bool readOnly) {
+    titleEdit->setReadOnly(readOnly);
+    authorEdit->setReadOnly(readOnly);
+    genreComboBox->setEnabled(!readOnly);
+    yearEdit->setReadOnly(readOnly);
+    languageEdit->setReadOnly(readOnly);
+    ratingEdit->setReadOnly(readOnly);
 }
 
 QString MediaWidget::getLabelStyle() const {
