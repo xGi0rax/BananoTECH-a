@@ -30,18 +30,12 @@ HEADERS += "Codice/Modello logico/Headers/Biblioteca.h" \
            "Codice/GUI/Headers/AddPage.h" \
            "Codice/GUI/Headers/DetailsPage.h" \
            "Codice/GUI/Headers/ModifyPage.h" \
-           "Codice/GUI/Headers/Widgets/LibroDetailsWidget.h" \
-           "Codice/GUI/Headers/Widgets/FilmDetailsWidget.h" \
-           "Codice/GUI/Headers/Widgets/RivistaDetailsWidget.h" \
-           "Codice/GUI/Headers/Widgets/VinileDetailsWidget.h" \
-           "Codice/GUI/Headers/Widgets/GiocoDetailsWidget.h" \
-           "Codice/GUI/Headers/Widgets/MediaDetailsWidget.h" \
-           "Codice/GUI/Headers/Widgets/MediaModifyWidget.h" \
-           "Codice/GUI/Headers/Widgets/LibroModifyWidget.h" \
-           "Codice/GUI/Headers/Widgets/VinileModifyWidget.h" \
-           "Codice/GUI/Headers/Widgets/FilmModifyWidget.h" \
-           "Codice/GUI/Headers/Widgets/RivistaModifyWidget.h" \
-           "Codice/GUI/Headers/Widgets/GiocoModifyWidget.h" \
+           "Codice/GUI/Headers/Widgets/MediaWidget.h" \
+           "Codice/GUI/Headers/Widgets/LibroWidget.h" \
+           "Codice/GUI/Headers/Widgets/VinileWidget.h" \
+           "Codice/GUI/Headers/Widgets/FilmWidget.h" \
+           "Codice/GUI/Headers/Widgets/RivistaWidget.h" \
+           "Codice/GUI/Headers/Widgets/GiocoWidget.h" \
            "Codice/GUI/Headers/LibraryChoicePage.h"\
 
 SOURCES += "main.cpp" \
@@ -60,18 +54,12 @@ SOURCES += "main.cpp" \
            "Codice/GUI/Sorgenti/AddPage.cpp" \
            "Codice/GUI/Sorgenti/DetailsPage.cpp" \
            "Codice/GUI/Sorgenti/ModifyPage.cpp" \
-           "Codice/GUI/Sorgenti/Widgets/FilmDetailsWidget.cpp" \
-           "Codice/GUI/Sorgenti/Widgets/LibroDetailsWidget.cpp" \
-           "Codice/GUI/Sorgenti/Widgets/VinileDetailsWidget.cpp" \
-           "Codice/GUI/Sorgenti/Widgets/RivistaDetailsWidget.cpp" \
-           "Codice/GUI/Sorgenti/Widgets/GiocoDetailsWidget.cpp" \
-           "Codice/GUI/Sorgenti/Widgets/MediaDetailsWidget.cpp" \
-           "Codice/GUI/Sorgenti/Widgets/MediaModifyWidget.cpp" \
-           "Codice/GUI/Sorgenti/Widgets/LibroModifyWidget.cpp" \
-           "Codice/GUI/Sorgenti/Widgets/FilmModifyWidget.cpp" \
-           "Codice/GUI/Sorgenti/Widgets/RivistaModifyWidget.cpp" \
-           "Codice/GUI/Sorgenti/Widgets/VinileModifyWidget.cpp" \
-           "Codice/GUI/Sorgenti/Widgets/GiocoModifyWidget.cpp" \
+           "Codice/GUI/Sorgenti/Widgets/MediaWidget.cpp" \
+           "Codice/GUI/Sorgenti/Widgets/LibroWidget.cpp" \
+           "Codice/GUI/Sorgenti/Widgets/VinileWidget.cpp" \
+           "Codice/GUI/Sorgenti/Widgets/FilmWidget.cpp" \
+           "Codice/GUI/Sorgenti/Widgets/RivistaWidget.cpp" \
+           "Codice/GUI/Sorgenti/Widgets/GiocoWidget.cpp" \
            "Codice/GUI/Sorgenti/LibraryChoicePage.cpp"\
 
 QT += xml core gui widgets

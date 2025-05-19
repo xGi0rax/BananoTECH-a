@@ -4,8 +4,31 @@
 
 using std::string;
 
-VinileWidget::VinileWidget(QWidget *parent) : MediaWidget(parent){
-    setupBaseUI("Scheda Libro");
+VinileWidget::VinileWidget(QWidget *parent) : MediaWidget(parent), currentVinile(nullptr) {
+    setupBaseUI("Scheda Vinile");
+}
+
+void VinileWidget::setCurrentMedia(Media* media) {
+    // Controllo di validità
+    if (!media) {
+        QMessageBox::warning(this, "Errore", "Media non valido");
+        return;
+    }
+
+    // Salvo il riferimento al media corrente
+    currentMedia = media;
+
+    // Salvo il riferimento al film corrente
+    currentVinile = dynamic_cast<Vinile*>(media);
+
+    if (!currentVinile) {
+        QMessageBox::warning(this, "Errore", "Media non è un vinile");
+        currentMedia = nullptr;
+        return;
+    }
+
+    // Imposto i valori nei campi
+    setCurrentValues();
 }
 
 void VinileWidget::addSpecificFields() {
@@ -27,10 +50,6 @@ void VinileWidget::addSpecificFields() {
     trackCountLbl->setStyleSheet(getLabelStyle());
     QLabel *durationLbl = new QLabel("Durata totale:");
     durationLbl->setStyleSheet(getLabelStyle());
-
-    if (currentMedia){
-        setCurrentValues();
-    }
 
     // Aggiungi i campi al form
     formLayout->addRow(trackCountLbl, trackCountEdit);

@@ -12,7 +12,6 @@ class LibraryChoicePage : public QWidget {
 
 public:
     explicit LibraryChoicePage(QWidget *parent = nullptr);
-    Biblioteca* getBiblioteca() const { return biblioteca; }
 
 signals:
     void libraryReady(Biblioteca* biblioteca);

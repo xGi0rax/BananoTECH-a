@@ -3,7 +3,7 @@
 #include <QMessageBox>
 #include <QSplitter>
 
-AddPage::AddPage(QWidget *parent) : QWidget(parent) {
+AddPage::AddPage(QWidget *parent) : QWidget(parent), currentWidget(nullptr) {
     setupUI();
     showSelectionPage();
 }
@@ -81,7 +81,7 @@ void AddPage::setupUI() {
 
     // 3. Pulsante "salva media" in basso
     QPushButton *addButton = new QPushButton("SALVA MEDIA");
-    addButton->setMinimumSize(200, 45);
+    addButton->setMinimumSize(190, 40);
     addButton->setStyleSheet(
         "QPushButton {"
         "   background-color: rgb(0, 128, 0);"
@@ -95,7 +95,7 @@ void AddPage::setupUI() {
         "   background-color: rgb(0, 100, 0);"
         "}"
     );
-    connect(addButton, &QPushButton::clicked, this, &AddPage::onSaveMediaButtonClicked);
+    connect(addButton, &QPushButton::clicked, this, &AddPage::onAddButtonClicked);
     sidebarLayout->addWidget(addButton, 0, Qt::AlignBottom | Qt::AlignCenter);
 
     // Aggiungo la barra laterale al divisore
@@ -243,7 +243,15 @@ void AddPage::showSelectionPage() {
 }
 
 void AddPage::onBackButtonClicked() {
-    emit goBackToMainPage();
+    // Se l'utente è nella pagina di selezione, torna alla pagina principale
+    // Se l'utente è in una pagina di dettaglio, torna alla pagina di selezione
+    if (mainContentStack->currentWidget() == selectionWidget) {
+        emit goBackToMainPage();
+        return;
+    } else if (mainContentStack->currentWidget() == detailsStackedWidget) {
+        showSelectionPage();
+        return;
+    }
 }
 
 void AddPage::onConfirmTypeButtonClicked() {
@@ -261,10 +269,10 @@ void AddPage::onConfirmTypeButtonClicked() {
     }
 
     // Rimuovi il widget corrente se esiste
-    if (currentDetailsWidget) {
-        detailsStackedWidget->removeWidget(currentDetailsWidget);
-        delete currentDetailsWidget;
-        currentDetailsWidget = nullptr;
+    if (currentWidget) {
+        detailsStackedWidget->removeWidget(currentWidget);
+        delete currentWidget;
+        currentWidget = nullptr;
     }
     
     // Crea un nuovo widget in base al tipo selezionato
@@ -272,47 +280,45 @@ void AddPage::onConfirmTypeButtonClicked() {
     
     switch (mediaType) {
         case FILM:
-            currentDetailsWidget = new FilmDetailsWidget();
+            currentWidget = new FilmWidget();
             break;
         case LIBRO:
-            currentDetailsWidget = new LibroDetailsWidget();
+            currentWidget = new LibroWidget();
             break;
         case VINILE:
-            currentDetailsWidget = new VinileDetailsWidget();
+            currentWidget = new VinileWidget();
             break;
         case RIVISTA:
-            currentDetailsWidget = new RivistaDetailsWidget();
+            currentWidget = new RivistaWidget();
             break;
         case GIOCO_DA_TAVOLO:
-            currentDetailsWidget = new GiocoDetailsWidget();
+            currentWidget = new GiocoWidget();
             break;
         default:
             QMessageBox::warning(this, "Errore", "Tipo di media non valido!");
             return;
     }
-
-    connect(currentDetailsWidget, &MediaDetailsWidget::cancelled, this, &AddPage::showSelectionPage);
     
     // Aggiungi il widget al layout e mostralo
-    detailsStackedWidget->addWidget(currentDetailsWidget);
-    detailsStackedWidget->setCurrentWidget(currentDetailsWidget);
+    detailsStackedWidget->addWidget(currentWidget);
+    detailsStackedWidget->setCurrentWidget(currentWidget);
     mainContentStack->setCurrentWidget(detailsStackedWidget);
 }
 
-void AddPage::onSaveMediaButtonClicked() {
-    if (!currentDetailsWidget) {
+void AddPage::onAddButtonClicked() {
+    if (!currentWidget) {
         QMessageBox::warning(this, "Errore", "Nessun widget attivo trovato!");
         return;
     }
 
     // Controllo se tutti i campi sono stati inseriti
-    if (!currentDetailsWidget->validateData()) {
+    if (!currentWidget->validateData()) {
         QMessageBox::warning(this, "Errore", "Tutti i campi sono obbligatori!");
         return;
     }
     
     // Crea l'oggetto media usando il widget attualmente visualizzato
-    Media* newMedia = currentDetailsWidget->createMedia();
+    Media* newMedia = currentWidget->createMedia();
 
     if (newMedia) {
         // Imposta l'immagine del media se è stata selezionata

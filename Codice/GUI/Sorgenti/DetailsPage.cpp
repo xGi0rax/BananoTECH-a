@@ -14,8 +14,7 @@ void DetailsPage::setupUI() {
     
     // Pulsante indietro
     backButton = new QPushButton("Indietro");
-    backButton->setMinimumSize(100, 30); // Stesse dimensioni degli altri pulsanti
-    backButton->setCursor(Qt::PointingHandCursor);
+    backButton->setMinimumSize(145, 30);
     backButton->setStyleSheet(
         "QPushButton {"
         "   background-color: rgb(0, 104, 201);"
@@ -196,53 +195,53 @@ void DetailsPage::clearSpecificDetails() {
         delete item;
     }
     
-    currentDetailsWidget = nullptr;
+    currentWidget = nullptr;
 }
 
 void DetailsPage::setupSpecificDetails(Media* media) {
     if (!media) return;
     
     // Crea un widget appropriato in base al tipo di media
-    currentDetailsWidget = createViewWidgetForMedia(media);
+    currentWidget = createViewWidgetForMedia(media);
     
-    if (currentDetailsWidget) {
+    if (currentWidget) {
         // Imposta alcune proprietà per la visualizzazione
-        currentDetailsWidget->setProperty("viewOnly", true);
-        specificDetailsLayout->addWidget(currentDetailsWidget);
+        currentWidget->setProperty("viewOnly", true);
+        specificDetailsLayout->addWidget(currentWidget);
     }
 }
 
-QWidget* DetailsPage::createViewWidgetForMedia(Media* media) {
-    QWidget* widget = nullptr;
+MediaWidget* DetailsPage::createViewWidgetForMedia(Media* media) {
+    MediaWidget* widget = nullptr;
     
     if (Film* film = dynamic_cast<Film*>(media)) {
         // Crea un FilmDetailsWidget e configuralo per la visualizzazione
-        FilmDetailsWidget* filmWidget = new FilmDetailsWidget();
-        filmWidget->setMedia(film);
+        FilmWidget* filmWidget = new FilmWidget();
+        filmWidget->setCurrentMedia(film);
         filmWidget->setReadOnly(true);  // Imposta la modalità sola lettura
         widget = filmWidget;
     } 
     else if (Libro* libro = dynamic_cast<Libro*>(media)) {
-        LibroDetailsWidget* libroWidget = new LibroDetailsWidget();
-        libroWidget->setMedia(libro);
+        LibroWidget* libroWidget = new LibroWidget();
+        libroWidget->setCurrentMedia(libro);
         libroWidget->setReadOnly(true);
         widget = libroWidget;
     } 
     else if (Vinile* vinile = dynamic_cast<Vinile*>(media)) {
-        VinileDetailsWidget* vinileWidget = new VinileDetailsWidget();
-        vinileWidget->setMedia(vinile);
+        VinileWidget* vinileWidget = new VinileWidget();
+        vinileWidget->setCurrentMedia(vinile);
         vinileWidget->setReadOnly(true);
         widget = vinileWidget;
     } 
     else if (Rivista* rivista = dynamic_cast<Rivista*>(media)) {
-        RivistaDetailsWidget* rivistaWidget = new RivistaDetailsWidget();
-        rivistaWidget->setMedia(rivista);
+        RivistaWidget* rivistaWidget = new RivistaWidget();
+        rivistaWidget->setCurrentMedia(rivista);
         rivistaWidget->setReadOnly(true);
         widget = rivistaWidget;
     } 
     else if (GiocoDaTavolo* gioco = dynamic_cast<GiocoDaTavolo*>(media)) {
-        GiocoDetailsWidget* giocoWidget = new GiocoDetailsWidget();
-        giocoWidget->setMedia(gioco);
+        GiocoWidget* giocoWidget = new GiocoWidget();
+        giocoWidget->setCurrentMedia(gioco);
         giocoWidget->setReadOnly(true);
         widget = giocoWidget;
     }

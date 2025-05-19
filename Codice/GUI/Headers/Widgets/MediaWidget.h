@@ -45,8 +45,9 @@ protected:
     QLineEdit *languageEdit;
     QDoubleSpinBox *ratingEdit;
 
-    // Metodi per setup UI
+    // Metodi per setup
     void setupBaseUI(const QString &title);
+    virtual void setCurrentMedia(Media* media) = 0; // Per impostare il media corrente
     virtual void addSpecificFields() = 0; // Per aggiungere i campi specifici del tipo del media
     virtual void setCurrentValues() = 0; // Per impostare i valori del media corrente nei campi
     void addStandardFields();

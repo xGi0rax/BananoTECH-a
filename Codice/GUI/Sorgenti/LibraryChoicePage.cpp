@@ -92,6 +92,10 @@ void LibraryChoicePage::setupUI() {
     mainLayout->addWidget(newLibraryButton, 0, Qt::AlignCenter);
     mainLayout->addWidget(backButton, 0, Qt::AlignCenter);
     mainLayout->addStretch(1);
+
+    // Creiamo un'istanza di Biblioteca
+    string idBiblio = "VC";  // ID predefinito
+    biblioteca = new Biblioteca(idBiblio);
 }
 
 void LibraryChoicePage::onLoadFileButtonClicked() {
@@ -105,10 +109,6 @@ void LibraryChoicePage::onLoadFileButtonClicked() {
         QStringList selectedFiles = fileDialog.selectedFiles();
         if (!selectedFiles.isEmpty()) {
             QString filePath = selectedFiles.first();
-            
-            // Creiamo un'istanza di Biblioteca
-            string idBiblio = "VC";  // ID predefinito
-            biblioteca = new Biblioteca(idBiblio);
             
             bool success = false;
             
@@ -135,12 +135,8 @@ void LibraryChoicePage::onLoadFileButtonClicked() {
 }
 
 void LibraryChoicePage::onNewLibraryButtonClicked() {
-    // Creiamo una biblioteca vuota
-    string idBiblio = "VC";  // ID predefinito
-    biblioteca = new Biblioteca(idBiblio);
     
-    QMessageBox::information(this, "Biblioteca creata", 
-        "Una nuova biblioteca vuota è stata creata con successo!");
+    QMessageBox::information(this, "Biblioteca creata", "Una nuova biblioteca vuota è stata creata con successo!");
     
     emit libraryReady(biblioteca);
 }

@@ -4,8 +4,31 @@
 
 using std::string;
 
-RivistaWidget::RivistaWidget(QWidget *parent) : MediaWidget(parent){
-    setupBaseUI("Scheda Libro");
+RivistaWidget::RivistaWidget(QWidget *parent) : MediaWidget(parent), currentRivista(nullptr) {
+    setupBaseUI("Scheda Rivista");
+}
+
+void RivistaWidget::setCurrentMedia(Media* media) {
+    // Controllo di validità
+    if (!media) {
+        QMessageBox::warning(this, "Errore", "Media non valido");
+        return;
+    }
+
+    // Salvo il riferimento al media corrente
+    currentMedia = media;
+
+    // Salvo il riferimento al film corrente
+    currentRivista = dynamic_cast<Rivista*>(media);
+
+    if (!currentRivista) {
+        QMessageBox::warning(this, "Errore", "Media non è una rivista");
+        currentMedia = nullptr;
+        return;
+    }
+
+    // Imposto i valori nei campi
+    setCurrentValues();
 }
 
 void RivistaWidget::addSpecificFields() {
@@ -38,10 +61,6 @@ void RivistaWidget::addSpecificFields() {
     dateLbl->setStyleSheet(getLabelStyle());
     QLabel *periodicityLbl = new QLabel("Periodicità:");
     periodicityLbl->setStyleSheet(getLabelStyle());
-
-    if (currentMedia){
-        setCurrentValues();
-    }
 
     // Aggiungi i campi al form
     formLayout->addRow(editorLbl, editorEdit);

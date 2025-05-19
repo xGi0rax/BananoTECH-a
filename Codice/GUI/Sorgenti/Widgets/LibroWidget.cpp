@@ -4,8 +4,31 @@
 
 using std::string;
 
-LibroWidget::LibroWidget(QWidget *parent) : MediaWidget(parent){
+LibroWidget::LibroWidget(QWidget *parent) : MediaWidget(parent), currentLibro(nullptr) {
     setupBaseUI("Scheda Libro");
+}
+
+void LibroWidget::setCurrentMedia(Media* media) {
+    // Controllo di validità
+    if (!media) {
+        QMessageBox::warning(this, "Errore", "Media non valido");
+        return;
+    }
+
+    // Salvo il riferimento al media corrente
+    currentMedia = media;
+
+    // Salvo il riferimento al film corrente
+    currentLibro = dynamic_cast<Libro*>(media);
+
+    if (!currentLibro) {
+        QMessageBox::warning(this, "Errore", "Media non è un libro");
+        currentMedia = nullptr;
+        return;
+    }
+
+    // Imposto i valori nei campi
+    setCurrentValues();
 }
 
 void LibroWidget::addSpecificFields() {
@@ -30,10 +53,6 @@ void LibroWidget::addSpecificFields() {
     editorLbl->setStyleSheet(getLabelStyle());
     QLabel *pagesLbl = new QLabel("Pagine:");
     pagesLbl->setStyleSheet(getLabelStyle());
-
-    if (currentMedia){
-        setCurrentValues();
-    }
 
     // Aggiungi i campi al form
     formLayout->addRow(isbnLbl, isbnEdit);

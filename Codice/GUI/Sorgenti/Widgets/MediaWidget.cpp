@@ -46,7 +46,6 @@ void MediaWidget::addStandardFields() {
     // Campi comuni
     titleEdit = new QLineEdit(scrollWidget);
     titleEdit->setStyleSheet(getInputStyle());
-    titleEdit->setMinimumWidth(400);
     
     authorEdit = new QLineEdit(scrollWidget);
     authorEdit->setStyleSheet(getInputStyle());
@@ -67,8 +66,6 @@ void MediaWidget::addStandardFields() {
     ratingEdit->setDecimals(1);
     ratingEdit->setSingleStep(0.1);
     ratingEdit->setStyleSheet(getInputStyle());
-    
-    setCurrentValues();
 
     // Etichette con stile
     QLabel *titleLbl = new QLabel("Titolo:");
@@ -102,7 +99,7 @@ void MediaWidget::setCurrentValues() {
         languageEdit->setText(QString::fromStdString(currentMedia->getLingua()));
         ratingEdit->setValue(currentMedia->getRating());
     }else{
-        qDebug() << "currentMedia is null";
+        qDebug() << "currentMedia is null"; // Da capire cosa fare in questo caso
     }
 }
 
@@ -143,9 +140,13 @@ QString MediaWidget::getLabelStyle() const {
 }
 
 QString MediaWidget::getInputStyle() const {
-    return "QLineEdit, QSpinBox, QDoubleSpinBox, QComboBox { "
+    return "QLineEdit, QSpinBox, QDoubleSpinBox, QComboBox, QDateEdit{ "
            "border: 1px solid #ccc; "
            "border-radius: 4px; "
-           "padding: 5px; "
-           "font-size: 14px; }";
+           "min-height: 28px; "
+           "padding: 6px; "
+           "font-size: 14px; "
+           "}"
+           "QSpinBox::up-button, QDoubleSpinBox::up-button { width: 20px; }"
+           "QSpinBox::down-button, QDoubleSpinBox::down-button { width: 20px; }";
 }

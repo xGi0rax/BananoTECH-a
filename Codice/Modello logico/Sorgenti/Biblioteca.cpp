@@ -5,7 +5,6 @@
 #include "../Headers/Vinile.h"
 #include "../Headers/GiocoDaTavolo.h"
 #include "../Headers/Rivista.h"
-#include <QDebug>
 
 
 Biblioteca::Biblioteca(string& idBiblio) : idBiblioteca(idBiblio), nextIdmedia(1) {}

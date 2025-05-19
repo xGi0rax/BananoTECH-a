@@ -4,8 +4,31 @@
 
 using std::string;
 
-GiocoWidget::GiocoWidget(QWidget *parent) : MediaWidget(parent) {
-    setupBaseUI("Scheda Film");
+GiocoWidget::GiocoWidget(QWidget *parent) : MediaWidget(parent), currentGioco(nullptr) {
+    setupBaseUI("Scheda Gioco da Tavolo");
+}
+
+void GiocoWidget::setCurrentMedia(Media* media) {
+    // Controllo di validità
+    if (!media) {
+        QMessageBox::warning(this, "Errore", "Media non valido");
+        return;
+    }
+
+    // Salvo il riferimento al media corrente
+    currentMedia = media;
+
+    // Salvo il riferimento al film corrente
+    currentGioco = dynamic_cast<GiocoDaTavolo*>(media);
+
+    if (!currentGioco) {
+        QMessageBox::warning(this, "Errore", "Media non è un gioco da tavolo");
+        currentMedia = nullptr;
+        return;
+    }
+
+    // Imposto i valori nei campi
+    setCurrentValues();
 }
 
 void GiocoWidget::addSpecificFields() {
@@ -39,10 +62,6 @@ void GiocoWidget::addSpecificFields() {
     minAgeLbl->setStyleSheet(getLabelStyle());
     QLabel *editorLbl = new QLabel("Editore:");
     editorLbl->setStyleSheet(getLabelStyle());
-
-    if (currentMedia){
-        setCurrentValues();
-    }
 
     // Aggiungi i campi al form
     formLayout->addRow(maxPlayersLbl, maxPlayersEdit);

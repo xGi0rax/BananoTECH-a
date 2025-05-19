@@ -24,6 +24,7 @@ public:
     virtual ~RivistaWidget() = default;
 
     // Metodi ereditati da MediaWidget
+    virtual void setCurrentMedia(Media* media) override;
     virtual bool validateData() override;
     virtual bool applyChanges() override; // (per modifyPage)
     virtual Media* createMedia() override; // (per AddPage)

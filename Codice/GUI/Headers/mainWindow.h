@@ -58,7 +58,7 @@ private:
     // Metodi per setuppare le pagine
     void setupLoginPage();
     void setupLibraryChoicePage();
-    void setupMainPage(Biblioteca* biblioteca);
+    void setupMainPage(Biblioteca* biblio);
     void setupAddPage();
     void setupModifyPage();
     void setupDetailsPage();

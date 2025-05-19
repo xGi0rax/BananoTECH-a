@@ -13,7 +13,6 @@
 #include <QMessageBox>
 #include <QApplication>
 #include <QFileDialog>
-#include <QDebug>
 
 MainPage::MainPage(QWidget *parent, Biblioteca* biblio) : QWidget(parent) {
     // Se viene passata una biblioteca, la usiamo, altrimenti ne creiamo una nuova
@@ -23,7 +22,7 @@ MainPage::MainPage(QWidget *parent, Biblioteca* biblio) : QWidget(parent) {
         string id = "VC";
         biblioteca = new Biblioteca(id);
     }
-    setupUI(); // Configura l'interfaccia utente
+    setupUI();
 }
 
 void MainPage::setupUI(){
@@ -175,6 +174,9 @@ void MainPage::setupUI(){
     filtersGroupBox->setLayout(filtersLayout);
     filtersGroupBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 
+    connect(applyFiltersButton, &QPushButton::clicked, this, &MainPage::onApplyFiltersClicked);
+    connect(clearFiltersButton, &QPushButton::clicked, this, &MainPage::onClearFiltersClicked);
+
 
     // ------------------------- Barra di ricerca e lista media ------------------------
     searchBar = new QLineEdit();
@@ -205,8 +207,6 @@ void MainPage::setupUI(){
 
     // Collega la selezione
     connect(mediaList, &QListWidget::itemClicked, this, &MainPage::onMediaSelected);
-    connect(applyFiltersButton, &QPushButton::clicked, this, &MainPage::onApplyFiltersClicked);
-    connect(clearFiltersButton, &QPushButton::clicked, this, &MainPage::onClearFiltersClicked);
 
     centerLayout = new QVBoxLayout();
     centerLayout->addWidget(searchBar);
@@ -353,7 +353,9 @@ void MainPage::setupUI(){
 
     setLayout(mainLayout);
 
-    connect(detailsButton, &QPushButton::clicked, this, &MainPage::onDetailsButtonClicked);}
+    connect(detailsButton, &QPushButton::clicked, this, &MainPage::onDetailsButtonClicked);
+    connect(editMediaButton, &QPushButton::clicked, this, &MainPage::onEditButtonClicked);
+}
 
 void MainPage::updateImageSize(){
     if (!originalPixmap.isNull()) {
@@ -610,8 +612,6 @@ void MainPage::onEditButtonClicked() {
         QMessageBox::warning(this, "Errore", "Media selezionato non valido.");
         return;
     }
-
-    qDebug() << "Media selezionato e passato alla modifypage:" << selectedMedia->getTitolo();
 
     // Passa l'oggetto media alla pagina di modifica
     emit goToModifyPage(selectedMedia);

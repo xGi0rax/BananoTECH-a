@@ -1,26 +1,15 @@
 #include "../Headers/ModifyPage.h"
-#include "../Headers/Widgets/FilmModifyWidget.h"
-#include "../Headers/Widgets/LibroModifyWidget.h"
-#include "../Headers/Widgets/VinileModifyWidget.h"
-#include "../Headers/Widgets/RivistaModifyWidget.h"
-#include "../Headers/Widgets/GiocoModifyWidget.h"
-#include <QVBoxLayout>
 #include <QHBoxLayout>
-#include <QFormLayout>
-#include <QLabel>
-#include <QLineEdit>
-#include <QPushButton>
-#include <QSpinBox>
-#include <QDoubleSpinBox>
-#include <QComboBox>
-#include <QScrollArea>
-#include <QMessageBox>
-#include <QFileDialog>
+#include <QVBoxLayout>
 #include <QSplitter>
-#include <QDebug>
-#include <QStackedWidget>
+#include <QFileDialog>
+#include <QMessageBox>
 
-ModifyPage::ModifyPage(QWidget* parent) : QWidget(parent), currentMedia(nullptr), currentDetailsWidget(nullptr) {
+ModifyPage::ModifyPage(QWidget* parent) : QWidget(parent), currentMedia(nullptr), currentWidget(nullptr) {
+    setupUI();
+}
+
+void ModifyPage::setupUI() {
     // Layout orizzontale principale
     QHBoxLayout* mainHLayout = new QHBoxLayout(this);
     mainHLayout->setContentsMargins(0, 0, 0, 0);
@@ -40,9 +29,9 @@ ModifyPage::ModifyPage(QWidget* parent) : QWidget(parent), currentMedia(nullptr)
     sidebarLayout->setSpacing(15);
 
     // 1. Pulsante indietro
-    cancelButton = new QPushButton("Indietro");
-    cancelButton->setMinimumSize(145, 30);
-    cancelButton->setStyleSheet(
+    backButton = new QPushButton("Indietro");
+    backButton->setMinimumSize(145, 30);
+    backButton->setStyleSheet(
         "QPushButton {"
         "   background-color: rgb(0, 104, 201);"
         "   color: white;"
@@ -54,9 +43,9 @@ ModifyPage::ModifyPage(QWidget* parent) : QWidget(parent), currentMedia(nullptr)
         "   background-color:rgb(11, 82, 189);"
         "}"
     );
-    connect(cancelButton, &QPushButton::clicked, this, &ModifyPage::onBackButtonClicked);
-    sidebarLayout->addWidget(cancelButton, 0, Qt::AlignTop | Qt::AlignLeft);
-      
+    connect(backButton, &QPushButton::clicked, this, &ModifyPage::onBackButtonClicked);
+    sidebarLayout->addWidget(backButton, 0, Qt::AlignTop | Qt::AlignLeft);
+
     // 2. Sezione centrale per l'immagine
     imagePreview = new QLabel("Nessuna immagine");
     imagePreview->setMinimumSize(220, 220);
@@ -93,7 +82,7 @@ ModifyPage::ModifyPage(QWidget* parent) : QWidget(parent), currentMedia(nullptr)
 
     // 3. Pulsante "salva modifiche" in basso
     saveButton = new QPushButton("SALVA MODIFICHE");
-    saveButton->setMinimumSize(200, 45);
+    saveButton->setMinimumSize(190, 40);
     saveButton->setStyleSheet(
         "QPushButton {"
         "   background-color: rgb(0, 128, 0);"
@@ -113,44 +102,26 @@ ModifyPage::ModifyPage(QWidget* parent) : QWidget(parent), currentMedia(nullptr)
     // Aggiungo la barra laterale al divisore
     splitter->addWidget(sidebarWidget);
 
-    // Widget per l'area principale - Creiamo un StackedWidget
+    // Widget per l'area principale
     detailsStackedWidget = new QStackedWidget();
-    
-    // Widget iniziale con messaggio
-    QWidget* placeholderWidget = new QWidget();
-    QVBoxLayout* placeholderLayout = new QVBoxLayout(placeholderWidget);
-    QLabel* placeholderLabel = new QLabel("Seleziona un media dalla lista principale per modificarlo");
-    placeholderLabel->setAlignment(Qt::AlignCenter);
-    placeholderLabel->setStyleSheet("font-size: 18px; color: white;");
-    placeholderLayout->addWidget(placeholderLabel);
-    
-    // Aggiungiamo il widget placeholder allo stack
-    detailsStackedWidget->addWidget(placeholderWidget);
 
-    // Imposta il colore di sfondo del pannello principale
-    detailsStackedWidget->setStyleSheet("background-color: rgb(55, 58, 77);");
-
-    // Aggiungi pannello principale al divisore
+    // Aggiungi l'area principale al divisore
     splitter->addWidget(detailsStackedWidget);
-    
+
     // Imposta la proporzione iniziale tra i due widget (1:2)
     splitter->setStretchFactor(0, 2);  // Sidebar (1/3)
     splitter->setStretchFactor(1, 3);  // Main area (2/3)
     
     // Aggiunge il divisore al layout principale
     mainHLayout->addWidget(splitter);
-    
+
     setLayout(mainHLayout);
-    
-    // Salva il percorso dell'immagine corrente
+
     currentImagePath = "";
 }
 
 void ModifyPage::setMedia(Media* media) {
-    qDebug() << "setMedia chiamato";
-    
     if (!media) {
-        qDebug() << "Media è null!";
         QMessageBox::warning(this, "Errore", "Media non valido");
         return;
     }
@@ -160,37 +131,37 @@ void ModifyPage::setMedia(Media* media) {
         currentMedia = media;
         
         // Pulisci eventuali widget di dettaglio precedenti
-        if (currentDetailsWidget) {
-            detailsStackedWidget->removeWidget(currentDetailsWidget);
-            delete currentDetailsWidget;
-            currentDetailsWidget = nullptr;
+        if (currentWidget) {
+            detailsStackedWidget->removeWidget(currentWidget);
+            delete currentWidget;
+            currentWidget = nullptr;
         }
         
         // Crea il widget appropriato in base al tipo di media
         if (Film* film = dynamic_cast<Film*>(media)) {
-            FilmModifyWidget* filmWidget = new FilmModifyWidget();
-            filmWidget->setMedia(film);
-            currentDetailsWidget = filmWidget;
+            FilmWidget* filmWidget = new FilmWidget();
+            filmWidget->setCurrentMedia(film);
+            currentWidget = filmWidget;
         } 
         else if (Libro* libro = dynamic_cast<Libro*>(media)) {
-            LibroModifyWidget* libroWidget = new LibroModifyWidget();
-            libroWidget->setMedia(libro);
-            currentDetailsWidget = libroWidget;
+            LibroWidget* libroWidget = new LibroWidget();
+            libroWidget->setCurrentMedia(libro);
+            currentWidget = libroWidget;
         } 
         else if (Vinile* vinile = dynamic_cast<Vinile*>(media)) {
-            VinileModifyWidget* vinileWidget = new VinileModifyWidget();
-            vinileWidget->setMedia(vinile);
-            currentDetailsWidget = vinileWidget;
+            VinileWidget* vinileWidget = new VinileWidget();
+            vinileWidget->setCurrentMedia(vinile);
+            currentWidget = vinileWidget;
         } 
         else if (Rivista* rivista = dynamic_cast<Rivista*>(media)) {
-            RivistaModifyWidget* rivistaWidget = new RivistaModifyWidget();
-            rivistaWidget->setMedia(rivista);
-            currentDetailsWidget = rivistaWidget;
+            RivistaWidget* rivistaWidget = new RivistaWidget();
+            rivistaWidget->setCurrentMedia(rivista);
+            currentWidget = rivistaWidget;
         } 
         else if (GiocoDaTavolo* gioco = dynamic_cast<GiocoDaTavolo*>(media)) {
-            GiocoModifyWidget* giocoWidget = new GiocoModifyWidget();
-            giocoWidget->setMedia(gioco);
-            currentDetailsWidget = giocoWidget;
+            GiocoWidget* giocoWidget = new GiocoWidget();
+            giocoWidget->setCurrentMedia(gioco);
+            currentWidget = giocoWidget;
         }
         else {
             QMessageBox::warning(this, "Errore", "Tipo di media non riconosciuto");
@@ -198,8 +169,8 @@ void ModifyPage::setMedia(Media* media) {
         }
         
         // Aggiungi il widget allo stack e mostralo
-        detailsStackedWidget->addWidget(currentDetailsWidget);
-        detailsStackedWidget->setCurrentWidget(currentDetailsWidget);
+        detailsStackedWidget->addWidget(currentWidget);
+        detailsStackedWidget->setCurrentWidget(currentWidget);
         
         // Carica l'immagine
         std::string imagePath = media->getImmagine();
@@ -217,15 +188,11 @@ void ModifyPage::setMedia(Media* media) {
         } else {
             imagePreview->setText("Nessuna immagine");
         }
-        
-        qDebug() << "Tutti i campi popolati con successo";
     }
     catch (const std::exception& e) {
-        qDebug() << "Eccezione durante il caricamento dei dati:" << e.what();
         QMessageBox::warning(this, "Errore", "Si è verificato un errore durante il caricamento dei dati: " + QString(e.what()));
     }
     catch (...) {
-        qDebug() << "Eccezione sconosciuta durante il caricamento dei dati";
         QMessageBox::warning(this, "Errore", "Si è verificato un errore sconosciuto durante il caricamento dei dati");
     }
 }
@@ -235,26 +202,27 @@ void ModifyPage::onBackButtonClicked() {
 }
 
 void ModifyPage::onSaveButtonClicked() {
-    if (!currentMedia || !currentDetailsWidget) {
+    if (!currentMedia || !currentWidget) {
         QMessageBox::warning(this, "Errore", "Nessun media da salvare");
         return;
     }
     
     try {
         // Verifica che i dati siano validi
-        if (!currentDetailsWidget->validateData()) {
+        if (!currentWidget->validateData()) {
             QMessageBox::warning(this, "Errore", "Dati non validi. Verifica tutti i campi.");
             return;
         }
         
         // Applica le modifiche direttamente all'oggetto media esistente
-        if (currentDetailsWidget->applyChanges()) {
+        if (currentWidget->applyChanges()) {
             // Imposta l'immagine se è stata modificata
             if (!currentImagePath.isEmpty()) {
                 currentMedia->setImmagine(currentImagePath.toStdString());
             }
             
             QMessageBox::information(this, "Successo", "Modifiche salvate con successo");
+            emit mediaEdited();
             emit goBackToMainPage();
         } 
         else {
@@ -262,11 +230,9 @@ void ModifyPage::onSaveButtonClicked() {
         }
     }
     catch (const std::exception& e) {
-        qDebug() << "Eccezione durante il salvataggio:" << e.what();
         QMessageBox::warning(this, "Errore", "Si è verificato un errore durante il salvataggio: " + QString(e.what()));
     }
     catch (...) {
-        qDebug() << "Eccezione sconosciuta durante il salvataggio";
         QMessageBox::warning(this, "Errore", "Si è verificato un errore sconosciuto durante il salvataggio");
     }
 }
@@ -294,5 +260,4 @@ void ModifyPage::onUploadButtonClicked() {
     
     // Salva il percorso dell'immagine
     currentImagePath = imagePath;
-    qDebug() << "Nuova immagine caricata:" << currentImagePath;
 }

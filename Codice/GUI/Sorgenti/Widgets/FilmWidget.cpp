@@ -6,8 +6,31 @@
 using std::vector;
 using std::string;
 
-FilmWidget::FilmWidget(QWidget *parent) : MediaWidget(parent) {
+FilmWidget::FilmWidget(QWidget *parent) : MediaWidget(parent), currentFilm(nullptr) {
     setupBaseUI("Scheda Film");
+}
+
+void FilmWidget::setCurrentMedia(Media* media) {
+    // Controllo di validità
+    if (!media) {
+        QMessageBox::warning(this, "Errore", "Media non valido");
+        return;
+    }
+
+    // Salvo il riferimento al media corrente
+    currentMedia = media;
+
+    // Salvo il riferimento al film corrente
+    currentFilm = dynamic_cast<Film*>(media);
+
+    if (!currentFilm) {
+        QMessageBox::warning(this, "Errore", "Media non è un film");
+        currentMedia = nullptr;
+        return;
+    }
+
+    // Imposto i valori nei campi
+    setCurrentValues();
 }
 
 void FilmWidget::addSpecificFields() {
@@ -29,10 +52,6 @@ void FilmWidget::addSpecificFields() {
     durationLbl->setStyleSheet(getLabelStyle());
     QLabel *castLbl = new QLabel("Attori:");
     castLbl->setStyleSheet(getLabelStyle());
-
-    if (currentMedia){
-        setCurrentValues();
-    }
 
     // Aggiungi i campi al form
     formLayout->addRow(durationLbl, durationFilmEdit);
