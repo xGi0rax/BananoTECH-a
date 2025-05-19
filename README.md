@@ -1,12 +1,5 @@
 # BananoTECH-a
 
-## Gestione polimorfismo
-### creare un'unica classe widget per tutti i tipi di media (es. FilmWidget.h e FilmWidget.cpp) che contenga tutti i metodi per approfondimento/modifica/aggiunta, modificare quindi tutte le pagine di approfondimento/modifica/aggiunta che devono essere adattate alla struttura delle varie pagine per i widget
-
-### Divisione classi:
-### Giacomino: rivista, vinile
-### Giacomone: gioco, film, libro
-
 ## Cose da sistemare ASSOLUTAMENTE
 --> sistemare pagina di LibraryChoice: (Giacomino)
   -  deve avere lo stesso stile della LoginPage
@@ -17,8 +10,7 @@
   - cambiare proporzioni e colori della mainPage
   - tasti modifica e rimuovi da "attaccare" ad ogni media della lista (non devono spostarsi con lo scroll)
   - collegare tasto per prendere in prestito (deve essere applicato a Json/Xml)
-  - collegare tasto modifica media alla ModifyPage
-  - risolvere crash di approfondisci
+  - risolvere crash di approfondisci, SEMBRA FUNZIONARE
   - far funzionare barra di ricerca
   - far funzionare visualizzazione immagini in anteprima
   - modificare tasto esporta:
@@ -33,8 +25,6 @@
   - quando si schiaccia restituisci devi comparire un pop-up che mostri tutti gli id di tutti i media con quel titolo e che permetta di inserire l'id del media che si vuole restituire, nel caso in cui questo id non faccia parte della biblioteca allora deve comparire un messaggio di errore (scrivere nella relazione che il fatto che nel pop-up compaiano tutti gli id è perchè si tratta di una biblioteca idelae, se fosse reale allora gli id sono riportati esclusivamente sull'ettichetta dei media)
     
 --> sistemare ModifyPage:
-    - sistemare colori vari (ti prego)
-    - le modifiche salvate devo essere visibili nella mainPage
     - aggiungere voce collocazione
   
 --> nuovo pop-up che chiede se si è sicuri di uscire se non si hanno salvato le modifiche
