@@ -188,7 +188,7 @@ void MainPage::setupUI(){
     mediaList->setResizeMode(QListView::Adjust); // Adatta le dimensioni
     mediaList->setMovement(QListView::Static); // Elementi non trascinabili
     mediaList->setSelectionMode(QAbstractItemView::SingleSelection); // Selezione singola
-    mediaList->setMinimumWidth(450); // Imposta un'altezza minima per la lista
+    //mediaList->setMinimumWidth(320); // Imposta una grandezza minima per la lista
 
     vector<Media*> listaMedia = biblioteca->getListaMedia(); // Ottieni la lista dei media dalla biblioteca
 
@@ -198,9 +198,9 @@ void MainPage::setupUI(){
 
     mediaList->setIconSize(QSize(27, 27)); // Imposta la dimensione dell'icona
     mediaList->setStyleSheet(
-    "QListWidget { background-color:rgb(81, 125, 187); border: 2px solid rgb(119, 114, 114); border-radius: 4px; font-size: 14px; }"
-    "QListWidget::item { border-bottom:3px solid #ddd; padding: 8px; padding-left: 4px; color: white; }"
-    "QListWidget::item:hover { background-color:rgb(101, 123, 152); color: white;}"
+    "QListWidget { background-color: rgb(243, 238, 238); border: 2px solid rgb(119, 114, 114); border-radius: 4px; font-size: 14px; }"
+    "QListWidget::item { border-bottom:3px solid #ddd; padding: 8px; padding-left: 4px; color: black; }"
+    "QListWidget::item:hover { background-color:rgb(151, 168, 190); color: white;}"
     "QListWidget::item:selected { background-color:rgb(255, 208, 0); color: black; }"
     "QListWidget::item:focus { outline: none; }"
     );
@@ -283,13 +283,13 @@ void MainPage::setupUI(){
     mediaImageLabel = new QLabel();
     mediaImageLabel->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
     mediaImageLabel->setAlignment(Qt::AlignCenter);
-    mediaImageLabel->setMinimumSize(100, 100);
+    mediaImageLabel->setMinimumSize(150, 150);
     mediaImageLabel->setStyleSheet("border: 1px solid black; background-color: white; color: gray; font-size: 14px;");
     mediaImageLabel->setText("Nessuna immagine");
 
     // Label per le informazioni del media
     mediaTitleLabel = new QLabel();
-    mediaTitleLabel->setMinimumWidth(350);
+    mediaTitleLabel->setMinimumWidth(150);
     mediaAuthorLabel = new QLabel("Seleziona un media per vedere i dettagli");
     mediaYearLabel = new QLabel();
     mediaRatingLabel = new QLabel();
@@ -343,9 +343,9 @@ void MainPage::setupUI(){
 
     // Layout principale
     contentLayout = new QHBoxLayout();
-    contentLayout->addWidget(filtersGroupBox, 2);
-    contentLayout->addLayout(centerLayout, 4);
-    contentLayout->addWidget(previewGroupBox, 3);
+    contentLayout->addWidget(filtersGroupBox, 1);
+    contentLayout->addLayout(centerLayout, 2);
+    contentLayout->addWidget(previewGroupBox, 1);
 
     mainLayout = new QVBoxLayout();
     mainLayout->addLayout(topBarLayout);
@@ -540,7 +540,7 @@ void MainPage::onMediaTypeChanged() {
 }
 
 void MainPage::onBackButtonClicked() {
-    // Torna alla pagina LoginPage
+    // Torna alla pagina ChoicePage
     emit goToChoicePage(); // Emetto un segnale per notificare il cambio di pagina
 }
 
