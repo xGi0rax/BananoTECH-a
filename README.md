@@ -1,12 +1,6 @@
 # BananoTECH-a
 
-## Cose da sistemare ASSOLUTAMENTE
---> sistemare pagina di LibraryChoice: (Giacomino)
-  -  deve avere lo stesso stile della LoginPage
-  -  collegare tasto indietro
-    
 --> sistemare mainPage:
-  - collegare tasto indietro della mainPage alla LibraryChoicePage e non alla LoginPage
   - cambiare proporzioni e colori della mainPage
   - tasti modifica e rimuovi da "attaccare" ad ogni media della lista (non devono spostarsi con lo scroll)
   - collegare tasto per prendere in prestito (deve essere applicato a Json/Xml)
@@ -34,7 +28,6 @@
 --> modicare i media del Json aggiungendo attributo lingua
 
 ## Modifiche minori:
-- label con scritta "Inserire username e password" che quando si torna indietro da mainpage scompare
 - lag quando si seleziona un media dalla lista
 - lag quando si ridimensiona la finestra mentre c'è un media selezionato
 - colori vari
