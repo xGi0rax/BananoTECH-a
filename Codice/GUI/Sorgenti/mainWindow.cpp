@@ -41,7 +41,11 @@ void MainWindow::setupLibraryChoicePage() {
     libraryChoicePage = new LibraryChoicePage(this);
     stackedWidget->addWidget(libraryChoicePage);
     
+    // Connetti il segnale libraryReady
     connect(libraryChoicePage, &LibraryChoicePage::libraryReady, this, &MainWindow::onLibraryReady);
+    
+    // Aggiungi questa connessione per il pulsante indietro
+    connect(libraryChoicePage, &LibraryChoicePage::goToLoginPage, this, &MainWindow::switchToLoginPage);
 }
 
 void MainWindow::setupMainPage(Biblioteca* biblio) {
@@ -106,6 +110,7 @@ void MainWindow::setupDetailsPage(){
 }
 
 void MainWindow::switchToLoginPage() {
+    loginPage->resetToDefaultState();
     stackedWidget->setCurrentWidget(loginPage); // Cambia alla pagina di login
 }
 

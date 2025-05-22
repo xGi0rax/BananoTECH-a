@@ -100,3 +100,10 @@ void LoginPage::keyPressEvent(QKeyEvent *event) {
         QWidget::keyPressEvent(event);
     }
 }
+
+void LoginPage::resetToDefaultState() {
+    usernameField->clear();
+    passwordField->clear();
+    errorLabel->setText("Inserisci Username e Password per accedere.");
+    errorLabel->setStyleSheet("QLabel { color: rgb(230, 230, 230); padding: 5px; font-size: 16px; border: 0px;}");
+}

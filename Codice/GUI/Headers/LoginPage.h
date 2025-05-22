@@ -18,6 +18,7 @@ public:
     QString getPassword() const;
     void showErrorMessage(const QString &message);
     void clearErrorMessage();
+    void resetToDefaultState();
     
 signals:
     void loginAttempted();
