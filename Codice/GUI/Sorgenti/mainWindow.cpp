@@ -53,7 +53,10 @@ void MainWindow::setupMainPage(Biblioteca* biblio) {
     stackedWidget->addWidget(mainPage);
 
     // Connetto i sengali derivanti dai bottoni della MainPage ai metodi della MainWindow per cambiare pagina
-    // Tornare alla pagina di login
+    // Passare alla pagina di scelta biblioteca
+    connect(mainPage, &MainPage::goToChoicePage, this, &MainWindow::switchToLibraryChoicePage);
+
+    // Passare alla pagina di login
     connect(mainPage, &MainPage::goToLoginPage, this, &MainWindow::switchToLoginPage);
 
     // Passare alla pagina di aggiunta media

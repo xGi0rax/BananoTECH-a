@@ -541,7 +541,7 @@ void MainPage::onMediaTypeChanged() {
 
 void MainPage::onBackButtonClicked() {
     // Torna alla pagina LoginPage
-    emit goToLoginPage(); // Emetto un segnale per notificare il cambio di pagina
+    emit goToChoicePage(); // Emetto un segnale per notificare il cambio di pagina
 }
 
 void MainPage::onApplyFiltersClicked() {

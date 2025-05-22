@@ -41,6 +41,7 @@ public slots:
     void onMediaEdited(); // Slot per aggiornare un media esistente
 
 signals:
+    void goToChoicePage(); // Segnale per notificare il cambio alla ChoicePage
     void goToLoginPage(); // Segnale per notificare il cambio alla LoginPage
     void goToAddPage(); // Segnale per notificare il cambio alla AddPage
     void goToModifyPage(Media* media); // Segnale per notificare il cambio alla ModifyPage
