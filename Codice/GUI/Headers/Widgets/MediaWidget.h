@@ -43,6 +43,7 @@ protected:
     QComboBox *genreComboBox;
     QSpinBox *yearEdit;
     QLineEdit *languageEdit;
+    QLineEdit *collocationEdit;
     QDoubleSpinBox *ratingEdit;
 
     // Metodi per setup

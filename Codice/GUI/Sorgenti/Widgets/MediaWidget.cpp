@@ -60,6 +60,9 @@ void MediaWidget::addStandardFields() {
     
     languageEdit = new QLineEdit(scrollWidget);
     languageEdit->setStyleSheet(getInputStyle());
+
+    collocationEdit = new QLineEdit(scrollWidget);
+    collocationEdit->setStyleSheet(getInputStyle());
     
     ratingEdit = new QDoubleSpinBox(scrollWidget);
     ratingEdit->setRange(1.0, 5.0);
@@ -78,6 +81,8 @@ void MediaWidget::addStandardFields() {
     yearLbl->setStyleSheet(getLabelStyle());
     QLabel *languageLbl = new QLabel("Lingua:");
     languageLbl->setStyleSheet(getLabelStyle());
+    QLabel *collocationLbl = new QLabel("Collocazione:");
+    collocationLbl->setStyleSheet(getLabelStyle());
     QLabel *ratingLbl = new QLabel("Valutazione:");
     ratingLbl->setStyleSheet(getLabelStyle());
 
@@ -87,6 +92,7 @@ void MediaWidget::addStandardFields() {
     formLayout->addRow(genreLbl, genreComboBox);
     formLayout->addRow(yearLbl, yearEdit);
     formLayout->addRow(languageLbl, languageEdit);
+    formLayout->addRow(collocationLbl, collocationEdit);
     formLayout->addRow(ratingLbl, ratingEdit);
 }
 
@@ -97,6 +103,7 @@ void MediaWidget::setCurrentValues() {
         authorEdit->setText(QString::fromStdString(currentMedia->getAutore()));
         yearEdit->setValue(currentMedia->getAnno());
         languageEdit->setText(QString::fromStdString(currentMedia->getLingua()));
+        collocationEdit->setText(QString::fromStdString(currentMedia->getCollocazione()));
         ratingEdit->setValue(currentMedia->getRating());
     }else{
         qDebug() << "currentMedia is null"; // Da capire cosa fare in questo caso
@@ -109,6 +116,7 @@ bool MediaWidget::validateData() {
            !genreComboBox->currentText().isEmpty() &&
            yearEdit->value() > 0 && 
            !languageEdit->text().isEmpty() &&
+           !collocationEdit->text().isEmpty() &&
            ratingEdit->value() > 0;
 }
 
@@ -121,6 +129,7 @@ bool MediaWidget::applyChanges() {
     currentMedia->setGenere(genreComboBox->currentText().toStdString());
     currentMedia->setAnno(yearEdit->value());
     currentMedia->setLingua(languageEdit->text().toStdString());
+    currentMedia->setCollocazione(collocationEdit->text().toStdString());
     currentMedia->setRating(ratingEdit->value());
 
     return true;
@@ -132,6 +141,7 @@ void MediaWidget::setReadOnly(bool readOnly) {
     genreComboBox->setEnabled(!readOnly);
     yearEdit->setReadOnly(readOnly);
     languageEdit->setReadOnly(readOnly);
+    collocationEdit->setReadOnly(readOnly);
     ratingEdit->setReadOnly(readOnly);
 }
 
