@@ -15,6 +15,8 @@
   - collegare Prendi in prestito e Restituisci (il valore di copie disponibili deve salvarsi nel Json/Xml)
   - aggiungere voce "collocazione" ai dettagli (dettaglio di ogni media)
   - quando si schiaccia restituisci devi comparire un pop-up che mostri tutti gli id di tutti i media con quel titolo e che permetta di inserire l'id del media che si vuole restituire, nel caso in cui questo id non faccia parte della biblioteca allora deve comparire un messaggio di errore (scrivere nella relazione che il fatto che nel pop-up compaiano tutti gli id è perchè si tratta di una biblioteca idelae, se fosse reale allora gli id sono riportati esclusivamente sull'ettichetta dei media)
+  - controllare timer del tasto per richiedere copia ad altra biblioteca
+  - diminuire l'interspazio tra i vari campi dei dettagli
   
 --> nuovo pop-up che chiede se si è sicuri di uscire se non si hanno salvato le modifiche
 
