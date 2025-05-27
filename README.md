@@ -20,6 +20,7 @@
   
 --> nuovo pop-up che chiede se si è sicuri di uscire se non si hanno salvato le modifiche
 
+--> voce editore per riviste da aggiungere nel file Json
 ## Modifiche minori:
 - lag quando si seleziona un media dalla lista
 - lag quando si ridimensiona la finestra mentre c'è un media selezionato
