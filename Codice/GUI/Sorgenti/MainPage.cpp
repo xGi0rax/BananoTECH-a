@@ -183,6 +183,9 @@ void MainPage::setupUI(){
     searchBar->setPlaceholderText("Cerca per titolo...");
     searchBar->setStyleSheet("QLineEdit { background-color: rgb(255, 208, 0); color: black; border: 2px solid rgb(119, 114, 114); padding: 5px; border-radius: 4px; font-size: 12px; }");
 
+    // Connect search bar to search function
+    connect(searchBar, &QLineEdit::textChanged, this, &MainPage::onSearchTextChanged);
+
     mediaList = new QListWidget();
     mediaList->setViewMode(QListView::ListMode); // Modalità lista (righe)
     mediaList->setResizeMode(QListView::Adjust); // Adatta le dimensioni
@@ -847,4 +850,48 @@ void MainPage::onExportLibraryButtonClicked() {
             }
         }
     }
+}
+
+void MainPage::onSearchTextChanged(const QString& searchText) {
+    vector<Media*> listaCompleta = biblioteca->getListaMedia();
+    
+    if (searchText.isEmpty()) {
+        updateMediaList(listaCompleta);
+        return;
+    }
+    
+    // Filtra i media in base al testo di ricerca
+    vector<Media*> listaFiltrata;
+    QString searchLower = searchText.toLower();
+    
+    for (Media* media : listaCompleta) {
+        QString titolo = QString::fromStdString(media->getTitolo()).toLower();
+        QString autore = QString::fromStdString(media->getAutore()).toLower();
+        
+        if (titolo.contains(searchLower) || autore.contains(searchLower)) {
+            listaFiltrata.push_back(media);
+        }
+    }
+    
+    updateMediaList(listaFiltrata);
+    
+    // Pulisco la selezione del mediaList e resetto le etichette dell'anteprima
+    mediaList->clearSelection();
+    mediaTitleLabel->setText("");
+    mediaAuthorLabel->setText("Seleziona un media per vedere i dettagli");
+    mediaYearLabel->setText("");
+    mediaRatingLabel->setText("");
+    mediaImageLabel->setText("Nessuna immagine");
+    mediaImageLabel->setStyleSheet(
+        "border: 1px solid black;"
+        "background-color: white;"
+        "color: gray;"
+        "padding: 5px;"
+    );
+    
+    // Disabilito i pulsanti dell'anteprima
+    borrowButton->setEnabled(false);
+    detailsButton->setEnabled(false);
+    editMediaButton->setEnabled(false);
+    hideActionButtons();
 }

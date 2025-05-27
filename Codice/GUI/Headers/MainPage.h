@@ -40,6 +40,7 @@ public slots:
     void onNewMediaCreated(Media* newMedia); // Slot per aggiungere un nuovo media alla lista
     void onExportLibraryButtonClicked(); // Nuovo slot per esportare la biblioteca
     void onMediaEdited(); // Slot per aggiornare un media esistente
+    void onSearchTextChanged(const QString& searchText);
 
 signals:
     void goToChoicePage(); // Segnale per notificare il cambio alla ChoicePage

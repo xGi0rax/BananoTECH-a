@@ -4,7 +4,6 @@
   - sistemare immagine mainPage
   - tasti modifica e rimuovi da "attaccare" ad ogni media della lista (non devono spostarsi con lo scroll)
   - risolvere crash di approfondisci, SEMBRA FUNZIONARE
-  - far funzionare barra di ricerca
   - far funzionare visualizzazione immagini in anteprima
   - modificare tasto esporta:
     - bisogna nominarlo "Salva modifiche"
