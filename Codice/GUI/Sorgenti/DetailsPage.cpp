@@ -1,7 +1,14 @@
 #include "../Headers/DetailsPage.h"
+#include "../../Modello logico/Headers/Film.h"
+#include "../../Modello logico/Headers/Libro.h"
+#include "../../Modello logico/Headers/Vinile.h"
+#include "../../Modello logico/Headers/Rivista.h"
+#include "../../Modello logico/Headers/GiocoDaTavolo.h"
 #include <QMessageBox>
 #include <QPixmap>
 #include <QFile>
+#include <QDebug>
+#include <QTimer>
 
 DetailsPage::DetailsPage(QWidget *parent) : QWidget(parent), currentMedia(nullptr) {
     setupUI();
@@ -10,117 +17,168 @@ DetailsPage::DetailsPage(QWidget *parent) : QWidget(parent), currentMedia(nullpt
 void DetailsPage::setupUI() {
     // Layout principale
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
-    mainLayout->setContentsMargins(20, 20, 20, 20);
+    mainLayout->setContentsMargins(10, 5, 10, 10);
+    mainLayout->setSpacing(8);
     
     // Pulsante indietro
-    backButton = new QPushButton("Indietro");
-    backButton->setMinimumSize(145, 30);
+    backButton = new QPushButton("← Indietro");
+    backButton->setFixedSize(120, 30);
     backButton->setStyleSheet(
         "QPushButton {"
         "   background-color: rgb(0, 104, 201);"
         "   color: white;"
         "   border: none;"
-        "   border-radius: 4px;"
-        "   font-size: 14px;"
+        "   border-radius: 6px;"
+        "   font-size: 13px;"
+        "   font-weight: bold;"
         "}"
         "QPushButton:hover {"
-        "   background-color:rgb(11, 82, 189);"
+        "   background-color: rgb(11, 82, 189);"
         "}"
     );
     connect(backButton, &QPushButton::clicked, this, &DetailsPage::onBackButtonClicked);
     
+    // Header compatto
     QHBoxLayout *headerLayout = new QHBoxLayout();
+    headerLayout->setContentsMargins(0, 0, 0, 5);
     headerLayout->addWidget(backButton, 0, Qt::AlignLeft);
     mainLayout->addLayout(headerLayout);
     
-    // Area principale con dettagli del media
-    QScrollArea *scrollArea = new QScrollArea();
-    scrollArea->setWidgetResizable(true);
-    scrollArea->setFrameShape(QFrame::NoFrame);
-    
+    // Pannello principale
     QWidget *contentWidget = new QWidget();
-    QVBoxLayout *contentLayout = new QVBoxLayout(contentWidget);
-    contentLayout->setSpacing(20);
+    QHBoxLayout *contentLayout = new QHBoxLayout(contentWidget);
+    contentLayout->setContentsMargins(0, 0, 0, 0);
+    contentLayout->setSpacing(20); // Spazio tra immagine e dettagli
     
-    // Layout orizzontale per immagine e dettagli base
-    QHBoxLayout *mediaDetailsLayout = new QHBoxLayout();
-    
-    // Immagine
+    // IMMAGINE A SINISTRA
     imageLabel = new QLabel();
-    imageLabel->setFixedSize(250, 350);
+    imageLabel->setFixedSize(280, 400);
     imageLabel->setScaledContents(true);
-    imageLabel->setStyleSheet("border: 1px rgb(60, 58, 58);");
+    imageLabel->setStyleSheet(
+        "border: 2px solid rgb(60, 58, 58);"
+        "background-color: rgb(243, 238, 238);"
+    );
     
-    // Dettagli base
-    QVBoxLayout *basicDetailsLayout = new QVBoxLayout();
-    basicDetailsLayout->setSpacing(15);
+    // PANNELLO DESTRO
+    QWidget *rightPanel = new QWidget();
+    QVBoxLayout *rightLayout = new QVBoxLayout(rightPanel);
+    rightLayout->setContentsMargins(0, 0, 0, 0);
+    rightLayout->setSpacing(8);
     
-    titleLabel = new QLabel();
-    authorLabel = new QLabel();
-    genreLabel = new QLabel();
-    yearLabel = new QLabel();
+    // DETTAGLI
+    QLabel *detailsLabel = new QLabel();
+    detailsLabel->setObjectName("detailsLabel");
+    detailsLabel->setStyleSheet(
+        "font-size: 15px;"
+        "line-height: 140%;"
+        "background-color: rgb(243, 238, 238);"
+        "border: 1px solid rgb(200, 200, 200);"
+        "border-radius: 6px;"
+        "padding: 15px;"
+    );
+    detailsLabel->setTextFormat(Qt::RichText);
+    detailsLabel->setWordWrap(true);
+    detailsLabel->setAlignment(Qt::AlignTop);
+    
+    // Label per disponibilità
     availabilityLabel = new QLabel();
-    copiesLabel = new QLabel();
+    availabilityLabel->setStyleSheet(
+        "font-size: 18px;"
+        "font-weight: bold;"
+        "padding: 8px;"
+        "border-radius: 6px;"
+        "background-color: rgba(255, 255, 255, 0.8);"
+    );
+    availabilityLabel->setAlignment(Qt::AlignCenter);
     
-    titleLabel->setStyleSheet("font-size: 20px; font-weight: bold;");
-    authorLabel->setStyleSheet("font-size: 16px;");
-    genreLabel->setStyleSheet("font-size: 14px;");
-    yearLabel->setStyleSheet("font-size: 14px;");
-    availabilityLabel->setStyleSheet("font-size: 16px; font-weight: bold;");
-    copiesLabel->setStyleSheet("font-size: 14px; font-weight: bold;"); 
-
-    basicDetailsLayout->addWidget(titleLabel);
-    basicDetailsLayout->addWidget(authorLabel);
-    basicDetailsLayout->addWidget(genreLabel);
-    basicDetailsLayout->addWidget(yearLabel);
-    basicDetailsLayout->addWidget(copiesLabel); 
-    basicDetailsLayout->addSpacing(10);
-    basicDetailsLayout->addWidget(availabilityLabel);
+    // PULSANTI - LAYOUT ORIZZONTALE
+    QWidget *buttonContainer = new QWidget();
+    QHBoxLayout *buttonsLayout = new QHBoxLayout(buttonContainer); // Cambiato in HBoxLayout
+    buttonsLayout->setContentsMargins(0, 10, 0, 0);
+    buttonsLayout->setSpacing(15); // Spazio tra i pulsanti
     
-    // Pulsanti per prestito/restituzione
     borrowButton = new QPushButton("Prendi in prestito");
     returnButton = new QPushButton("Restituisci");
+    requestButton = new QPushButton("🏛️ Richiedi da affiliata"); // Testo più corto
     
-    borrowButton->setStyleSheet("QPushButton { background-color: #00A000; color: white; padding: 10px 20px; font-size: 14px; border: none; border-radius: 4px; } QPushButton:hover { background-color: #008000; } QPushButton:disabled { background-color: #888888; }");
-    returnButton->setStyleSheet("QPushButton { background-color: #C00000; color: white; padding: 10px 20px; font-size: 14px; border: none; border-radius: 4px; } QPushButton:hover { background-color: #A00000; }");
+    // Dimensioni ridotte per i pulsanti per farli stare in una riga
+    borrowButton->setFixedSize(150, 40);
+    returnButton->setFixedSize(130, 40);
+    requestButton->setFixedSize(180, 40); // Leggermente più largo per il testo
+    
+    borrowButton->setStyleSheet(
+        "QPushButton {"
+        "   background-color: #28a745;"
+        "   color: white;"
+        "   padding: 8px 10px;"
+        "   font-size: 14px;" // Font leggermente più piccolo
+        "   font-weight: bold;"
+        "   border: none;"
+        "   border-radius: 8px;"
+        "}"
+        "QPushButton:hover {"
+        "   background-color: #218838;"
+        "}"
+        "QPushButton:disabled {"
+        "   background-color: #6c757d;"
+        "}"
+    );
+    
+    returnButton->setStyleSheet(
+        "QPushButton {"
+        "   background-color: #dc3545;"
+        "   color: white;"
+        "   padding: 8px 10px;"
+        "   font-size: 14px;"
+        "   font-weight: bold;"
+        "   border: none;"
+        "   border-radius: 8px;"
+        "}"
+        "QPushButton:hover {"
+        "   background-color: #c82333;"
+        "}"
+    );
+    
+    requestButton->setStyleSheet(
+        "QPushButton {"
+        "   background-color: #17a2b8;"
+        "   color: white;"
+        "   padding: 8px 10px;"
+        "   font-size: 13px;" // Font più piccolo per far stare il testo
+        "   font-weight: bold;"
+        "   border: none;"
+        "   border-radius: 6px;"
+        "}"
+        "QPushButton:hover {"
+        "   background-color: #138496;"
+        "}"
+        "QPushButton:disabled {"
+        "   background-color: #6c757d;"
+        "   color: #adb5bd;"
+        "}"
+    );
     
     connect(borrowButton, &QPushButton::clicked, this, &DetailsPage::onBorrowButtonClicked);
     connect(returnButton, &QPushButton::clicked, this, &DetailsPage::onReturnButtonClicked);
+    connect(requestButton, &QPushButton::clicked, this, &DetailsPage::onRequestFromAffiliateClicked);
     
-    QHBoxLayout *buttonsLayout = new QHBoxLayout();
+    // Layout orizzontale centrato
+    buttonsLayout->addStretch(1);
     buttonsLayout->addWidget(borrowButton);
     buttonsLayout->addWidget(returnButton);
+    buttonsLayout->addWidget(requestButton);
+    buttonsLayout->addStretch(1);
     
-    basicDetailsLayout->addLayout(buttonsLayout);
-    basicDetailsLayout->addStretch(1);
+    // Assemblaggio del pannello destro
+    rightLayout->addWidget(detailsLabel, 1); // Si espande per occupare tutto lo spazio
+    rightLayout->addWidget(availabilityLabel, 0); // Non si espande
+    rightLayout->addWidget(buttonContainer, 0); // Non si espande, resta in fondo
     
-    mediaDetailsLayout->addWidget(imageLabel);
-    mediaDetailsLayout->addSpacing(20);
-    mediaDetailsLayout->addLayout(basicDetailsLayout, 1);
+    // Assemblaggio del layout principale
+    contentLayout->addWidget(imageLabel, 0); // Immagine fissa a sinistra
+    contentLayout->addWidget(rightPanel, 1); // Pannello destro si espande
     
-    contentLayout->addLayout(mediaDetailsLayout);
-    
-    // Sezione per dettagli specifici, da sistemare
-    QFrame *separatorLine = new QFrame();
-    separatorLine->setFrameShape(QFrame::HLine);
-    separatorLine->setFrameShadow(QFrame::Sunken);
-    contentLayout->addWidget(separatorLine);
-    
-    QLabel *specificDetailsTitle = new QLabel("Dettagli specifici");
-    specificDetailsTitle->setStyleSheet("font-size: 18px; font-weight: bold; margin-top: 10px;");
-    contentLayout->addWidget(specificDetailsTitle);
-    
-    specificDetailsLayout = new QVBoxLayout();
-    contentLayout->addLayout(specificDetailsLayout);
-    
-    contentLayout->addStretch(1);
-    
-    scrollArea->setWidget(contentWidget);
-    mainLayout->addWidget(scrollArea, 1);
-    
-    // Inizialmente nascondo i pulsanti di prestito/restituzione
-    borrowButton->setVisible(false);
-    returnButton->setVisible(false);
+    mainLayout->addWidget(contentWidget, 1);
 }
 
 void DetailsPage::setMedia(Media* media) {
@@ -133,56 +191,141 @@ void DetailsPage::updateUI() {
         return;
     }
     
-    // Aggiorno informazioni base
-    titleLabel->setText(QString::fromStdString(currentMedia->getTitolo()));
-    authorLabel->setText(QString::fromStdString(currentMedia->getAutore()));
-    genreLabel->setText("Genere: " + QString::fromStdString(currentMedia->getGenere()));
-    yearLabel->setText("Anno: " + QString::number(currentMedia->getAnno()));
-    
-    // Calcolo e visualizzo le copie disponibili
+    // Calcolo copie disponibili
     int totalCopies = currentMedia->getNumeroCopie();
     int loanedCopies = currentMedia->getInPrestito();
     int availableCopies = totalCopies - loanedCopies;
     
-    copiesLabel->setText("Copie disponibili: " + QString::number(availableCopies) + 
-                         " su " + QString::number(totalCopies) + " totali");
+    // Costruisco TUTTI i dettagli con stile HTML migliorato e maggiore spaziatura
+    QString htmlDetails = "<h2 style='margin:0 0 20px 0; padding:0; color:#2c3e50; border-bottom: 2px solid #3498db;'>" + 
+                         QString::fromStdString(currentMedia->getTitolo()) + "</h2>";
     
-    // Gestisco l'immagine
+    htmlDetails += "<table style='width:100%; border-collapse: separate; border-spacing: 0 8px;'>"; // Aggiunta spaziatura tra le righe
+    htmlDetails += "<tr><td style='padding:8px 15px 8px 0; font-weight:bold; color:#34495e; width:140px; vertical-align:top;'>Autore:</td><td style='padding:8px 0; color:#2c3e50; line-height:1.4;'>" + QString::fromStdString(currentMedia->getAutore()) + "</td></tr>";
+    htmlDetails += "<tr><td style='padding:8px 15px 8px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Genere:</td><td style='padding:8px 0; color:#2c3e50; line-height:1.4;'>" + QString::fromStdString(currentMedia->getGenere()) + "</td></tr>";
+    htmlDetails += "<tr><td style='padding:8px 15px 8px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Anno:</td><td style='padding:8px 0; color:#2c3e50; line-height:1.4;'>" + QString::number(currentMedia->getAnno()) + "</td></tr>";
+    htmlDetails += "<tr><td style='padding:8px 15px 8px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Lingua:</td><td style='padding:8px 0; color:#2c3e50; line-height:1.4;'>" + QString::fromStdString(currentMedia->getLingua()) + "</td></tr>";
+    htmlDetails += "<tr><td style='padding:8px 15px 8px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Rating:</td><td style='padding:8px 0; color:#2c3e50; line-height:1.4;'>" + QString::number(currentMedia->getRating(), 'f', 1) + "/5.0</td></tr>";
+    htmlDetails += "<tr><td style='padding:8px 15px 8px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Collocazione:</td><td style='padding:8px 0; color:#2c3e50; line-height:1.4;'>" + QString::fromStdString(currentMedia->getCollocazione()) + "</td></tr>";
+    htmlDetails += "<tr><td style='padding:8px 15px 8px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Copie:</td><td style='padding:8px 0; color:#2c3e50; line-height:1.4;'>" + QString::number(availableCopies) + 
+                   " disponibili su " + QString::number(totalCopies) + " totali</td></tr>";
+    
+    // Aggiungi dettagli specifici basati sul tipo di media usando dynamic_cast
+    if (Film* film = dynamic_cast<Film*>(currentMedia)) {
+        htmlDetails += "<tr><td style='padding:8px 15px 8px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Tipo:</td><td style='padding:8px 0; color:#2c3e50; line-height:1.4;'>🎬 Film</td></tr>";
+        htmlDetails += "<tr><td style='padding:8px 15px 8px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Durata:</td><td style='padding:8px 0; color:#2c3e50; line-height:1.4;'>" + QString::number(film->getDurata()) + " minuti</td></tr>";
+        
+        const vector<string>& cast = film->getCast();
+        if (!cast.empty()) {
+            htmlDetails += "<tr><td style='padding:8px 15px 8px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Cast:</td><td style='padding:8px 0; color:#2c3e50; line-height:1.4;'>";
+            for (size_t i = 0; i < cast.size(); ++i) {
+                htmlDetails += QString::fromStdString(cast[i]);
+                if (i < cast.size() - 1) htmlDetails += ", ";
+            }
+            htmlDetails += "</td></tr>";
+        }
+    } 
+    else if (Libro* libro = dynamic_cast<Libro*>(currentMedia)) {
+        htmlDetails += "<tr><td style='padding:8px 15px 8px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Tipo:</td><td style='padding:8px 0; color:#2c3e50; line-height:1.4;'>📚 Libro</td></tr>";
+        htmlDetails += "<tr><td style='padding:8px 15px 8px 0; font-weight:bold; color:#34495e; vertical-align:top;'>ISBN:</td><td style='padding:8px 0; color:#2c3e50; line-height:1.4;'>" + QString::fromStdString(libro->getIsbn()) + "</td></tr>";
+        htmlDetails += "<tr><td style='padding:8px 15px 8px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Editore:</td><td style='padding:8px 0; color:#2c3e50; line-height:1.4;'>" + QString::fromStdString(libro->getEditore()) + "</td></tr>";
+        htmlDetails += "<tr><td style='padding:8px 15px 8px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Pagine:</td><td style='padding:8px 0; color:#2c3e50; line-height:1.4;'>" + QString::number(libro->getNPagine()) + "</td></tr>";
+    }
+    else if (Vinile* vinile = dynamic_cast<Vinile*>(currentMedia)) {
+        htmlDetails += "<tr><td style='padding:8px 15px 8px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Tipo:</td><td style='padding:8px 0; color:#2c3e50; line-height:1.4;'>🎵 Vinile</td></tr>";
+        htmlDetails += "<tr><td style='padding:8px 15px 8px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Numero tracce:</td><td style='padding:8px 0; color:#2c3e50; line-height:1.4;'>" + QString::number(vinile->getNTracce()) + "</td></tr>";
+        htmlDetails += "<tr><td style='padding:8px 15px 8px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Durata:</td><td style='padding:8px 0; color:#2c3e50; line-height:1.4;'>" + QString::number(vinile->getDurata()) + " minuti</td></tr>";
+    }
+    else if (Rivista* rivista = dynamic_cast<Rivista*>(currentMedia)) {
+        htmlDetails += "<tr><td style='padding:8px 15px 8px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Tipo:</td><td style='padding:8px 0; color:#2c3e50; line-height:1.4;'>📰 Rivista</td></tr>";
+        htmlDetails += "<tr><td style='padding:8px 15px 8px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Editore:</td><td style='padding:8px 0; color:#2c3e50; line-height:1.4;'>" + QString::fromStdString(rivista->getEditore()) + "</td></tr>";
+        htmlDetails += "<tr><td style='padding:8px 15px 8px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Pagine:</td><td style='padding:8px 0; color:#2c3e50; line-height:1.4;'>" + QString::number(rivista->getNPagine()) + "</td></tr>";
+        htmlDetails += "<tr><td style='padding:8px 15px 8px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Data pubblicazione:</td><td style='padding:8px 0; color:#2c3e50; line-height:1.4;'>" + QString::fromStdString(rivista->getDataPubb()) + "</td></tr>";
+        htmlDetails += "<tr><td style='padding:8px 15px 8px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Periodicità:</td><td style='padding:8px 0; color:#2c3e50; line-height:1.4;'>" + QString::fromStdString(rivista->getPeriodicita()) + "</td></tr>";
+    }
+    else if (GiocoDaTavolo* gioco = dynamic_cast<GiocoDaTavolo*>(currentMedia)) {
+        htmlDetails += "<tr><td style='padding:8px 15px 8px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Tipo:</td><td style='padding:8px 0; color:#2c3e50; line-height:1.4;'>🎲 Gioco da Tavolo</td></tr>";
+        htmlDetails += "<tr><td style='padding:8px 15px 8px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Editore:</td><td style='padding:8px 0; color:#2c3e50; line-height:1.4;'>" + QString::fromStdString(gioco->getEditore()) + "</td></tr>";
+        htmlDetails += "<tr><td style='padding:8px 15px 8px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Max giocatori:</td><td style='padding:8px 0; color:#2c3e50; line-height:1.4;'>" + QString::number(gioco->getNGiocatori()) + "</td></tr>";
+        htmlDetails += "<tr><td style='padding:8px 15px 8px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Durata gioco:</td><td style='padding:8px 0; color:#2c3e50; line-height:1.4;'>" + QString::number(gioco->getDurata()) + " minuti</td></tr>";
+        htmlDetails += "<tr><td style='padding:8px 15px 8px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Età minima:</td><td style='padding:8px 0; color:#2c3e50; line-height:1.4;'>" + QString::number(gioco->getEtaMinima()) + " anni</td></tr>";
+    }
+    
+    htmlDetails += "</table>";
+    
+    // Trova e aggiorna il label
+    QLabel* detailsLabel = findChild<QLabel*>("detailsLabel");
+    if (detailsLabel) {
+        detailsLabel->setText(htmlDetails);
+    }
+    
+    // Gestisci immagine
     QString imagePath = QString::fromStdString(currentMedia->getImmagine());
     if (imagePath.isEmpty() || !QFile::exists(imagePath)) {
-        // Uso un'immagine di default se quella specificata non esiste
-        imageLabel->setPixmap(QPixmap(":/images/default.png"));
+        QPixmap placeholder(280, 400);
+        placeholder.fill(QColor(240, 240, 240));
+        imageLabel->setPixmap(placeholder);
     } else {
         imageLabel->setPixmap(QPixmap(imagePath));
     }
     
-    // Aggiorno stato disponibilità
-    if (currentMedia->getDisponibilita()) {
-        if (availableCopies > 0) {
-            availabilityLabel->setText("Disponibile");
-            availabilityLabel->setStyleSheet("font-size: 16px; font-weight: bold; color: green;");
-        } else {
-            availabilityLabel->setText("Non disponibile (tutte le copie in prestito)");
-            availabilityLabel->setStyleSheet("font-size: 16px; font-weight: bold; color: orange;");
-        }
+    // Aggiorna disponibilità
+    if (currentMedia->getDisponibilita() && availableCopies > 0) {
+        availabilityLabel->setText("Disponibile per il prestito");
+        availabilityLabel->setStyleSheet(
+            "font-size: 16px; font-weight: bold; color: #28a745;"
+            "padding: 6px; border: 2px solid #28a745; border-radius: 6px;"
+            "background-color: rgba(40, 167, 69, 0.1);"
+        );
+        borrowButton->setEnabled(true);
+        
+        // Pulsante richiesta SEMPRE VISIBILE ma DISABILITATO quando disponibile
+        requestButton->setVisible(true);
+        requestButton->setEnabled(false);
+        requestButton->setText("🏛️ Richiedi da affiliata"); // Testo più corto
+        requestButton->setStyleSheet(
+            "QPushButton {"
+            "   background-color: #6c757d;"
+            "   color: #adb5bd;"
+            "   padding: 8px 10px;"
+            "   font-size: 13px;"
+            "   font-weight: bold;"
+            "   border: none;"
+            "   border-radius: 6px;"
+            "}"
+        );
     } else {
         availabilityLabel->setText("Non disponibile");
-        availabilityLabel->setStyleSheet("font-size: 16px; font-weight: bold; color: red;");
+        availabilityLabel->setStyleSheet(
+            "font-size: 16px; font-weight: bold; color: #dc3545;"
+            "padding: 6px; border: 2px solid #dc3545; border-radius: 6px;"
+            "background-color: rgba(220, 53, 69, 0.1);"
+        );
+        borrowButton->setEnabled(false);
+        
+        // Pulsante richiesta SEMPRE VISIBILE e ABILITATO quando non disponibile
+        requestButton->setVisible(true);
+        requestButton->setEnabled(true);
+        requestButton->setText("🏛️ Richiedi da affiliata"); // Testo più corto
+        requestButton->setStyleSheet(
+            "QPushButton {"
+            "   background-color: #17a2b8;"
+            "   color: white;"
+            "   padding: 8px 10px;"
+            "   font-size: 13px;"
+            "   font-weight: bold;"
+            "   border: none;"
+            "   border-radius: 6px;"
+            "}"
+            "QPushButton:hover {"
+            "   background-color: #138496;"
+            "}"
+        );
     }
     
-    // Mostro sempre entrambi i pulsanti, ma li abilito/disabilito in base alla disponibilità
+    returnButton->setEnabled(loanedCopies > 0);
     borrowButton->setVisible(true);
     returnButton->setVisible(true);
-    
-    // Pulsante "Prendi in prestito" abilitato solo se ci sono copie disponibili
-    borrowButton->setEnabled(availableCopies > 0);
-    
-    // Pulsante "Restituisci" abilitato solo se ci sono copie in prestito
-    returnButton->setEnabled(loanedCopies > 0);
-    
-    // Pulisco e ricreo i dettagli specifici
-    clearSpecificDetails();
-    setupSpecificDetails(currentMedia);
 }
 
 void DetailsPage::clearSpecificDetails() {
@@ -316,5 +459,47 @@ void DetailsPage::onReturnButtonClicked() {
         } else {
             QMessageBox::warning(this, "Errore", "Nessuna copia di questo media risulta in prestito!");
         }
+    }
+}
+
+void DetailsPage::onRequestFromAffiliateClicked() {
+    if (!currentMedia) return;
+    
+    QMessageBox::StandardButton reply = QMessageBox::question(this, 
+        "Richiesta a biblioteca affiliata", 
+        QString("Vuoi richiedere una copia di \"%1\" da una biblioteca affiliata?\n\n"
+                "La richiesta verrà inoltrata e sarai contattato quando una copia sarà disponibile.")
+                .arg(QString::fromStdString(currentMedia->getTitolo())),
+        QMessageBox::Yes | QMessageBox::No);
+    
+    if (reply == QMessageBox::Yes) {
+        emit mediaRequestedFromAffiliate(currentMedia);
+        
+        QMessageBox::information(this, "Richiesta inviata", 
+            QString("La richiesta per \"%1\" è stata inviata alle biblioteche affiliate.\n"
+                    "Verrai contattato non appena una copia sarà disponibile.")
+                    .arg(QString::fromStdString(currentMedia->getTitolo())));
+        
+        // Feedback temporaneo con testo più corto
+        requestButton->setText("🏛️ Richiesta inviata");
+        requestButton->setStyleSheet(
+            "QPushButton {"
+            "   background-color: #28a745;"
+            "   color: white;"
+            "   padding: 8px 10px;"
+            "   font-size: 13px;"
+            "   font-weight: bold;"
+            "   border: none;"
+            "   border-radius: 6px;"
+            "}"
+        );
+        
+        // Ripristina dopo 3 secondi
+        QTimer::singleShot(3000, [this]() {
+            if (requestButton) {
+                requestButton->setText("🏛️ Richiedi da affiliata");
+                updateUI();
+            }
+        });
     }
 }

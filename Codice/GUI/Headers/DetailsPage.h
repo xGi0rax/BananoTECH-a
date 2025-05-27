@@ -27,33 +27,32 @@ signals:
     void goBackToMainPage(); // Segnale per tornare alla pagina principale
     void mediaBorrowed(Media* media); // Segnale per il prestito del media
     void mediaReturned(Media* media); // Segnale per la restituzione del media
+    void mediaRequestedFromAffiliate(Media* media); // Segnale per la richiesta da biblioteca affiliata
 
 private slots:
     void onBackButtonClicked(); // Slot per il pulsante indietro
     void onBorrowButtonClicked(); // Slot per il prestito del media
     void onReturnButtonClicked(); // Slot per la restituzione del media
+    void onRequestFromAffiliateClicked(); // Slot per la richiesta da biblioteca affiliata
 
 private:
     // Puntatore al media corrente
     Media* currentMedia;
 
-    // Attributi che formano i dettagli dei media
-    QLabel* titleLabel;
-    QLabel* authorLabel;
-    QLabel* genreLabel;
-    QLabel* yearLabel;
-    QLabel* availabilityLabel;
-    QLabel* copiesLabel;
-
     // Immagine del media
     QLabel* imageLabel;
+
+    QLabel* detailsLabel;
+    QLabel* availabilityLabel;
 
     // Pulsanti indietro, prendi in prestito e restituisci
     QPushButton* backButton;
     QPushButton* borrowButton;
     QPushButton* returnButton;
+    QPushButton* requestButton;
+
+    QLabel* copiesLabel;
     
-    //
     QVBoxLayout* specificDetailsLayout;
     MediaWidget* currentWidget;
 

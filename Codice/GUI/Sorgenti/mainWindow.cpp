@@ -139,8 +139,11 @@ void MainWindow::switchToAddPage() {
 }
 
 void MainWindow::switchToDetailsPage(Media* media) {
+    qDebug() << "Switch to details page for media ";
     detailsPage->setMedia(media);
+    qDebug() << "Switching to details page for media ";
     stackedWidget->setCurrentWidget(detailsPage);
+    qDebug() << "Switched to details page for media ";
 }
 
 void MainWindow::switchToModifyPage(Media* media) {
