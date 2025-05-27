@@ -6,7 +6,6 @@
 #include "../Headers/GiocoDaTavolo.h"
 #include "../Headers/Rivista.h"
 
-
 Biblioteca::Biblioteca(string& idBiblio) : idBiblioteca(idBiblio), nextIdmedia(1) {}
 
 Biblioteca::~Biblioteca() {
@@ -16,22 +15,8 @@ Biblioteca::~Biblioteca() {
 }
 
 void Biblioteca::aggiungiMedia(Media* media) {
-    // Controllo se il media esiste già in biblioteca
-    if (esisteMedia(media->getTitolo(), media->getAnno(), media->getGenere())) {
-        // throw std::runtime_error("Il media esiste già in biblioteca.");
-        
-        //##############################
-        // TO-DO: Chiedere all'utente tramite gui se si vuole incrementare il numero di copie del media esistente
-        //##############################
-        
-        // Se l'utente accetta, recupero il media dalla listaMedia ed incremento il numero di copie
-        Media* mediaEsistente = cercaMediaDaT_A_G(media->getTitolo(), media->getAnno(), media->getGenere());
-        mediaEsistente->setNumeroCopie(mediaEsistente->getNumeroCopie() + 1);
-
-    }else{ // altrimenti aggiungo il nuovo media alla lista
-        media->setId(idBiblioteca + "-" + std::to_string(nextIdmedia++));
-        listaMedia.push_back(media);
-    }
+    media->setId(idBiblioteca + "-" + std::to_string(nextIdmedia++));
+    listaMedia.push_back(media);
 }
 
 bool Biblioteca::esisteMedia(const string& titolo, int anno, const string& genere) const {
@@ -153,14 +138,21 @@ int Biblioteca::getNumeroTotaleMedia() const {
 
 bool Biblioteca::prendiInPrestito(const Media* media){
     Media* mediaInBiblioteca = cercaMediaDaID(media->getId());
-    if(mediaInBiblioteca != nullptr && mediaInBiblioteca->getDisponibilita()){
-        mediaInBiblioteca->setInPrestito(mediaInBiblioteca->getInPrestito() + 1);
-        if(mediaInBiblioteca->getInPrestito() == mediaInBiblioteca->getNumeroCopie()){
+    if(mediaInBiblioteca != nullptr){
+        if(mediaInBiblioteca->getDisponibilita()){
+            mediaInBiblioteca->setInPrestito(mediaInBiblioteca->getInPrestito() + 1);
+            if(mediaInBiblioteca->getInPrestito() == mediaInBiblioteca->getNumeroCopie()){
             mediaInBiblioteca->setDisponibilita(false);
+            }
+            return true;
+        }else{
+            // QMessageBox::warning(nullptr, "Media non disponibile", 
+                      // "Il media non è disponibile in biblioteca perché tutte le copie sono in prestito.");
         }
-        return true;        
     } else{
+        // TO DO: capire cosa fare se il media non è disponibile o non esiste
         //throw BibliotecaException("Media non trovato nella biblioteca (ID: " + media->getId() + ")");
+        // qDebug() << "Media non trovato nella biblioteca (ID: " + QString::fromStdString(media->getId()) + ")";
     }
     return false;
 }

@@ -353,6 +353,7 @@ void MainPage::setupUI(){
 
     setLayout(mainLayout);
 
+    connect(borrowButton, &QPushButton::clicked, this, &MainPage::onBorrowButtonClicked);
     connect(detailsButton, &QPushButton::clicked, this, &MainPage::onDetailsButtonClicked);
     connect(editMediaButton, &QPushButton::clicked, this, &MainPage::onEditButtonClicked);
 }
@@ -658,6 +659,29 @@ void MainPage::onDeleteButtonClicked() {
     }
 }
 
+void MainPage::onBorrowButtonClicked() {
+    QListWidgetItem* currentItem = mediaList->currentItem();
+    if (!currentItem) {
+        QMessageBox::warning(this, "Errore", "Nessun elemento selezionato.");
+        return;
+    }
+    
+    QVariant mediaData = currentItem->data(Qt::UserRole);
+    if (!mediaData.isValid()) {
+        QMessageBox::warning(this, "Errore", "Il media selezionato non è valido.");
+        return;
+    }
+    
+    Media* selectedMedia = mediaData.value<Media*>();
+    if (!selectedMedia) {
+        QMessageBox::warning(this, "Errore", "Elemento selezionato non valido.");
+        return;
+    }
+    
+    // Emetti il segnale per prendere in prestito il media
+    emit borrowMedia(selectedMedia);
+}
+
 void MainPage::updateMediaList(vector<Media*> listaFiltrata) {
     mediaList->clear(); // Pulisci la lista esistente
 
@@ -704,29 +728,47 @@ void MainPage::updateMediaList(vector<Media*> listaFiltrata) {
 }
 
 void MainPage::onNewMediaCreated(Media* newMedia) {
-    // Aggiungo il nuovo media alla lista della biblioteca
-    biblioteca->aggiungiMedia(newMedia);
-    
-    // Aggiorno la lista dei media visualizzati
-    updateMediaList(biblioteca->getListaMedia());
-    
-    // Resetta l'anteprima
-    mediaTitleLabel->setText("");
-    mediaAuthorLabel->setText("Seleziona un media per vedere i dettagli");
-    mediaYearLabel->setText("");
-    mediaRatingLabel->setText("");
-    mediaImageLabel->setText("Nessuna immagine");
-    mediaImageLabel->setStyleSheet(
-        "border: 1px solid black;"
-        "background-color: white;"
-        "color: gray;"
-        "padding: 5px;"
-    );
-    
-    // Disabilita i pulsanti dell'anteprima
-    borrowButton->setEnabled(false);
-    detailsButton->setEnabled(false);
-    editMediaButton->setEnabled(false);
+
+    if(biblioteca->esisteMedia(newMedia->getTitolo(), newMedia->getAnno(), newMedia->getGenere())){
+        QMessageBox::StandardButton reply = QMessageBox::question(this, "Media già esistente", 
+            "Un media con lo stesso titolo, anno e genere esiste già nella biblioteca. Vuoi aumentare il numero di copie di questo media presenti in biblioteca?", 
+            QMessageBox::Yes | QMessageBox::No);
+
+        if (reply == QMessageBox::Yes) {
+            // Se l'utente accetta, recupero il media dalla listaMedia ed incremento il numero di copie
+            Media* mediaEsistente = biblioteca->cercaMediaDaT_A_G(newMedia->getTitolo(), newMedia->getAnno(), newMedia->getGenere());
+            mediaEsistente->setNumeroCopie(mediaEsistente->getNumeroCopie() + 1);
+            delete newMedia;
+
+            QMessageBox::information(this, "Salvataggio", "Numero copie del media aumentate con successo!");
+        }
+    }else{
+        // Aggiungo il nuovo media alla lista della biblioteca
+        biblioteca->aggiungiMedia(newMedia);
+
+        QMessageBox::information(this, "Salvataggio", "Media aggiunto con successo!");
+        
+        // Aggiorno la lista dei media visualizzati
+        updateMediaList(biblioteca->getListaMedia());
+           
+        // Resetto l'anteprima
+        mediaTitleLabel->setText("");
+        mediaAuthorLabel->setText("Seleziona un media per vedere i dettagli");
+        mediaYearLabel->setText("");
+        mediaRatingLabel->setText("");
+        mediaImageLabel->setText("Nessuna immagine");
+        mediaImageLabel->setStyleSheet(
+            "border: 1px solid black;"
+            "background-color: white;"
+            "color: gray;"
+            "padding: 5px;"
+        );
+        
+        // Disabilito i pulsanti dell'anteprima
+        borrowButton->setEnabled(false);
+        detailsButton->setEnabled(false);
+        editMediaButton->setEnabled(false);
+    }
 }
 
 void MainPage::onMediaEdited() {

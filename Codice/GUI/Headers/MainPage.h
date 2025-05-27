@@ -34,6 +34,7 @@ public slots:
     void onApplyFiltersClicked(); // Slot per applicare i filtri
     void onClearFiltersClicked(); // Slot per cancellare i filtri
     void onAddMediaButtonClicked(); // Slot per aggiungere un nuovo media
+    void onBorrowButtonClicked(); // Slot per il pulsante di prestito del media
     void onEditButtonClicked(); // Slot per il pulsante di modifica del media
     void onDeleteButtonClicked(); // Slot per il pulsante di rimozione del media dalla lista
     void onNewMediaCreated(Media* newMedia); // Slot per aggiungere un nuovo media alla lista
@@ -46,6 +47,7 @@ signals:
     void goToAddPage(); // Segnale per notificare il cambio alla AddPage
     void goToModifyPage(Media* media); // Segnale per notificare il cambio alla ModifyPage
     void goToDetailsPage(Media* media); // Segnale per notificare il cambio alla DetailsPage
+    void borrowMedia(Media* media); // Segnale per prendere in prestito un media
 
 private:
     // Barra superiore

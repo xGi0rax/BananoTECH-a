@@ -329,8 +329,6 @@ void AddPage::onAddButtonClicked() {
         // Emetti un segnale con il nuovo media creato
         emit mediaCreated(newMedia);
         
-        QMessageBox::information(this, "Salvataggio", "Media salvato con successo!");
-        
         // Resetto la selezione e mostro la pagina di selezione
         if (mediaTypeGroup->checkedButton()) {
             mediaTypeGroup->setExclusive(false);

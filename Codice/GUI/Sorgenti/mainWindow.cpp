@@ -71,6 +71,9 @@ void MainWindow::setupMainPage(Biblioteca* biblio) {
 
     // Passare alla pagina di dettaglio media
     connect(mainPage, &MainPage::goToDetailsPage, this, &MainWindow::switchToDetailsPage);
+
+    // Connetto il segnale per prendere in prestito un media
+    connect(mainPage, &MainPage::borrowMedia, this, &MainWindow::prendiInPrestitoMedia);
 }
 
 void MainWindow::setupAddPage(){
@@ -165,4 +168,18 @@ bool MainWindow::validateLogin(const QString &username, const QString &password)
     // altrimenti, scrivere:
     //return username == "admin" && password == "admin";
     return !username.isEmpty() && !password.isEmpty();
+}
+
+void MainWindow::prendiInPrestitoMedia(Media* media) {
+    if (biblioteca->prendiInPrestito(media)) {
+        QMessageBox::information(this, "Prestito riuscito", 
+            QString("Media '%1' preso in prestito con successo!\n"
+               "Copie in prestito: %2\n"
+               "Disponibilita' attuale: %3")
+            .arg(QString::fromStdString(media->getTitolo()))
+            .arg(media->getInPrestito())
+            .arg(media->getDisponibilita() ? "Disponibile" : "Non disponibile"));
+    } else {
+        QMessageBox::warning(this, "Errore", QString("Impossibile prendere in prestito '%1'.").arg(QString::fromStdString(media->getTitolo())));
+    }
 }

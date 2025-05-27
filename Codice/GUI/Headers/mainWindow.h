@@ -31,6 +31,7 @@ private slots:
     void switchToAddPage(); // Slot per passare alla AddPage
     void switchToModifyPage(Media* media); // Slot per passare alla ModifyPage
     void switchToDetailsPage(Media* media); // Slot per passare alla DetailsPage
+    void prendiInPrestitoMedia(Media* media); // Slot per prendere in prestito un media
 
 private:
     QStackedWidget *stackedWidget;
