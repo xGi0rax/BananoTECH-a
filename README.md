@@ -3,7 +3,6 @@
 --> sistemare mainPage:
   - sistemare immagine mainPage
   - tasti modifica e rimuovi da "attaccare" ad ogni media della lista (non devono spostarsi con lo scroll)
-  - collegare tasto per prendere in prestito (deve essere applicato a Json/Xml)
   - risolvere crash di approfondisci, SEMBRA FUNZIONARE
   - far funzionare barra di ricerca
   - far funzionare visualizzazione immagini in anteprima
