@@ -1,4 +1,6 @@
 #include <QFile> 
+#include <QScrollBar> // Aggiungi questo include all'inizio del file
+#include <QModelIndex>
 #include "../Headers/MainPage.h"
 #include "../../Modello logico/Headers/Media.h"
 #include "../../Modello logico/Headers/Libro.h"
@@ -13,6 +15,8 @@
 #include <QMessageBox>
 #include <QApplication>
 #include <QFileDialog>
+#include <QStringConverter>
+#include <QDebug>
 
 MainPage::MainPage(QWidget *parent, Biblioteca* biblio) : QWidget(parent) {
     // Se viene passata una biblioteca, la usiamo, altrimenti ne creiamo una nuova
@@ -22,6 +26,11 @@ MainPage::MainPage(QWidget *parent, Biblioteca* biblio) : QWidget(parent) {
         string id = "VC";
         biblioteca = new Biblioteca(id);
     }
+
+    // Inizializza il tracciamento del file
+    hasCurrentFile = false;
+    currentFilePath = "";
+
     setupUI();
 }
 
@@ -52,10 +61,10 @@ void MainPage::setupUI(){
     topBarLayout->addWidget(backButton, 1);
     topBarLayout->addWidget(addMediaButton, 5);
 
-    // Aggiungi un nuovo pulsante per l'esportazione
-    QPushButton* exportButton = new QPushButton("Esporta biblioteca");
-    exportButton->setMinimumSize(150, 30);
-    exportButton->setStyleSheet(
+    // Modifica il pulsante di salvataggio per essere più specifico
+    QPushButton* saveButton = new QPushButton("Salva");
+    saveButton->setMinimumSize(100, 30);
+    saveButton->setStyleSheet(
         "QPushButton {"
         "   background-color: rgb(0, 153, 51);"
         "   color: white;"
@@ -67,10 +76,28 @@ void MainPage::setupUI(){
         "   background-color: rgb(0, 128, 43);"
         "}"
     );
-    connect(exportButton, &QPushButton::clicked, this, &MainPage::onExportLibraryButtonClicked);
+    connect(saveButton, &QPushButton::clicked, this, &MainPage::onSaveButtonClicked);
     
-    // Aggiungi il pulsante al layout esistente (ad esempio, nella barra superiore)
-    topBarLayout->addWidget(exportButton);
+    // Aggiungi un pulsante "Salva come"
+    QPushButton* saveAsButton = new QPushButton("Salva come");
+    saveAsButton->setMinimumSize(120, 30);
+    saveAsButton->setStyleSheet(
+        "QPushButton {"
+        "   background-color: rgb(0, 102, 153);"
+        "   color: white;"
+        "   border: none;"
+        "   border-radius: 4px;"
+        "   font-size: 14px;"
+        "}"
+        "QPushButton:hover {"
+        "   background-color: rgb(0, 85, 128);"
+        "}"
+    );
+    connect(saveAsButton, &QPushButton::clicked, this, &MainPage::onSaveAsButtonClicked);
+    
+    // Aggiungi entrambi i pulsanti al layout
+    topBarLayout->addWidget(saveButton);
+    topBarLayout->addWidget(saveAsButton);
 
     // ------------------------------- Menu filtri --------------------------------
     // Selezione tipo media
@@ -187,29 +214,30 @@ void MainPage::setupUI(){
     connect(searchBar, &QLineEdit::textChanged, this, &MainPage::onSearchTextChanged);
 
     mediaList = new QListWidget();
-    mediaList->setViewMode(QListView::ListMode); // Modalità lista (righe)
-    mediaList->setResizeMode(QListView::Adjust); // Adatta le dimensioni
-    mediaList->setMovement(QListView::Static); // Elementi non trascinabili
-    mediaList->setSelectionMode(QAbstractItemView::SingleSelection); // Selezione singola
-    //mediaList->setMinimumWidth(320); // Imposta una grandezza minima per la lista
+    mediaList->setViewMode(QListView::ListMode);
+    mediaList->setResizeMode(QListView::Adjust);
+    mediaList->setMovement(QListView::Static);
+    mediaList->setSelectionMode(QAbstractItemView::SingleSelection);
 
-    vector<Media*> listaMedia = biblioteca->getListaMedia(); // Ottieni la lista dei media dalla biblioteca
+    vector<Media*> listaMedia = biblioteca->getListaMedia();
+    updateMediaList(listaMedia);
 
-    updateMediaList(listaMedia); // Popola la lista con i media
-
-    mediaList->setFocusPolicy(Qt::NoFocus); // Disabilita il focus per la lista
-
-    mediaList->setIconSize(QSize(27, 27)); // Imposta la dimensione dell'icona
+    mediaList->setFocusPolicy(Qt::NoFocus);
+    mediaList->setIconSize(QSize(27, 27));
     mediaList->setStyleSheet(
-    "QListWidget { background-color: rgb(243, 238, 238); border: 2px solid rgb(119, 114, 114); border-radius: 4px; font-size: 14px; }"
-    "QListWidget::item { border-bottom:3px solid #ddd; padding: 8px; padding-left: 4px; color: black; }"
-    "QListWidget::item:hover { background-color:rgb(151, 168, 190); color: white;}"
-    "QListWidget::item:selected { background-color:rgb(255, 208, 0); color: black; }"
-    "QListWidget::item:focus { outline: none; }"
+        "QListWidget { background-color: rgb(243, 238, 238); border: 2px solid rgb(119, 114, 114); border-radius: 4px; font-size: 14px; }"
+        "QListWidget::item { border-bottom:3px solid #ddd; padding: 8px; padding-left: 4px; color: black; }"
+        "QListWidget::item:hover { background-color:rgb(151, 168, 190); color: white;}"
+        "QListWidget::item:selected { background-color:rgb(255, 208, 0); color: black; }"
+        "QListWidget::item:focus { outline: none; }"
     );
 
     // Collega la selezione
     connect(mediaList, &QListWidget::itemClicked, this, &MainPage::onMediaSelected);
+    
+    // Collega lo scroll
+    connect(mediaList->verticalScrollBar(), &QScrollBar::valueChanged, this, &MainPage::onScrollChanged);
+    
 
     centerLayout = new QVBoxLayout();
     centerLayout->addWidget(searchBar);
@@ -401,50 +429,56 @@ void MainPage::resizeEvent(QResizeEvent* event) {
 }
 
 void MainPage::onMediaSelected(QListWidgetItem *item) {
-    Media* selectedMedia = item->data(Qt::UserRole).value<Media*>();
-    if (!selectedMedia) return;
+    if (!item) return;
     
-    // Aggiorno l'anteprima con le informazioni del media selezionato
-    mediaTitleLabel->setText(QString::fromStdString(selectedMedia->getTitolo()));
-    mediaTitleLabel->setStyleSheet("font-weight: bold; font-size: 20px;");
-    mediaAuthorLabel->setText(QString::fromStdString(selectedMedia->getAutore()));
-    mediaAuthorLabel->setStyleSheet("font-size: 16px;");
-    mediaYearLabel->setText(QString::number(selectedMedia->getAnno()));
-    mediaYearLabel->setStyleSheet("font-size: 14px;");
-
-    // Aggiorno il rating con le stelline
-    double rating = selectedMedia->getRating();
-    QString stars = QString("Rating: %1 %2").arg(QString("★").repeated(static_cast<int>(rating))).arg(QString::number(rating, 'f', 1));
-    mediaRatingLabel->setText(stars);
-    mediaRatingLabel->setStyleSheet("font-size: 14px;");
-
-    // Aggiorno l'immagine
-    QPixmap pixmap(QString::fromStdString(selectedMedia->getImmagine()));
-
-    if (!pixmap.isNull()) {
-        originalPixmap = pixmap;
-        // Rimuovi il fixed size e usa minimum/maximum size invece
-        mediaImageLabel->setMinimumSize(150, 150); // Dimensione minima
-        mediaImageLabel->setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX); // Dimensione massima illimitata
-        updateImageSize(); // Aggiorna la dimensione dell'immagine
-    } else {
-        mediaImageLabel->setText("Immagine non disponibile");
-        mediaImageLabel->setStyleSheet(
-            "border: 1px solid black;"
-            "background-color: white;"
-            "color: gray;"
-            "padding: 5px;"
-        );
-    }
-
-    // Abilito i pulsanti
-    borrowButton->setEnabled(true);
-    detailsButton->setEnabled(true);
-    editMediaButton->setEnabled(true);
-
-    // Mostra i pulsanti di azione per la riga selezionata
     int row = mediaList->row(item);
+    
+    // Altrimenti mostra i pulsanti per la nuova riga
     showActionButtons(row);
+    
+    // Ottieni il puntatore al media dalla riga selezionata
+    Media* media = biblioteca->getListaMedia()[row];
+    
+    // Aggiorna il pannello di anteprima
+    if (media) {
+        // Aggiorno l'anteprima con le informazioni del media selezionato
+        mediaTitleLabel->setText(QString::fromStdString(media->getTitolo()));
+        mediaTitleLabel->setStyleSheet("font-weight: bold; font-size: 20px;");
+        mediaAuthorLabel->setText(QString::fromStdString(media->getAutore()));
+        mediaAuthorLabel->setStyleSheet("font-size: 16px;");
+        mediaYearLabel->setText(QString::number(media->getAnno()));
+        mediaYearLabel->setStyleSheet("font-size: 14px;");
+
+        // Aggiorno il rating con le stelline
+        double rating = media->getRating();
+        QString stars = QString("Rating: %1 %2").arg(QString("★").repeated(static_cast<int>(rating))).arg(QString::number(rating, 'f', 1));
+        mediaRatingLabel->setText(stars);
+        mediaRatingLabel->setStyleSheet("font-size: 14px;");
+
+        // Aggiorno l'immagine
+        QPixmap pixmap(QString::fromStdString(media->getImmagine()));
+
+        if (!pixmap.isNull()) {
+            originalPixmap = pixmap;
+            // Rimuovi il fixed size e usa minimum/maximum size invece
+            mediaImageLabel->setMinimumSize(150, 150); // Dimensione minima
+            mediaImageLabel->setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX); // Dimensione massima illimitata
+            updateImageSize(); // Aggiorna la dimensione dell'immagine
+        } else {
+            mediaImageLabel->setText("Immagine non disponibile");
+            mediaImageLabel->setStyleSheet(
+                "border: 1px solid black;"
+                "background-color: white;"
+                "color: gray;"
+                "padding: 5px;"
+            );
+        }
+
+        // Abilito i pulsanti
+        borrowButton->setEnabled(true);
+        detailsButton->setEnabled(true);
+        editMediaButton->setEnabled(true);
+    }
 }
 
 void MainPage::showActionButtons(int row) {
@@ -453,45 +487,18 @@ void MainPage::showActionButtons(int row) {
     
     if (row < 0 || row >= mediaList->count()) return;
     
-    // Ottieni l'item e il suo rect
-    QListWidgetItem* item = mediaList->item(row);
-    QRect rect = mediaList->visualItemRect(item);
+    // Memorizza la riga corrente per riferimenti futuri
+    currentSelectedRow = row;
     
-    // Calcola la larghezza dei pulsanti
-    int buttonWidth = buttonsContainer->sizeHint().width();
-    int buttonHeight = buttonsContainer->sizeHint().height();
+    // Calcola e imposta la posizione dei pulsanti
+    updateButtonsPosition();
     
-    // Ottieni il testo dell'elemento e calcola approssimativamente la larghezza del testo
-    QString itemText = item->text();
-    QFontMetrics fontMetrics(mediaList->font());
-    int textWidth = fontMetrics.horizontalAdvance(itemText) + 40; // Aggiungi margine per l'icona e spazio extra
-    
-    // Assicurati che la larghezza del testo non superi il 70% della larghezza dell'elemento
-    int maxTextWidth = rect.width() * 0.7;
-    if (textWidth > maxTextWidth) {
-        textWidth = maxTextWidth;
-    }
-    
-    // Posiziona i pulsanti a destra del testo, con un margine di sicurezza
-    int xPosition = rect.left() + textWidth + 20; // 20px di margine dopo il testo
-    
-    // Se i pulsanti finissero fuori dal campo visibile, riposizionali
-    if (xPosition + buttonWidth > rect.right()) {
-        xPosition = rect.right() - buttonWidth - 5; // 5px di margine dal bordo destro
-    }
-    
-    // Centramento verticale
-    int yPosition = rect.top() + (rect.height() - buttonHeight) / 2;
-    
-    buttonsContainer->setGeometry(xPosition, yPosition, buttonWidth, buttonHeight);
     buttonsContainer->show();
-    
-    // Memorizza l'item corrente per riferimento futuro
-    mediaList->setCurrentRow(row);
 }
 
 void MainPage::hideActionButtons() {
     buttonsContainer->hide();
+    currentSelectedRow = -1; // Reset della riga selezionata
 }
 
 void MainPage::updateGenreComboBox() {
@@ -801,7 +808,7 @@ void MainPage::onDetailsButtonClicked() {
     QListWidgetItem* currentItem = mediaList->currentItem();
     if (!currentItem) {
         QMessageBox::warning(this, "Errore", "Nessun elemento selezionato.");
-        return; // Esci subito se non c'è una selezione
+        return;
     }
     
     QVariant mediaData = currentItem->data(Qt::UserRole);
@@ -819,35 +826,58 @@ void MainPage::onDetailsButtonClicked() {
     emit goToDetailsPage(selectedMedia);
 }
 
-void MainPage::onExportLibraryButtonClicked() {
+void MainPage::onSaveButtonClicked() {
+    if (hasCurrentFile && !currentFilePath.isEmpty()) {
+        // Salva direttamente nel file corrente SENZA aprire finestre di dialogo
+        saveToFile(currentFilePath);
+    } else {
+        // Se non c'è un file corrente, chiama "Salva come"
+        onSaveAsButtonClicked();
+    }
+}
+
+void MainPage::setCurrentFile(const QString& filePath) {
+    currentFilePath = filePath;
+    hasCurrentFile = !filePath.isEmpty();
+}
+
+void MainPage::onSaveAsButtonClicked() {
+
+    // Apre SEMPRE la finestra di dialogo per scegliere dove salvare
     QFileDialog fileDialog(this);
     fileDialog.setAcceptMode(QFileDialog::AcceptSave);
-    fileDialog.setWindowTitle("Esporta biblioteca");
+    fileDialog.setWindowTitle("Salva biblioteca come");
     fileDialog.setFileMode(QFileDialog::AnyFile);
     fileDialog.setNameFilter("File JSON (*.json);;File XML (*.xml)");
     fileDialog.setDefaultSuffix("json");
+    
+    // Se c'è un file corrente, impostalo come directory di partenza
+    if (hasCurrentFile && !currentFilePath.isEmpty()) {
+        QFileInfo fileInfo(currentFilePath);
+        fileDialog.setDirectory(fileInfo.absolutePath());
+        fileDialog.selectFile(fileInfo.fileName());
+    } else {
+        fileDialog.setDirectory(QDir::currentPath());
+    }
     
     if (fileDialog.exec()) {
         QStringList selectedFiles = fileDialog.selectedFiles();
         if (!selectedFiles.isEmpty()) {
             QString filePath = selectedFiles.first();
-            bool success = false;
             
-            if (filePath.endsWith(".json", Qt::CaseInsensitive)) {
-                JsonIO jsonSaver;
-                success = jsonSaver.salvaSuFile(*biblioteca, filePath.toStdString());
-            } else if (filePath.endsWith(".xml", Qt::CaseInsensitive)) {
-                XmlIO xmlSaver;
-                success = xmlSaver.salvaSuFile(*biblioteca, filePath.toStdString());
+            // Assicurati che il file abbia l'estensione corretta
+            QString selectedFilter = fileDialog.selectedNameFilter();
+            if (selectedFilter.contains("*.json") && !filePath.endsWith(".json", Qt::CaseInsensitive)) {
+                filePath += ".json";
+            } else if (selectedFilter.contains("*.xml") && !filePath.endsWith(".xml", Qt::CaseInsensitive)) {
+                filePath += ".xml";
             }
             
-            if (success) {
-                QMessageBox::information(this, "Esportazione completata", 
-                    "La biblioteca è stata esportata con successo!");
-            } else {
-                QMessageBox::warning(this, "Errore di esportazione", 
-                    "Impossibile esportare la biblioteca nel file specificato.");
-            }
+            // Salva nel file selezionato
+            saveToFile(filePath);
+            
+            // Aggiorna il file corrente
+            setCurrentFile(filePath);
         }
     }
 }
@@ -894,4 +924,100 @@ void MainPage::onSearchTextChanged(const QString& searchText) {
     detailsButton->setEnabled(false);
     editMediaButton->setEnabled(false);
     hideActionButtons();
+}
+
+void MainPage::onScrollChanged() {
+    // Se ci sono pulsanti visibili e una riga selezionata, aggiorna la loro posizione
+    if (buttonsContainer->isVisible() && currentSelectedRow >= 0) {
+        updateButtonsPosition();
+    }
+}
+
+void MainPage::updateButtonsPosition() {
+    if (currentSelectedRow < 0 || currentSelectedRow >= mediaList->count()) {
+        hideActionButtons();
+        return;
+    }
+    
+    // Ottieni l'item e il suo rect
+    QListWidgetItem* item = mediaList->item(currentSelectedRow);
+    if (!item) {
+        hideActionButtons();
+        return;
+    }
+    
+    QRect rect = mediaList->visualItemRect(item);
+
+    
+    // Calcola la larghezza dei pulsanti
+    int buttonWidth = buttonsContainer->sizeHint().width();
+    int buttonHeight = buttonsContainer->sizeHint().height();
+    
+    // Ottieni il testo dell'elemento e calcola approssimativamente la larghezza del testo
+    QString itemText = item->text();
+    QFontMetrics fontMetrics(mediaList->font());
+    int textWidth = fontMetrics.horizontalAdvance(itemText) + 40; // Aggiungi margine per l'icona e spazio extra
+    
+    // Assicurati che la larghezza del testo non superi il 70% della larghezza dell'elemento
+    int maxTextWidth = rect.width() * 0.7;
+    if (textWidth > maxTextWidth) {
+        textWidth = maxTextWidth;
+    }
+    
+    // Posiziona i pulsanti a destra del testo, con un margine di sicurezza
+    int xPosition = rect.left() + textWidth + 20; // 20px di margine dopo il testo
+    
+    // Se i pulsanti finissero fuori dal campo visibile, riposizionali
+    if (xPosition + buttonWidth > rect.right()) {
+        xPosition = rect.right() - buttonWidth - 5; // 5px di margine dal bordo destro
+    }
+    
+    // Centramento verticale
+    int yPosition = rect.top() + (rect.height() - buttonHeight) / 2;
+    
+    buttonsContainer->setGeometry(xPosition, yPosition, buttonWidth, buttonHeight);
+    buttonsContainer->show();
+}
+
+void MainPage::saveToFile(const QString& filePath) {
+    bool success = false;
+    QString errorMessage = "";
+    
+    try {
+        if (filePath.endsWith(".json", Qt::CaseInsensitive)) {
+            JsonIO jsonSaver;
+            success = jsonSaver.salvaSuFile(*biblioteca, filePath.toStdString());
+            if (!success) {
+                errorMessage = "Errore durante il salvataggio del file JSON.";
+            }
+        } else if (filePath.endsWith(".xml", Qt::CaseInsensitive)) {
+            XmlIO xmlSaver;
+            success = xmlSaver.salvaSuFile(*biblioteca, filePath.toStdString());
+            if (!success) {
+                errorMessage = "Errore durante il salvataggio del file XML.";
+            }
+        } else {
+            errorMessage = "Formato file non supportato. Utilizzare .json o .xml";
+        }
+    } catch (const std::exception& e) {
+        errorMessage = QString("Errore durante il salvataggio: %1").arg(e.what());
+        success = false;
+    }
+    
+    if (success) {
+        // Verifica che il file sia stato effettivamente salvato
+        QFile file(filePath);
+        if (file.exists() && file.size() > 0) {
+            QMessageBox::information(this, "Salvataggio completato", 
+                QString("La biblioteca è stata salvata con successo in:\n%1").arg(filePath));
+        } else {
+            QMessageBox::warning(this, "Errore di salvataggio", 
+                "Il file è stato creato ma potrebbe essere vuoto o corrotto.");
+        }
+    } else {
+        QMessageBox::warning(this, "Errore di salvataggio", 
+            errorMessage.isEmpty() ? 
+            "Impossibile salvare la biblioteca nel file specificato." : 
+            errorMessage);
+    }
 }

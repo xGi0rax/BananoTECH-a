@@ -14,7 +14,7 @@ public:
     explicit LibraryChoicePage(QWidget *parent = nullptr);
 
 signals:
-    void libraryReady(Biblioteca* biblioteca);
+    void libraryReady(Biblioteca* biblioteca, const QString& filePath = "");
     void goToLoginPage();
 
 private slots:

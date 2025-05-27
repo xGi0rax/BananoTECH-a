@@ -27,6 +27,7 @@ class MainPage : public QWidget {
 public:
     explicit MainPage(QWidget *parent = nullptr, Biblioteca* biblioteca = nullptr);
     void onMediaSelected(QListWidgetItem *item);
+    void setCurrentFile(const QString& filePath); // Nuovo metodo per impostare il file corrente
 
 public slots:
     void onBackButtonClicked();  // Slot per il tasto indietro
@@ -38,9 +39,12 @@ public slots:
     void onEditButtonClicked(); // Slot per il pulsante di modifica del media
     void onDeleteButtonClicked(); // Slot per il pulsante di rimozione del media dalla lista
     void onNewMediaCreated(Media* newMedia); // Slot per aggiungere un nuovo media alla lista
-    void onExportLibraryButtonClicked(); // Nuovo slot per esportare la biblioteca
     void onMediaEdited(); // Slot per aggiornare un media esistente
     void onSearchTextChanged(const QString& searchText);
+    void onScrollChanged();
+    
+    void onSaveButtonClicked(); // Nuovo slot per salvare nel file corrente
+    void onSaveAsButtonClicked(); // Nuovo slot per "Salva come"
 
 signals:
     void goToChoicePage(); // Segnale per notificare il cambio alla ChoicePage
@@ -71,6 +75,7 @@ private:
     // Sezione centrale (Barra di ricerca e lista media)
     QLineEdit *searchBar;
     QListWidget *mediaList;
+    int currentSelectedRow = -1; // Indice della riga attualmente selezionata nella lista
 
     // Sezione destra (Immagine di anteprima e dettagli principali media)
     QPixmap originalPixmap;
@@ -92,6 +97,7 @@ private:
     // Metodi per la gestione dei pulsanti nella lista
     void showActionButtons(int row);
     void hideActionButtons();
+    void updateButtonsPosition(); // Metodo per aggiornare la posizione dei pulsanti in base alla riga selezionata
 
     // Layout
     QVBoxLayout *mainLayout;
@@ -105,6 +111,8 @@ private:
     QGroupBox *previewGroupBox;
 
     Biblioteca *biblioteca; // Oggetto Biblioteca per gestire i media
+    QString currentFilePath; // Percorso del file attualmente in uso
+    bool hasCurrentFile; // Flag per sapere se c'è un file corrente
 
     void setupUI(); // metodo per configurare l'interfaccia utente
     
@@ -112,6 +120,7 @@ private:
     void updateGenreComboBox(); // metodo per aggiornare la combobox dei generi in base al tipo di media selezionato
     void updateMediaList(vector<Media*> listaFiltrata); // metodo per aggiornare la lista dei media in base ai filtri selezionati
     void onDetailsButtonClicked();
+    void saveToFile(const QString& filePath); 
 
 protected:
     void resizeEvent(QResizeEvent* event) override;

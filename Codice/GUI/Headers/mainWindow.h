@@ -26,7 +26,7 @@ private slots:
     void onLoginButtonClicked();
     void switchToLoginPage(); // Slot per tornare alla LoginPage
     void switchToLibraryChoicePage(); // Slot per la pagina di scelta biblioteca
-    void onLibraryReady(Biblioteca* biblioteca); // Slot per gestire la biblioteca 
+    void onLibraryReady(Biblioteca* biblioteca, const QString& filePath = ""); // Slot per gestire la biblioteca 
     void switchToMainPage(); // Slot per passare alla MainPage
     void switchToAddPage(); // Slot per passare alla AddPage
     void switchToModifyPage(Media* media); // Slot per passare alla ModifyPage
@@ -53,6 +53,8 @@ private:
     
     // Pagina dettagli media
     DetailsPage *detailsPage;
+
+    QString loadedFilePath; // Traccia il percorso del file caricato
 
     Biblioteca *biblioteca; // Oggetto Biblioteca per gestire i media
 

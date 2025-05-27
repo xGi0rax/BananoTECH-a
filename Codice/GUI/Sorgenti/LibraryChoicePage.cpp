@@ -137,7 +137,7 @@ void LibraryChoicePage::onLoadFileButtonClicked() {
             if (success) {
                 QMessageBox::information(this, "Caricamento completato", 
                     "I dati della biblioteca sono stati caricati con successo!");
-                emit libraryReady(biblioteca);
+                emit libraryReady(biblioteca, filePath);
             } else {
                 QMessageBox::warning(this, "Errore di caricamento", 
                     "Impossibile caricare i dati dal file specificato.\nRiprova con un altro file o crea una biblioteca vuota.");
@@ -152,5 +152,5 @@ void LibraryChoicePage::onNewLibraryButtonClicked() {
     
     QMessageBox::information(this, "Biblioteca creata", "Una nuova biblioteca vuota è stata creata con successo!");
     
-    emit libraryReady(biblioteca);
+    emit libraryReady(biblioteca, "");
 }

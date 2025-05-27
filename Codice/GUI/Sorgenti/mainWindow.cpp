@@ -53,6 +53,10 @@ void MainWindow::setupMainPage(Biblioteca* biblio) {
 
     // Creazione della pagina principale con la biblioteca fornita
     mainPage = new MainPage(this, biblioteca);
+
+    if (!loadedFilePath.isEmpty()) {
+        mainPage->setCurrentFile(loadedFilePath);
+    }
     
     stackedWidget->addWidget(mainPage);
 
@@ -121,7 +125,10 @@ void MainWindow::switchToLibraryChoicePage() {
     stackedWidget->setCurrentWidget(libraryChoicePage); // Cambia alla pagina di scelta biblioteca
 }
 
-void MainWindow::onLibraryReady(Biblioteca* biblio) {
+void MainWindow::onLibraryReady(Biblioteca* biblio, const QString& filePath) {
+    // Salva il percorso del file caricato
+    loadedFilePath = filePath;
+
     // Quando la biblioteca è pronta, configuriamo le altre pagine e passiamo a MainPage
     setupMainPage(biblio);
     setupAddPage();
@@ -139,11 +146,8 @@ void MainWindow::switchToAddPage() {
 }
 
 void MainWindow::switchToDetailsPage(Media* media) {
-    qDebug() << "Switch to details page for media ";
     detailsPage->setMedia(media);
-    qDebug() << "Switching to details page for media ";
     stackedWidget->setCurrentWidget(detailsPage);
-    qDebug() << "Switched to details page for media ";
 }
 
 void MainWindow::switchToModifyPage(Media* media) {
