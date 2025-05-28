@@ -84,18 +84,20 @@ bool XmlIO::salvaSuFile(const Biblioteca& biblio, const string& filePath) const 
 
     for (const Media* media : biblio.getListaMedia()) {
         QDomElement elemento = mediaToXml(media, doc);
-        root.appendChild(elemento); // Aggiunge l'elemento alla radice del documento
+        root.appendChild(elemento);
     }
 
     QFile file(QString::fromStdString(filePath));
-    if (!file.open(QIODevice::WriteOnly)) {
-        return false; // Errore nell'aprire il file
+    
+    // IMPORTANTE: WriteOnly sovrascrive completamente il file
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+        return false;
     }
 
     QTextStream stream(&file);
-    stream << doc.toString(); // Scrive il documento XML nel file
+    stream << doc.toString();
     file.close();
-    return true; // Salvataggio riuscito
+    return true;
 }
 
 bool XmlIO::caricaDaFile(Biblioteca& biblio, const string& filePath) {

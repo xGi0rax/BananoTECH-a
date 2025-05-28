@@ -85,19 +85,21 @@ Media* JsonIO::jsonToMedia(const QJsonObject& json) const{
 
 bool JsonIO::salvaSuFile(const Biblioteca& biblio, const string& filePath) const {
     QFile file(QString::fromStdString(filePath));
-    if (!file.open(QIODevice::WriteOnly)) {
-        return false; // Errore nell'aprire il file
+    
+    // IMPORTANTE: WriteOnly sovrascrive completamente il file
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+        return false;
     }
 
     QJsonArray jArray;
     for (const Media* media : biblio.getListaMedia()) {
-        jArray.append(mediaToJson(media)); // Converte ogni media in JSON e lo aggiunge all'array
+        jArray.append(mediaToJson(media));
     }
 
     QJsonDocument jDoc(jArray);
     file.write(jDoc.toJson());
     file.close();
-    return true; // Salvataggio riuscito
+    return true;
 }
 
 

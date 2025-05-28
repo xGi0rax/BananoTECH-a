@@ -30,13 +30,15 @@ MainPage::MainPage(QWidget *parent, Biblioteca* biblio) : QWidget(parent) {
     // Inizializza il tracciamento del file
     hasCurrentFile = false;
     currentFilePath = "";
+    isNewLibrary = true; // Default: nuova biblioteca
+    hasUnsavedChanges = false;
 
     setupUI();
 }
 
 void MainPage::setupUI(){
     // ------------------------- Barra superiore ----------------------------
-    backButton = new QPushButton("Indietro");
+    backButton = new QPushButton("← Indietro");
     addMediaButton = new QPushButton("Aggiungi Media");
     backButton->setMinimumSize(100, 30);
     addMediaButton->setMinimumSize(100, 30);
@@ -63,6 +65,7 @@ void MainPage::setupUI(){
 
     // Modifica il pulsante di salvataggio per essere più specifico
     QPushButton* saveButton = new QPushButton("Salva");
+    saveButton->setObjectName("saveButton"); // Aggiungi questo
     saveButton->setMinimumSize(100, 30);
     saveButton->setStyleSheet(
         "QPushButton {"
@@ -80,6 +83,7 @@ void MainPage::setupUI(){
     
     // Aggiungi un pulsante "Salva come"
     QPushButton* saveAsButton = new QPushButton("Salva come");
+    saveAsButton->setObjectName("saveAsButton"); // Aggiungi questo
     saveAsButton->setMinimumSize(120, 30);
     saveAsButton->setStyleSheet(
         "QPushButton {"
@@ -474,7 +478,7 @@ void MainPage::onMediaSelected(QListWidgetItem *item) {
             );
         }
 
-        // Abilito i pulsanti
+        // Abilisco i pulsanti
         borrowButton->setEnabled(true);
         detailsButton->setEnabled(true);
         editMediaButton->setEnabled(true);
@@ -629,27 +633,24 @@ void MainPage::onEditButtonClicked() {
 }
 
 void MainPage::onDeleteButtonClicked() {
-    // Ottieni l'elemento correntemente selezionato
+    qDebug() << "=== INIZIO MainPage::onDeleteButtonClicked (PRIMA DEFINIZIONE) ===";
+    
     QListWidgetItem* currentItem = mediaList->currentItem();
     if (!currentItem) return;
     
     Media* selectedMedia = currentItem->data(Qt::UserRole).value<Media*>();
     if (!selectedMedia) return;
     
-    // Chiedi conferma prima di eliminare
     QString message = QString("Sei sicuro di voler rimuovere '%1' dalla biblioteca?").arg(QString::fromStdString(selectedMedia->getTitolo()));
     
     QMessageBox::StandardButton reply = QMessageBox::question(this, "Conferma eliminazione", message, QMessageBox::Yes | QMessageBox::No);
     
     if (reply == QMessageBox::Yes) {
-        // Rimuovi l'elemento dalla lista e elimina l'oggetto
         delete mediaList->takeItem(mediaList->row(currentItem));
         delete selectedMedia;
-        
-        // Nascondi i pulsanti di azione
         hideActionButtons();
         
-        // Resetta l'anteprima
+        // Reset anteprima
         mediaTitleLabel->setText("");
         mediaAuthorLabel->setText("Seleziona un media per vedere i dettagli");
         mediaYearLabel->setText("");
@@ -662,34 +663,50 @@ void MainPage::onDeleteButtonClicked() {
             "padding: 5px;"
         );
         
-        // Disabilita i pulsanti dell'anteprima
         borrowButton->setEnabled(false);
         detailsButton->setEnabled(false);
         editMediaButton->setEnabled(false);
+        
+        // AGGIUNGI QUESTE RIGHE CRUCIALI:
+        hasUnsavedChanges = true;
+        qDebug() << "hasUnsavedChanges impostato a:" << hasUnsavedChanges;
+        qDebug() << "Emettendo unsavedChangesUpdated(true)";
+        emit unsavedChangesUpdated(true);
+        updateSaveButtonsState();
     }
+    
+    qDebug() << "=== FINE MainPage::onDeleteButtonClicked ===";
 }
 
 void MainPage::onBorrowButtonClicked() {
+    qDebug() << "=== INIZIO MainPage::onBorrowButtonClicked ===";
+    
+    // Ottieni l'elemento correntemente selezionato
     QListWidgetItem* currentItem = mediaList->currentItem();
     if (!currentItem) {
-        QMessageBox::warning(this, "Errore", "Nessun elemento selezionato.");
+        qDebug() << "Nessun elemento selezionato";
         return;
     }
     
     QVariant mediaData = currentItem->data(Qt::UserRole);
     if (!mediaData.isValid()) {
-        QMessageBox::warning(this, "Errore", "Il media selezionato non è valido.");
+        qDebug() << "Dati media non validi";
         return;
     }
     
     Media* selectedMedia = mediaData.value<Media*>();
     if (!selectedMedia) {
-        QMessageBox::warning(this, "Errore", "Elemento selezionato non valido.");
+        qDebug() << "Puntatore media nullo";
         return;
     }
     
+    qDebug() << "Media selezionato:" << QString::fromStdString(selectedMedia->getTitolo());
+    qDebug() << "Emettendo segnale borrowMedia";
+    
     // Emetti il segnale per prendere in prestito il media
     emit borrowMedia(selectedMedia);
+    
+    qDebug() << "=== FINE MainPage::onBorrowButtonClicked ===";
 }
 
 void MainPage::updateMediaList(vector<Media*> listaFiltrata) {
@@ -738,30 +755,25 @@ void MainPage::updateMediaList(vector<Media*> listaFiltrata) {
 }
 
 void MainPage::onNewMediaCreated(Media* newMedia) {
-
+    qDebug() << "=== INIZIO MainPage::onNewMediaCreated (PRIMA DEFINIZIONE) ===";
+    
     if(biblioteca->esisteMedia(newMedia->getTitolo(), newMedia->getAnno(), newMedia->getGenere())){
         QMessageBox::StandardButton reply = QMessageBox::question(this, "Media già esistente", 
             "Un media con lo stesso titolo, anno e genere esiste già nella biblioteca. Vuoi aumentare il numero di copie di questo media presenti in biblioteca?", 
             QMessageBox::Yes | QMessageBox::No);
 
         if (reply == QMessageBox::Yes) {
-            // Se l'utente accetta, recupero il media dalla listaMedia ed incremento il numero di copie
             Media* mediaEsistente = biblioteca->cercaMediaDaT_A_G(newMedia->getTitolo(), newMedia->getAnno(), newMedia->getGenere());
             mediaEsistente->setNumeroCopie(mediaEsistente->getNumeroCopie() + 1);
             delete newMedia;
-
             QMessageBox::information(this, "Salvataggio", "Numero copie del media aumentate con successo!");
         }
-    }else{
-        // Aggiungo il nuovo media alla lista della biblioteca
+    } else {
         biblioteca->aggiungiMedia(newMedia);
-
         QMessageBox::information(this, "Salvataggio", "Media aggiunto con successo!");
-        
-        // Aggiorno la lista dei media visualizzati
         updateMediaList(biblioteca->getListaMedia());
-           
-        // Resetto l'anteprima
+        
+        // Reset dell'anteprima
         mediaTitleLabel->setText("");
         mediaAuthorLabel->setText("Seleziona un media per vedere i dettagli");
         mediaYearLabel->setText("");
@@ -774,18 +786,26 @@ void MainPage::onNewMediaCreated(Media* newMedia) {
             "padding: 5px;"
         );
         
-        // Disabilito i pulsanti dell'anteprima
         borrowButton->setEnabled(false);
         detailsButton->setEnabled(false);
         editMediaButton->setEnabled(false);
     }
+
+    // AGGIUNGI QUESTE RIGHE CRUCIALI ALLA FINE:
+    hasUnsavedChanges = true;
+    qDebug() << "hasUnsavedChanges impostato a:" << hasUnsavedChanges;
+    qDebug() << "Emettendo unsavedChangesUpdated(true)";
+    emit unsavedChangesUpdated(true);
+    updateSaveButtonsState();
+    qDebug() << "=== FINE MainPage::onNewMediaCreated ===";
 }
 
 void MainPage::onMediaEdited() {
-    // Aggiorna la lista dei media visualizzati
+    qDebug() << "=== INIZIO MainPage::onMediaEdited (PRIMA DEFINIZIONE) ===";
+    
     updateMediaList(biblioteca->getListaMedia());
     
-    // Resetta l'anteprima
+    // Reset anteprima
     mediaTitleLabel->setText("");
     mediaAuthorLabel->setText("Seleziona un media per vedere i dettagli");
     mediaYearLabel->setText("");
@@ -798,10 +818,18 @@ void MainPage::onMediaEdited() {
         "padding: 5px;"
     );
     
-    // Disabilita i pulsanti dell'anteprima
     borrowButton->setEnabled(false);
     detailsButton->setEnabled(false);
     editMediaButton->setEnabled(false);
+
+    // AGGIUNGI QUESTE RIGHE CRUCIALI:
+    hasUnsavedChanges = true;
+    qDebug() << "hasUnsavedChanges impostato a:" << hasUnsavedChanges;
+    qDebug() << "Emettendo unsavedChangesUpdated(true)";
+    emit unsavedChangesUpdated(true);
+    updateSaveButtonsState();
+    
+    qDebug() << "=== FINE MainPage::onMediaEdited ===";
 }
 
 void MainPage::onDetailsButtonClicked() {
@@ -826,24 +854,55 @@ void MainPage::onDetailsButtonClicked() {
     emit goToDetailsPage(selectedMedia);
 }
 
+void MainPage::setCurrentFile(const QString& filePath) {
+    currentFilePath = filePath;
+    hasCurrentFile = !filePath.isEmpty();
+}
+
+void MainPage::updateSaveButtonsState() {
+    // Trova i pulsanti nella UI
+    QPushButton* saveButton = findChild<QPushButton*>("saveButton");
+    QPushButton* saveAsButton = findChild<QPushButton*>("saveAsButton");
+    
+    if (saveButton && saveAsButton) {
+        if (isNewLibrary) {
+            // Per nuove biblioteche: disabilita "Salva", abilita solo "Salva come"
+            saveButton->setEnabled(false);
+            saveButton->setToolTip("Usa 'Salva come' per creare un nuovo file");
+            saveAsButton->setEnabled(true);
+        } else {
+            // Per biblioteche esistenti: abilita entrambi
+            saveButton->setEnabled(hasCurrentFile);
+            saveButton->setToolTip(hasCurrentFile ? "Salva nel file corrente" : "Nessun file corrente");
+            saveAsButton->setEnabled(true);
+        }
+    }
+}
+
 void MainPage::onSaveButtonClicked() {
+    if (isNewLibrary) {
+        QMessageBox::information(this, "Nuova biblioteca", 
+            "Per una nuova biblioteca, usa 'Salva come' per creare il file.");
+        return;
+    }
+    
     if (hasCurrentFile && !currentFilePath.isEmpty()) {
-        // Salva direttamente nel file corrente SENZA aprire finestre di dialogo
+        // Salva direttamente nel file corrente
         saveToFile(currentFilePath);
+        
+        // IMPORTANTE: Reset del flag modifiche dopo salvataggio riuscito
+        hasUnsavedChanges = false;
+        updateSaveButtonsState();
+        
+        // Notifica il MainWindow che non ci sono più modifiche non salvate
+        emit unsavedChangesUpdated(false); // AGGIUNGI QUESTA RIGA
     } else {
         // Se non c'è un file corrente, chiama "Salva come"
         onSaveAsButtonClicked();
     }
 }
 
-void MainPage::setCurrentFile(const QString& filePath) {
-    currentFilePath = filePath;
-    hasCurrentFile = !filePath.isEmpty();
-}
-
 void MainPage::onSaveAsButtonClicked() {
-
-    // Apre SEMPRE la finestra di dialogo per scegliere dove salvare
     QFileDialog fileDialog(this);
     fileDialog.setAcceptMode(QFileDialog::AcceptSave);
     fileDialog.setWindowTitle("Salva biblioteca come");
@@ -876,8 +935,14 @@ void MainPage::onSaveAsButtonClicked() {
             // Salva nel file selezionato
             saveToFile(filePath);
             
-            // Aggiorna il file corrente
+            // Aggiorna lo stato DOPO salvataggio riuscito
             setCurrentFile(filePath);
+            isNewLibrary = false; // Non è più una nuova biblioteca
+            hasUnsavedChanges = false; // RESET del flag modifiche
+            updateSaveButtonsState();
+            
+            // Notifica il MainWindow che non ci sono più modifiche non salvate
+            emit unsavedChangesUpdated(false); // AGGIUNGI QUESTA RIGA
         }
     }
 }
@@ -905,7 +970,6 @@ void MainPage::onSearchTextChanged(const QString& searchText) {
     
     updateMediaList(listaFiltrata);
     
-    // Pulisco la selezione del mediaList e resetto le etichette dell'anteprima
     mediaList->clearSelection();
     mediaTitleLabel->setText("");
     mediaAuthorLabel->setText("Seleziona un media per vedere i dettagli");
@@ -1010,6 +1074,13 @@ void MainPage::saveToFile(const QString& filePath) {
         if (file.exists() && file.size() > 0) {
             QMessageBox::information(this, "Salvataggio completato", 
                 QString("La biblioteca è stata salvata con successo in:\n%1").arg(filePath));
+            
+            // IMPORTANTE: Reset delle modifiche non salvate SOLO se il salvataggio è riuscito
+            hasUnsavedChanges = false;
+            updateSaveButtonsState();
+            
+            // AGGIUNGI QUESTA RIGA per notificare MainWindow
+            emit unsavedChangesUpdated(false);
         } else {
             QMessageBox::warning(this, "Errore di salvataggio", 
                 "Il file è stato creato ma potrebbe essere vuoto o corrotto.");
@@ -1020,4 +1091,26 @@ void MainPage::saveToFile(const QString& filePath) {
             "Impossibile salvare la biblioteca nel file specificato." : 
             errorMessage);
     }
+}
+
+void MainPage::setLibraryInfo(bool isNew, bool hasChanges) {
+    isNewLibrary = isNew;
+    hasUnsavedChanges = hasChanges;
+    updateSaveButtonsState();
+}
+
+// Aggiungi questo metodo per resettare le modifiche dopo il salvataggio
+void MainPage::resetUnsavedChanges() {
+    hasUnsavedChanges = false;
+    emit unsavedChangesUpdated(false);
+    updateSaveButtonsState();
+}
+
+void MainPage::setHasUnsavedChanges(bool hasChanges) {
+    qDebug() << "=== MainPage::setHasUnsavedChanges ===";
+    qDebug() << "Impostando hasUnsavedChanges a:" << hasChanges;
+    
+    hasUnsavedChanges = hasChanges;
+    emit unsavedChangesUpdated(hasChanges);
+    updateSaveButtonsState();
 }

@@ -49,35 +49,37 @@ void MainWindow::setupLibraryChoicePage() {
 }
 
 void MainWindow::setupMainPage(Biblioteca* biblio) {
-    biblioteca = biblio; // Salvo la biblioteca passata
+    biblioteca = biblio;
 
     // Creazione della pagina principale con la biblioteca fornita
     mainPage = new MainPage(this, biblioteca);
-
-    if (!loadedFilePath.isEmpty()) {
+    
+    // Imposta il file corrente SOLO se non è una nuova biblioteca
+    if (!isNewLibrary && !loadedFilePath.isEmpty()) {
         mainPage->setCurrentFile(loadedFilePath);
     }
     
+    // Passa le informazioni sulla biblioteca alla MainPage
+    mainPage->setLibraryInfo(isNewLibrary, hasUnsavedChanges);
+    
     stackedWidget->addWidget(mainPage);
 
-    // Connetto i sengali derivanti dai bottoni della MainPage ai metodi della MainWindow per cambiare pagina
-    // Passare alla pagina di scelta biblioteca
+    // Connessioni esistenti...
     connect(mainPage, &MainPage::goToChoicePage, this, &MainWindow::switchToLibraryChoicePage);
-
-    // Passare alla pagina di login
     connect(mainPage, &MainPage::goToLoginPage, this, &MainWindow::switchToLoginPage);
-
-    // Passare alla pagina di aggiunta media
     connect(mainPage, &MainPage::goToAddPage, this, &MainWindow::switchToAddPage);
-
-    // Passare alla pagina di modifica media
     connect(mainPage, &MainPage::goToModifyPage, this, &MainWindow::switchToModifyPage);
-
-    // Passare alla pagina di dettaglio media
     connect(mainPage, &MainPage::goToDetailsPage, this, &MainWindow::switchToDetailsPage);
-
-    // Connetto il segnale per prendere in prestito un media
     connect(mainPage, &MainPage::borrowMedia, this, &MainWindow::prendiInPrestitoMedia);
+    
+    // VERIFICA CHE QUESTA CONNESSIONE ESISTA E SIA CORRETTA
+    connect(mainPage, &MainPage::unsavedChangesUpdated, this, [this](bool hasChanges) {
+        qDebug() << "=== MainWindow riceve unsavedChangesUpdated ===";
+        qDebug() << "Nuovo valore hasChanges:" << hasChanges;
+        qDebug() << "Valore precedente hasUnsavedChanges:" << hasUnsavedChanges;
+        hasUnsavedChanges = hasChanges;
+        qDebug() << "hasUnsavedChanges aggiornato a:" << hasUnsavedChanges;
+    });
 }
 
 void MainWindow::setupAddPage(){
@@ -114,6 +116,10 @@ void MainWindow::setupDetailsPage(){
 
     // Connetto il segnale per tornare alla pagina principale
     connect(detailsPage, &DetailsPage::goBackToMainPage, this, &MainWindow::switchToMainPage);
+    
+    // AGGIUNGI QUESTE CONNESSIONI MANCANTI:
+    connect(detailsPage, &DetailsPage::mediaBorrowed, this, &MainWindow::prendiInPrestitoMedia);
+    connect(detailsPage, &DetailsPage::mediaReturned, this, &MainWindow::restituisciMedia);
 }
 
 void MainWindow::switchToLoginPage() {
@@ -122,13 +128,45 @@ void MainWindow::switchToLoginPage() {
 }
 
 void MainWindow::switchToLibraryChoicePage() {
-    stackedWidget->setCurrentWidget(libraryChoicePage); // Cambia alla pagina di scelta biblioteca
+    // DEBUG DETTAGLIATO
+    qDebug() << "=== CONTROLLO USCITA switchToLibraryChoicePage ===";
+    qDebug() << "hasUnsavedChanges:" << hasUnsavedChanges;
+    qDebug() << "isNewLibrary:" << isNewLibrary;
+    qDebug() << "loadedFilePath:" << loadedFilePath;
+    
+    // Controlla SOLO se ci sono modifiche non salvate
+    if (hasUnsavedChanges) {
+        qDebug() << "CONDIZIONE VERA: Mostrando pop-up per modifiche non salvate";
+        
+        QMessageBox::StandardButton reply = QMessageBox::question(this, 
+            "Modifiche non salvate", 
+            "Ci sono modifiche non salvate. Sei sicuro di voler uscire senza salvare?",
+            QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
+        
+        if (reply == QMessageBox::No || reply == QMessageBox::Cancel) {
+            qDebug() << "Utente ha scelto di non uscire";
+            return; // Non uscire
+        }
+        qDebug() << "Utente ha confermato l'uscita";
+        // Se Yes, continua con l'uscita
+    } else {
+        qDebug() << "CONDIZIONE FALSA: Nessuna modifica non salvata, uscita diretta";
+    }
+    
+    // Reset delle variabili
+    isNewLibrary = false;
+    hasUnsavedChanges = false;
+    loadedFilePath = "";
+    
+    stackedWidget->setCurrentWidget(libraryChoicePage);
 }
 
-void MainWindow::onLibraryReady(Biblioteca* biblio, const QString& filePath) {
-    // Salva il percorso del file caricato
+void MainWindow::onLibraryReady(Biblioteca* biblio, const QString& filePath, bool isNew) {
+    // Salva le informazioni sulla biblioteca
     loadedFilePath = filePath;
-
+    isNewLibrary = isNew;
+    hasUnsavedChanges = false; // Inizialmente nessuna modifica
+    
     // Quando la biblioteca è pronta, configuriamo le altre pagine e passiamo a MainPage
     setupMainPage(biblio);
     setupAddPage();
@@ -178,15 +216,78 @@ bool MainWindow::validateLogin(const QString &username, const QString &password)
 }
 
 void MainWindow::prendiInPrestitoMedia(Media* media) {
-    if (biblioteca->prendiInPrestito(media)) {
-        QMessageBox::information(this, "Prestito riuscito", 
-            QString("Media '%1' preso in prestito con successo!\n"
-               "Copie in prestito: %2\n"
-               "Disponibilita' attuale: %3")
-            .arg(QString::fromStdString(media->getTitolo()))
-            .arg(media->getInPrestito())
-            .arg(media->getDisponibilita() ? "Disponibile" : "Non disponibile"));
-    } else {
-        QMessageBox::warning(this, "Errore", QString("Impossibile prendere in prestito '%1'.").arg(QString::fromStdString(media->getTitolo())));
+    qDebug() << "=== INIZIO prendiInPrestitoMedia ===";
+    
+    if (!media) {
+        QMessageBox::warning(this, "Errore", "Media non valido.");
+        return;
     }
+    
+    // Verifica se ci sono copie disponibili
+    int copieTotali = media->getNumeroCopie();
+    int copieInPrestito = media->getInPrestito();
+    int copieDisponibili = copieTotali - copieInPrestito;
+    
+    if (copieDisponibili <= 0) {
+        QMessageBox::warning(this, "Prestito non disponibile", 
+            QString("Tutte le copie di '%1' sono già in prestito.").arg(QString::fromStdString(media->getTitolo())));
+        return;
+    }
+    
+    // Incrementa il numero di copie in prestito
+    media->setInPrestito(copieInPrestito + 1);
+    
+    QMessageBox::information(this, "Prestito effettuato", 
+        QString("Hai preso in prestito '%1' con successo!").arg(QString::fromStdString(media->getTitolo())));
+    
+    // NOTIFICA LA MODIFICA ALLA BIBLIOTECA:
+    hasUnsavedChanges = true;
+    qDebug() << "Prestito effettuato - hasUnsavedChanges MainWindow impostato a:" << hasUnsavedChanges;
+    
+    // Notifica anche MainPage
+    if (mainPage) {
+        mainPage->setHasUnsavedChanges(true);
+    }
+    
+    qDebug() << "=== FINE prendiInPrestitoMedia ===";
+}
+
+void MainWindow::restituisciMedia(Media* media) {
+    qDebug() << "=== INIZIO restituisciMedia ===";
+    
+    if (!media) {
+        QMessageBox::warning(this, "Errore", "Media non valido.");
+        return;
+    }
+    
+    // Verifica se ci sono copie in prestito
+    int copieInPrestito = media->getInPrestito();
+    
+    if (copieInPrestito <= 0) {
+        QMessageBox::warning(this, "Restituzione non disponibile", 
+            QString("Nessuna copia di '%1' risulta in prestito.").arg(QString::fromStdString(media->getTitolo())));
+        return;
+    }
+    
+    // Decrementa il numero di copie in prestito
+    media->setInPrestito(copieInPrestito - 1);
+    
+    // Se il media era non disponibile, ora lo rendiamo disponibile
+    if (!media->getDisponibilita()) {
+        media->setDisponibilita(true);
+    }
+    
+    QMessageBox::information(this, "Restituzione effettuata", 
+        QString("Hai restituito '%1' con successo!").arg(QString::fromStdString(media->getTitolo())));
+    
+    // NOTIFICA LA MODIFICA ALLA BIBLIOTECA:
+    hasUnsavedChanges = true;
+    qDebug() << "Restituzione effettuata - hasUnsavedChanges MainWindow impostato a:" << hasUnsavedChanges;
+    
+    // Notifica anche MainPage
+    if (mainPage) {
+        mainPage->setHasUnsavedChanges(true);
+    }
+    
+    qDebug() << "=== FINE restituisciMedia ===";
 }

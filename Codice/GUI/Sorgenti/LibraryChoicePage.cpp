@@ -65,7 +65,7 @@ void LibraryChoicePage::setupUI() {
     );
     
     // Pulsante per tornare al login
-    QPushButton* backButton = new QPushButton("Indietro");
+    QPushButton* backButton = new QPushButton("← Indietro");
     backButton->setFixedSize(150, 45);
     backButton->setStyleSheet(
         "QPushButton {"
@@ -107,9 +107,11 @@ void LibraryChoicePage::setupUI() {
     
     this->setLayout(outerLayout);
 
-    // Creiamo un'istanza di Biblioteca
-    string idBiblio = "VC";  // ID predefinito
-    biblioteca = new Biblioteca(idBiblio);
+    // RIMUOVI QUESTA RIGA CHE CREA LA BIBLIOTECA AUTOMATICAMENTE:
+    // string idBiblio = "VC";  // ID predefinito
+    // biblioteca = new Biblioteca(idBiblio);
+    
+    // Lascia biblioteca = nullptr finché l'utente non sceglie
 }
 
 void LibraryChoicePage::onLoadFileButtonClicked() {
@@ -124,6 +126,16 @@ void LibraryChoicePage::onLoadFileButtonClicked() {
         if (!selectedFiles.isEmpty()) {
             QString filePath = selectedFiles.first();
             
+            // Elimina la biblioteca esistente se presente
+            if (biblioteca) {
+                delete biblioteca;
+                biblioteca = nullptr;
+            }
+            
+            // Crea una nuova biblioteca vuota
+            string idBiblio = "VC";
+            biblioteca = new Biblioteca(idBiblio);
+            
             bool success = false;
             
             if (filePath.endsWith(".json", Qt::CaseInsensitive)) {
@@ -137,7 +149,9 @@ void LibraryChoicePage::onLoadFileButtonClicked() {
             if (success) {
                 QMessageBox::information(this, "Caricamento completato", 
                     "I dati della biblioteca sono stati caricati con successo!");
-                emit libraryReady(biblioteca, filePath);
+                
+                // BIBLIOTECA ESISTENTE - isNewLibrary = false
+                emit libraryReady(biblioteca, filePath, false);
             } else {
                 QMessageBox::warning(this, "Errore di caricamento", 
                     "Impossibile caricare i dati dal file specificato.\nRiprova con un altro file o crea una biblioteca vuota.");
@@ -149,8 +163,18 @@ void LibraryChoicePage::onLoadFileButtonClicked() {
 }
 
 void LibraryChoicePage::onNewLibraryButtonClicked() {
+    // Elimina la biblioteca esistente se presente
+    if (biblioteca) {
+        delete biblioteca;
+        biblioteca = nullptr;
+    }
+    
+    // Crea una NUOVA biblioteca completamente vuota
+    string idBiblio = "VC";
+    biblioteca = new Biblioteca(idBiblio);
     
     QMessageBox::information(this, "Biblioteca creata", "Una nuova biblioteca vuota è stata creata con successo!");
     
-    emit libraryReady(biblioteca, "");
+    // NUOVA BIBLIOTECA - isNewLibrary = true, filePath vuoto
+    emit libraryReady(biblioteca, "", true);
 }

@@ -29,7 +29,7 @@ void ModifyPage::setupUI() {
     sidebarLayout->setSpacing(15);
 
     // 1. Pulsante indietro
-    backButton = new QPushButton("Indietro");
+    backButton = new QPushButton("← Indietro");
     backButton->setMinimumSize(145, 30);
     backButton->setStyleSheet(
         "QPushButton {"

@@ -27,7 +27,10 @@ class MainPage : public QWidget {
 public:
     explicit MainPage(QWidget *parent = nullptr, Biblioteca* biblioteca = nullptr);
     void onMediaSelected(QListWidgetItem *item);
-    void setCurrentFile(const QString& filePath); // Nuovo metodo per impostare il file corrente
+    void setCurrentFile(const QString& filePath);
+    void setLibraryInfo(bool isNew, bool hasChanges); 
+    void resetUnsavedChanges();
+    void setHasUnsavedChanges(bool hasChanges);
 
 public slots:
     void onBackButtonClicked();  // Slot per il tasto indietro
@@ -53,6 +56,8 @@ signals:
     void goToModifyPage(Media* media); // Segnale per notificare il cambio alla ModifyPage
     void goToDetailsPage(Media* media); // Segnale per notificare il cambio alla DetailsPage
     void borrowMedia(Media* media); // Segnale per prendere in prestito un media
+    void libraryModified(); // Nuovo segnale per notificare modifiche
+    void unsavedChangesUpdated(bool hasChanges); // NUOVO SEGNALE per aggiornare lo stato delle modifiche non salvate
 
 private:
     // Barra superiore
@@ -113,6 +118,8 @@ private:
     Biblioteca *biblioteca; // Oggetto Biblioteca per gestire i media
     QString currentFilePath; // Percorso del file attualmente in uso
     bool hasCurrentFile; // Flag per sapere se c'è un file corrente
+    bool isNewLibrary; // Flag per sapere se è una biblioteca nuova
+    bool hasUnsavedChanges; // Flag per tracciare modifiche
 
     void setupUI(); // metodo per configurare l'interfaccia utente
     
@@ -121,6 +128,7 @@ private:
     void updateMediaList(vector<Media*> listaFiltrata); // metodo per aggiornare la lista dei media in base ai filtri selezionati
     void onDetailsButtonClicked();
     void saveToFile(const QString& filePath); 
+    void updateSaveButtonsState(); // Metodo per aggiornare stato pulsanti
 
 protected:
     void resizeEvent(QResizeEvent* event) override;

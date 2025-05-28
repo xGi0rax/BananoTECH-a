@@ -26,12 +26,13 @@ private slots:
     void onLoginButtonClicked();
     void switchToLoginPage(); // Slot per tornare alla LoginPage
     void switchToLibraryChoicePage(); // Slot per la pagina di scelta biblioteca
-    void onLibraryReady(Biblioteca* biblioteca, const QString& filePath = ""); // Slot per gestire la biblioteca 
+    void onLibraryReady(Biblioteca* biblioteca, const QString& filePath, bool isNew); // Slot per gestire la biblioteca 
     void switchToMainPage(); // Slot per passare alla MainPage
     void switchToAddPage(); // Slot per passare alla AddPage
     void switchToModifyPage(Media* media); // Slot per passare alla ModifyPage
     void switchToDetailsPage(Media* media); // Slot per passare alla DetailsPage
     void prendiInPrestitoMedia(Media* media); // Slot per prendere in prestito un media
+    void restituisciMedia(Media* media);
 
 private:
     QStackedWidget *stackedWidget;
@@ -55,6 +56,8 @@ private:
     DetailsPage *detailsPage;
 
     QString loadedFilePath; // Traccia il percorso del file caricato
+    bool isNewLibrary; // Indica se si sta creando una nuova biblioteca
+    bool hasUnsavedChanges; // Indica se ci sono modifiche non salvate
 
     Biblioteca *biblioteca; // Oggetto Biblioteca per gestire i media
 

@@ -14,7 +14,7 @@ public:
     explicit LibraryChoicePage(QWidget *parent = nullptr);
 
 signals:
-    void libraryReady(Biblioteca* biblioteca, const QString& filePath = "");
+    void libraryReady(Biblioteca* biblioteca, const QString& filePath, bool isNewLibrary);
     void goToLoginPage();
 
 private slots:
@@ -27,6 +27,7 @@ private:
     QLabel* titleLabel;
     QLabel* descriptionLabel;
     Biblioteca* biblioteca;
+    bool isCreatingNewLibrary; // Flag per sapere se si sta creando una nuova biblioteca
 
     void setupUI();
 };

@@ -104,7 +104,7 @@ void DetailsPage::setupUI() {
     // Dimensioni ridotte per i pulsanti per farli stare in una riga
     borrowButton->setFixedSize(150, 40);
     returnButton->setFixedSize(130, 40);
-    requestButton->setFixedSize(180, 40); // Leggermente più largo per il testo
+    requestButton->setFixedSize(220, 40); // Leggermente più largo per il testo
     
     borrowButton->setStyleSheet(
         "QPushButton {"
@@ -196,28 +196,29 @@ void DetailsPage::updateUI() {
     int loanedCopies = currentMedia->getInPrestito();
     int availableCopies = totalCopies - loanedCopies;
     
-    // Costruisco TUTTI i dettagli con stile HTML migliorato e maggiore spaziatura
-    QString htmlDetails = "<h2 style='margin:0 0 20px 0; padding:0; color:#2c3e50; border-bottom: 2px solid #3498db;'>" + 
+    // Costruisco TUTTI i dettagli con stile HTML più compatto
+    QString htmlDetails = "<h2 style='margin:0 0 15px 0; padding:0; color:#2c3e50; border-bottom: 2px solid #3498db;'>" + 
                          QString::fromStdString(currentMedia->getTitolo()) + "</h2>";
     
-    htmlDetails += "<table style='width:100%; border-collapse: separate; border-spacing: 0 8px;'>"; // Aggiunta spaziatura tra le righe
-    htmlDetails += "<tr><td style='padding:8px 15px 8px 0; font-weight:bold; color:#34495e; width:140px; vertical-align:top;'>Autore:</td><td style='padding:8px 0; color:#2c3e50; line-height:1.4;'>" + QString::fromStdString(currentMedia->getAutore()) + "</td></tr>";
-    htmlDetails += "<tr><td style='padding:8px 15px 8px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Genere:</td><td style='padding:8px 0; color:#2c3e50; line-height:1.4;'>" + QString::fromStdString(currentMedia->getGenere()) + "</td></tr>";
-    htmlDetails += "<tr><td style='padding:8px 15px 8px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Anno:</td><td style='padding:8px 0; color:#2c3e50; line-height:1.4;'>" + QString::number(currentMedia->getAnno()) + "</td></tr>";
-    htmlDetails += "<tr><td style='padding:8px 15px 8px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Lingua:</td><td style='padding:8px 0; color:#2c3e50; line-height:1.4;'>" + QString::fromStdString(currentMedia->getLingua()) + "</td></tr>";
-    htmlDetails += "<tr><td style='padding:8px 15px 8px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Rating:</td><td style='padding:8px 0; color:#2c3e50; line-height:1.4;'>" + QString::number(currentMedia->getRating(), 'f', 1) + "/5.0</td></tr>";
-    htmlDetails += "<tr><td style='padding:8px 15px 8px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Collocazione:</td><td style='padding:8px 0; color:#2c3e50; line-height:1.4;'>" + QString::fromStdString(currentMedia->getCollocazione()) + "</td></tr>";
-    htmlDetails += "<tr><td style='padding:8px 15px 8px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Copie:</td><td style='padding:8px 0; color:#2c3e50; line-height:1.4;'>" + QString::number(availableCopies) + 
+    // Ridotto border-spacing da 8px a 3px e padding ridotto
+    htmlDetails += "<table style='width:100%; border-collapse: separate; border-spacing: 0 3px;'>";
+    htmlDetails += "<tr><td style='padding:4px 15px 4px 0; font-weight:bold; color:#34495e; width:140px; vertical-align:top;'>Autore:</td><td style='padding:4px 0; color:#2c3e50; line-height:1.2;'>" + QString::fromStdString(currentMedia->getAutore()) + "</td></tr>";
+    htmlDetails += "<tr><td style='padding:4px 15px 4px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Genere:</td><td style='padding:4px 0; color:#2c3e50; line-height:1.2;'>" + QString::fromStdString(currentMedia->getGenere()) + "</td></tr>";
+    htmlDetails += "<tr><td style='padding:4px 15px 4px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Anno:</td><td style='padding:4px 0; color:#2c3e50; line-height:1.2;'>" + QString::number(currentMedia->getAnno()) + "</td></tr>";
+    htmlDetails += "<tr><td style='padding:4px 15px 4px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Lingua:</td><td style='padding:4px 0; color:#2c3e50; line-height:1.2;'>" + QString::fromStdString(currentMedia->getLingua()) + "</td></tr>";
+    htmlDetails += "<tr><td style='padding:4px 15px 4px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Rating:</td><td style='padding:4px 0; color:#2c3e50; line-height:1.2;'>" + QString::number(currentMedia->getRating(), 'f', 1) + "/5.0</td></tr>";
+    htmlDetails += "<tr><td style='padding:4px 15px 4px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Collocazione:</td><td style='padding:4px 0; color:#2c3e50; line-height:1.2;'>" + QString::fromStdString(currentMedia->getCollocazione()) + "</td></tr>";
+    htmlDetails += "<tr><td style='padding:4px 15px 4px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Copie:</td><td style='padding:4px 0; color:#2c3e50; line-height:1.2;'>" + QString::number(availableCopies) + 
                    " disponibili su " + QString::number(totalCopies) + " totali</td></tr>";
     
-    // Aggiungi dettagli specifici basati sul tipo di media usando dynamic_cast
+    // Aggiungi dettagli specifici con spaziatura ridotta
     if (Film* film = dynamic_cast<Film*>(currentMedia)) {
-        htmlDetails += "<tr><td style='padding:8px 15px 8px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Tipo:</td><td style='padding:8px 0; color:#2c3e50; line-height:1.4;'>🎬 Film</td></tr>";
-        htmlDetails += "<tr><td style='padding:8px 15px 8px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Durata:</td><td style='padding:8px 0; color:#2c3e50; line-height:1.4;'>" + QString::number(film->getDurata()) + " minuti</td></tr>";
+        htmlDetails += "<tr><td style='padding:4px 15px 4px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Tipo:</td><td style='padding:4px 0; color:#2c3e50; line-height:1.2;'>🎬 Film</td></tr>";
+        htmlDetails += "<tr><td style='padding:4px 15px 4px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Durata:</td><td style='padding:4px 0; color:#2c3e50; line-height:1.2;'>" + QString::number(film->getDurata()) + " minuti</td></tr>";
         
         const vector<string>& cast = film->getCast();
         if (!cast.empty()) {
-            htmlDetails += "<tr><td style='padding:8px 15px 8px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Cast:</td><td style='padding:8px 0; color:#2c3e50; line-height:1.4;'>";
+            htmlDetails += "<tr><td style='padding:4px 15px 4px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Cast:</td><td style='padding:4px 0; color:#2c3e50; line-height:1.2;'>";
             for (size_t i = 0; i < cast.size(); ++i) {
                 htmlDetails += QString::fromStdString(cast[i]);
                 if (i < cast.size() - 1) htmlDetails += ", ";
@@ -226,29 +227,29 @@ void DetailsPage::updateUI() {
         }
     } 
     else if (Libro* libro = dynamic_cast<Libro*>(currentMedia)) {
-        htmlDetails += "<tr><td style='padding:8px 15px 8px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Tipo:</td><td style='padding:8px 0; color:#2c3e50; line-height:1.4;'>📚 Libro</td></tr>";
-        htmlDetails += "<tr><td style='padding:8px 15px 8px 0; font-weight:bold; color:#34495e; vertical-align:top;'>ISBN:</td><td style='padding:8px 0; color:#2c3e50; line-height:1.4;'>" + QString::fromStdString(libro->getIsbn()) + "</td></tr>";
-        htmlDetails += "<tr><td style='padding:8px 15px 8px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Editore:</td><td style='padding:8px 0; color:#2c3e50; line-height:1.4;'>" + QString::fromStdString(libro->getEditore()) + "</td></tr>";
-        htmlDetails += "<tr><td style='padding:8px 15px 8px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Pagine:</td><td style='padding:8px 0; color:#2c3e50; line-height:1.4;'>" + QString::number(libro->getNPagine()) + "</td></tr>";
+        htmlDetails += "<tr><td style='padding:4px 15px 4px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Tipo:</td><td style='padding:4px 0; color:#2c3e50; line-height:1.2;'>📚 Libro</td></tr>";
+        htmlDetails += "<tr><td style='padding:4px 15px 4px 0; font-weight:bold; color:#34495e; vertical-align:top;'>ISBN:</td><td style='padding:4px 0; color:#2c3e50; line-height:1.2;'>" + QString::fromStdString(libro->getIsbn()) + "</td></tr>";
+        htmlDetails += "<tr><td style='padding:4px 15px 4px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Editore:</td><td style='padding:4px 0; color:#2c3e50; line-height:1.2;'>" + QString::fromStdString(libro->getEditore()) + "</td></tr>";
+        htmlDetails += "<tr><td style='padding:4px 15px 4px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Pagine:</td><td style='padding:4px 0; color:#2c3e50; line-height:1.2;'>" + QString::number(libro->getNPagine()) + "</td></tr>";
     }
     else if (Vinile* vinile = dynamic_cast<Vinile*>(currentMedia)) {
-        htmlDetails += "<tr><td style='padding:8px 15px 8px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Tipo:</td><td style='padding:8px 0; color:#2c3e50; line-height:1.4;'>🎵 Vinile</td></tr>";
-        htmlDetails += "<tr><td style='padding:8px 15px 8px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Numero tracce:</td><td style='padding:8px 0; color:#2c3e50; line-height:1.4;'>" + QString::number(vinile->getNTracce()) + "</td></tr>";
-        htmlDetails += "<tr><td style='padding:8px 15px 8px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Durata:</td><td style='padding:8px 0; color:#2c3e50; line-height:1.4;'>" + QString::number(vinile->getDurata()) + " minuti</td></tr>";
+        htmlDetails += "<tr><td style='padding:4px 15px 4px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Tipo:</td><td style='padding:4px 0; color:#2c3e50; line-height:1.2;'>🎵 Vinile</td></tr>";
+        htmlDetails += "<tr><td style='padding:4px 15px 4px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Numero tracce:</td><td style='padding:4px 0; color:#2c3e50; line-height:1.2;'>" + QString::number(vinile->getNTracce()) + "</td></tr>";
+        htmlDetails += "<tr><td style='padding:4px 15px 4px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Durata:</td><td style='padding:4px 0; color:#2c3e50; line-height:1.2;'>" + QString::number(vinile->getDurata()) + " minuti</td></tr>";
     }
     else if (Rivista* rivista = dynamic_cast<Rivista*>(currentMedia)) {
-        htmlDetails += "<tr><td style='padding:8px 15px 8px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Tipo:</td><td style='padding:8px 0; color:#2c3e50; line-height:1.4;'>📰 Rivista</td></tr>";
-        htmlDetails += "<tr><td style='padding:8px 15px 8px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Editore:</td><td style='padding:8px 0; color:#2c3e50; line-height:1.4;'>" + QString::fromStdString(rivista->getEditore()) + "</td></tr>";
-        htmlDetails += "<tr><td style='padding:8px 15px 8px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Pagine:</td><td style='padding:8px 0; color:#2c3e50; line-height:1.4;'>" + QString::number(rivista->getNPagine()) + "</td></tr>";
-        htmlDetails += "<tr><td style='padding:8px 15px 8px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Data pubblicazione:</td><td style='padding:8px 0; color:#2c3e50; line-height:1.4;'>" + QString::fromStdString(rivista->getDataPubb()) + "</td></tr>";
-        htmlDetails += "<tr><td style='padding:8px 15px 8px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Periodicità:</td><td style='padding:8px 0; color:#2c3e50; line-height:1.4;'>" + QString::fromStdString(rivista->getPeriodicita()) + "</td></tr>";
+        htmlDetails += "<tr><td style='padding:4px 15px 4px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Tipo:</td><td style='padding:4px 0; color:#2c3e50; line-height:1.2;'>📰 Rivista</td></tr>";
+        htmlDetails += "<tr><td style='padding:4px 15px 4px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Editore:</td><td style='padding:4px 0; color:#2c3e50; line-height:1.2;'>" + QString::fromStdString(rivista->getEditore()) + "</td></tr>";
+        htmlDetails += "<tr><td style='padding:4px 15px 4px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Pagine:</td><td style='padding:4px 0; color:#2c3e50; line-height:1.2;'>" + QString::number(rivista->getNPagine()) + "</td></tr>";
+        htmlDetails += "<tr><td style='padding:4px 15px 4px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Data pubblicazione:</td><td style='padding:4px 0; color:#2c3e50; line-height:1.2;'>" + QString::fromStdString(rivista->getDataPubb()) + "</td></tr>";
+        htmlDetails += "<tr><td style='padding:4px 15px 4px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Periodicità:</td><td style='padding:4px 0; color:#2c3e50; line-height:1.2;'>" + QString::fromStdString(rivista->getPeriodicita()) + "</td></tr>";
     }
     else if (GiocoDaTavolo* gioco = dynamic_cast<GiocoDaTavolo*>(currentMedia)) {
-        htmlDetails += "<tr><td style='padding:8px 15px 8px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Tipo:</td><td style='padding:8px 0; color:#2c3e50; line-height:1.4;'>🎲 Gioco da Tavolo</td></tr>";
-        htmlDetails += "<tr><td style='padding:8px 15px 8px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Editore:</td><td style='padding:8px 0; color:#2c3e50; line-height:1.4;'>" + QString::fromStdString(gioco->getEditore()) + "</td></tr>";
-        htmlDetails += "<tr><td style='padding:8px 15px 8px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Max giocatori:</td><td style='padding:8px 0; color:#2c3e50; line-height:1.4;'>" + QString::number(gioco->getNGiocatori()) + "</td></tr>";
-        htmlDetails += "<tr><td style='padding:8px 15px 8px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Durata gioco:</td><td style='padding:8px 0; color:#2c3e50; line-height:1.4;'>" + QString::number(gioco->getDurata()) + " minuti</td></tr>";
-        htmlDetails += "<tr><td style='padding:8px 15px 8px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Età minima:</td><td style='padding:8px 0; color:#2c3e50; line-height:1.4;'>" + QString::number(gioco->getEtaMinima()) + " anni</td></tr>";
+        htmlDetails += "<tr><td style='padding:4px 15px 4px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Tipo:</td><td style='padding:4px 0; color:#2c3e50; line-height:1.2;'>🎲 Gioco da Tavolo</td></tr>";
+        htmlDetails += "<tr><td style='padding:4px 15px 4px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Editore:</td><td style='padding:4px 0; color:#2c3e50; line-height:1.2;'>" + QString::fromStdString(gioco->getEditore()) + "</td></tr>";
+        htmlDetails += "<tr><td style='padding:4px 15px 4px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Max giocatori:</td><td style='padding:4px 0; color:#2c3e50; line-height:1.2;'>" + QString::number(gioco->getNGiocatori()) + "</td></tr>";
+        htmlDetails += "<tr><td style='padding:4px 15px 4px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Durata gioco:</td><td style='padding:4px 0; color:#2c3e50; line-height:1.2;'>" + QString::number(gioco->getDurata()) + " minuti</td></tr>";
+        htmlDetails += "<tr><td style='padding:4px 15px 4px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Età minima:</td><td style='padding:4px 0; color:#2c3e50; line-height:1.2;'>" + QString::number(gioco->getEtaMinima()) + " anni</td></tr>";
     }
     
     htmlDetails += "</table>";
@@ -282,7 +283,7 @@ void DetailsPage::updateUI() {
         // Pulsante richiesta SEMPRE VISIBILE ma DISABILITATO quando disponibile
         requestButton->setVisible(true);
         requestButton->setEnabled(false);
-        requestButton->setText("🏛️ Richiedi da affiliata"); // Testo più corto
+        requestButton->setText("🏛️ Richiedi da biblioteca affiliata"); // Testo più corto
         requestButton->setStyleSheet(
             "QPushButton {"
             "   background-color: #6c757d;"
@@ -306,7 +307,7 @@ void DetailsPage::updateUI() {
         // Pulsante richiesta SEMPRE VISIBILE e ABILITATO quando non disponibile
         requestButton->setVisible(true);
         requestButton->setEnabled(true);
-        requestButton->setText("🏛️ Richiedi da affiliata"); // Testo più corto
+        requestButton->setText("🏛️ Richiedi da biblioteca affiliata"); // Testo più corto
         requestButton->setStyleSheet(
             "QPushButton {"
             "   background-color: #17a2b8;"
@@ -397,6 +398,8 @@ void DetailsPage::onBackButtonClicked() {
 }
 
 void DetailsPage::onBorrowButtonClicked() {
+    qDebug() << "=== INIZIO DetailsPage::onBorrowButtonClicked ===";
+    
     if (!currentMedia) return;
     
     // Verifico che il media sia disponibile e che ci siano copie disponibili
@@ -409,29 +412,33 @@ void DetailsPage::onBorrowButtonClicked() {
             QMessageBox::Yes | QMessageBox::No);
         
         if (reply == QMessageBox::Yes) {
-            // Aggiorno lo stato del media
-            currentMedia->setInPrestito(currentMedia->getInPrestito() + 1); // Incremento il contatore dei prestiti
+            qDebug() << "Emettendo segnale mediaBorrowed per:" << QString::fromStdString(currentMedia->getTitolo());
             
-            // Se era l'ultima copia disponibile, imposto il media come non disponibile
-            if (currentMedia->getNumeroCopie() - currentMedia->getInPrestito() == 0) {
-                currentMedia->setDisponibilita(false);
-            }
+            // RIMUOVI QUESTE RIGHE - NON MODIFICARE DIRETTAMENTE:
+            // currentMedia->setInPrestito(currentMedia->getInPrestito() + 1);
+            // if (currentMedia->getNumeroCopie() - currentMedia->getInPrestito() == 0) {
+            //     currentMedia->setDisponibilita(false);
+            // }
             
-            // Aggiorno l'interfaccia
-            updateUI();
-            
-            // Emetto un segnale per notificare che il media è stato prestato
+            // EMETTI SOLO IL SEGNALE - la logica è gestita da MainWindow
             emit mediaBorrowed(currentMedia);
             
-            QMessageBox::information(this, "Prestito", "Media preso in prestito con successo!");
+            // Aggiorna l'interfaccia DOPO che MainWindow ha modificato il media
+            updateUI();
+            
+            qDebug() << "Segnale mediaBorrowed emesso";
         }
     } else {
         QMessageBox::warning(this, "Prestito non disponibile", 
             "Questo media non è attualmente disponibile per il prestito.");
     }
+    
+    qDebug() << "=== FINE DetailsPage::onBorrowButtonClicked ===";
 }
 
 void DetailsPage::onReturnButtonClicked() {
+    qDebug() << "=== INIZIO DetailsPage::onReturnButtonClicked ===";
+    
     if (!currentMedia) return;
     
     QMessageBox::StandardButton reply = QMessageBox::question(this, 
@@ -440,26 +447,26 @@ void DetailsPage::onReturnButtonClicked() {
         QMessageBox::Yes | QMessageBox::No);
     
     if (reply == QMessageBox::Yes) {
-        // Aggiorno lo stato del media
-        if (currentMedia->getInPrestito() > 0) {
-            currentMedia->setInPrestito(currentMedia->getInPrestito() - 1); // Decremento il contatore dei prestiti
-            
-            // Se il media era segnato come non disponibile, ora lo rendiamo disponibile
-            if (!currentMedia->getDisponibilita()) {
-                currentMedia->setDisponibilita(true);
-            }
-            
-            // Aggiorno l'interfaccia
-            updateUI();
-            
-            // Emetto un segnale per notificare che il media è stato restituito
-            emit mediaReturned(currentMedia);
-            
-            QMessageBox::information(this, "Restituzione", "Media restituito con successo!");
-        } else {
-            QMessageBox::warning(this, "Errore", "Nessuna copia di questo media risulta in prestito!");
-        }
+        qDebug() << "Emettendo segnale mediaReturned per:" << QString::fromStdString(currentMedia->getTitolo());
+        
+        // RIMUOVI QUESTE RIGHE - NON MODIFICARE DIRETTAMENTE:
+        // if (currentMedia->getInPrestito() > 0) {
+        //     currentMedia->setInPrestito(currentMedia->getInPrestito() - 1);
+        //     if (!currentMedia->getDisponibilita()) {
+        //         currentMedia->setDisponibilita(true);
+        //     }
+        // }
+        
+        // EMETTI SOLO IL SEGNALE - la logica è gestita da MainWindow
+        emit mediaReturned(currentMedia);
+        
+        // Aggiorna l'interfaccia DOPO che MainWindow ha modificato il media
+        updateUI();
+        
+        qDebug() << "Segnale mediaReturned emesso";
     }
+    
+    qDebug() << "=== FINE DetailsPage::onReturnButtonClicked ===";
 }
 
 void DetailsPage::onRequestFromAffiliateClicked() {
@@ -481,7 +488,7 @@ void DetailsPage::onRequestFromAffiliateClicked() {
                     .arg(QString::fromStdString(currentMedia->getTitolo())));
         
         // Feedback temporaneo con testo più corto
-        requestButton->setText("🏛️ Richiesta inviata");
+        requestButton->setText("Richiesta inviata!");
         requestButton->setStyleSheet(
             "QPushButton {"
             "   background-color: #28a745;"
@@ -493,13 +500,5 @@ void DetailsPage::onRequestFromAffiliateClicked() {
             "   border-radius: 6px;"
             "}"
         );
-        
-        // Ripristina dopo 3 secondi
-        QTimer::singleShot(3000, [this]() {
-            if (requestButton) {
-                requestButton->setText("🏛️ Richiedi da affiliata");
-                updateUI();
-            }
-        });
     }
 }
