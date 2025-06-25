@@ -1,5 +1,5 @@
 #include <QFile> 
-#include <QScrollBar> // Aggiungi questo include all'inizio del file
+#include <QScrollBar>
 #include <QModelIndex>
 #include "../Headers/MainPage.h"
 #include "../../Modello logico/Headers/Media.h"
@@ -19,18 +19,13 @@
 #include <QDebug>
 
 MainPage::MainPage(QWidget *parent, Biblioteca* biblio) : QWidget(parent) {
-    // Se viene passata una biblioteca, la usiamo, altrimenti ne creiamo una nuova
-    if (biblio) {
-        biblioteca = biblio;
-    } else {
-        string id = "VC";
-        biblioteca = new Biblioteca(id);
-    }
+    // Non serve fare controlli su biblio, in quanto la libraryChoicePage fornisce sempre una biblioteca valida (vuota o non)
+    biblioteca = biblio;
 
-    // Inizializza il tracciamento del file
+    // Inizializzazione del tracciamento del file
     hasCurrentFile = false;
     currentFilePath = "";
-    isNewLibrary = true; // Default: nuova biblioteca
+    isNewLibrary = true;
     hasUnsavedChanges = false;
 
     setupUI();
@@ -38,12 +33,20 @@ MainPage::MainPage(QWidget *parent, Biblioteca* biblio) : QWidget(parent) {
 
 void MainPage::setupUI(){
     // ------------------------- Barra superiore ----------------------------
-    backButton = new QPushButton("← Indietro");
+    backButton = new QPushButton("Indietro");
     addMediaButton = new QPushButton("Aggiungi Media");
+    saveButton = new QPushButton("Salva");
+    saveAsButton = new QPushButton("Salva come");
+
     backButton->setMinimumSize(100, 30);
     addMediaButton->setMinimumSize(100, 30);
+    saveButton->setMinimumSize(100, 30);
+    saveAsButton->setMinimumSize(120, 30);
 
-    // Tasto indietro
+    saveButton->setObjectName("saveButton");
+    saveAsButton->setObjectName("saveAsButton");
+
+    // Pulsante indietro
     backButton->setStyleSheet(
         "QPushButton {"
         "   background-color: rgb(0, 104, 201);"
@@ -56,17 +59,8 @@ void MainPage::setupUI(){
         "   background-color:rgb(11, 82, 189);"
         "}"
     );
-    connect(backButton, &QPushButton::clicked, this, &MainPage::onBackButtonClicked);
-    connect(addMediaButton, &QPushButton::clicked, this, &MainPage::onAddMediaButtonClicked);
 
-    topBarLayout = new QHBoxLayout();
-    topBarLayout->addWidget(backButton, 1);
-    topBarLayout->addWidget(addMediaButton, 5);
-
-    // Modifica il pulsante di salvataggio per essere più specifico
-    QPushButton* saveButton = new QPushButton("Salva");
-    saveButton->setObjectName("saveButton"); // Aggiungi questo
-    saveButton->setMinimumSize(100, 30);
+    // Pulsante Salva
     saveButton->setStyleSheet(
         "QPushButton {"
         "   background-color: rgb(0, 153, 51);"
@@ -79,12 +73,8 @@ void MainPage::setupUI(){
         "   background-color: rgb(0, 128, 43);"
         "}"
     );
-    connect(saveButton, &QPushButton::clicked, this, &MainPage::onSaveButtonClicked);
-    
-    // Aggiungi un pulsante "Salva come"
-    QPushButton* saveAsButton = new QPushButton("Salva come");
-    saveAsButton->setObjectName("saveAsButton"); // Aggiungi questo
-    saveAsButton->setMinimumSize(120, 30);
+
+    // Pulsante Salva come
     saveAsButton->setStyleSheet(
         "QPushButton {"
         "   background-color: rgb(0, 102, 153);"
@@ -97,11 +87,18 @@ void MainPage::setupUI(){
         "   background-color: rgb(0, 85, 128);"
         "}"
     );
+
+    connect(backButton, &QPushButton::clicked, this, &MainPage::onBackButtonClicked);
+    connect(addMediaButton, &QPushButton::clicked, this, &MainPage::onAddMediaButtonClicked);
+    connect(saveButton, &QPushButton::clicked, this, &MainPage::onSaveButtonClicked);
     connect(saveAsButton, &QPushButton::clicked, this, &MainPage::onSaveAsButtonClicked);
-    
-    // Aggiungi entrambi i pulsanti al layout
-    topBarLayout->addWidget(saveButton);
-    topBarLayout->addWidget(saveAsButton);
+
+    topBarLayout = new QHBoxLayout();
+    topBarLayout->addWidget(backButton, 1);
+    topBarLayout->addWidget(addMediaButton, 5);
+    topBarLayout->addWidget(saveButton, 1);
+    topBarLayout->addWidget(saveAsButton, 1);
+
 
     // ------------------------------- Menu filtri --------------------------------
     // Selezione tipo media
@@ -117,9 +114,10 @@ void MainPage::setupUI(){
     genreComboBox = new QComboBox();
     genreComboBox->addItem("Qualsiasi genere");
     genreComboBox->setEnabled(false); // Inizialmente disabilitato
-    genreComboBox->setToolTip("Seleziona prima un tipo di media specifico"); // Tooltip esplicativo
+    genreComboBox->setToolTip("Seleziona prima un tipo di media specifico");
     updateGenreComboBox(); // Popola i generi in base al tipo selezionato
 
+    // ?
     connect(mediaTypeComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &MainPage::onMediaTypeChanged);
 
     // Campi di input per rating
@@ -144,7 +142,7 @@ void MainPage::setupUI(){
 
     // Pulsanti per applicare ed eliminare i filtri
     applyFiltersButton = new QPushButton("Applica filtri");
-    clearFiltersButton = new QPushButton("Elimina filtri");
+    clearFiltersButton = new QPushButton("Cancella filtri");
 
     applyFiltersButton->setStyleSheet(
         "QPushButton {"
@@ -181,7 +179,7 @@ void MainPage::setupUI(){
     filtersLayout->addWidget(new QLabel("Genere:")); 
     filtersLayout->addWidget(genreComboBox);
 
-    filtersLayout->addWidget(new QLabel("Rating"));
+    filtersLayout->addWidget(new QLabel("Rating:"));
     filtersLayout->addWidget(ratingMinLineEdit);
     filtersLayout->addWidget(ratingMaxLineEdit);
 
@@ -211,10 +209,9 @@ void MainPage::setupUI(){
 
     // ------------------------- Barra di ricerca e lista media ------------------------
     searchBar = new QLineEdit();
-    searchBar->setPlaceholderText("Cerca per titolo...");
+    searchBar->setPlaceholderText("Cerca per titolo o autore...");
     searchBar->setStyleSheet("QLineEdit { background-color: rgb(255, 208, 0); color: black; border: 2px solid rgb(119, 114, 114); padding: 5px; border-radius: 4px; font-size: 12px; }");
 
-    // Connect search bar to search function
     connect(searchBar, &QLineEdit::textChanged, this, &MainPage::onSearchTextChanged);
 
     mediaList = new QListWidget();
@@ -223,6 +220,7 @@ void MainPage::setupUI(){
     mediaList->setMovement(QListView::Static);
     mediaList->setSelectionMode(QAbstractItemView::SingleSelection);
 
+    // listaMedia è un parametro locale a questo metodo, che sia da metterlo come membro della classe?
     vector<Media*> listaMedia = biblioteca->getListaMedia();
     updateMediaList(listaMedia);
 
@@ -236,29 +234,26 @@ void MainPage::setupUI(){
         "QListWidget::item:focus { outline: none; }"
     );
 
-    // Collega la selezione
+    // Collega la selezione e lo scroll
     connect(mediaList, &QListWidget::itemClicked, this, &MainPage::onMediaSelected);
-    
-    // Collega lo scroll
     connect(mediaList->verticalScrollBar(), &QScrollBar::valueChanged, this, &MainPage::onScrollChanged);
     
-
     centerLayout = new QVBoxLayout();
     centerLayout->addWidget(searchBar);
     centerLayout->addWidget(mediaList);
 
-    // Inizializzo i pulsantini da visualizzare quando un elemento è selezionato ma li nascondo inizialmente
+    // Inizializzazione widget dei pulsanti da visualizzare quando un elemento è selezionato
     buttonsContainer = new QWidget(mediaList);
-    buttonsContainer->hide();
+    buttonsContainer->hide(); // inizialmente nascosto
     
     QHBoxLayout* buttonsLayout = new QHBoxLayout(buttonsContainer);
     buttonsLayout->setContentsMargins(0, 0, 0, 0);
     buttonsLayout->setSpacing(6);
     
-    // Crea i pulsanti
+    // Creazione pulsanti
     listEditButton = new QPushButton();
     listEditButton->setToolTip("Modifica");
-    listEditButton->setFixedSize(26, 26); // Imposto la dimensione del bottone
+    listEditButton->setFixedSize(26, 26);
     QPixmap editIcon(":/Immagini/BottoneMatita.png");
     listEditButton->setIcon(QIcon(editIcon));
     listEditButton->setIconSize(QSize(16, 16));
@@ -280,7 +275,7 @@ void MainPage::setupUI(){
     
     listDeleteButton = new QPushButton();
     listDeleteButton->setToolTip("Rimuovi");
-    listDeleteButton->setFixedSize(26, 26); // Imposto la dimensione del bottone
+    listDeleteButton->setFixedSize(26, 26);
     QPixmap deleteIcon(":/Immagini/BottoneCestino.png");
     listDeleteButton->setIcon(QIcon(deleteIcon));
     listDeleteButton->setIconSize(QSize(20, 20));
@@ -299,15 +294,15 @@ void MainPage::setupUI(){
         "}"
     );
     
-    // Aggiungi i pulsanti al layout
+    // Aggiunta pulsanti al layout
     buttonsLayout->addWidget(listEditButton);
     buttonsLayout->addWidget(listDeleteButton);
     
-    // Collego i segnali
+    // Collegamento segnali
     connect(listEditButton, &QPushButton::clicked, this, &MainPage::onEditButtonClicked);
     connect(listDeleteButton, &QPushButton::clicked, this, &MainPage::onDeleteButtonClicked);
     
-    // Collego il cambio di selezione per nascondere i pulsanti
+    // Collegamento al cambio di selezione per nascondere i pulsanti
     connect(mediaList, &QListWidget::currentRowChanged, this, &MainPage::hideActionButtons);
 
 
@@ -362,6 +357,10 @@ void MainPage::setupUI(){
         "}"
     );
 
+    connect(borrowButton, &QPushButton::clicked, this, &MainPage::onBorrowButtonClicked);
+    connect(detailsButton, &QPushButton::clicked, this, &MainPage::onDetailsButtonClicked);
+    connect(editMediaButton, &QPushButton::clicked, this, &MainPage::onEditButtonClicked);
+
     // Layout verticale per la sezione destra
     previewLayout = new QVBoxLayout();
     previewLayout->addWidget(mediaImageLabel);
@@ -387,10 +386,6 @@ void MainPage::setupUI(){
     mainLayout->addLayout(contentLayout);
 
     setLayout(mainLayout);
-
-    connect(borrowButton, &QPushButton::clicked, this, &MainPage::onBorrowButtonClicked);
-    connect(detailsButton, &QPushButton::clicked, this, &MainPage::onDetailsButtonClicked);
-    connect(editMediaButton, &QPushButton::clicked, this, &MainPage::onEditButtonClicked);
 }
 
 void MainPage::updateImageSize(){
@@ -633,7 +628,6 @@ void MainPage::onEditButtonClicked() {
 }
 
 void MainPage::onDeleteButtonClicked() {
-    qDebug() << "=== INIZIO MainPage::onDeleteButtonClicked (PRIMA DEFINIZIONE) ===";
     
     QListWidgetItem* currentItem = mediaList->currentItem();
     if (!currentItem) return;
@@ -669,44 +663,30 @@ void MainPage::onDeleteButtonClicked() {
         
         // AGGIUNGI QUESTE RIGHE CRUCIALI:
         hasUnsavedChanges = true;
-        qDebug() << "hasUnsavedChanges impostato a:" << hasUnsavedChanges;
-        qDebug() << "Emettendo unsavedChangesUpdated(true)";
         emit unsavedChangesUpdated(true);
         updateSaveButtonsState();
     }
-    
-    qDebug() << "=== FINE MainPage::onDeleteButtonClicked ===";
 }
 
 void MainPage::onBorrowButtonClicked() {
-    qDebug() << "=== INIZIO MainPage::onBorrowButtonClicked ===";
-    
     // Ottieni l'elemento correntemente selezionato
     QListWidgetItem* currentItem = mediaList->currentItem();
     if (!currentItem) {
-        qDebug() << "Nessun elemento selezionato";
         return;
     }
     
     QVariant mediaData = currentItem->data(Qt::UserRole);
     if (!mediaData.isValid()) {
-        qDebug() << "Dati media non validi";
         return;
     }
     
     Media* selectedMedia = mediaData.value<Media*>();
     if (!selectedMedia) {
-        qDebug() << "Puntatore media nullo";
         return;
     }
     
-    qDebug() << "Media selezionato:" << QString::fromStdString(selectedMedia->getTitolo());
-    qDebug() << "Emettendo segnale borrowMedia";
-    
     // Emetti il segnale per prendere in prestito il media
     emit borrowMedia(selectedMedia);
-    
-    qDebug() << "=== FINE MainPage::onBorrowButtonClicked ===";
 }
 
 void MainPage::updateMediaList(vector<Media*> listaFiltrata) {
@@ -755,8 +735,6 @@ void MainPage::updateMediaList(vector<Media*> listaFiltrata) {
 }
 
 void MainPage::onNewMediaCreated(Media* newMedia) {
-    qDebug() << "=== INIZIO MainPage::onNewMediaCreated (PRIMA DEFINIZIONE) ===";
-    
     if(biblioteca->esisteMedia(newMedia->getTitolo(), newMedia->getAnno(), newMedia->getGenere())){
         QMessageBox::StandardButton reply = QMessageBox::question(this, "Media già esistente", 
             "Un media con lo stesso titolo, anno e genere esiste già nella biblioteca. Vuoi aumentare il numero di copie di questo media presenti in biblioteca?", 
@@ -793,16 +771,11 @@ void MainPage::onNewMediaCreated(Media* newMedia) {
 
     // AGGIUNGI QUESTE RIGHE CRUCIALI ALLA FINE:
     hasUnsavedChanges = true;
-    qDebug() << "hasUnsavedChanges impostato a:" << hasUnsavedChanges;
-    qDebug() << "Emettendo unsavedChangesUpdated(true)";
     emit unsavedChangesUpdated(true);
     updateSaveButtonsState();
-    qDebug() << "=== FINE MainPage::onNewMediaCreated ===";
 }
 
 void MainPage::onMediaEdited() {
-    qDebug() << "=== INIZIO MainPage::onMediaEdited (PRIMA DEFINIZIONE) ===";
-    
     updateMediaList(biblioteca->getListaMedia());
     
     // Reset anteprima
@@ -824,12 +797,8 @@ void MainPage::onMediaEdited() {
 
     // AGGIUNGI QUESTE RIGHE CRUCIALI:
     hasUnsavedChanges = true;
-    qDebug() << "hasUnsavedChanges impostato a:" << hasUnsavedChanges;
-    qDebug() << "Emettendo unsavedChangesUpdated(true)";
     emit unsavedChangesUpdated(true);
     updateSaveButtonsState();
-    
-    qDebug() << "=== FINE MainPage::onMediaEdited ===";
 }
 
 void MainPage::onDetailsButtonClicked() {
@@ -860,18 +829,18 @@ void MainPage::setCurrentFile(const QString& filePath) {
 }
 
 void MainPage::updateSaveButtonsState() {
-    // Trova i pulsanti nella UI
+    // Trovo i pulsanti nella UI
     QPushButton* saveButton = findChild<QPushButton*>("saveButton");
     QPushButton* saveAsButton = findChild<QPushButton*>("saveAsButton");
     
     if (saveButton && saveAsButton) {
         if (isNewLibrary) {
-            // Per nuove biblioteche: disabilita "Salva", abilita solo "Salva come"
+            // Per nuove biblioteche: "Salva" disibalitato, "Salva come" abilitato
             saveButton->setEnabled(false);
             saveButton->setToolTip("Usa 'Salva come' per creare un nuovo file");
             saveAsButton->setEnabled(true);
         } else {
-            // Per biblioteche esistenti: abilita entrambi
+            // Per biblioteche esistenti: abilitati entrambi
             saveButton->setEnabled(hasCurrentFile);
             saveButton->setToolTip(hasCurrentFile ? "Salva nel file corrente" : "Nessun file corrente");
             saveAsButton->setEnabled(true);
@@ -1107,9 +1076,6 @@ void MainPage::resetUnsavedChanges() {
 }
 
 void MainPage::setHasUnsavedChanges(bool hasChanges) {
-    qDebug() << "=== MainPage::setHasUnsavedChanges ===";
-    qDebug() << "Impostando hasUnsavedChanges a:" << hasChanges;
-    
     hasUnsavedChanges = hasChanges;
     emit unsavedChangesUpdated(hasChanges);
     updateSaveButtonsState();

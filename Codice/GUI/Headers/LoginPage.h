@@ -29,6 +29,8 @@ private:
     QPushButton *loginButton;
     QLabel *errorLabel;
 
+    void setupUI();
+
 private slots:
     void onLoginButtonClicked();
 

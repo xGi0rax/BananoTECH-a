@@ -13,70 +13,76 @@ void LibraryChoicePage::setupUI() {
     this->setObjectName("libraryChoicePage");
     this->setAttribute(Qt::WA_StyledBackground, true);
     this->setAutoFillBackground(true);
-    this->setStyleSheet("#libraryChoicePage {background-image: url(:/Immagini/Sfondo1Definitivo.jpg); background-repeat: no-repeat; background-position: center; background-attachment: fixed; }");
+    this->setStyleSheet("#libraryChoicePage {"
+                        " background-image: url(:/Immagini/SfondoLogin.jpg);"
+                        " background-repeat: no-repeat;"
+                        " background-position: center center;"
+                        " background-attachment: fixed;"
+                        "}"
+    );
 
     // Creazione del Frame che contiene i campi di input e i bottoni
     QFrame *choiceFrame = new QFrame(this);
-    choiceFrame->setFixedSize(450, 350); // Leggermente più alto del loginFrame
+    choiceFrame->setFixedSize(450, 350);
     choiceFrame->setStyleSheet("QFrame { background-color:rgb(42, 68, 113); border: 2px solid #000000; border-radius: 10px; }");
 
     // Label di benvenuto
     QLabel *welcomeLabel = new QLabel("Benvenuto nella BananoTECH-a", choiceFrame);
     welcomeLabel->setAlignment(Qt::AlignCenter);
     welcomeLabel->setStyleSheet("background-color: #333333; font-size: 24px; font-weight: bold; color: white;");
-    welcomeLabel->setFixedHeight(57);
+    // welcomeLabel->setFixedHeight(57);
 
     // Descrizione con migliore visibilità
-    descriptionLabel = new QLabel("Scegli se caricare una biblioteca esistente o creane una nuova!");
-    descriptionLabel->setStyleSheet("font-size: 17px; color: white; border: none;");
+    descriptionLabel = new QLabel("Vuoi caricare una biblioteca esistente o creane una nuova?", choiceFrame);
+    descriptionLabel->setStyleSheet("font-size: 18px; color: white; border: none;");
     descriptionLabel->setAlignment(Qt::AlignCenter);
     descriptionLabel->setWordWrap(true);
     
     // Pulsante per caricare da file
-    loadFileButton = new QPushButton("Carica da file");
-    loadFileButton->setFixedSize(300, 60);
+    loadFileButton = new QPushButton("Carica da file", choiceFrame);
+    loadFileButton->setFixedSize(330, 50);
     loadFileButton->setStyleSheet(
         "QPushButton {"
-        "   background-color: rgb(0, 104, 201);"
-        "   color: white;"
-        "   border: none;"
+        "   background-color: rgb(225, 192, 37);"
+        "   color: black;"
+        "   border: 1px solid #AAAAAA;"
         "   border-radius: 8px;"
         "   font-size: 18px;"
         "}"
         "QPushButton:hover {"
-        "   background-color: rgb(11, 82, 189);"
+        "   background-color: rgb(184, 174, 90);"
         "}"
     );
     
     // Pulsante per creare una nuova biblioteca
-    newLibraryButton = new QPushButton("Crea nuova biblioteca");
-    newLibraryButton->setFixedSize(300, 60);
+    newLibraryButton = new QPushButton("Crea nuova biblioteca", choiceFrame);
+    newLibraryButton->setFixedSize(330, 50);
     newLibraryButton->setStyleSheet(
         "QPushButton {"
-        "   background-color: rgb(230, 209, 26);"
+        "   background-color: rgb(225, 192, 37);"
         "   color: black;"
-        "   border: none;"
+        "   border: 1px solid #AAAAAA;"
         "   border-radius: 8px;"
         "   font-size: 18px;"
         "}"
         "QPushButton:hover {"
-        "   background-color: rgb(186, 169, 13);"
+        "   background-color: rgb(184, 174, 90);"
         "}"
     );
     
     // Pulsante per tornare al login
-    QPushButton* backButton = new QPushButton("← Indietro");
+    QPushButton* backButton = new QPushButton("Indietro", choiceFrame);
     backButton->setFixedSize(150, 45);
     backButton->setStyleSheet(
         "QPushButton {"
-        "   background-color: #555555;"
+        "   background-color: rgb(0, 104, 201);"
         "   color: white;"
-        "   border: none;"
+        "   border: 1px solid black;"
         "   border-radius: 5px;"
         "   font-size: 16px;"
         "}"
         "QPushButton:hover {"
-        "   background-color: #444444;"
+        "   background-color: rgb(11, 82, 189);"
         "}"
     );
     
@@ -100,18 +106,12 @@ void LibraryChoicePage::setupUI() {
     
     // Layout esterno per centrare il frame
     QVBoxLayout *outerLayout = new QVBoxLayout(this);
-    outerLayout->setContentsMargins(0, 0, 0, 0); // Rimuovo i margini
-    outerLayout->addStretch(); // Aggiungo uno spazio flessibile sopra
+    outerLayout->setContentsMargins(0, 0, 0, 0);
+    outerLayout->addStretch();
     outerLayout->addWidget(choiceFrame, 0, Qt::AlignCenter);
-    outerLayout->addStretch(); // Aggiungo uno spazio flessibile sotto
+    outerLayout->addStretch();
     
     this->setLayout(outerLayout);
-
-    // RIMUOVI QUESTA RIGA CHE CREA LA BIBLIOTECA AUTOMATICAMENTE:
-    // string idBiblio = "VC";  // ID predefinito
-    // biblioteca = new Biblioteca(idBiblio);
-    
-    // Lascia biblioteca = nullptr finché l'utente non sceglie
 }
 
 void LibraryChoicePage::onLoadFileButtonClicked() {
@@ -135,7 +135,7 @@ void LibraryChoicePage::onLoadFileButtonClicked() {
             // Crea una nuova biblioteca vuota
             string idBiblio = "VC";
             biblioteca = new Biblioteca(idBiblio);
-            
+
             bool success = false;
             
             if (filePath.endsWith(".json", Qt::CaseInsensitive)) {
@@ -150,7 +150,7 @@ void LibraryChoicePage::onLoadFileButtonClicked() {
                 QMessageBox::information(this, "Caricamento completato", 
                     "I dati della biblioteca sono stati caricati con successo!");
                 
-                // BIBLIOTECA ESISTENTE - isNewLibrary = false
+                // Si è caricata una biblioteca esistente -> isNewLibrary = false
                 emit libraryReady(biblioteca, filePath, false);
             } else {
                 QMessageBox::warning(this, "Errore di caricamento", 
@@ -169,12 +169,12 @@ void LibraryChoicePage::onNewLibraryButtonClicked() {
         biblioteca = nullptr;
     }
     
-    // Crea una NUOVA biblioteca completamente vuota
+    // Crea una nuova biblioteca completamente vuota
     string idBiblio = "VC";
     biblioteca = new Biblioteca(idBiblio);
     
     QMessageBox::information(this, "Biblioteca creata", "Una nuova biblioteca vuota è stata creata con successo!");
     
-    // NUOVA BIBLIOTECA - isNewLibrary = true, filePath vuoto
+    // Quando viene creata una nuova biblioteca isNewLibrary = true e filePath vuoto
     emit libraryReady(biblioteca, "", true);
 }

@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent) {
     // Configurazione della pagina di login
     setupLoginPage();
 
-    // Mostro inizialmente la pagina di login
+    // Inizialmente viene mostrata la pagina di login
     stackedWidget->setCurrentWidget(loginPage);
 
     setWindowTitle("BananoTECH-a");
@@ -30,9 +30,7 @@ MainWindow::~MainWindow() {
 void MainWindow::setupLoginPage(){
     // Creazione della pagina di login
     loginPage = new LoginPage(this);
-
     stackedWidget->addWidget(loginPage);
-
     connect(loginPage, &LoginPage::loginAttempted, this, &MainWindow::onLoginButtonClicked);
 }
 
@@ -41,10 +39,8 @@ void MainWindow::setupLibraryChoicePage() {
     libraryChoicePage = new LibraryChoicePage(this);
     stackedWidget->addWidget(libraryChoicePage);
     
-    // Connetti il segnale libraryReady
+    // Connessione segnale libraryReady e pulsante indietro
     connect(libraryChoicePage, &LibraryChoicePage::libraryReady, this, &MainWindow::onLibraryReady);
-    
-    // Aggiungi questa connessione per il pulsante indietro
     connect(libraryChoicePage, &LibraryChoicePage::goToLoginPage, this, &MainWindow::switchToLoginPage);
 }
 
@@ -54,7 +50,7 @@ void MainWindow::setupMainPage(Biblioteca* biblio) {
     // Creazione della pagina principale con la biblioteca fornita
     mainPage = new MainPage(this, biblioteca);
     
-    // Imposta il file corrente SOLO se non è una nuova biblioteca
+    // Impostazione del file corrente solo se non è una nuova biblioteca
     if (!isNewLibrary && !loadedFilePath.isEmpty()) {
         mainPage->setCurrentFile(loadedFilePath);
     }
@@ -72,8 +68,7 @@ void MainWindow::setupMainPage(Biblioteca* biblio) {
     connect(mainPage, &MainPage::goToDetailsPage, this, &MainWindow::switchToDetailsPage);
     connect(mainPage, &MainPage::borrowMedia, this, &MainWindow::prendiInPrestitoMedia);
     
-
-
+    
     // C'è un FUNTORE, BISOGNA MODIFICARE
 
     // VERIFICA CHE QUESTA CONNESSIONE ESISTA E SIA CORRETTA
@@ -163,6 +158,7 @@ void MainWindow::onLibraryReady(Biblioteca* biblio, const QString& filePath, boo
     setupAddPage();
     setupDetailsPage();
     setupModifyPage();
+
     switchToMainPage();
 }
 
@@ -176,12 +172,12 @@ void MainWindow::switchToAddPage() {
 
 void MainWindow::switchToDetailsPage(Media* media) {
     detailsPage->setMedia(media);
-    stackedWidget->setCurrentWidget(detailsPage);
+    stackedWidget->setCurrentWidget(detailsPage); // Cambia alla pagina di dettagli del media
 }
 
 void MainWindow::switchToModifyPage(Media* media) {
     modifyPage->setMedia(media);
-    stackedWidget->setCurrentWidget(modifyPage);
+    stackedWidget->setCurrentWidget(modifyPage); // Cambia alla pagina di modifica del media
 }
 
 void MainWindow::onLoginButtonClicked() {
@@ -200,8 +196,6 @@ void MainWindow::onLoginButtonClicked() {
 }
 
 bool MainWindow::validateLogin(const QString &username, const QString &password) {
-    // Per ora, accettiamo qualsiasi combinazione di username e password
-    // altrimenti, scrivere:
     //return username == "admin" && password == "admin";
     return !username.isEmpty() && !password.isEmpty();
 }
@@ -238,6 +232,8 @@ void MainWindow::prendiInPrestitoMedia(Media* media) {
     }
 }
 
+
+// QUESTO METODO NON DOVREBBE ESSERE NELLA PAGINE DI DETTAGLI?
 void MainWindow::restituisciMedia(Media* media) {
     if (!media) {
         QMessageBox::warning(this, "Errore", "Media non valido.");

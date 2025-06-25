@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/">
-        <file>Immagini/Sfondo1Definitivo.jpg</file>
+        <file>Immagini/SfondoLogin.jpg</file>
         <file>Immagini/icon1.png</file>
         <file>Immagini/LogoLibro1.png</file>
         <file>Immagini/LogoFilm1.png</file>

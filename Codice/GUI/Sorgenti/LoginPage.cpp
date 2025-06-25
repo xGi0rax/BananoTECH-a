@@ -1,12 +1,20 @@
 #include "../Headers/LoginPage.h"
 
 LoginPage::LoginPage(QWidget *parent) : QWidget(parent) {
+    setupUI();
+}
 
-    // Imposto backgound e stile della pagina di login
+void LoginPage::setupUI() {
+    // Imposto background e stile della pagina di login
     this->setObjectName("loginPage");
     this->setAttribute(Qt::WA_StyledBackground, true);
     this->setAutoFillBackground(true);
-    this->setStyleSheet("#loginPage {background-image: url(:/Immagini/Sfondo1Definitivo.jpg); background-repeat: no-repeat; background-position: center; background-attachment: fixed; }");
+    this->setStyleSheet("#loginPage {"
+                        "background-image: url(:/Immagini/SfondoLogin.jpg);"
+                        "background-repeat: no-repeat;"
+                        "background-position: center center;"
+                        "background-attachment: fixed;"
+                        "}");
 
     // Creazione del Frame che contiene i campi di input e il bottone
     QFrame *loginFrame = new QFrame(this);
@@ -32,10 +40,10 @@ LoginPage::LoginPage(QWidget *parent) : QWidget(parent) {
 
     loginButton = new QPushButton("Accedi", loginFrame);
     loginButton->setFixedSize(150, 45);
-    loginButton->setStyleSheet("QPushButton { background-color:rgb(230, 209, 26); border: 1px solid #AAAAAA; border-radius: 5px; padding: 8px 16px; font-size: 18px;}"
+    loginButton->setStyleSheet("QPushButton { background-color: rgb(225, 192, 37); border: 1px solid #AAAAAA; border-radius: 5px; padding: 8px 16px; font-size: 18px;}"
         "QPushButton:hover { background-color: rgb(184, 174, 90); }");
     
-        // Collegamento del pulsante di login
+    // Collegamento del pulsante di login
     connect(loginButton, &QPushButton::clicked, this, &LoginPage::onLoginButtonClicked);
 
     // Label per messaggi di errore
@@ -46,7 +54,6 @@ LoginPage::LoginPage(QWidget *parent) : QWidget(parent) {
 
     // Layout verticale per il contenuto del frame
     QVBoxLayout *loginWidgetsLayout = new QVBoxLayout();
-
     loginWidgetsLayout->setContentsMargins(10, 10, 10, 10); 
     loginWidgetsLayout->setSpacing(10); // Spaziatura tra i widget
 
@@ -60,14 +67,12 @@ LoginPage::LoginPage(QWidget *parent) : QWidget(parent) {
 
     // Layout esterno per centrare i widget
     QVBoxLayout *outerLayout = new QVBoxLayout(this);
-    outerLayout->setContentsMargins(0, 0, 0, 0); // Rimuovo i margini
-    outerLayout->addStretch(); // Aggiungo uno spazio flessibile sopra
+    outerLayout->setContentsMargins(0, 0, 0, 0);
+    outerLayout->addStretch();
     outerLayout->addWidget(loginFrame, 0, Qt::AlignCenter); 
-    outerLayout->addStretch(); // Aggiungo uno spazio flessibile sotto
+    outerLayout->addStretch();
 
     this->setLayout(outerLayout);
-
-    
 }
 
 QString LoginPage::getUsername() const {
@@ -89,7 +94,7 @@ void LoginPage::clearErrorMessage() {
 }
 
 void LoginPage::onLoginButtonClicked() {
-    clearErrorMessage(); // Pulisci eventuali messaggi di errore precedenti
+    clearErrorMessage(); // Pulizia di eventuali messaggi di errore precedenti
     emit loginAttempted(); // Emissione del segnale di tentativo di login
 }
 

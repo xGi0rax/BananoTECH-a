@@ -22,12 +22,11 @@ private slots:
     void onNewLibraryButtonClicked();
 
 private:
+    QLabel* descriptionLabel;
     QPushButton* loadFileButton;
     QPushButton* newLibraryButton;
-    QLabel* titleLabel;
-    QLabel* descriptionLabel;
-    Biblioteca* biblioteca;
-    bool isCreatingNewLibrary; // Flag per sapere se si sta creando una nuova biblioteca
+    
+    Biblioteca* biblioteca; // Puntatore alla biblioteca corrente
 
     void setupUI();
 };

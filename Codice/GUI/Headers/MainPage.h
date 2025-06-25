@@ -26,28 +26,29 @@ class MainPage : public QWidget {
 
 public:
     explicit MainPage(QWidget *parent = nullptr, Biblioteca* biblioteca = nullptr);
-    void onMediaSelected(QListWidgetItem *item);
-    void setCurrentFile(const QString& filePath);
-    void setLibraryInfo(bool isNew, bool hasChanges); 
+    void onMediaSelected(QListWidgetItem *item); // Metodo per gestire la selezione di un media dalla lista
+    void setCurrentFile(const QString& filePath); 
+    void setLibraryInfo(bool isNew, bool hasChanges);  
     void resetUnsavedChanges();
     void setHasUnsavedChanges(bool hasChanges);
 
 public slots:
-    void onBackButtonClicked();  // Slot per il tasto indietro
+    void onBackButtonClicked();  // Slot per pulsante indietro
     void onMediaTypeChanged(); // Slot per il cambio del tipo di media nei filtri
     void onApplyFiltersClicked(); // Slot per applicare i filtri
     void onClearFiltersClicked(); // Slot per cancellare i filtri
-    void onAddMediaButtonClicked(); // Slot per aggiungere un nuovo media
+    void onAddMediaButtonClicked(); // Slot per il pulsante di aggiunta di un nuovo media
     void onBorrowButtonClicked(); // Slot per il pulsante di prestito del media
+    void onDetailsButtonClicked(); // Slot per il pulsante di visualizzazione dei dettagli del media
     void onEditButtonClicked(); // Slot per il pulsante di modifica del media
     void onDeleteButtonClicked(); // Slot per il pulsante di rimozione del media dalla lista
     void onNewMediaCreated(Media* newMedia); // Slot per aggiungere un nuovo media alla lista
     void onMediaEdited(); // Slot per aggiornare un media esistente
-    void onSearchTextChanged(const QString& searchText);
-    void onScrollChanged();
+    void onSearchTextChanged(const QString& searchText); // Slot per gestire il cambiamento del testo nella barra di ricerca
+    void onScrollChanged(); 
     
-    void onSaveButtonClicked(); // Nuovo slot per salvare nel file corrente
-    void onSaveAsButtonClicked(); // Nuovo slot per "Salva come"
+    void onSaveButtonClicked(); // Slot per pulsante "Salva"
+    void onSaveAsButtonClicked(); // Slot per pulsante "Salva come"
 
 signals:
     void goToChoicePage(); // Segnale per notificare il cambio alla ChoicePage
@@ -56,14 +57,15 @@ signals:
     void goToModifyPage(Media* media); // Segnale per notificare il cambio alla ModifyPage
     void goToDetailsPage(Media* media); // Segnale per notificare il cambio alla DetailsPage
     void borrowMedia(Media* media); // Segnale per prendere in prestito un media
-    void libraryModified(); // Nuovo segnale per notificare modifiche
-    void unsavedChangesUpdated(bool hasChanges); // NUOVO SEGNALE per aggiornare lo stato delle modifiche non salvate
+    void libraryModified(); // Segnale per notificare modifiche ------------------------- QUESTO SEGNALE NON VIENE USATO
+    void unsavedChangesUpdated(bool hasChanges); // Segnale per aggiornare lo stato delle modifiche non salvate
 
 private:
     // Barra superiore
     QPushButton *backButton;
     QPushButton *addMediaButton;
-    //QPushButton *editModeButton;
+    QPushButton *saveButton;
+    QPushButton *saveAsButton;
 
     // Sezione sinistra (Filtri)
     QComboBox *mediaTypeComboBox;
@@ -126,7 +128,6 @@ private:
     // void setupFilters(); // metodo per configurare i filtri
     void updateGenreComboBox(); // metodo per aggiornare la combobox dei generi in base al tipo di media selezionato
     void updateMediaList(vector<Media*> listaFiltrata); // metodo per aggiornare la lista dei media in base ai filtri selezionati
-    void onDetailsButtonClicked();
     void saveToFile(const QString& filePath); 
     void updateSaveButtonsState(); // Metodo per aggiornare stato pulsanti
 
