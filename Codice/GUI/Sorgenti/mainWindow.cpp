@@ -131,11 +131,10 @@ void MainWindow::switchToLibraryChoicePage() {
             QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
         
         if (reply == QMessageBox::No || reply == QMessageBox::Cancel) {
-            return; // Non uscire
+            return; 
         }
-        // Se Yes, continua con l'uscita
+
     } else {
-        // COSA METTERE AL POSTO DI QUESTO COMMENTO?
         qDebug() << "CONDIZIONE FALSA: Nessuna modifica non salvata, uscita diretta";
     }
     

@@ -19,7 +19,6 @@
 #include <QDebug>
 
 MainPage::MainPage(QWidget *parent, Biblioteca* biblio) : QWidget(parent) {
-    // Non serve fare controlli su biblio, in quanto la libraryChoicePage fornisce sempre una biblioteca valida (vuota o non)
     biblioteca = biblio;
 
     // Inizializzazione del tracciamento del file
@@ -117,7 +116,6 @@ void MainPage::setupUI(){
     genreComboBox->setToolTip("Seleziona prima un tipo di media specifico");
     updateGenreComboBox(); // Popola i generi in base al tipo selezionato
 
-    // ?
     connect(mediaTypeComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &MainPage::onMediaTypeChanged);
 
     // Campi di input per rating
@@ -603,6 +601,8 @@ void MainPage::onClearFiltersClicked() {
     maxYearLineEdit->clear();
     availableCheckBox->setChecked(true); // Reset checkbox disponibilità a stato predefinito
     
+    searchBar->clear(); //viene cancellato anche il contenuto della barra di ricerca
+
     // Ripristina la lista con tutti i media disponibili in biblioteca
     vector<Media*> listaCompleta = biblioteca->getListaMedia();
     updateMediaList(listaCompleta);
@@ -769,7 +769,6 @@ void MainPage::onNewMediaCreated(Media* newMedia) {
         editMediaButton->setEnabled(false);
     }
 
-    // AGGIUNGI QUESTE RIGHE CRUCIALI ALLA FINE:
     hasUnsavedChanges = true;
     emit unsavedChangesUpdated(true);
     updateSaveButtonsState();
@@ -840,9 +839,16 @@ void MainPage::updateSaveButtonsState() {
             saveButton->setToolTip("Usa 'Salva come' per creare un nuovo file");
             saveAsButton->setEnabled(true);
         } else {
-            // Per biblioteche esistenti: abilitati entrambi
-            saveButton->setEnabled(hasCurrentFile);
-            saveButton->setToolTip(hasCurrentFile ? "Salva nel file corrente" : "Nessun file corrente");
+            saveButton->setEnabled(true);
+
+            if (!hasCurrentFile) {
+                saveButton->setToolTip("Nessun file corrente");
+            } else if (!hasUnsavedChanges) {
+                saveButton->setToolTip("Nessuna modifica da salvare");
+            } else {
+                saveButton->setToolTip("Salva nel file corrente");
+            }
+            
             saveAsButton->setEnabled(true);
         }
     }
@@ -852,6 +858,11 @@ void MainPage::onSaveButtonClicked() {
     if (isNewLibrary) {
         QMessageBox::information(this, "Nuova biblioteca", 
             "Per una nuova biblioteca, usa 'Salva come' per creare il file.");
+        return;
+    }
+
+    if (!hasUnsavedChanges) {
+        QMessageBox::information(this, "Nessuna modifica", "Non ci sono modifiche da salvare, la biblioteca è già aggiornata.");
         return;
     }
     
@@ -864,7 +875,7 @@ void MainPage::onSaveButtonClicked() {
         updateSaveButtonsState();
         
         // Notifica il MainWindow che non ci sono più modifiche non salvate
-        emit unsavedChangesUpdated(false); // AGGIUNGI QUESTA RIGA
+        emit unsavedChangesUpdated(false); 
     } else {
         // Se non c'è un file corrente, chiama "Salva come"
         onSaveAsButtonClicked();
@@ -911,7 +922,7 @@ void MainPage::onSaveAsButtonClicked() {
             updateSaveButtonsState();
             
             // Notifica il MainWindow che non ci sono più modifiche non salvate
-            emit unsavedChangesUpdated(false); // AGGIUNGI QUESTA RIGA
+            emit unsavedChangesUpdated(false);
         }
     }
 }
@@ -989,20 +1000,34 @@ void MainPage::updateButtonsPosition() {
     // Ottieni il testo dell'elemento e calcola approssimativamente la larghezza del testo
     QString itemText = item->text();
     QFontMetrics fontMetrics(mediaList->font());
-    int textWidth = fontMetrics.horizontalAdvance(itemText) + 40; // Aggiungi margine per l'icona e spazio extra
+    int iconWidth = 27;
+    int iconMargin = 8;
+    int textWidth = fontMetrics.horizontalAdvance(itemText);
+    int totalContentWidth = iconWidth + iconMargin + textWidth;
+
+    // Posizione X: sempre dopo il contenuto + margine di sicurezza
+    int marginAfterText = 15; // Margine fisso dopo il testo
+    int xPosition = rect.left() + totalContentWidth + marginAfterText;
     
-    // Assicurati che la larghezza del testo non superi il 70% della larghezza dell'elemento
-    int maxTextWidth = rect.width() * 0.7;
-    if (textWidth > maxTextWidth) {
-        textWidth = maxTextWidth;
+    // IMPORTANTE: Assicurati che i pulsanti non escano dal bordo destro
+    int rightMargin = 10; // Margine dal bordo destro
+    int maxXPosition = rect.right() - buttonWidth - rightMargin;
+    
+    // Se la posizione calcolata è troppo a destra, limita alla posizione massima
+    if (xPosition > maxXPosition) {
+        xPosition = maxXPosition;
     }
     
-    // Posiziona i pulsanti a destra del testo, con un margine di sicurezza
-    int xPosition = rect.left() + textWidth + 20; // 20px di margine dopo il testo
-    
-    // Se i pulsanti finissero fuori dal campo visibile, riposizionali
-    if (xPosition + buttonWidth > rect.right()) {
-        xPosition = rect.right() - buttonWidth - 5; // 5px di margine dal bordo destro
+    // CORREZIONE: Se anche la posizione massima non è sufficiente, 
+    // significa che il testo è troppo lungo per l'elemento
+    if (xPosition < rect.left() + totalContentWidth + 5) {
+        // In questo caso, posiziona i pulsanti al 75% della larghezza dell'elemento
+        xPosition = rect.left() + (rect.width() * 0.75);
+        
+        // Verifica ancora che non escano dal bordo
+        if (xPosition + buttonWidth > rect.right() - rightMargin) {
+            xPosition = rect.right() - buttonWidth - rightMargin;
+        }
     }
     
     // Centramento verticale
@@ -1048,7 +1073,6 @@ void MainPage::saveToFile(const QString& filePath) {
             hasUnsavedChanges = false;
             updateSaveButtonsState();
             
-            // AGGIUNGI QUESTA RIGA per notificare MainWindow
             emit unsavedChangesUpdated(false);
         } else {
             QMessageBox::warning(this, "Errore di salvataggio", 
