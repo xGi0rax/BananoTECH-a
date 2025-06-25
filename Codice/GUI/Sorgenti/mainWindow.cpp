@@ -72,13 +72,13 @@ void MainWindow::setupMainPage(Biblioteca* biblio) {
     connect(mainPage, &MainPage::goToDetailsPage, this, &MainWindow::switchToDetailsPage);
     connect(mainPage, &MainPage::borrowMedia, this, &MainWindow::prendiInPrestitoMedia);
     
+
+
+    // C'è un FUNTORE, BISOGNA MODIFICARE
+
     // VERIFICA CHE QUESTA CONNESSIONE ESISTA E SIA CORRETTA
     connect(mainPage, &MainPage::unsavedChangesUpdated, this, [this](bool hasChanges) {
-        qDebug() << "=== MainWindow riceve unsavedChangesUpdated ===";
-        qDebug() << "Nuovo valore hasChanges:" << hasChanges;
-        qDebug() << "Valore precedente hasUnsavedChanges:" << hasUnsavedChanges;
         hasUnsavedChanges = hasChanges;
-        qDebug() << "hasUnsavedChanges aggiornato a:" << hasUnsavedChanges;
     });
 }
 
@@ -128,28 +128,19 @@ void MainWindow::switchToLoginPage() {
 }
 
 void MainWindow::switchToLibraryChoicePage() {
-    // DEBUG DETTAGLIATO
-    qDebug() << "=== CONTROLLO USCITA switchToLibraryChoicePage ===";
-    qDebug() << "hasUnsavedChanges:" << hasUnsavedChanges;
-    qDebug() << "isNewLibrary:" << isNewLibrary;
-    qDebug() << "loadedFilePath:" << loadedFilePath;
-    
     // Controlla SOLO se ci sono modifiche non salvate
     if (hasUnsavedChanges) {
-        qDebug() << "CONDIZIONE VERA: Mostrando pop-up per modifiche non salvate";
-        
         QMessageBox::StandardButton reply = QMessageBox::question(this, 
             "Modifiche non salvate", 
             "Ci sono modifiche non salvate. Sei sicuro di voler uscire senza salvare?",
             QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
         
         if (reply == QMessageBox::No || reply == QMessageBox::Cancel) {
-            qDebug() << "Utente ha scelto di non uscire";
             return; // Non uscire
         }
-        qDebug() << "Utente ha confermato l'uscita";
         // Se Yes, continua con l'uscita
     } else {
+        // COSA METTERE AL POSTO DI QUESTO COMMENTO?
         qDebug() << "CONDIZIONE FALSA: Nessuna modifica non salvata, uscita diretta";
     }
     
@@ -216,8 +207,6 @@ bool MainWindow::validateLogin(const QString &username, const QString &password)
 }
 
 void MainWindow::prendiInPrestitoMedia(Media* media) {
-    qDebug() << "=== INIZIO prendiInPrestitoMedia ===";
-    
     if (!media) {
         QMessageBox::warning(this, "Errore", "Media non valido.");
         return;
@@ -242,19 +231,14 @@ void MainWindow::prendiInPrestitoMedia(Media* media) {
     
     // NOTIFICA LA MODIFICA ALLA BIBLIOTECA:
     hasUnsavedChanges = true;
-    qDebug() << "Prestito effettuato - hasUnsavedChanges MainWindow impostato a:" << hasUnsavedChanges;
     
     // Notifica anche MainPage
     if (mainPage) {
         mainPage->setHasUnsavedChanges(true);
     }
-    
-    qDebug() << "=== FINE prendiInPrestitoMedia ===";
 }
 
 void MainWindow::restituisciMedia(Media* media) {
-    qDebug() << "=== INIZIO restituisciMedia ===";
-    
     if (!media) {
         QMessageBox::warning(this, "Errore", "Media non valido.");
         return;
@@ -282,12 +266,9 @@ void MainWindow::restituisciMedia(Media* media) {
     
     // NOTIFICA LA MODIFICA ALLA BIBLIOTECA:
     hasUnsavedChanges = true;
-    qDebug() << "Restituzione effettuata - hasUnsavedChanges MainWindow impostato a:" << hasUnsavedChanges;
     
     // Notifica anche MainPage
     if (mainPage) {
         mainPage->setHasUnsavedChanges(true);
     }
-    
-    qDebug() << "=== FINE restituisciMedia ===";
 }
