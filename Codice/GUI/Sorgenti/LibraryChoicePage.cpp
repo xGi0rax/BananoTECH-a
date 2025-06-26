@@ -133,8 +133,7 @@ void LibraryChoicePage::onLoadFileButtonClicked() {
             }
             
             // Crea una nuova biblioteca vuota
-            string idBiblio = "VC";
-            biblioteca = new Biblioteca(idBiblio);
+            biblioteca = new Biblioteca();
 
             bool success = false;
             
@@ -170,8 +169,7 @@ void LibraryChoicePage::onNewLibraryButtonClicked() {
     }
     
     // Crea una nuova biblioteca completamente vuota
-    string idBiblio = "VC";
-    biblioteca = new Biblioteca(idBiblio);
+    biblioteca = new Biblioteca();
     
     QMessageBox::information(this, "Biblioteca creata", "Una nuova biblioteca vuota è stata creata con successo!");
     

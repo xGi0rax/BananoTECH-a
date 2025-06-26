@@ -2,11 +2,9 @@
 
 --> generali:
   - ha senso tenere l'id della biblioteca?
-  - crash nel salvataggio della biblioteca dopo una modifica
-  - crash quando provo a ricare un nuova biblioteca da file dopo essere tornato indietro dopo averne caricata già una
   - crash dopo aver eliminato un media, salvato la bibioteca, cercato di modificare un media e schiacciato su "salva media"
-  - errore di caricamento da file json
   - modificare "data pubblicazione" nei media rivista in modo che sia nel formato gg-MM-aaaa
+  - popolare campo Editore nei file json e xml
 
 --> sistemare mainPage:
   - sistemare ridimensionamento finestra mainPage

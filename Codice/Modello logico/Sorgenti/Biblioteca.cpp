@@ -6,7 +6,7 @@
 #include "../Headers/GiocoDaTavolo.h"
 #include "../Headers/Rivista.h"
 
-Biblioteca::Biblioteca(string& idBiblio) : idBiblioteca(idBiblio), nextIdmedia(1) {}
+Biblioteca::Biblioteca() : nextIdmedia(1) {}
 
 Biblioteca::~Biblioteca() {
     for (auto media : listaMedia) {
@@ -15,7 +15,7 @@ Biblioteca::~Biblioteca() {
 }
 
 void Biblioteca::aggiungiMedia(Media* media) {
-    media->setId(idBiblioteca + "-" + std::to_string(nextIdmedia++));
+    media->setId(std::to_string(nextIdmedia++));
     listaMedia.push_back(media);
 }
 
@@ -34,7 +34,6 @@ Media* Biblioteca::cercaMediaDaT_A_G(const string& titolo, int anno, const strin
             return m;
         }
     }
-    // throw std::runtime_error("Il media non esiste in biblioteca.");
     return nullptr; // Se non trovato, ritorna nullptr
 }
 
