@@ -36,11 +36,11 @@ Media* XmlIO::xmlToMedia(const QDomElement& elemento) const{
 
     if (tipo == "film") {
         int durata = elemento.attribute("durata").toInt();
-        vector<string> cast; // Vettore per memorizzare il cast
-        QDomNodeList castList = elemento.elementsByTagName("attore"); // Ottiene gli attori dal nodo XML
+        vector<string> cast;
+        QDomNodeList castList = elemento.elementsByTagName("attore");
         for (int i = 0; i < castList.size(); ++i) {
             QDomElement attore = castList.at(i).toElement();
-            cast.push_back(attore.text().toStdString()); // Aggiunge ogni attore al vettore
+            cast.push_back(attore.text().toStdString());
         }
         return new Film(titolo, autore, genere, anno, lingua, immagine, disponibilita, numero_copie, durata, cast, in_prestito, collocazione, rating);
 

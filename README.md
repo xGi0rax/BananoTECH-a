@@ -1,10 +1,7 @@
 # BananoTECH-a
 
 --> generali:
-  - ha senso tenere l'id della biblioteca?
   - crash dopo aver eliminato un media, salvato la bibioteca, cercato di modificare un media e schiacciato su "salva media"
-  - modificare "data pubblicazione" nei media rivista in modo che sia nel formato gg-MM-aaaa
-  - popolare campo Editore nei file json e xml
 
 --> sistemare mainPage:
   - sistemare ridimensionamento finestra mainPage
