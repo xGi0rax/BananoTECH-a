@@ -318,7 +318,12 @@ void MainPage::setupUI(){
     // Label per le informazioni del media
     mediaTitleLabel = new QLabel();
     mediaTitleLabel->setMinimumWidth(150);
+    mediaTitleLabel->setWordWrap(true); // Abilita il wrapping del testo
+    mediaTitleLabel->setAlignment(Qt::AlignTop | Qt::AlignLeft); // Allinea in alto a sinistra
+    
     mediaAuthorLabel = new QLabel("Seleziona un media per vedere i dettagli");
+    mediaAuthorLabel->setWordWrap(true); // Abilita il wrapping anche per l'autore
+    
     mediaYearLabel = new QLabel();
     mediaRatingLabel = new QLabel();
 
@@ -372,6 +377,15 @@ void MainPage::setupUI(){
     previewLayout->addWidget(editMediaButton);
 
     previewGroupBox->setLayout(previewLayout);
+    
+    // Imposta le policy di dimensionamento per mantenere le proporzioni
+    previewGroupBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    
+    // Imposta dimensioni minime e massime per evitare espansioni indesiderate
+    previewGroupBox->setMinimumWidth(200);
+    previewGroupBox->setMaximumWidth(400);
+    filtersGroupBox->setMinimumWidth(200);
+    filtersGroupBox->setMaximumWidth(400);
 
     // Layout principale
     contentLayout = new QHBoxLayout();
@@ -390,8 +404,18 @@ void MainPage::updateImageSize(){
     if (!originalPixmap.isNull()) {
         // Calcola la dimensione massima disponibile per l'immagine
         int maxImageWidth = this->width() / 3;
-        int availableWidth = qMin(previewGroupBox->width(), maxImageWidth); 
+        
+        // Sottrai i margini del layout e del GroupBox per evitare overflow
+        int groupBoxMargins =  5; // Ridotto da 20 a 5 per margine meno largo
+        int layoutMargins = previewLayout->contentsMargins().left() + previewLayout->contentsMargins().right();
+        int totalMargins = groupBoxMargins + layoutMargins - 3;
+        
+        int availableWidth = qMin(previewGroupBox->width() - totalMargins, maxImageWidth - totalMargins); 
         int availableHeight = previewGroupBox->height() / 2; // Metà altezza per l'immagine
+        
+        // Assicurati che le dimensioni siano positive
+        availableWidth = qMax(150, availableWidth); // Dimensione minima
+        availableHeight = qMax(150, availableHeight);
         
         // Calcola la dimensione mantenendo le proporzioni
         QSize newSize = originalPixmap.size();
@@ -417,8 +441,18 @@ void MainPage::resizeEvent(QResizeEvent* event) {
     QWidget::resizeEvent(event);
 
     int maxImageWidth = this->width() / 3;
-    int imageWidth = qMin(previewGroupBox->width(), maxImageWidth);
+    
+    // Sottrai i margini per evitare overflow
+    int groupBoxMargins = 5; // Ridotto da 20 a 10 per margine meno largo
+    int layoutMargins = previewLayout->contentsMargins().left() + previewLayout->contentsMargins().right();
+    int totalMargins = groupBoxMargins + layoutMargins - 3; 
+    
+    int imageWidth = qMin(previewGroupBox->width() - totalMargins, maxImageWidth - totalMargins);
     int imageHeight = previewGroupBox->height() / 2;
+    
+    // Assicurati che le dimensioni siano positive
+    imageWidth = qMax(150, imageWidth);
+    imageHeight = qMax(150, imageHeight);
     
     mediaImageLabel->setFixedSize(imageWidth, imageHeight); 
 

@@ -4,7 +4,6 @@
   - crash dopo aver eliminato un media, salvato la bibioteca, cercato di modificare un media e schiacciato su "salva media"
 
 --> sistemare mainPage:
-  - sistemare ridimensionamento finestra mainPage
   - far funzionare visualizzazione immagini in anteprima
 
 ## Modifiche minori:
