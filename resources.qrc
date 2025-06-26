@@ -56,5 +56,6 @@
         <file>Immagini/magic.jpg</file>
         <file>Immagini/catan.jpg</file>
         <file>Immagini/dnd.jpg</file>
+        <file>Immagini/wired.jpg</file>
     </qresource>
 </RCC>
