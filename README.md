@@ -1,8 +1,5 @@
 # BananoTECH-a
 
---> addpage e modifypage:
-  - quando aggiungo un nuovo media e carico un'immagine dal pc viene salvata con il percorso del pc (C:\Users\Desktop\ ecc ecc...)
-
 ## Modifiche minori:
 - lag quando si seleziona un media dalla lista
 - lag quando si ridimensiona la finestra mentre c'è un media selezionato
@@ -15,4 +12,4 @@
 - ricordarsi di cambiare username e password per effettuare il login
 
 ## Varie ed eventuali:
-- (DetailsPage) quando si schiaccia restituisci devi comparire un pop-up che mostri tutti gli id di tutti i media con quel titolo e che permetta di inserire l'id del media che si vuole restituire, nel caso in cui questo id non faccia parte della biblioteca allora deve comparire un messaggio di errore (scrivere nella relazione che il fatto che nel pop-up compaiano tutti gli id è perchè si tratta di una biblioteca ideale, se fosse reale allora gli id sono riportati esclusivamente sull'ettichetta dei media)
+- (DetailsPage) quando si schiaccia restituisci devi comparire un pop-up che mostri tutti gli id di tutti i media con quel titolo e che permetta di inserire l'id del media che si vuole restituire, nel caso in cui questo id non faccia parte della biblioteca allora deve comparire un messaggio di errore (scrivere nella relazione che il fatto che nel pop-up compaiano tutti gli id è perchè si tratta di una biblioteca ideale, se fosse reale allora gli id sono riportati esclusivamente sull'ettichetta dei media)\
