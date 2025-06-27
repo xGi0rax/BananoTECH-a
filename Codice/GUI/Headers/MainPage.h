@@ -40,6 +40,7 @@ public slots:
     void onClearFiltersClicked(); // Slot per cancellare i filtri
     void onAddMediaButtonClicked(); // Slot per il pulsante di aggiunta di un nuovo media
     void onBorrowButtonClicked(); // Slot per il pulsante di prestito del media
+    void onReturnButtonClicked(); // Slot per il pulsante di restituzione del media
     void onDetailsButtonClicked(); // Slot per il pulsante di visualizzazione dei dettagli del media
     void onEditButtonClicked(); // Slot per il pulsante di modifica del media
     void onDeleteButtonClicked(); // Slot per il pulsante di rimozione del media dalla lista
@@ -58,6 +59,7 @@ signals:
     void goToModifyPage(Media* media); // Segnale per notificare il cambio alla ModifyPage
     void goToDetailsPage(Media* media); // Segnale per notificare il cambio alla DetailsPage
     void borrowMedia(Media* media); // Segnale per prendere in prestito un media
+    void returnMedia(Media* media); // Segnale per restituire un media
     void libraryModified(); // Segnale per notificare modifiche ------------------------- QUESTO SEGNALE NON VIENE USATO
     void unsavedChangesUpdated(bool hasChanges); // Segnale per aggiornare lo stato delle modifiche non salvate
 
@@ -90,6 +92,7 @@ private:
     QLabel *mediaImageLabel;
     QLabel *mediaInfoLabel;
     QPushButton *borrowButton;
+    QPushButton *returnButton;
     QPushButton *detailsButton;
     QLabel *mediaTitleLabel;
     QLabel *mediaAuthorLabel;

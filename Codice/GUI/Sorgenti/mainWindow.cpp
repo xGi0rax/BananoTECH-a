@@ -67,6 +67,7 @@ void MainWindow::setupMainPage(Biblioteca* biblio) {
     connect(mainPage, &MainPage::goToModifyPage, this, &MainWindow::switchToModifyPage);
     connect(mainPage, &MainPage::goToDetailsPage, this, &MainWindow::switchToDetailsPage);
     connect(mainPage, &MainPage::borrowMedia, this, &MainWindow::prendiInPrestitoMedia);
+    connect(mainPage, &MainPage::returnMedia, this, &MainWindow::restituisciMedia);
     
     
     // C'è un FUNTORE, BISOGNA MODIFICARE
@@ -231,8 +232,6 @@ void MainWindow::prendiInPrestitoMedia(Media* media) {
     }
 }
 
-
-// QUESTO METODO NON DOVREBBE ESSERE NELLA PAGINE DI DETTAGLI?
 void MainWindow::restituisciMedia(Media* media) {
     if (!media) {
         QMessageBox::warning(this, "Errore", "Media non valido.");

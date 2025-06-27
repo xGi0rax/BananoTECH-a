@@ -329,10 +329,25 @@ void MainPage::setupUI(){
 
     // Pulsanti
     borrowButton = new QPushButton("Prendi in prestito");
+    returnButton = new QPushButton("Restituisci");
     detailsButton = new QPushButton("Approfondisci");
     editMediaButton = new QPushButton("Modifica media");
 
     borrowButton->setStyleSheet(
+        "QPushButton {"
+        "   background-color: rgb(0, 104, 201);"
+        "   color: white;"
+        "   border: none;"
+        "   border-radius: 4px;"
+        "   font-size: 14px;"
+        "   padding: 3px;"
+        "}"
+        "QPushButton:hover {"
+        "   background-color:rgb(11, 82, 189);"
+        "}"
+    );
+
+    returnButton->setStyleSheet(
         "QPushButton {"
         "   background-color: rgb(0, 104, 201);"
         "   color: white;"
@@ -361,6 +376,7 @@ void MainPage::setupUI(){
     );
 
     connect(borrowButton, &QPushButton::clicked, this, &MainPage::onBorrowButtonClicked);
+    connect(returnButton, &QPushButton::clicked, this, &MainPage::onReturnButtonClicked);
     connect(detailsButton, &QPushButton::clicked, this, &MainPage::onDetailsButtonClicked);
     connect(editMediaButton, &QPushButton::clicked, this, &MainPage::onEditButtonClicked);
 
@@ -373,6 +389,7 @@ void MainPage::setupUI(){
     previewLayout->addWidget(mediaRatingLabel);
     previewLayout->addStretch();
     previewLayout->addWidget(borrowButton);
+    previewLayout->addWidget(returnButton);
     previewLayout->addWidget(detailsButton);
     previewLayout->addWidget(editMediaButton);
 
@@ -793,6 +810,27 @@ void MainPage::onBorrowButtonClicked() {
     
     // Emetti il segnale per prendere in prestito il media
     emit borrowMedia(selectedMedia);
+}
+
+void MainPage::onReturnButtonClicked() {
+    // Ottieni l'elemento correntemente selezionato
+    QListWidgetItem* currentItem = mediaList->currentItem();
+    if (!currentItem) {
+        return;
+    }
+    
+    QVariant mediaData = currentItem->data(Qt::UserRole);
+    if (!mediaData.isValid()) {
+        return;
+    }
+    
+    Media* selectedMedia = mediaData.value<Media*>();
+    if (!selectedMedia) {
+        return;
+    }
+    
+    // Emetti il segnale per restituire il media
+    emit returnMedia(selectedMedia);
 }
 
 void MainPage::updateMediaList(vector<Media*> listaFiltrata) {
