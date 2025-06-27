@@ -2,6 +2,10 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QSplitter>
+#include <QFileInfo>
+#include <QDir>
+#include <QFile>
+#include <QTextStream>
 
 AddPage::AddPage(QWidget *parent) : QWidget(parent), currentWidget(nullptr) {
     setupUI();
@@ -9,7 +13,7 @@ AddPage::AddPage(QWidget *parent) : QWidget(parent), currentWidget(nullptr) {
 }
 
 void AddPage::setupUI() {
-    // Layout orizzontale principale
+    // Layout oizzontale principale
     QHBoxLayout *mainHLayout = new QHBoxLayout(this);
     mainHLayout->setContentsMargins(0, 0, 0, 0);
     mainHLayout->setSpacing(0);
@@ -132,26 +136,34 @@ void AddPage::onUploadButtonClicked() {
         if (!pixmap.isNull()) {
             imagePreview->setPixmap(pixmap);
             
-            // CORREZIONE: Gestisce il percorso dell'immagine correttamente
-            // Crea la cartella Images se non esiste
-            QDir appDir = QDir::current();
-            if (!appDir.exists("Images")) {
-                appDir.mkdir("Images");
-            }
-            
-            // Estrae solo il nome del file
+            // Estrae solo il nome del file dal percorso completo
             QFileInfo fileInfo(imagePath);
             QString fileName = fileInfo.fileName();
-            QString newPath = appDir.absoluteFilePath("Images/" + fileName);
             
-            // Copia il file nella cartella Images del progetto
-            if (QFile::copy(imagePath, newPath)) {
-                // Salva il percorso relativo
-                selectedImagePath = "Images/" + fileName;
+            // Definisce il percorso della cartella Immagini del progetto
+            QString projectImagesDir = QDir::currentPath() + "/../Immagini";
+            
+            // Crea la cartella se non esiste
+            QDir dir;
+            if (!dir.exists(projectImagesDir)) {
+                dir.mkpath(projectImagesDir);
+            }
+            
+            // Percorso di destinazione completo
+            QString destinationPath = projectImagesDir + "/" + fileName;
+            
+            // Copia il file nella cartella del progetto
+            if (QFile::copy(imagePath, destinationPath)) {
+                // Salva solo il nome del file - il percorso verrà costruito dinamicamente
+                selectedImagePath = fileName;
             } else {
-                // Se la copia fallisce, usa il percorso originale (fallback)
-                QMessageBox::warning(this, "Attenzione", "Impossibile copiare l'immagine nella cartella del progetto. Verrà utilizzato il percorso originale.");
-                selectedImagePath = imagePath;
+                // Se la copia fallisce, verifica se il file esiste già
+                if (QFile::exists(destinationPath)) {
+                    selectedImagePath = fileName;
+                } else {
+                    QMessageBox::warning(this, "Errore", "Impossibile copiare l'immagine nella cartella del progetto.");
+                    return;
+                }
             }
         } else {
             QMessageBox::warning(this, "Errore", "Impossibile caricare l'immagine selezionata.");
@@ -355,6 +367,8 @@ void AddPage::onAddButtonClicked() {
             mediaTypeGroup->setExclusive(false);
             mediaTypeGroup->checkedButton()->setChecked(false);
             mediaTypeGroup->setExclusive(true);
+            selectedImagePath.clear();
+            imagePreview->setPixmap(QPixmap());
         }
         // Mostro la pagina di selezione
         mainContentStack->setCurrentWidget(selectionWidget);

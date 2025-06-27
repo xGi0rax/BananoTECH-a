@@ -126,7 +126,7 @@ Media* GiocoWidget::createMedia() {
         minAgeEdit->value(),
         editorEdit->text().toStdString(),
         0,    // in prestito predefinito
-        "",   // collocazione predefinita
+        collocationEdit->text().toStdString(),
         static_cast<float>(ratingEdit->value())
     );
 }

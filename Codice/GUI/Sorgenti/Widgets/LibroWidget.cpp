@@ -112,7 +112,7 @@ Media* LibroWidget::createMedia() {
         editorEdit->text().toStdString(),
         pagesEdit->value(),
         0,    // in prestito predefinito
-        "",   // collocazione predefinita
+        collocationEdit->text().toStdString(),
         static_cast<float>(ratingEdit->value())
     );
 }

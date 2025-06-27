@@ -132,7 +132,7 @@ Media* FilmWidget::createMedia() {
         durationFilmEdit->value(),
         cast,
         0,    // in prestito predefinito
-        "",   // collocazione predefinita
+        collocationEdit->text().toStdString(),
         static_cast<float>(ratingEdit->value())
     );
 }

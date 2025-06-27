@@ -128,7 +128,7 @@ Media* RivistaWidget::createMedia() {
         dateStr.toStdString(),
         periodicityComboBox->currentText().toStdString(),
         0,    // in prestito predefinito
-        "",   // collocazione predefinita
+        collocationEdit->text().toStdString(),
         static_cast<float>(ratingEdit->value())
     );
 }

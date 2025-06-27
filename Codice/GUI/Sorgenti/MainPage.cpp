@@ -490,7 +490,11 @@ void MainPage::onMediaSelected(QListWidgetItem *item) {
         mediaRatingLabel->setStyleSheet("font-size: 14px;");
 
         // Aggiorno l'immagine
-        QPixmap pixmap(QString::fromStdString(media->getImmagine()));
+        QString imagePath = QString::fromStdString(media->getImmagine());
+        
+        // Costruisci sempre il percorso alla cartella Immagini
+        QString fullPath = QDir::currentPath() + "/../Immagini/" + imagePath;
+        QPixmap pixmap(fullPath);
 
         if (!pixmap.isNull()) {
             originalPixmap = pixmap;

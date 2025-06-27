@@ -104,7 +104,7 @@ Media* VinileWidget::createMedia() {
         trackCountEdit->value(),
         durationEdit->value(),
         0,    // in prestito predefinito
-        "",   // collocazione predefinita
+        collocationEdit->text().toStdString(),
         static_cast<float>(ratingEdit->value())
     );
 }
