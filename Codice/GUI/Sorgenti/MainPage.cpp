@@ -470,8 +470,8 @@ void MainPage::onMediaSelected(QListWidgetItem *item) {
     // Altrimenti mostra i pulsanti per la nuova riga
     showActionButtons(row);
     
-    // Ottieni il puntatore al media dalla riga selezionata
-    Media* media = biblioteca->getListaMedia()[row];
+    // CORREZIONE: Usa l'oggetto Media salvato nell'item invece dell'indice
+    Media* media = item->data(Qt::UserRole).value<Media*>();
     
     // Aggiorna il pannello di anteprima
     if (media) {
