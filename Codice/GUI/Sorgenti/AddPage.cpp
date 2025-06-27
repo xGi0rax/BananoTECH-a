@@ -131,7 +131,28 @@ void AddPage::onUploadButtonClicked() {
         QPixmap pixmap(imagePath);
         if (!pixmap.isNull()) {
             imagePreview->setPixmap(pixmap);
-            selectedImagePath = imagePath;
+            
+            // CORREZIONE: Gestisce il percorso dell'immagine correttamente
+            // Crea la cartella Images se non esiste
+            QDir appDir = QDir::current();
+            if (!appDir.exists("Images")) {
+                appDir.mkdir("Images");
+            }
+            
+            // Estrae solo il nome del file
+            QFileInfo fileInfo(imagePath);
+            QString fileName = fileInfo.fileName();
+            QString newPath = appDir.absoluteFilePath("Images/" + fileName);
+            
+            // Copia il file nella cartella Images del progetto
+            if (QFile::copy(imagePath, newPath)) {
+                // Salva il percorso relativo
+                selectedImagePath = "Images/" + fileName;
+            } else {
+                // Se la copia fallisce, usa il percorso originale (fallback)
+                QMessageBox::warning(this, "Attenzione", "Impossibile copiare l'immagine nella cartella del progetto. Verrà utilizzato il percorso originale.");
+                selectedImagePath = imagePath;
+            }
         } else {
             QMessageBox::warning(this, "Errore", "Impossibile caricare l'immagine selezionata.");
         }

@@ -238,26 +238,51 @@ void ModifyPage::onSaveButtonClicked() {
 }
 
 void ModifyPage::onUploadButtonClicked() {
-    // Apri finestra di dialogo per selezionare un'immagine
     QString imagePath = QFileDialog::getOpenFileName(this, "Seleziona un'immagine", 
                                                    "", "Immagini (*.png *.jpg *.jpeg *.bmp)");
     
     if (imagePath.isEmpty()) {
-        return;  // L'utente ha annullato la selezione
+        return;
     }
     
-    // Carica e mostra l'immagine selezionata
     QPixmap pixmap(imagePath);
     if (pixmap.isNull()) {
         QMessageBox::warning(this, "Errore", "Impossibile caricare l'immagine selezionata");
         return;
     }
     
-    // Ridimensiona l'immagine mantenendo le proporzioni
     QPixmap scaledPixmap = pixmap.scaled(imagePreview->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
     imagePreview->setPixmap(scaledPixmap);
     imagePreview->setScaledContents(false);
     
-    // Salva il percorso dell'immagine
-    currentImagePath = imagePath;
+    // Crea la cartella Images se non esiste
+    QDir appDir = QDir::current();
+    if (!appDir.exists("Images")) {
+        appDir.mkdir("Images");
+    }
+    
+    // Gestisce nomi file duplicati
+    QFileInfo fileInfo(imagePath);
+    QString baseName = fileInfo.completeBaseName(); // Nome senza estensione
+    QString extension = fileInfo.suffix(); // Estensione
+    QString fileName = fileInfo.fileName();
+    QString newPath = appDir.absoluteFilePath("Images/" + fileName);
+    
+    // Se il file esiste, aggiungi un numero progressivo
+    int counter = 1;
+    while (QFile::exists(newPath)) {
+        fileName = QString("%1_%2.%3").arg(baseName).arg(counter).arg(extension);
+        newPath = appDir.absoluteFilePath("Images/" + fileName);
+        counter++;
+    }
+    
+    // Copia il file con il nome definitivo
+    if (QFile::copy(imagePath, newPath)) {
+        currentImagePath = "Images/" + fileName;
+        qDebug() << "File salvato come:" << currentImagePath;
+    } else {
+        // Fallback al percorso originale
+        currentImagePath = imagePath;
+        qDebug() << "Usando percorso originale:" << currentImagePath;
+    }
 }
