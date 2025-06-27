@@ -21,7 +21,7 @@
 MainPage::MainPage(QWidget *parent, Biblioteca* biblio) : QWidget(parent) {
     biblioteca = biblio;
 
-    // Inizializzazione del tracciamento del file
+    // Inizializzazione del tracciamento del file utilizzato per caricare la biblioteca
     hasCurrentFile = false;
     currentFilePath = "";
     isNewLibrary = true;
@@ -489,12 +489,33 @@ void MainPage::onMediaSelected(QListWidgetItem *item) {
         mediaRatingLabel->setText(stars);
         mediaRatingLabel->setStyleSheet("font-size: 14px;");
 
-        // Aggiorno l'immagine
+        // Aggiorno l'immagine - GESTIONE CROSS-PLATFORM
         QString imagePath = QString::fromStdString(media->getImmagine());
         
-        // Costruisci sempre il percorso alla cartella Immagini
-        QString fullPath = QDir::currentPath() + "/../Immagini/" + imagePath;
-        QPixmap pixmap(fullPath);
+        QPixmap pixmap;
+        
+        // Usa QDir per gestire i percorsi in modo cross-platform
+        QDir currentDir = QDir::current();
+        
+        // Prova diverse possibili ubicazioni
+        QStringList possiblePaths = {
+            currentDir.absoluteFilePath("Immagini/" + imagePath),           // ./Immagini/
+            currentDir.absoluteFilePath("../Immagini/" + imagePath),        // ../Immagini/
+            currentDir.absoluteFilePath("../../Immagini/" + imagePath),     // ../../Immagini/
+            currentDir.absoluteFilePath("GUI/Immagini/" + imagePath),       // ./GUI/Immagini/
+            currentDir.absoluteFilePath("../GUI/Immagini/" + imagePath)     // ../GUI/Immagini/
+        };
+        
+        // Prova ogni percorso finché non ne trova uno che funziona
+        for (const QString& path : possiblePaths) {
+            if (QFile::exists(path)) {
+                pixmap.load(path);
+                if (!pixmap.isNull()) {
+                    qDebug() << "Immagine caricata da:" << path;
+                    break;
+                }
+            }
+        }
 
         if (!pixmap.isNull()) {
             originalPixmap = pixmap;
@@ -503,6 +524,7 @@ void MainPage::onMediaSelected(QListWidgetItem *item) {
             mediaImageLabel->setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX); // Dimensione massima illimitata
             updateImageSize(); // Aggiorna la dimensione dell'immagine
         } else {
+            qDebug() << "Immagine non trovata:" << imagePath;
             mediaImageLabel->setText("Immagine non disponibile");
             mediaImageLabel->setStyleSheet(
                 "border: 1px solid black;"
@@ -1234,5 +1256,10 @@ void MainPage::updateTextTruncation() {
         
         // Aggiorna il testo dell'elemento
         item->setText(truncatedText);
+    }
+    
+    // AGGIUNTA: Aggiorna la posizione dei pulsanti se c'è un elemento selezionato
+    if (buttonsContainer->isVisible() && currentSelectedRow >= 0) {
+        updateButtonsPosition();
     }
 }

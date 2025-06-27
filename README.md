@@ -1,18 +1,12 @@
 # BananoTECH-a
 
---> generali:
-  - crash dopo aver eliminato un media, salvato la bibioteca, cercato di modificare un media e schiacciato su "salva media"
-  - quando elimino un media con il pulsantino del cestino e poi schiaccio su "Salva" per salvare la biblioteca nel file in realtà nel file cancella solo i campi specifici di quel media invece che tutto il media (quindi non cancella i campi comuni di ogni media)
+--> mainPage
+ - immagini non si vedono da GN
 
---> addpage e modifypage:
-  - aggiunto un nuovo media l'immagine dovrebbe venire messa nella cartella Immagini
-  - aggiunto un nuovo media l'immagine dovrebbe venire messa anche nel file resources.qrc
-
+ - immagine non si vede nella detailsPage
 
 
 ## Modifiche minori:
-- lag quando si seleziona un media dalla lista
-- lag quando si ridimensiona la finestra mentre c'è un media selezionato
 - colori vari
 - controllare che segnali e slot siano corretti
 - controllare tutti i commenti (rimuovere quelli superflui e aggiungerne per spiegare i vari metodi)
