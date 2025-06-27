@@ -20,7 +20,7 @@ public:
     // Metodi per aggiunta e rimozione dei media
     void aggiungiMedia(Media* media); // Aggiunge un media (e assegna ID)
     bool esisteMedia(const string& titolo, int anno, const string& genere) const; // Metodo per controllare se un media esiste gia' prima di aggiungerlo
-    bool rimuoviMedia(string& id); // Rimuove un media per ID
+    bool rimuoviMedia(Media* media); // Rimuove un media dalla biblioteca
     Media* cercaMediaDaID(const string& id) const; // Cerca un media per ID
     Media* cercaMediaDaT_A_G(const string& titolo, int anno, const string& genere) const; // Cerca l'ID di un media in base a titolo, anno e genere
     bool modificaMedia(const string& id, Media* media); // Modifica un media esistente in base all'ID

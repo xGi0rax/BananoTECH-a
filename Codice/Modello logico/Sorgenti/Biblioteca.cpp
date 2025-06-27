@@ -48,13 +48,14 @@ bool Biblioteca::modificaMedia(const string& id, Media* media) {
     return false;
 }
 
-bool Biblioteca::rimuoviMedia(string& id){
-    for (auto it = listaMedia.begin(); it != listaMedia.end(); ++it) {
-        if ((*it)->getId() == id) {
-            delete *it;
-            listaMedia.erase(it);
-            return true;
-        }
+bool Biblioteca::rimuoviMedia(Media* media) {
+    if (!media) return false;
+    
+    auto it = std::find(listaMedia.begin(), listaMedia.end(), media);
+    if (it != listaMedia.end()) {
+        listaMedia.erase(it);
+        delete media; // IMPORTANTE: La biblioteca gestisce la memoria
+        return true;
     }
     return false;
 }

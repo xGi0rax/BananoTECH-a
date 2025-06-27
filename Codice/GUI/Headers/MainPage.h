@@ -31,6 +31,7 @@ public:
     void setLibraryInfo(bool isNew, bool hasChanges);  
     void resetUnsavedChanges();
     void setHasUnsavedChanges(bool hasChanges);
+    void updateTextTruncation();
 
 public slots:
     void onBackButtonClicked();  // Slot per pulsante indietro

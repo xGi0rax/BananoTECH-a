@@ -443,7 +443,7 @@ void MainPage::resizeEvent(QResizeEvent* event) {
     int maxImageWidth = this->width() / 3;
     
     // Sottrai i margini per evitare overflow
-    int groupBoxMargins = 5; // Ridotto da 20 a 10 per margine meno largo
+    int groupBoxMargins = 5;
     int layoutMargins = previewLayout->contentsMargins().left() + previewLayout->contentsMargins().right();
     int totalMargins = groupBoxMargins + layoutMargins - 3; 
     
@@ -457,6 +457,9 @@ void MainPage::resizeEvent(QResizeEvent* event) {
     mediaImageLabel->setFixedSize(imageWidth, imageHeight); 
 
     updateImageSize();
+    
+    // AGGIUNGI QUESTA RIGA per aggiornare il troncamento quando la finestra viene ridimensionata
+    updateTextTruncation();
 }
 
 void MainPage::onMediaSelected(QListWidgetItem *item) {
@@ -662,43 +665,86 @@ void MainPage::onEditButtonClicked() {
 }
 
 void MainPage::onDeleteButtonClicked() {
-    
     QListWidgetItem* currentItem = mediaList->currentItem();
-    if (!currentItem) return;
+    if (!currentItem) {
+        qDebug() << "Nessun elemento selezionato per la rimozione";
+        return;
+    }
     
     Media* selectedMedia = currentItem->data(Qt::UserRole).value<Media*>();
-    if (!selectedMedia) return;
+    if (!selectedMedia) {
+        qDebug() << "Media non valido nell'elemento selezionato";
+        return;
+    }
     
-    QString message = QString("Sei sicuro di voler rimuovere '%1' dalla biblioteca?").arg(QString::fromStdString(selectedMedia->getTitolo()));
+    QString message = QString("Sei sicuro di voler rimuovere '%1' dalla biblioteca?")
+                      .arg(QString::fromStdString(selectedMedia->getTitolo()));
     
-    QMessageBox::StandardButton reply = QMessageBox::question(this, "Conferma eliminazione", message, QMessageBox::Yes | QMessageBox::No);
+    QMessageBox::StandardButton reply = QMessageBox::question(this, 
+        "Conferma eliminazione", 
+        message, 
+        QMessageBox::Yes | QMessageBox::No);
     
     if (reply == QMessageBox::Yes) {
-        delete mediaList->takeItem(mediaList->row(currentItem));
-        delete selectedMedia;
-        hideActionButtons();
+        qDebug() << "=== INIZIO eliminazione media ===";
+        qDebug() << "Eliminando:" << QString::fromStdString(selectedMedia->getTitolo());
         
-        // Reset anteprima
-        mediaTitleLabel->setText("");
-        mediaAuthorLabel->setText("Seleziona un media per vedere i dettagli");
-        mediaYearLabel->setText("");
-        mediaRatingLabel->setText("");
-        mediaImageLabel->setText("Nessuna immagine");
-        mediaImageLabel->setStyleSheet(
-            "border: 1px solid black;"
-            "background-color: white;"
-            "color: gray;"
-            "padding: 5px;"
-        );
-        
-        borrowButton->setEnabled(false);
-        detailsButton->setEnabled(false);
-        editMediaButton->setEnabled(false);
-        
-        // AGGIUNGI QUESTE RIGHE CRUCIALI:
-        hasUnsavedChanges = true;
-        emit unsavedChangesUpdated(true);
-        updateSaveButtonsState();
+        // STEP 1: Rimuovi dalla biblioteca (verifica che il metodo esista)
+        if (biblioteca && biblioteca->rimuoviMedia(selectedMedia)) {
+            qDebug() << "Media rimosso dalla biblioteca con successo";
+            
+            // STEP 2: Nascondi immediatamente i pulsanti per evitare azioni su un elemento inesistente
+            hideActionButtons();
+            
+            // STEP 3: Reset dell'anteprima PRIMA di rimuovere dalla UI
+            mediaTitleLabel->setText("");
+            mediaAuthorLabel->setText("Seleziona un media per vedere i dettagli");
+            mediaYearLabel->setText("");
+            mediaRatingLabel->setText("");
+            mediaImageLabel->setText("Nessuna immagine");
+            mediaImageLabel->setStyleSheet(
+                "border: 1px solid black;"
+                "background-color: white;"
+                "color: gray;"
+                "padding: 5px;"
+            );
+            
+            borrowButton->setEnabled(false);
+            detailsButton->setEnabled(false);
+            editMediaButton->setEnabled(false);
+            
+            // STEP 4: Reset della selezione corrente
+            currentSelectedRow = -1;
+            
+            // STEP 5: Rimuovi dalla UI (l'elemento dalla lista)
+            int row = mediaList->row(currentItem);
+            QListWidgetItem* removedItem = mediaList->takeItem(row);
+            if (removedItem) {
+                delete removedItem; // Pulisci solo l'item UI, non il Media*
+                qDebug() << "Elemento UI rimosso dalla lista";
+            }
+            
+            // STEP 6: Aggiorna lo stato delle modifiche
+            hasUnsavedChanges = true;
+            emit unsavedChangesUpdated(true);
+            updateSaveButtonsState();
+            
+            // STEP 7: Se la lista è vuota, assicurati che tutto sia pulito
+            if (mediaList->count() == 0) {
+                qDebug() << "Lista media ora vuota - reset completo UI";
+                mediaList->clearSelection();
+            }
+            
+            qDebug() << "=== FINE eliminazione media (successo) ===";
+            
+        } else {
+            // ERRORE: La rimozione dalla biblioteca è fallita
+            QMessageBox::warning(this, "Errore", 
+                "Impossibile rimuovere il media dalla biblioteca. Riprova.");
+            qDebug() << "ERRORE: Rimozione dalla biblioteca fallita";
+        }
+    } else {
+        qDebug() << "Eliminazione annullata dall'utente";
     }
 }
 
@@ -729,12 +775,30 @@ void MainPage::updateMediaList(vector<Media*> listaFiltrata) {
     for (Media* media : listaFiltrata) {
         QString mediaInfo = media->mediaInfo(); // Ottieni le informazioni del media
 
+        // Calcola la larghezza disponibile per il testo
+        int listWidth = mediaList->width();
+        int buttonSpace = 70; // Spazio riservato per i pulsanti (modifica + elimina)
+        int iconSpace = 35; // Spazio per l'icona + margini
+        int scrollBarSpace = 20; // Spazio per la scrollbar
+        int availableWidth = listWidth - buttonSpace - iconSpace - scrollBarSpace;
+
+        // Calcola la larghezza del testo con il font corrente
+        QFontMetrics fontMetrics(mediaList->font());
+        QString truncatedText = mediaInfo;
+        
+        // Se il testo è troppo lungo, troncalo con ellipsis
+        if (fontMetrics.horizontalAdvance(mediaInfo) > availableWidth) {
+            truncatedText = fontMetrics.elidedText(mediaInfo, Qt::ElideRight, availableWidth);
+        }
+
         // Crea l'elemento della lista
         QListWidgetItem *item = new QListWidgetItem(mediaList);
         
         // Imposta il testo dell'elemento
-        item->setText(mediaInfo);
+        item->setText(truncatedText);
         
+        item->setToolTip(mediaInfo);
+
         // Determina l'icona in base al tipo di media
         QString iconPath;
         
@@ -1130,11 +1194,41 @@ void MainPage::setLibraryInfo(bool isNew, bool hasChanges) {
 void MainPage::resetUnsavedChanges() {
     hasUnsavedChanges = false;
     emit unsavedChangesUpdated(false);
-    updateSaveButtonsState();
 }
 
 void MainPage::setHasUnsavedChanges(bool hasChanges) {
     hasUnsavedChanges = hasChanges;
     emit unsavedChangesUpdated(hasChanges);
     updateSaveButtonsState();
+}
+
+void MainPage::updateTextTruncation() {
+    // Aggiorna il troncamento del testo per tutti gli elementi visibili
+    for (int i = 0; i < mediaList->count(); ++i) {
+        QListWidgetItem* item = mediaList->item(i);
+        if (!item) continue;
+        
+        // Recupera il media associato
+        Media* media = item->data(Qt::UserRole).value<Media*>();
+        if (!media) continue;
+        
+        // Ricalcola il testo troncato
+        QString fullText = media->mediaInfo();
+        
+        int listWidth = mediaList->width();
+        int buttonSpace = 70;
+        int iconSpace = 35;
+        int scrollBarSpace = 20;
+        int availableWidth = listWidth - buttonSpace - iconSpace - scrollBarSpace;
+        
+        QFontMetrics fontMetrics(mediaList->font());
+        QString truncatedText = fullText;
+        
+        if (fontMetrics.horizontalAdvance(fullText) > availableWidth) {
+            truncatedText = fontMetrics.elidedText(fullText, Qt::ElideRight, availableWidth);
+        }
+        
+        // Aggiorna il testo dell'elemento
+        item->setText(truncatedText);
+    }
 }

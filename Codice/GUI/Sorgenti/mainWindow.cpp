@@ -205,6 +205,12 @@ void MainWindow::prendiInPrestitoMedia(Media* media) {
         return;
     }
     
+    // AGGIUNGI QUESTO CONTROLLO: Verifica che ci sia una biblioteca caricata
+    if (!mainPage) {
+        qDebug() << "ERRORE: prendiInPrestitoMedia chiamato senza biblioteca caricata";
+        return;
+    }
+    
     // Verifica se ci sono copie disponibili
     int copieTotali = media->getNumeroCopie();
     int copieInPrestito = media->getInPrestito();
@@ -222,13 +228,9 @@ void MainWindow::prendiInPrestitoMedia(Media* media) {
     QMessageBox::information(this, "Prestito effettuato", 
         QString("Hai preso in prestito '%1' con successo!").arg(QString::fromStdString(media->getTitolo())));
     
-    // NOTIFICA LA MODIFICA ALLA BIBLIOTECA:
+    // SOLO ADESSO imposta le modifiche
     hasUnsavedChanges = true;
-    
-    // Notifica anche MainPage
-    if (mainPage) {
-        mainPage->setHasUnsavedChanges(true);
-    }
+    mainPage->setHasUnsavedChanges(true);
 }
 
 
@@ -236,6 +238,12 @@ void MainWindow::prendiInPrestitoMedia(Media* media) {
 void MainWindow::restituisciMedia(Media* media) {
     if (!media) {
         QMessageBox::warning(this, "Errore", "Media non valido.");
+        return;
+    }
+    
+    // AGGIUNGI QUESTO CONTROLLO: Verifica che ci sia una biblioteca caricata
+    if (!mainPage) {
+        qDebug() << "ERRORE: restituisciMedia chiamato senza biblioteca caricata";
         return;
     }
     
@@ -259,11 +267,7 @@ void MainWindow::restituisciMedia(Media* media) {
     QMessageBox::information(this, "Restituzione effettuata", 
         QString("Hai restituito '%1' con successo!").arg(QString::fromStdString(media->getTitolo())));
     
-    // NOTIFICA LA MODIFICA ALLA BIBLIOTECA:
+    // SOLO ADESSO imposta le modifiche
     hasUnsavedChanges = true;
-    
-    // Notifica anche MainPage
-    if (mainPage) {
-        mainPage->setHasUnsavedChanges(true);
-    }
+    mainPage->setHasUnsavedChanges(true);
 }

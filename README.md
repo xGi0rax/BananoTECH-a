@@ -1,8 +1,5 @@
 # BananoTECH-a
 
---> generali:
-  - crash dopo aver eliminato un media, salvato la bibioteca, cercato di modificare un media e schiacciato su "salva media"
-
 --> addpage e modifypage:
   - quando aggiungo un nuovo media e carico un'immagine dal pc viene salvata con il percorso del pc (C:\Users\Desktop\ ecc ecc...)
 
