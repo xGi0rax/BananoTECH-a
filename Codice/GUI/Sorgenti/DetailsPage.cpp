@@ -9,6 +9,7 @@
 #include <QFile>
 #include <QDebug>
 #include <QTimer>
+#include <QDir>
 
 DetailsPage::DetailsPage(QWidget *parent) : QWidget(parent), currentMedia(nullptr) {
     setupUI();
@@ -260,14 +261,61 @@ void DetailsPage::updateUI() {
         detailsLabel->setText(htmlDetails);
     }
     
-    // Gestisci immagine
+    // Gestisci immagine - GESTIONE CROSS-PLATFORM
     QString imagePath = QString::fromStdString(currentMedia->getImmagine());
-    if (imagePath.isEmpty() || !QFile::exists(imagePath)) {
+    
+    // Prova prima nel sistema di risorse Qt (per icone UI statiche)
+    QString resourcePath = ":/Immagini/" + imagePath;
+    QPixmap pixmap(resourcePath);
+    
+    // Se non trovata nelle risorse, prova nel filesystem
+    if (pixmap.isNull()) {
+        // Se il percorso è già assoluto, provalo direttamente
+        if (QFile::exists(imagePath)) {
+            pixmap.load(imagePath);
+            if (!pixmap.isNull()) {
+                qDebug() << "Immagine caricata da percorso assoluto:" << imagePath;
+            }
+        }
+        
+        // Se ancora non trovata, prova percorsi relativi
+        if (pixmap.isNull()) {
+            QDir currentDir = QDir::current();
+            
+            // Prova diverse possibili ubicazioni
+            QStringList possiblePaths = {
+                currentDir.absoluteFilePath("Immagini/" + imagePath),           // ./Immagini/
+                currentDir.absoluteFilePath("../Immagini/" + imagePath),        // ../Immagini/
+                currentDir.absoluteFilePath("../../Immagini/" + imagePath),     // ../../Immagini/
+                currentDir.absoluteFilePath("GUI/Immagini/" + imagePath),       // ./GUI/Immagini/
+                currentDir.absoluteFilePath("../GUI/Immagini/" + imagePath),    // ../GUI/Immagini/
+                // Aggiungi supporto per cartella Documents/AppName/Immagini
+                QDir::home().absoluteFilePath("Documents/BananoTECH/Immagini/" + imagePath)
+            };
+            
+            // Prova ogni percorso finché non ne trova uno che funziona
+            for (const QString& path : possiblePaths) {
+                if (QFile::exists(path)) {
+                    pixmap.load(path);
+                    if (!pixmap.isNull()) {
+                        qDebug() << "Immagine caricata da:" << path;
+                        break;
+                    }
+                }
+            }
+        }
+    } else {
+        qDebug() << "Immagine caricata dalle risorse:" << resourcePath;
+    }
+    
+    // Imposta l'immagine o il placeholder
+    if (!pixmap.isNull()) {
+        imageLabel->setPixmap(pixmap);
+    } else {
+        qDebug() << "Immagine non trovata:" << imagePath;
         QPixmap placeholder(280, 400);
         placeholder.fill(QColor(240, 240, 240));
         imageLabel->setPixmap(placeholder);
-    } else {
-        imageLabel->setPixmap(QPixmap(imagePath));
     }
     
     // Aggiorna disponibilità
