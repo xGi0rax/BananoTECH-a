@@ -1,7 +1,8 @@
 # BananoTECH-a
 
 --> mainPage
- - immagini non si vedono da GN
+ - immagini continuano a non vedersi da GN
+ - quando si fa il login compare il pop-up che chiede se si è sicuri di uscire senza salvare
  - quando faccio una modifica e chiudo l'applicazione non mi chiede se voglio salvare o no le modifiche
 
 ## Modifiche minori:
