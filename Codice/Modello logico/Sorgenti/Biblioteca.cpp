@@ -92,13 +92,11 @@ vector<Media*> Biblioteca::filtra(const string& titolo, const string& tipoMedia,
         }
         // Filtro per titolo
         if (corrisponde && !titolo.empty()) {
-            if (media->getTitolo().find(titolo) == string::npos)
-                corrisponde = false;
+            if (media->getTitolo().find(titolo) == string::npos) corrisponde = false;
         }
         // Filtro per genere
         if (corrisponde && !genere.empty()) {
-            if (media->getGenere().find(genere) == string::npos)
-                corrisponde = false;
+            if (media->getGenere().find(genere) == string::npos) corrisponde = false;
         }
         // Filtro per rating
         if (corrisponde) {
@@ -109,7 +107,7 @@ vector<Media*> Biblioteca::filtra(const string& titolo, const string& tipoMedia,
         // Filtro per disponibilità
         if (corrisponde) {
             if ((disponibilita && !media->getDisponibilita()) || (!disponibilita && media->getDisponibilita())) {
-            corrisponde = false;
+                corrisponde = false;
             }
         }
         // Filtro per lingua

@@ -204,22 +204,13 @@ void MainWindow::prendiInPrestitoMedia(Media* media) {
         return;
     }
     
-    // Verifica se ci sono copie disponibili
-    int copieTotali = media->getNumeroCopie();
-    int copieInPrestito = media->getInPrestito();
-    int copieDisponibili = copieTotali - copieInPrestito;
-    
-    if (copieDisponibili <= 0) {
+    if(biblioteca->prendiInPrestito(media)) {
+        QMessageBox::information(this, "Prestito effettuato", 
+            QString("Hai preso in prestito '%1' con successo!").arg(QString::fromStdString(media->getTitolo())));
+    } else {
         QMessageBox::warning(this, "Prestito non disponibile", 
             QString("Tutte le copie di '%1' sono già in prestito.").arg(QString::fromStdString(media->getTitolo())));
-        return;
     }
-    
-    // Incrementa il numero di copie in prestito
-    media->setInPrestito(copieInPrestito + 1);
-    
-    QMessageBox::information(this, "Prestito effettuato", 
-        QString("Hai preso in prestito '%1' con successo!").arg(QString::fromStdString(media->getTitolo())));
     
     // NOTIFICA LA MODIFICA ALLA BIBLIOTECA:
     hasUnsavedChanges = true;

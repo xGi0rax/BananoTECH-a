@@ -536,7 +536,6 @@ void MainPage::onMediaSelected(QListWidgetItem *item) {
             if (QFile::exists(path)) {
                 pixmap.load(path);
                 if (!pixmap.isNull()) {
-                    qDebug() << "Immagine caricata da:" << path;
                     break;
                 }
             }
@@ -549,7 +548,6 @@ void MainPage::onMediaSelected(QListWidgetItem *item) {
             mediaImageLabel->setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX); // Dimensione massima illimitata
             updateImageSize(); // Aggiorna la dimensione dell'immagine
         } else {
-            qDebug() << "Immagine non trovata:" << imagePath;
             mediaImageLabel->setText("Immagine non disponibile");
             mediaImageLabel->setStyleSheet(
                 "border: 1px solid black;"
