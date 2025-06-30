@@ -128,19 +128,9 @@ void MainWindow::switchToLoginPage() {
 }
 
 void MainWindow::switchToLibraryChoicePage() {
-    // Controlla SOLO se ci sono modifiche non salvate
-    if (hasUnsavedChanges) {
-        QMessageBox::StandardButton reply = QMessageBox::question(this, 
-            "Modifiche non salvate", 
-            "Ci sono modifiche non salvate. Sei sicuro di voler uscire senza salvare?",
-            QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
-        
-        if (reply == QMessageBox::No || reply == QMessageBox::Cancel) {
-            return; 
-        }
-
-    } else {
-        qDebug() << "CONDIZIONE FALSA: Nessuna modifica non salvata, uscita diretta";
+    // Usa il metodo helper per controllare le modifiche non salvate
+    if (!checkUnsavedChanges()) {
+        return; // L'utente ha cancellato l'operazione
     }
     
     // Reset delle variabili
@@ -273,4 +263,30 @@ void MainWindow::restituisciMedia(Media* media) {
     if (mainPage) {
         mainPage->setHasUnsavedChanges(true);
     }
+}
+
+void MainWindow::closeEvent(QCloseEvent *event) {
+    // Controlla se ci sono modifiche non salvate prima di chiudere
+    if (!checkUnsavedChanges()) {
+        event->ignore(); // Impedisce la chiusura
+        return;
+    }
+    
+    // Se non ci sono modifiche non salvate o l'utente ha confermato, procedi con la chiusura
+    event->accept();
+}
+
+bool MainWindow::checkUnsavedChanges() {
+    if (hasUnsavedChanges) {
+        QMessageBox::StandardButton reply = QMessageBox::question(this, 
+            "Modifiche non salvate", 
+            "Ci sono modifiche non salvate. Sei sicuro di voler uscire senza salvare?",
+            QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
+        
+        if (reply == QMessageBox::No || reply == QMessageBox::Cancel) {
+            return false; // L'utente ha cancellato l'operazione
+        }
+    }
+    
+    return true; // Procedi con l'operazione
 }

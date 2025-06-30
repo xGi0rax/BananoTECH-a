@@ -8,6 +8,7 @@
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QWidget>
+#include <QCloseEvent>
 #include "LoginPage.h"
 #include "LibraryChoicePage.h"
 #include "MainPage.h"
@@ -59,6 +60,10 @@ private:
 
     // Metodo per validare le credenziali di login
     bool validateLogin(const QString &username, const QString &password);
+    bool checkUnsavedChanges();
+
+protected:
+    void closeEvent(QCloseEvent *event) override; // Gestione dell'evento di chiusura della finestra
 };
 
 #endif // MAINWINDOW_H
