@@ -255,10 +255,10 @@ void ModifyPage::onUploadButtonClicked() {
     imagePreview->setPixmap(scaledPixmap);
     imagePreview->setScaledContents(false);
     
-    // Crea la cartella Images se non esiste
+    // Crea la cartella Immagini se non esiste
     QDir appDir = QDir::current();
-    if (!appDir.exists("Images")) {
-        appDir.mkdir("Images");
+    if (!appDir.exists("Immagini")) {
+        appDir.mkdir("Immagini");
     }
     
     // Gestisce nomi file duplicati
@@ -266,19 +266,19 @@ void ModifyPage::onUploadButtonClicked() {
     QString baseName = fileInfo.completeBaseName(); // Nome senza estensione
     QString extension = fileInfo.suffix(); // Estensione
     QString fileName = fileInfo.fileName();
-    QString newPath = appDir.absoluteFilePath("Images/" + fileName);
+    QString newPath = appDir.absoluteFilePath("Immagini/" + fileName);
     
     // Se il file esiste, aggiungi un numero progressivo
     int counter = 1;
     while (QFile::exists(newPath)) {
         fileName = QString("%1_%2.%3").arg(baseName).arg(counter).arg(extension);
-        newPath = appDir.absoluteFilePath("Images/" + fileName);
+        newPath = appDir.absoluteFilePath("Immagini/" + fileName);
         counter++;
     }
     
     // Copia il file con il nome definitivo
     if (QFile::copy(imagePath, newPath)) {
-        currentImagePath = "Images/" + fileName;
+        currentImagePath = "Immagini/" + fileName;
         qDebug() << "File salvato come:" << currentImagePath;
     } else {
         // Fallback al percorso originale

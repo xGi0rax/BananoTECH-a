@@ -428,7 +428,7 @@ void MainPage::updateImageSize(){
         int totalMargins = groupBoxMargins + layoutMargins - 3;
         
         int availableWidth = qMin(previewGroupBox->width() - totalMargins, maxImageWidth - totalMargins); 
-        int availableHeight = previewGroupBox->height() / 2; // Metà altezza per l'immagine
+        int availableHeight = previewGroupBox->height() / 3; // Cambiato da /2 a /3 per fare spazio ai bottoni
         
         // Assicurati che le dimensioni siano positive
         availableWidth = qMax(150, availableWidth); // Dimensione minima
@@ -465,7 +465,7 @@ void MainPage::resizeEvent(QResizeEvent* event) {
     int totalMargins = groupBoxMargins + layoutMargins - 3; 
     
     int imageWidth = qMin(previewGroupBox->width() - totalMargins, maxImageWidth - totalMargins);
-    int imageHeight = previewGroupBox->height() / 2;
+    int imageHeight = previewGroupBox->height() / 3; // Cambiato da /2 a /3
     
     // Assicurati che le dimensioni siano positive
     imageWidth = qMax(150, imageWidth);
