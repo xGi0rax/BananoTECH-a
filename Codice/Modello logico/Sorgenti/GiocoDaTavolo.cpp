@@ -18,7 +18,7 @@ void GiocoDaTavolo::toJson(QJsonObject& jsonObj) const {
 }
 
 void GiocoDaTavolo::toXml(QDomElement& elemento, QDomDocument& doc) const {
-    Q_UNUSED(doc); // Silenzia il warning per in non uso di doc
+    Q_UNUSED(doc); // Silenzia il warning per in non uso di doc (che viene usato solo nella classe Film)
     Media::toXml(elemento, doc);
     elemento.setAttribute("tipo", "gioco");
     elemento.setAttribute("numero_giocatori", ngiocatori);

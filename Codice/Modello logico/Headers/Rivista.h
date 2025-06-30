@@ -2,6 +2,7 @@
 #define RIVISTA_H
 #include "Media.h"
 #include <string>
+using std::string;
 
 class Rivista: public Media{
 private:
@@ -26,6 +27,7 @@ public:
     void setDataPubb(const string& mese_pubb);
     void setPeriodicita(const string& periodicita);
 
+    // Metodi per convertire l'oggetto in un oggetto JSON e XML
     void toJson(QJsonObject& jsonObj) const override;
     void toXml(QDomElement& elemento, QDomDocument& doc) const override;
 };

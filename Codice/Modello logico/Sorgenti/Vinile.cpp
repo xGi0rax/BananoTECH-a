@@ -16,7 +16,7 @@ void Vinile::toJson(QJsonObject& jsonObj) const {
 }
 
 void Vinile::toXml(QDomElement& elemento, QDomDocument& doc) const {
-    Q_UNUSED(doc); // Silenzia il warning per in non uso di doc
+    Q_UNUSED(doc); // Silenzia il warning per in non uso di doc (che viene usato solo nella classe Film)
     Media::toXml(elemento, doc);
     elemento.setAttribute("tipo", "vinile");
     elemento.setAttribute("numero_tracce", ntracce);

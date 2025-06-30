@@ -11,7 +11,6 @@ public:
     virtual ~IOStrategy() = default;
     virtual bool salvaSuFile(const Biblioteca& biblio, const string& filePath) const = 0;
     virtual bool caricaDaFile(Biblioteca& biblio, const string& filePath) = 0;
-
 };
 
 #endif // IOSTRATEGY_H

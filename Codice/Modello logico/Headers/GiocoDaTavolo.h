@@ -6,10 +6,10 @@ using std::string;
 
 class GiocoDaTavolo: public Media{
 private: 
-    int ngiocatori; 
+    int ngiocatori; // Numero di giocatori massimi per giocare
     int durata;  // Stima durata in minuti
-    int etaMinima;
-    string editore; 
+    int etaMinima; // Età minima consigliata per giocare
+    string editore; // Editore del gioco da tavolo
 
 public:
     GiocoDaTavolo(string titolo, string autore, string genere, int anno, string lingua, string immagine, bool disponibilita, int numero_copie, int ngiocatori, int durata, int etaMinima, string editore, int in_prestito = 0, string collocazione = "", double rating = 0.0);
@@ -27,6 +27,7 @@ public:
     void setEtaMinima(const int& etaMinima);
     void setEditore(const string& editore);
 
+    // Metodi per convertire l'oggetto in un oggetto JSON e XML
     void toJson(QJsonObject& jsonObj) const override;
     void toXml(QDomElement& elemento, QDomDocument& doc) const override;
 };

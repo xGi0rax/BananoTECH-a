@@ -37,11 +37,11 @@ Media* Biblioteca::cercaMediaDaT_A_G(const string& titolo, int anno, const strin
     return nullptr; // Se non trovato, ritorna nullptr
 }
 
-bool Biblioteca::modificaMedia(const string& id, Media* media) {
+bool Biblioteca::modificaMedia(const string& id, Media* newMedia) {
     for (auto it = listaMedia.begin(); it != listaMedia.end(); ++it) {
         if ((*it)->getId() == id) {
             delete *it; // Elimina il vecchio media
-            *it = media; // Sostituisci con il nuovo media
+            *it = newMedia; // Sostituisci con il nuovo media
             return true;
         }
     }
@@ -54,7 +54,7 @@ bool Biblioteca::rimuoviMedia(Media* media) {
     auto it = std::find(listaMedia.begin(), listaMedia.end(), media);
     if (it != listaMedia.end()) {
         listaMedia.erase(it);
-        delete media; // IMPORTANTE: La biblioteca gestisce la memoria
+        delete media;
         return true;
     }
     return false;
@@ -80,7 +80,7 @@ vector<Media*> Biblioteca::filtra(const string& titolo, const string& tipoMedia,
         // Filtro per tipo
         if (!tipoMedia.empty()) {
             if (tipoMedia == "Libro" && dynamic_cast<Libro*>(media) == nullptr)
-                corrisponde = false;  // Significa che sto cercando un tipoMedia Libro e l'oggetto attuale non è un Libro
+                corrisponde = false;
             else if (tipoMedia == "Film" && dynamic_cast<Film*>(media) == nullptr)
                 corrisponde = false;
             else if (tipoMedia == "Rivista" && dynamic_cast<Rivista*>(media) == nullptr)
@@ -137,22 +137,15 @@ int Biblioteca::getNumeroTotaleMedia() const {
 }
 
 bool Biblioteca::prendiInPrestito(const Media* media){
-    Media* mediaInBiblioteca = cercaMediaDaID(media->getId());
+    Media* mediaInBiblioteca = cercaMediaDaID(media->getId()); // Cerca il media in biblioteca
     if(mediaInBiblioteca != nullptr){
-        if(mediaInBiblioteca->getDisponibilita()){
-            mediaInBiblioteca->setInPrestito(mediaInBiblioteca->getInPrestito() + 1);
+        if(mediaInBiblioteca->getDisponibilita()){ // Controlla se ci sono copie disponibili
+            mediaInBiblioteca->setInPrestito(mediaInBiblioteca->getInPrestito() + 1); // Incrementa il numero di copie in prestito
             if(mediaInBiblioteca->getInPrestito() == mediaInBiblioteca->getNumeroCopie()){
-            mediaInBiblioteca->setDisponibilita(false);
+                mediaInBiblioteca->setDisponibilita(false); // Se tutte le copie sono in prestito, imposta disponibilità a false
             }
             return true;
-        }else{
-            // QMessageBox::warning(nullptr, "Media non disponibile", 
-                      // "Il media non è disponibile in biblioteca perché tutte le copie sono in prestito.");
         }
-    } else{
-        // TO DO: capire cosa fare se il media non è disponibile o non esiste
-        //throw BibliotecaException("Media non trovato nella biblioteca (ID: " + media->getId() + ")");
-        // qDebug() << "Media non trovato nella biblioteca (ID: " + QString::fromStdString(media->getId()) + ")";
     }
     return false;
 }
@@ -161,16 +154,14 @@ bool Biblioteca::restituisci(const Media* media){
     Media* mediaInBiblioteca = cercaMediaDaID(media->getId()); // Cerca il media in biblioteca
     if(mediaInBiblioteca != nullptr){
         if(mediaInBiblioteca->getInPrestito() > 0){ // Controlla se ci sono copie in prestito 
-            mediaInBiblioteca->setInPrestito(mediaInBiblioteca->getInPrestito() - 1);
-            if(mediaInBiblioteca->getDisponibilita() == false){
-                mediaInBiblioteca->setDisponibilita(true);
+            mediaInBiblioteca->setInPrestito(mediaInBiblioteca->getInPrestito() - 1); // // Controlla se ci sono copie in prestito 
+            if(mediaInBiblioteca->getDisponibilita() == false){ 
+                mediaInBiblioteca->setDisponibilita(true); // Se prima non c'erano copie disponibili, imposta disponibilità a true
             }
             return true;
-        } else {
-            //throw BibliotecaException("Nessuna copia in prestito per questo media (ID: " + media->getId() + ")");
         }
     } 
-    return false; // Se ritorno false, significa che non ci sono media nella biblioteca con l'id del media che vorrei restituire
+    return false;
 }
 
 vector<Media*> Biblioteca::getListaMedia() const{

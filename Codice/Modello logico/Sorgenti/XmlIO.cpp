@@ -18,9 +18,7 @@ QDomElement XmlIO::mediaToXml(const Media* media, QDomDocument& doc) const {
 }
 
 Media* XmlIO::xmlToMedia(const QDomElement& elemento) const{
-    string tipo = elemento.attribute("tipo").toStdString(); // Ottiene il tipo di media dal nodo XML
-
-    // attributi comuni a tutti i media
+    // Attributi comuni a tutti i media
     string id = elemento.attribute("id").toStdString();
     string titolo = elemento.attribute("titolo").toStdString();
     string autore = elemento.attribute("autore").toStdString();
@@ -33,6 +31,9 @@ Media* XmlIO::xmlToMedia(const QDomElement& elemento) const{
     int in_prestito = elemento.attribute("in_prestito").toInt();
     string collocazione = elemento.attribute("collocazione").toStdString();
     double rating = elemento.attribute("rating").toDouble();
+
+    // Creazione del media in base al tipo specificato nel XML
+    string tipo = elemento.attribute("tipo").toStdString();
 
     if (tipo == "film") {
         int durata = elemento.attribute("durata").toInt();

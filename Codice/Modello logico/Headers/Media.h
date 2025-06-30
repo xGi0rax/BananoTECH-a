@@ -12,7 +12,7 @@ using std::string;
 
 class Media {
 private:
-    string id = ""; // Nella forma "AA-X" dove AA è una stringa univoca per ogni biblioteca e X è un numero progressivo univoco per il media all'interno della biblioteca
+    string id = ""; // Nella forma "X" dove X è un numero progressivo univoco per il media all'interno della biblioteca
     string titolo; // Titolo del media
     string autore; // Autore del media
     string genere; // Genere del media (es. "Fantascienza", "Commedia", etc.)
@@ -63,7 +63,8 @@ public:
     // Metodo per convertire l'oggetto in un oggetto XML
     virtual void toXml(QDomElement& elemento, QDomDocument& doc) const;
 
-    virtual QString mediaInfo() const; // Metodo virtuale per ottenere informazione del media in formato QString, non è ridefinito nelle sottoclassi perche' le informazioni sono comuni a tutti i media
+    // Metodo virtuale per ottenere informazione del media in formato QString, non è ridefinito nelle sottoclassi perche' le informazioni sono comuni a tutti i media
+    virtual QString mediaInfo() const; 
 };
 
 #endif // MEDIA_H

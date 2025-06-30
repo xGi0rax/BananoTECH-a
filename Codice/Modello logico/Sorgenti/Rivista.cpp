@@ -20,7 +20,7 @@ void Rivista::toJson(QJsonObject& jsonObj) const {
 }
 
 void Rivista::toXml(QDomElement& elemento, QDomDocument& doc) const {
-    Q_UNUSED(doc); // Silenzia il warning per in non uso di doc
+    Q_UNUSED(doc); // Silenzia il warning per in non uso di doc (che viene usato solo nella classe Film)
     Media::toXml(elemento, doc);
     elemento.setAttribute("tipo", "rivista");
     elemento.setAttribute("editore", QString::fromStdString(editore));

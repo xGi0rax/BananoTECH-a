@@ -8,8 +8,7 @@
 #include <QDomElement>
 #include <QDomDocument>
 
-Film::Film(string titolo, string autore, string genere, int anno, string lingua, string immagine, bool disponibilita, int numero_copie, int durata, vector<string> cast, int in_prestito, string collocazione, double rating) : 
-    Media(titolo, autore, genere, anno, lingua, immagine, disponibilita, numero_copie, in_prestito, collocazione, rating),  durata(durata), cast(cast) {}
+Film::Film(string titolo, string autore, string genere, int anno, string lingua, string immagine, bool disponibilita, int numero_copie, int durata, vector<string> cast, int in_prestito, string collocazione, double rating) : Media(titolo, autore, genere, anno, lingua, immagine, disponibilita, numero_copie, in_prestito, collocazione, rating),  durata(durata), cast(cast) {}
 
 void Film::toJson(QJsonObject& jsonObj) const {
     Media::toJson(jsonObj);

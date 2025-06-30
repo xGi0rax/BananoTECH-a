@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 using std::vector;
+using std::string;
 
 class Film: public Media{ 
 private:
@@ -18,10 +19,11 @@ public:
     int getDurata() const;
     vector<string> getCast() const;
 
-    //Metodi setter
+    // Metodi setter
     void setDurata(const int& durata);
     void setCast(const vector<string>& cast);
 
+    // Metodi per convertire l'oggetto in un oggetto JSON e XML
     void toJson(QJsonObject& jsonObj) const override;
     void toXml(QDomElement& elemento, QDomDocument& doc) const override;
 };
