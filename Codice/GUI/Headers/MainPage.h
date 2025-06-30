@@ -9,7 +9,7 @@
 #include <QLineEdit>
 #include <QComboBox>
 #include <QListWidget>
-#include <QGroupbox>
+#include <QGroupBox>
 #include <QResizeEvent>
 #include <QPixmap>
 #include <QSizePolicy>

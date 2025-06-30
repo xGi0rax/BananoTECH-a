@@ -553,6 +553,7 @@ void MainPage::onMediaSelected(QListWidgetItem *item) {
 
         // Abilisco i pulsanti
         borrowButton->setEnabled(true);
+        returnButton->setEnabled(true);
         detailsButton->setEnabled(true);
         editMediaButton->setEnabled(true);
     }
