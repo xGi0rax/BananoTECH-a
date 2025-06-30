@@ -26,34 +26,23 @@ private slots:
     void onLoginButtonClicked();
     void switchToLoginPage(); // Slot per passare alla LoginPage
     void switchToLibraryChoicePage(); // Slot per passare alla pagina di scelta biblioteca
-    void onLibraryReady(Biblioteca* biblioteca, const QString& filePath, bool isNew); // Slot per gestire la biblioteca 
     void switchToMainPage(); // Slot per passare alla MainPage
     void switchToAddPage(); // Slot per passare alla AddPage
     void switchToModifyPage(Media* media); // Slot per passare alla ModifyPage
     void switchToDetailsPage(Media* media); // Slot per passare alla DetailsPage
+    void onLibraryReady(Biblioteca* biblioteca, const QString& filePath, bool isNew); // Slot per gestire la biblioteca 
     void prendiInPrestitoMedia(Media* media); // Slot per prendere in prestito un media
     void restituisciMedia(Media* media); // Slot per restituire un media
 
 private:
-    QStackedWidget *stackedWidget;
+    QStackedWidget *stackedWidget; // StackedWidget per gestire le pagine
 
-    // Pagina di login
-    LoginPage *loginPage;
-
-    // Pagina di scelta della biblioteca
-    LibraryChoicePage *libraryChoicePage;
-
-    // Pagina principale
-    MainPage *mainPage;
-
-    // Pagina di aggiunta media
-    AddPage *addPage;
-
-    // Pagina di modifica dei media
-    ModifyPage *modifyPage;
-    
-    // Pagina dettagli media
-    DetailsPage *detailsPage;
+    LoginPage *loginPage; // Pagina di login
+    LibraryChoicePage *libraryChoicePage; // Pagina di scelta della biblioteca
+    MainPage *mainPage; // Pagina principale
+    AddPage *addPage; // Pagina di aggiunta media
+    ModifyPage *modifyPage; // Pagina di modifica dei media
+    DetailsPage *detailsPage; // Pagina dettagli media
 
     Biblioteca *biblioteca; // Oggetto Biblioteca per gestire i media
     QString loadedFilePath; // Traccia il percorso del file caricato
@@ -68,6 +57,7 @@ private:
     void setupModifyPage();
     void setupDetailsPage();
 
+    // Metodo per validare le credenziali di login
     bool validateLogin(const QString &username, const QString &password);
 };
 
