@@ -172,17 +172,63 @@ void ModifyPage::setMedia(Media* media) {
         detailsStackedWidget->addWidget(currentWidget);
         detailsStackedWidget->setCurrentWidget(currentWidget);
         
-        // Carica l'immagine
+        // Gestisci immagine - GESTIONE CROSS-PLATFORM (come in DetailsPage)
         std::string imagePath = media->getImmagine();
         if (!imagePath.empty()) {
             currentImagePath = QString::fromStdString(imagePath);
-            QPixmap pixmap(currentImagePath);
+            
+            // Prova prima nel sistema di risorse Qt (per icone UI statiche)
+            QString resourcePath = ":/Immagini/" + currentImagePath;
+            QPixmap pixmap(resourcePath);
+            
+            // Se non trovata nelle risorse, prova nel filesystem
+            if (pixmap.isNull()) {
+                // Se il percorso è già assoluto, provalo direttamente
+                if (QFile::exists(currentImagePath)) {
+                    pixmap.load(currentImagePath);
+                    if (!pixmap.isNull()) {
+                        qDebug() << "Immagine caricata da percorso assoluto:" << currentImagePath;
+                    }
+                }
+                
+                // Se ancora non trovata, prova percorsi relativi
+                if (pixmap.isNull()) {
+                    QDir currentDir = QDir::current();
+                    
+                    // Prova diverse possibili ubicazioni
+                    QStringList possiblePaths = {
+                        currentDir.absoluteFilePath("Immagini/" + currentImagePath),           // ./Immagini/
+                        currentDir.absoluteFilePath("../Immagini/" + currentImagePath),        // ../Immagini/
+                        currentDir.absoluteFilePath("../../Immagini/" + currentImagePath),     // ../../Immagini/
+                        currentDir.absoluteFilePath("GUI/Immagini/" + currentImagePath),       // ./GUI/Immagini/
+                        currentDir.absoluteFilePath("../GUI/Immagini/" + currentImagePath),    // ../GUI/Immagini/
+                        // Aggiungi supporto per cartella Documents/AppName/Immagini
+                        QDir::home().absoluteFilePath("Documents/BananoTECH/Immagini/" + currentImagePath)
+                    };
+                    
+                    // Prova ogni percorso finché non ne trova uno che funziona
+                    for (const QString& path : possiblePaths) {
+                        if (QFile::exists(path)) {
+                            pixmap.load(path);
+                            if (!pixmap.isNull()) {
+                                qDebug() << "Immagine caricata da:" << path;
+                                break;
+                            }
+                        }
+                    }
+                }
+            } else {
+                qDebug() << "Immagine caricata dalle risorse:" << resourcePath;
+            }
+            
+            // Imposta l'immagine o il placeholder
             if (!pixmap.isNull()) {
                 // Ridimensiona l'immagine mantenendo le proporzioni
                 QPixmap scaledPixmap = pixmap.scaled(imagePreview->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
                 imagePreview->setPixmap(scaledPixmap);
                 imagePreview->setScaledContents(false);
             } else {
+                qDebug() << "Immagine non trovata:" << currentImagePath;
                 imagePreview->setText("Immagine non disponibile");
             }
         } else {

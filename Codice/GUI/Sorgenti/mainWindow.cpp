@@ -119,6 +119,10 @@ void MainWindow::setupDetailsPage(){
 }
 
 void MainWindow::switchToLoginPage() {
+    hasUnsavedChanges = false; 
+    isNewLibrary = false;
+    loadedFilePath = "";
+
     loginPage->resetToDefaultState();
     stackedWidget->setCurrentWidget(loginPage); // Cambia alla pagina di login
 }
@@ -185,6 +189,10 @@ void MainWindow::onLoginButtonClicked() {
     QString password = loginPage->getPassword();
 
     if (validateLogin(username, password)) {
+        hasUnsavedChanges = false;
+        isNewLibrary = false;
+        loadedFilePath = "";
+
         // Login riuscito, mostra la pagina di scelta biblioteca
         loginPage->clearErrorMessage();
         setupLibraryChoicePage();
