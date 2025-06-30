@@ -76,6 +76,7 @@ void GiocoWidget::setCurrentValues() {
     
     // Imposto i valori specifici per il film
     if (currentGioco) {
+        genreComboBox->setCurrentText(QString::fromStdString(currentGioco->getGenere()));
         maxPlayersEdit->setValue(currentGioco->getNGiocatori());
         playTimeEdit->setValue(currentGioco->getDurata());
         minAgeEdit->setValue(currentGioco->getEtaMinima());

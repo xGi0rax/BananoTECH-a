@@ -62,6 +62,7 @@ void VinileWidget::setCurrentValues() {
     
     // Imposto i valori specifici per il film
     if (currentVinile) {
+        genreComboBox->setCurrentText(QString::fromStdString(currentVinile->getGenere()));
         trackCountEdit->setValue(currentVinile->getNTracce());
         durationEdit->setValue(currentVinile->getDurata());
     }

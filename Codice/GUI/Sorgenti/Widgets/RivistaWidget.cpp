@@ -73,8 +73,9 @@ void RivistaWidget::setCurrentValues() {
     // Imposto i campi comuni a tutti i media
     MediaWidget::setCurrentValues();
     
-    // Imposto i valori specifici per il film
+    // Imposto i valori specifici per il rivista
     if (currentRivista) {
+        genreComboBox->setCurrentText(QString::fromStdString(currentRivista->getGenere()));
         editorEdit->setText(QString::fromStdString(currentRivista->getEditore()));
         pagesEdit->setValue(currentRivista->getNPagine());
         publicationDateEdit->setDate(QDate::fromString(QString::fromStdString(currentRivista->getDataPubb()), "dd/MM/yyyy"));

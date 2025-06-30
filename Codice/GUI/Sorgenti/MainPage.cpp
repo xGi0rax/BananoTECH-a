@@ -736,12 +736,9 @@ void MainPage::onDeleteButtonClicked() {
         QMessageBox::Yes | QMessageBox::No);
     
     if (reply == QMessageBox::Yes) {
-        qDebug() << "=== INIZIO eliminazione media ===";
-        qDebug() << "Eliminando:" << QString::fromStdString(selectedMedia->getTitolo());
         
         // STEP 1: Rimuovi dalla biblioteca (verifica che il metodo esista)
         if (biblioteca && biblioteca->rimuoviMedia(selectedMedia)) {
-            qDebug() << "Media rimosso dalla biblioteca con successo";
             
             // STEP 2: Nascondi immediatamente i pulsanti per evitare azioni su un elemento inesistente
             hideActionButtons();
@@ -934,6 +931,7 @@ void MainPage::onNewMediaCreated(Media* newMedia) {
         );
         
         borrowButton->setEnabled(false);
+        returnButton->setEnabled(false);
         detailsButton->setEnabled(false);
         editMediaButton->setEnabled(false);
     }
@@ -960,6 +958,7 @@ void MainPage::onMediaEdited() {
     );
     
     borrowButton->setEnabled(false);
+    returnButton->setEnabled(false);
     detailsButton->setEnabled(false);
     editMediaButton->setEnabled(false);
 

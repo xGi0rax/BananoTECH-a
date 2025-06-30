@@ -66,6 +66,7 @@ void LibroWidget::setCurrentValues() {
     
     // Imposto i valori specifici per il film
     if (currentLibro) {
+        genreComboBox->setCurrentText(QString::fromStdString(currentLibro->getGenere()));
         isbnEdit->setText(QString::fromStdString(currentLibro->getIsbn()));
         editorEdit->setText(QString::fromStdString(currentLibro->getEditore()));
         pagesEdit->setValue(currentLibro->getNPagine());

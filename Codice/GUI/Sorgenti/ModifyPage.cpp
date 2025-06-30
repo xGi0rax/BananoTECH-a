@@ -82,7 +82,7 @@ void ModifyPage::setupUI() {
 
     // 3. Pulsante "conferma modifiche" in basso
     saveButton = new QPushButton("CONFERMA MODIFICHE");
-    saveButton->setMinimumSize(190, 40);
+    saveButton->setMinimumSize(190, 45);
     saveButton->setStyleSheet(
         "QPushButton {"
         "   background-color: rgb(0, 128, 0);"
@@ -202,8 +202,6 @@ void ModifyPage::setMedia(Media* media) {
                         currentDir.absoluteFilePath("../../Immagini/" + currentImagePath),     // ../../Immagini/
                         currentDir.absoluteFilePath("GUI/Immagini/" + currentImagePath),       // ./GUI/Immagini/
                         currentDir.absoluteFilePath("../GUI/Immagini/" + currentImagePath),    // ../GUI/Immagini/
-                        // Aggiungi supporto per cartella Documents/AppName/Immagini
-                        QDir::home().absoluteFilePath("Documents/BananoTECH/Immagini/" + currentImagePath)
                     };
                     
                     // Prova ogni percorso finché non ne trova uno che funziona
@@ -228,7 +226,6 @@ void ModifyPage::setMedia(Media* media) {
                 imagePreview->setPixmap(scaledPixmap);
                 imagePreview->setScaledContents(false);
             } else {
-                qDebug() << "Immagine non trovata:" << currentImagePath;
                 imagePreview->setText("Immagine non disponibile");
             }
         } else {

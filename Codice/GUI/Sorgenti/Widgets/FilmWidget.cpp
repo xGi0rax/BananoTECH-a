@@ -64,6 +64,7 @@ void FilmWidget::setCurrentValues() {
     
     // Imposto i valori specifici per il film
     if (currentFilm) {
+        genreComboBox->setCurrentText(QString::fromStdString(currentFilm->getGenere()));
         durationFilmEdit->setValue(currentFilm->getDurata());
         
         // Converto il vettore del cast in una stringa per il campo
