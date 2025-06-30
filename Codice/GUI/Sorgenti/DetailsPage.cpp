@@ -22,19 +22,18 @@ void DetailsPage::setupUI() {
     mainLayout->setSpacing(8);
     
     // Pulsante indietro
-    backButton = new QPushButton("← Indietro");
+    backButton = new QPushButton("Indietro");
     backButton->setFixedSize(120, 30);
     backButton->setStyleSheet(
         "QPushButton {"
         "   background-color: rgb(0, 104, 201);"
         "   color: white;"
         "   border: none;"
-        "   border-radius: 6px;"
-        "   font-size: 13px;"
-        "   font-weight: bold;"
+        "   border-radius: 4px;"
+        "   font-size: 14px;"
         "}"
         "QPushButton:hover {"
-        "   background-color: rgb(11, 82, 189);"
+        "   background-color:rgb(11, 82, 189);"
         "}"
     );
     connect(backButton, &QPushButton::clicked, this, &DetailsPage::onBackButtonClicked);

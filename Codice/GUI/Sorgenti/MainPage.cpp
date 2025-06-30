@@ -59,6 +59,13 @@ void MainPage::setupUI(){
         "}"
     );
 
+    addMediaButton->setStyleSheet(
+        "QPushButton {"
+        "   font-size: 14px;"
+        "   padding: 2px;"
+        "}"
+    );
+
     // Pulsante Salva
     saveButton->setStyleSheet(
         "QPushButton {"
@@ -76,14 +83,14 @@ void MainPage::setupUI(){
     // Pulsante Salva come
     saveAsButton->setStyleSheet(
         "QPushButton {"
-        "   background-color: rgb(0, 102, 153);"
+        "   background-color: rgb(1, 175, 191);"
         "   color: white;"
         "   border: none;"
         "   border-radius: 4px;"
         "   font-size: 14px;"
         "}"
         "QPushButton:hover {"
-        "   background-color: rgb(0, 85, 128);"
+        "   background-color: rgb(3, 141, 154);"
         "}"
     );
 
@@ -217,6 +224,7 @@ void MainPage::setupUI(){
     mediaList->setResizeMode(QListView::Adjust);
     mediaList->setMovement(QListView::Static);
     mediaList->setSelectionMode(QAbstractItemView::SingleSelection);
+    mediaList->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     // listaMedia è un parametro locale a questo metodo, che sia da metterlo come membro della classe?
     vector<Media*> listaMedia = biblioteca->getListaMedia();

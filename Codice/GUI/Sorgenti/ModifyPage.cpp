@@ -29,8 +29,8 @@ void ModifyPage::setupUI() {
     sidebarLayout->setSpacing(15);
 
     // 1. Pulsante indietro
-    backButton = new QPushButton("← Indietro");
-    backButton->setMinimumSize(145, 30);
+    backButton = new QPushButton("Indietro");
+    backButton->setMinimumSize(100, 30);
     backButton->setStyleSheet(
         "QPushButton {"
         "   background-color: rgb(0, 104, 201);"
@@ -57,7 +57,7 @@ void ModifyPage::setupUI() {
         "border-radius: 4px;"
     );
 
-    uploadButton = new QPushButton("Carica");
+    uploadButton = new QPushButton("Carica immagine");
     uploadButton->setStyleSheet(
         "QPushButton {"
         "   background-color: rgb(255, 208, 0);"
@@ -80,8 +80,8 @@ void ModifyPage::setupUI() {
 
     sidebarLayout->addLayout(imageLayout, 1);
 
-    // 3. Pulsante "salva modifiche" in basso
-    saveButton = new QPushButton("SALVA MODIFICHE");
+    // 3. Pulsante "conferma modifiche" in basso
+    saveButton = new QPushButton("CONFERMA MODIFICHE");
     saveButton->setMinimumSize(190, 40);
     saveButton->setStyleSheet(
         "QPushButton {"
