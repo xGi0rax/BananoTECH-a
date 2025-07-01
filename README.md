@@ -1,8 +1,6 @@
 # BananoTECH-a
 
 ## Modifiche maggiori:
- - segnale onLibraryModified di MainPage mai usato
-
  - quando schiaccio su approfondisci si allarga automaticamente la finestra
 
 ## Modifiche minori:

@@ -62,14 +62,11 @@ void MainWindow::setupMainPage(Biblioteca* biblio) {
 
     // Connessioni esistenti...
     connect(mainPage, &MainPage::goToChoicePage, this, &MainWindow::switchToLibraryChoicePage);
-    connect(mainPage, &MainPage::goToLoginPage, this, &MainWindow::switchToLoginPage);
     connect(mainPage, &MainPage::goToAddPage, this, &MainWindow::switchToAddPage);
     connect(mainPage, &MainPage::goToModifyPage, this, &MainWindow::switchToModifyPage);
     connect(mainPage, &MainPage::goToDetailsPage, this, &MainWindow::switchToDetailsPage);
     connect(mainPage, &MainPage::borrowMedia, this, &MainWindow::prendiInPrestitoMedia);
     connect(mainPage, &MainPage::returnMedia, this, &MainWindow::restituisciMedia);
-    connect(mainPage, &MainPage::stayInAddPage, this, &MainWindow::switchToAddPage);
-    
     
     // C'è un FUNTORE, BISOGNA MODIFICARE
 

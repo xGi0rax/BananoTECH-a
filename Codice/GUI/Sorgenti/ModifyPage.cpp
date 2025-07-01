@@ -136,6 +136,11 @@ void ModifyPage::setMedia(Media* media) {
             delete currentWidget;
             currentWidget = nullptr;
         }
+
+        if (!currentMedia) {
+            QMessageBox::warning(this, "Errore", "Media non più valido");
+            return;
+        }
         
         // Crea il widget appropriato in base al tipo di media
         if (Film* film = dynamic_cast<Film*>(media)) {
@@ -271,10 +276,8 @@ void ModifyPage::onSaveButtonClicked() {
                 mediaEsistente->setNumeroCopie(mediaEsistente->getNumeroCopie() + 1);
                 biblioteca->rimuoviMedia(currentMedia);
                 currentMedia = nullptr; // Imposto a nullptr per evitare dangling pointer
-                
-                QMessageBox::information(this, "Salvataggio", "Numero copie del media aumentate con successo!");
 
-                // Emetti il segnale di modifica e torna alla pagina principale
+                QMessageBox::information(this, "Salvataggio", "Numero copie del media aumentate con successo!");
                 emit mediaCopiesIncreased();
                 emit goBackToMainPage();
                 return;

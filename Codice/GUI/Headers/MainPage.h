@@ -55,16 +55,12 @@ public slots:
 
 signals:
     void goToChoicePage(); // Segnale per notificare il cambio alla ChoicePage
-    void goToLoginPage(); // Segnale per notificare il cambio alla LoginPage
     void goToAddPage(); // Segnale per notificare il cambio alla AddPage
     void goToModifyPage(Media* media); // Segnale per notificare il cambio alla ModifyPage
     void goToDetailsPage(Media* media); // Segnale per notificare il cambio alla DetailsPage
-    void stayInAddPage(); // Segnale per rimanere nella AddPage
     void borrowMedia(Media* media); // Segnale per prendere in prestito un media
     void returnMedia(Media* media); // Segnale per restituire un media
-    void libraryModified(); // Segnale per notificare modifiche ------------------------- QUESTO SEGNALE NON VIENE USATO
     void unsavedChangesUpdated(bool hasChanges); // Segnale per aggiornare lo stato delle modifiche non salvate
-    void resetAddPageAndGoBack(); // Segnale per resettare la AddPage e tornare indietro
 
 private:
     // Barra superiore
@@ -93,7 +89,6 @@ private:
     // Sezione destra (Immagine di anteprima e dettagli principali media)
     QPixmap originalPixmap;
     QLabel *mediaImageLabel;
-    QLabel *mediaInfoLabel;
     QPushButton *borrowButton;
     QPushButton *returnButton;
     QPushButton *detailsButton;
@@ -129,14 +124,27 @@ private:
     bool hasCurrentFile; // Flag per sapere se c'è un file corrente
     bool isNewLibrary; // Flag per sapere se è una biblioteca nuova
     bool hasUnsavedChanges; // Flag per tracciare modifiche
+    bool canSave() const; // Metodo per verificare se è possibile salvare le modifiche
+    bool needsSaveAs() const; // Metodo per verificare se è necessario usare "Salva come"
 
     void setupUI(); // metodo per configurare l'interfaccia utente
+    void setupTopBar();
+    void setupFilters();
+    void setupMediaList();
+    void setupPreviewPanel();
+    void setupMainLayout();
+    void setupStyles();
+    QString getButtonStyle(const QString& bgColor, const QString& hoverColor, const QString& textColor = "white") const;
     
-    // void setupFilters(); // metodo per configurare i filtri
     void updateGenreComboBox(); // metodo per aggiornare la combobox dei generi in base al tipo di media selezionato
     void updateMediaList(vector<Media*> listaFiltrata); // metodo per aggiornare la lista dei media in base ai filtri selezionati
     void saveToFile(const QString& filePath); 
+    Media* getSelectedMedia() const; // Metodo per ottenere il media selezionato dalla lista
+    bool hasValidSelection() const; // Metodo per verificare se la selezione è valida nella lista dei media
     void updateSaveButtonsState(); // Metodo per aggiornare stato pulsanti
+    void clearPreviewPanel(); // Metodo per pulire il pannello di anteprima
+    void updatePreviewPanel(Media* media); // Metodo per aggiornare il pannello di anteprima con i dettagli del media selezionato
+    void updateMediaImage(Media* media); // Metodo per aggiornare l'immagine del media selezionato
 
 protected:
     void resizeEvent(QResizeEvent* event) override;
