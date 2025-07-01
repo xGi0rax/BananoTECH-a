@@ -68,7 +68,7 @@ void VinileWidget::setCurrentValues() {
     }
 }
 
-bool VinileWidget::validateData() {
+bool VinileWidget::validateData() const {
     return MediaWidget::validateData() && 
             trackCountEdit->value() > 0 && 
             durationEdit->value() > 0;

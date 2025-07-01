@@ -80,7 +80,7 @@ void FilmWidget::setCurrentValues() {
     }
 }
 
-bool FilmWidget::validateData() {
+bool FilmWidget::validateData() const {
     return MediaWidget::validateData() && 
            durationFilmEdit->value() > 0 && 
            !castEdit->text().isEmpty();

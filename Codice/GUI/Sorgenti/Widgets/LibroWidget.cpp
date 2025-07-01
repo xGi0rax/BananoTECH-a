@@ -73,7 +73,7 @@ void LibroWidget::setCurrentValues() {
     }
 }
 
-bool LibroWidget::validateData() {
+bool LibroWidget::validateData() const {
     return MediaWidget::validateData() && 
             !isbnEdit->text().isEmpty() && 
             !editorEdit->text().isEmpty() && 

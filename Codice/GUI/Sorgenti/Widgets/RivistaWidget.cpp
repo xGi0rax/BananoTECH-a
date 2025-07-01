@@ -83,7 +83,7 @@ void RivistaWidget::setCurrentValues() {
     }
 }
 
-bool RivistaWidget::validateData() {
+bool RivistaWidget::validateData() const {
     return MediaWidget::validateData() && 
             !editorEdit->text().isEmpty() && 
             pagesEdit->value() > 0 && 

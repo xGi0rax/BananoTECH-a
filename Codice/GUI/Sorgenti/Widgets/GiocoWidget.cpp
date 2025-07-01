@@ -84,7 +84,7 @@ void GiocoWidget::setCurrentValues() {
     }
 }
 
-bool GiocoWidget::validateData() {
+bool GiocoWidget::validateData() const {
     return MediaWidget::validateData() && 
            maxPlayersEdit->value() > 0 && 
            playTimeEdit->value() > 0 && 
