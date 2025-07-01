@@ -19,13 +19,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
     resize(900, 600);
 }
 
-MainWindow::~MainWindow() {
-    // Cleanup se necessario
-    if (biblioteca) {
-        delete biblioteca;
-        biblioteca = nullptr;
-    }
-}
 // ========================================
 // METODI DI INIZIALIZZAZIONE
 // ========================================

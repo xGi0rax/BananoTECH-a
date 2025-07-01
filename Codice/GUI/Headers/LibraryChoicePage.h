@@ -5,6 +5,7 @@
 #include <QPushButton>
 #include <QLabel>
 #include <QVBoxLayout>
+#include <QFrame>
 #include "../../Modello logico/Headers/Biblioteca.h"
 
 class LibraryChoicePage : public QWidget {
@@ -12,9 +13,10 @@ class LibraryChoicePage : public QWidget {
 
 public:
     explicit LibraryChoicePage(QWidget *parent = nullptr);
+    ~LibraryChoicePage();
 
 signals:
-    void libraryReady(Biblioteca* biblioteca, const QString& filePath, bool isNewLibrary);
+    void libraryReady(Biblioteca* biblioteca, const QString& filePath, bool isNew);
     void goToLoginPage();
 
 private slots:
@@ -22,13 +24,32 @@ private slots:
     void onNewLibraryButtonClicked();
 
 private:
-    QLabel* descriptionLabel;
-    QPushButton* loadFileButton;
-    QPushButton* newLibraryButton;
-    
-    Biblioteca* biblioteca; // Puntatore alla biblioteca corrente
+    // ========================================
+    // WIDGET UI
+    // ========================================
+    QLabel *descriptionLabel;
+    QPushButton *loadFileButton;
+    QPushButton *newLibraryButton;
 
+    // ========================================
+    // DATI
+    // ========================================
+    Biblioteca *biblioteca;
+
+    // ========================================
+    // METODI DI INIZIALIZZAZIONE
+    // ========================================
     void setupUI();
+    void setupStyles();
+    void setupConnections();
+
+    // ========================================
+    // HELPER METHODS
+    // ========================================
+    void resetBiblioteca();
+    bool loadFromFile(const QString& filePath);
+    QString getPrimaryButtonStyle() const;
+    QString getSecondaryButtonStyle() const;
 };
 
 #endif // LIBRARYCHOICEPAGE_H

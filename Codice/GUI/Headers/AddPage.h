@@ -23,7 +23,6 @@
 #include "Widgets/GiocoWidget.h"
 #include "../../Modello logico/Headers/Biblioteca.h"
 
-
 class AddPage : public QWidget {
     Q_OBJECT
 
@@ -32,20 +31,20 @@ public:
     void setBiblioteca(Biblioteca *biblio);
 
 signals:
-    void goBackToMainPage(); // Segnale per tornare alla pagina principale
-    void mediaCreated(); // Segnale per notificare la creazione del nuovo media
-    void mediaCopiesIncreased(); // Segnale per notificare l'aumento delle copie di un media esistente
+    void goBackToMainPage();
+    void mediaCreated();
+    void mediaCopiesIncreased();
 
 private slots:
-    void onBackButtonClicked();  // Slot per il pulsante indietro
-    void onConfirmTypeButtonClicked(); // Slot per il pulsante di conferma del tipo di media
-    void onAddButtonClicked(); // Slot per il pulsante di salvataggio del media
-    void onUploadButtonClicked(); // Slot per il caricamento dell'immagine
+    void onBackButtonClicked();
+    void onConfirmTypeButtonClicked();
+    void onAddButtonClicked();
+    void onUploadButtonClicked();
 
 private:
-    Biblioteca* biblioteca;
-
-    // Enum per identificare il tipo di media
+    // ========================================
+    // ENUM TIPI
+    // ========================================
     enum MediaType {
         FILM = 0,
         LIBRO,
@@ -54,16 +53,29 @@ private:
         GIOCO_DA_TAVOLO
     };
 
-    // StackedWidget principale per la pagina
-    QStackedWidget *mainContentStack;
+    // ========================================
+    // DATI
+    // ========================================
+    Biblioteca* biblioteca;
+    QString selectedImagePath;
 
-    // Barra laterale contente pulsante indietro, immagine e pulsante carica immagine
+    // ========================================
+    // WIDGET UI PRINCIPALI
+    // ========================================
+    QStackedWidget *mainContentStack;
+    QStackedWidget *detailsStackedWidget;
+    MediaWidget *currentWidget;
+
+    // ========================================
+    // SIDEBAR WIDGETS
+    // ========================================
     QPushButton *backButton;
     QLabel *imagePreview;
     QPushButton *uploadButton;
-    QString selectedImagePath;
-    
-    // Widget per la selezione del tipo di media
+
+    // ========================================
+    // SELECTION PAGE WIDGETS
+    // ========================================
     QWidget *selectionWidget;
     QButtonGroup *mediaTypeGroup;
     QRadioButton *filmRadio;
@@ -73,17 +85,22 @@ private:
     QRadioButton *giocoRadio;
     QPushButton *confirmTypeButton;
 
-    // Widget per l'inserimento dei campi del nuovo media
-    QStackedWidget *detailsStackedWidget;
-    MediaWidget *currentWidget;
-    
-    // Bottone per tornare alla pagina di selezione
-    QPushButton *backToSelectionButton;
-    
-    // Metodi di configurazione UI
+    // ========================================
+    // METODI DI INIZIALIZZAZIONE
+    // ========================================
     void setupUI();
+    void setupSidebar(QWidget* sidebarWidget);
+    void setupImageSection(QVBoxLayout* sidebarLayout);
     void setupSelectionPage();
+    void setupRadioButtons();
+
+    // ========================================
+    // HELPER METHODS
+    // ========================================
     void showSelectionPage();
+    bool handleExistingMedia(Media* newMedia);
+    void copyImageToProject(const QString& imagePath);
+    QString getRadioButtonStyle() const;
 };
 
 #endif // ADDPAGE_H
