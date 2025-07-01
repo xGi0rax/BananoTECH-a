@@ -7,7 +7,6 @@
 #include <QMessageBox>
 #include <QPixmap>
 #include <QFile>
-#include <QDebug>
 #include <QTimer>
 #include <QDir>
 
@@ -272,9 +271,6 @@ void DetailsPage::updateUI() {
         // Se il percorso è già assoluto, provalo direttamente
         if (QFile::exists(imagePath)) {
             pixmap.load(imagePath);
-            if (!pixmap.isNull()) {
-                qDebug() << "Immagine caricata da percorso assoluto:" << imagePath;
-            }
         }
         
         // Se ancora non trovata, prova percorsi relativi
@@ -297,21 +293,19 @@ void DetailsPage::updateUI() {
                 if (QFile::exists(path)) {
                     pixmap.load(path);
                     if (!pixmap.isNull()) {
-                        qDebug() << "Immagine caricata da:" << path;
                         break;
                     }
                 }
             }
         }
     } else {
-        qDebug() << "Immagine caricata dalle risorse:" << resourcePath;
+        // boh
     }
     
     // Imposta l'immagine o il placeholder
     if (!pixmap.isNull()) {
         imageLabel->setPixmap(pixmap);
     } else {
-        qDebug() << "Immagine non trovata:" << imagePath;
         QPixmap placeholder(280, 400);
         placeholder.fill(QColor(240, 240, 240));
         imageLabel->setPixmap(placeholder);
@@ -444,9 +438,7 @@ void DetailsPage::onBackButtonClicked() {
     emit goBackToMainPage();
 }
 
-void DetailsPage::onBorrowButtonClicked() {
-    qDebug() << "=== INIZIO DetailsPage::onBorrowButtonClicked ===";
-    
+void DetailsPage::onBorrowButtonClicked() {  
     if (!currentMedia) return;
     
     // Verifico che il media sia disponibile e che ci siano copie disponibili
@@ -458,34 +450,20 @@ void DetailsPage::onBorrowButtonClicked() {
             "Confermi di voler prendere in prestito questo media?",
             QMessageBox::Yes | QMessageBox::No);
         
-        if (reply == QMessageBox::Yes) {
-            qDebug() << "Emettendo segnale mediaBorrowed per:" << QString::fromStdString(currentMedia->getTitolo());
-            
-            // RIMUOVI QUESTE RIGHE - NON MODIFICARE DIRETTAMENTE:
-            // currentMedia->setInPrestito(currentMedia->getInPrestito() + 1);
-            // if (currentMedia->getNumeroCopie() - currentMedia->getInPrestito() == 0) {
-            //     currentMedia->setDisponibilita(false);
-            // }
-            
+        if (reply == QMessageBox::Yes) {           
             // EMETTI SOLO IL SEGNALE - la logica è gestita da MainWindow
             emit mediaBorrowed(currentMedia);
             
             // Aggiorna l'interfaccia DOPO che MainWindow ha modificato il media
             updateUI();
-            
-            qDebug() << "Segnale mediaBorrowed emesso";
         }
     } else {
         QMessageBox::warning(this, "Prestito non disponibile", 
             "Questo media non è attualmente disponibile per il prestito.");
     }
-    
-    qDebug() << "=== FINE DetailsPage::onBorrowButtonClicked ===";
 }
 
 void DetailsPage::onReturnButtonClicked() {
-    qDebug() << "=== INIZIO DetailsPage::onReturnButtonClicked ===";
-    
     if (!currentMedia) return;
     
     QMessageBox::StandardButton reply = QMessageBox::question(this, 
@@ -494,26 +472,12 @@ void DetailsPage::onReturnButtonClicked() {
         QMessageBox::Yes | QMessageBox::No);
     
     if (reply == QMessageBox::Yes) {
-        qDebug() << "Emettendo segnale mediaReturned per:" << QString::fromStdString(currentMedia->getTitolo());
-        
-        // RIMUOVI QUESTE RIGHE - NON MODIFICARE DIRETTAMENTE:
-        // if (currentMedia->getInPrestito() > 0) {
-        //     currentMedia->setInPrestito(currentMedia->getInPrestito() - 1);
-        //     if (!currentMedia->getDisponibilita()) {
-        //         currentMedia->setDisponibilita(true);
-        //     }
-        // }
-        
         // EMETTI SOLO IL SEGNALE - la logica è gestita da MainWindow
         emit mediaReturned(currentMedia);
         
         // Aggiorna l'interfaccia DOPO che MainWindow ha modificato il media
         updateUI();
-        
-        qDebug() << "Segnale mediaReturned emesso";
     }
-    
-    qDebug() << "=== FINE DetailsPage::onReturnButtonClicked ===";
 }
 
 void DetailsPage::onRequestFromAffiliateClicked() {
@@ -527,7 +491,7 @@ void DetailsPage::onRequestFromAffiliateClicked() {
         QMessageBox::Yes | QMessageBox::No);
     
     if (reply == QMessageBox::Yes) {
-        emit mediaRequestedFromAffiliate(currentMedia);
+        // emit mediaRequestedFromAffiliate(currentMedia);
         
         QMessageBox::information(this, "Richiesta inviata", 
             QString("La richiesta per \"%1\" è stata inviata alle biblioteche affiliate.\n"

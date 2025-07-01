@@ -1,5 +1,4 @@
 #include "../../Headers/Widgets/MediaWidget.h"
-#include <QDebug>
 
 MediaWidget::MediaWidget(QWidget *parent) : QWidget(parent), currentMedia(nullptr) {
 }
@@ -106,7 +105,7 @@ void MediaWidget::setCurrentValues() {
         collocationEdit->setText(QString::fromStdString(currentMedia->getCollocazione()));
         ratingEdit->setValue(currentMedia->getRating());
     }else{
-        qDebug() << "currentMedia is null"; // Da capire cosa fare in questo caso
+         // Da capire cosa fare in questo caso
     }
 }
 

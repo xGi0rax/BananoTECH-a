@@ -186,9 +186,6 @@ void ModifyPage::setMedia(Media* media) {
                 // Se il percorso è già assoluto, provalo direttamente
                 if (QFile::exists(currentImagePath)) {
                     pixmap.load(currentImagePath);
-                    if (!pixmap.isNull()) {
-                        qDebug() << "Immagine caricata da percorso assoluto:" << currentImagePath;
-                    }
                 }
                 
                 // Se ancora non trovata, prova percorsi relativi
@@ -208,15 +205,11 @@ void ModifyPage::setMedia(Media* media) {
                     for (const QString& path : possiblePaths) {
                         if (QFile::exists(path)) {
                             pixmap.load(path);
-                            if (!pixmap.isNull()) {
-                                qDebug() << "Immagine caricata da:" << path;
-                                break;
-                            }
                         }
                     }
                 }
             } else {
-                qDebug() << "Immagine caricata dalle risorse:" << resourcePath;
+                // boh
             }
             
             // Imposta l'immagine o il placeholder
@@ -322,10 +315,8 @@ void ModifyPage::onUploadButtonClicked() {
     // Copia il file con il nome definitivo
     if (QFile::copy(imagePath, newPath)) {
         currentImagePath = "Immagini/" + fileName;
-        qDebug() << "File salvato come:" << currentImagePath;
     } else {
         // Fallback al percorso originale
         currentImagePath = imagePath;
-        qDebug() << "Usando percorso originale:" << currentImagePath;
     }
 }

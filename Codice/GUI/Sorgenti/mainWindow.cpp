@@ -226,33 +226,29 @@ void MainWindow::restituisciMedia(Media* media) {
         QMessageBox::warning(this, "Errore", "Media non valido.");
         return;
     }
-    
-    // Verifica se ci sono copie in prestito
-    int copieInPrestito = media->getInPrestito();
-    
-    if (copieInPrestito <= 0) {
+
+    if(biblioteca->esisteMedia(media->getTitolo(), media->getAutore(), media->getAnno()) == false) {
+        QMessageBox::warning(this, "Errore", 
+            QString("Il media '%1' non esiste nella biblioteca. Impossibile restituire.").arg(QString::fromStdString(media->getTitolo())));
+        return;
+    } else if (media->getInPrestito() <= 0) {
         QMessageBox::warning(this, "Restituzione non disponibile", 
             QString("Nessuna copia di '%1' risulta in prestito.").arg(QString::fromStdString(media->getTitolo())));
         return;
-    }
-    
-    // Decrementa il numero di copie in prestito
-    media->setInPrestito(copieInPrestito - 1);
-    
-    // Se il media era non disponibile, ora lo rendiamo disponibile
-    if (!media->getDisponibilita()) {
-        media->setDisponibilita(true);
-    }
-    
-    QMessageBox::information(this, "Restituzione effettuata", 
+    } else if(biblioteca->restituisci(media)){
+        QMessageBox::information(this, "Restituzione effettuata", 
         QString("Hai restituito '%1' con successo!").arg(QString::fromStdString(media->getTitolo())));
-    
-    // NOTIFICA LA MODIFICA ALLA BIBLIOTECA:
-    hasUnsavedChanges = true;
-    
-    // Notifica anche MainPage
-    if (mainPage) {
-        mainPage->setHasUnsavedChanges(true);
+
+        // NOTIFICA LA MODIFICA ALLA BIBLIOTECA:
+        hasUnsavedChanges = true;
+        
+        // Notifica anche MainPage
+        if (mainPage) {
+            mainPage->setHasUnsavedChanges(true);
+        }
+    } else {
+        QMessageBox::warning(this, "Restituzione non riuscita", 
+            QString("Si è verificato un errore durante la restituzione di '%1'.").arg(QString::fromStdString(media->getTitolo())));
     }
 }
 

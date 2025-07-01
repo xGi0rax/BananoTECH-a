@@ -27,7 +27,7 @@ signals:
     void goBackToMainPage(); // Segnale per tornare alla pagina principale
     void mediaBorrowed(Media* media); // Segnale per il prestito del media
     void mediaReturned(Media* media); // Segnale per la restituzione del media
-    void mediaRequestedFromAffiliate(Media* media); // Segnale per la richiesta da biblioteca affiliata
+    // void mediaRequestedFromAffiliate(Media* media); // Segnale per la richiesta da biblioteca affiliata
 
 private slots:
     void onBackButtonClicked(); // Slot per il pulsante indietro

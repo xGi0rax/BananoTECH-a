@@ -19,18 +19,18 @@ void Biblioteca::aggiungiMedia(Media* media) {
     listaMedia.push_back(media);
 }
 
-bool Biblioteca::esisteMedia(const string& titolo, int anno, const string& genere) const {
+bool Biblioteca::esisteMedia(const string& titolo, const string& autore, int anno) const {
     for (const Media* m : listaMedia) {
-        if (m->getTitolo() == titolo && m->getAnno() == anno && m->getGenere() == genere) {
+        if (m->getTitolo() == titolo && m->getAutore() == autore && m->getAnno() == anno) {
             return true;
         }
     }
     return false;
 }
 
-Media* Biblioteca::cercaMediaDaT_A_G(const string& titolo, int anno, const string& genere) const {
+Media* Biblioteca::cercaMediaDaT_A_G(const string& titolo, const string& autore, int anno) const {
     for (Media* m : listaMedia) {
-        if (m->getTitolo() == titolo && m->getAnno() == anno && m->getGenere() == genere) {
+        if (m->getTitolo() == titolo && m->getAutore() == autore && m->getAnno() == anno) {
             return m;
         }
     }
@@ -128,10 +128,6 @@ vector<Media*> Biblioteca::filtra(const string& titolo, const string& tipoMedia,
         }
     }
     return risultati;
-}
-
-int Biblioteca::getNumeroTotaleMedia() const {
-    return listaMedia.size();
 }
 
 bool Biblioteca::prendiInPrestito(const Media* media){

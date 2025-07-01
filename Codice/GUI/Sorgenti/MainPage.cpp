@@ -16,7 +16,6 @@
 #include <QApplication>
 #include <QFileDialog>
 #include <QStringConverter>
-#include <QDebug>
 
 MainPage::MainPage(QWidget *parent, Biblioteca* biblio) : QWidget(parent) {
     biblioteca = biblio;
@@ -717,13 +716,13 @@ void MainPage::onEditButtonClicked() {
 void MainPage::onDeleteButtonClicked() {
     QListWidgetItem* currentItem = mediaList->currentItem();
     if (!currentItem) {
-        qDebug() << "Nessun elemento selezionato per la rimozione";
+        QMessageBox::warning(this, "Errore", "Nessun media selezionato per la rimozione.");
         return;
     }
     
     Media* selectedMedia = currentItem->data(Qt::UserRole).value<Media*>();
     if (!selectedMedia) {
-        qDebug() << "Media non valido nell'elemento selezionato";
+        QMessageBox::warning(this, "Errore", "Media selezionato non valido.");
         return;
     }
     
@@ -768,7 +767,6 @@ void MainPage::onDeleteButtonClicked() {
             QListWidgetItem* removedItem = mediaList->takeItem(row);
             if (removedItem) {
                 delete removedItem; // Pulisci solo l'item UI, non il Media*
-                qDebug() << "Elemento UI rimosso dalla lista";
             }
             
             // STEP 6: Aggiorna lo stato delle modifiche
@@ -778,20 +776,16 @@ void MainPage::onDeleteButtonClicked() {
             
             // STEP 7: Se la lista è vuota, assicurati che tutto sia pulito
             if (mediaList->count() == 0) {
-                qDebug() << "Lista media ora vuota - reset completo UI";
                 mediaList->clearSelection();
-            }
-            
-            qDebug() << "=== FINE eliminazione media (successo) ===";
-            
+            }            
         } else {
             // ERRORE: La rimozione dalla biblioteca è fallita
             QMessageBox::warning(this, "Errore", 
                 "Impossibile rimuovere il media dalla biblioteca. Riprova.");
-            qDebug() << "ERRORE: Rimozione dalla biblioteca fallita";
         }
     } else {
-        qDebug() << "Eliminazione annullata dall'utente";
+        // L'utente ha scelto di non rimuovere il media
+        return;
     }
 }
 
@@ -901,13 +895,13 @@ void MainPage::updateMediaList(vector<Media*> listaFiltrata) {
 }
 
 void MainPage::onNewMediaCreated(Media* newMedia) {
-    if(biblioteca->esisteMedia(newMedia->getTitolo(), newMedia->getAnno(), newMedia->getGenere())){
+    if(biblioteca->esisteMedia(newMedia->getTitolo(), newMedia->getAutore(), newMedia->getAnno())){
         QMessageBox::StandardButton reply = QMessageBox::question(this, "Media già esistente", 
             "Un media con lo stesso titolo, anno e genere esiste già nella biblioteca. Vuoi aumentare il numero di copie di questo media presenti in biblioteca?", 
             QMessageBox::Yes | QMessageBox::No);
 
         if (reply == QMessageBox::Yes) {
-            Media* mediaEsistente = biblioteca->cercaMediaDaT_A_G(newMedia->getTitolo(), newMedia->getAnno(), newMedia->getGenere());
+            Media* mediaEsistente = biblioteca->cercaMediaDaT_A_G(newMedia->getTitolo(), newMedia->getAutore(), newMedia->getAnno());
             mediaEsistente->setNumeroCopie(mediaEsistente->getNumeroCopie() + 1);
             delete newMedia;
             QMessageBox::information(this, "Salvataggio", "Numero copie del media aumentate con successo!");
