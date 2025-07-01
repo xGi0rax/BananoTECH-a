@@ -12,3 +12,4 @@
 
 ## Per relazione:
 - segnale mediaRequestedFromAffiliate va inserito nella relazione come futura implementazione
+- scrivere che se viene caricata un'immagine con lo stesso nome questa non viene salvata nella cartella?
