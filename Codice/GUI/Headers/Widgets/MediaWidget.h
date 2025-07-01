@@ -28,6 +28,10 @@ public:
     virtual Media* createMedia() = 0; // Creazione di un nuovo oggetto Media (per AddPage)
     virtual void setReadOnly(bool readOnly) = 0; // Imposta i campi come di sola lettura
 
+    QString getTitolo() const;
+    QString getAutore() const;
+    int getAnno() const;
+
 protected:
     Media* currentMedia;
 

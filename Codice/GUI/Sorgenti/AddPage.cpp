@@ -352,30 +352,48 @@ void AddPage::onAddButtonClicked() {
     
     // Crea l'oggetto media usando il widget attualmente visualizzato
     Media* newMedia = currentWidget->createMedia();
-
-    if (newMedia) {
-        // Imposta l'immagine del media se è stata selezionata
-        if (!selectedImagePath.isEmpty()) {
-            newMedia->setImmagine(selectedImagePath.toStdString());
-        }
-        
-        // Emetti un segnale con il nuovo media creato
-        emit mediaCreated(newMedia);
-        
-        // Resetto la selezione e mostro la pagina di selezione
-        if (mediaTypeGroup->checkedButton()) {
-            mediaTypeGroup->setExclusive(false);
-            mediaTypeGroup->checkedButton()->setChecked(false);
-            mediaTypeGroup->setExclusive(true);
-            selectedImagePath.clear();
-            imagePreview->setPixmap(QPixmap());
-        }
-        // Mostro la pagina di selezione
-        mainContentStack->setCurrentWidget(selectionWidget);
-
-        // Torna alla pagina principale
-        emit goBackToMainPage();
-    } else {
+    if (!newMedia) {
         QMessageBox::warning(this, "Errore", "Errore nella creazione del media!");
+        return;
     }
+
+    // Imposta l'immagine del media se è stata selezionata
+    if (!selectedImagePath.isEmpty()) {
+        newMedia->setImmagine(selectedImagePath.toStdString());
+    }
+
+    if (biblioteca && biblioteca->esisteMedia(newMedia->getTitolo(), newMedia->getAutore(), newMedia->getAnno())) {
+        QMessageBox::StandardButton reply = QMessageBox::question(this, "Media già esistente", 
+            "Un media con lo stesso titolo, autore e anno esiste già nella biblioteca. Vuoi aumentare il numero di copie di questo media presenti in biblioteca?", 
+            QMessageBox::Yes | QMessageBox::No);
+
+        if (reply == QMessageBox::Yes) {
+            Media* mediaEsistente = biblioteca->cercaMediaDaT_A_A(newMedia->getTitolo(), newMedia->getAutore(), newMedia->getAnno());
+            mediaEsistente->setNumeroCopie(mediaEsistente->getNumeroCopie() + 1);
+            delete newMedia; // Libera il media temporaneo
+            QMessageBox::information(this, "Salvataggio", "Numero copie del media aumentate con successo!");
+
+            // EMETTI SEGNALE SPECIFICO
+            emit mediaCopiesIncreased();
+            showSelectionPage();
+            emit goBackToMainPage();
+            return;
+        } else if(reply == QMessageBox::No) {
+            delete newMedia; // Libera il media temporaneo
+            return; // Rimane nella pagina di aggiunta
+        }
+    }
+    
+    // Se arriviamo qui, possiamo aggiungere il media
+    biblioteca->aggiungiMedia(newMedia);
+    QMessageBox::information(this, "Successo", "Media aggiunto con successo");
+    
+    // EMETTI SEGNALE SPECIFICO
+    emit mediaCreated();
+    showSelectionPage();
+    emit goBackToMainPage();
+}
+
+void AddPage::setBiblioteca(Biblioteca* biblio) {
+    biblioteca = biblio;
 }

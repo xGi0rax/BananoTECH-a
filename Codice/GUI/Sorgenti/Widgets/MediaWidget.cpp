@@ -159,3 +159,15 @@ QString MediaWidget::getInputStyle() const {
            "QSpinBox::up-button, QDoubleSpinBox::up-button { width: 20px; }"
            "QSpinBox::down-button, QDoubleSpinBox::down-button { width: 20px; }";
 }
+
+QString MediaWidget::getTitolo() const {
+    return titleEdit->text();
+}
+
+QString MediaWidget::getAutore() const {
+    return authorEdit->text();
+}
+
+int MediaWidget::getAnno() const {
+    return yearEdit->value();
+}

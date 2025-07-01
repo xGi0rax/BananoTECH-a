@@ -894,69 +894,25 @@ void MainPage::updateMediaList(vector<Media*> listaFiltrata) {
     }
 }
 
-void MainPage::onNewMediaCreated(Media* newMedia) {
-    if(biblioteca->esisteMedia(newMedia->getTitolo(), newMedia->getAutore(), newMedia->getAnno())){
-        QMessageBox::StandardButton reply = QMessageBox::question(this, "Media già esistente", 
-            "Un media con lo stesso titolo, anno e genere esiste già nella biblioteca. Vuoi aumentare il numero di copie di questo media presenti in biblioteca?", 
-            QMessageBox::Yes | QMessageBox::No);
-
-        if (reply == QMessageBox::Yes) {
-            Media* mediaEsistente = biblioteca->cercaMediaDaT_A_G(newMedia->getTitolo(), newMedia->getAutore(), newMedia->getAnno());
-            mediaEsistente->setNumeroCopie(mediaEsistente->getNumeroCopie() + 1);
-            delete newMedia;
-            QMessageBox::information(this, "Salvataggio", "Numero copie del media aumentate con successo!");
-        }
-    } else {
-        biblioteca->aggiungiMedia(newMedia);
-        QMessageBox::information(this, "Salvataggio", "Media aggiunto con successo!");
-        updateMediaList(biblioteca->getListaMedia());
-        
-        // Reset dell'anteprima
-        mediaTitleLabel->setText("");
-        mediaAuthorLabel->setText("Seleziona un media per vedere i dettagli");
-        mediaYearLabel->setText("");
-        mediaRatingLabel->setText("");
-        mediaImageLabel->setText("Nessuna immagine");
-        mediaImageLabel->setStyleSheet(
-            "border: 1px solid black;"
-            "background-color: white;"
-            "color: gray;"
-            "padding: 5px;"
-        );
-        
-        borrowButton->setEnabled(false);
-        returnButton->setEnabled(false);
-        detailsButton->setEnabled(false);
-        editMediaButton->setEnabled(false);
-    }
-
+void MainPage::onMediaCreated() {
+    // Aggiorna la lista e i pulsanti
+    updateMediaList(biblioteca->getListaMedia());
     hasUnsavedChanges = true;
     emit unsavedChangesUpdated(true);
     updateSaveButtonsState();
 }
 
-void MainPage::onMediaEdited() {
+void MainPage::onMediaModified() {
+    // Aggiorna la lista e i pulsanti
     updateMediaList(biblioteca->getListaMedia());
-    
-    // Reset anteprima
-    mediaTitleLabel->setText("");
-    mediaAuthorLabel->setText("Seleziona un media per vedere i dettagli");
-    mediaYearLabel->setText("");
-    mediaRatingLabel->setText("");
-    mediaImageLabel->setText("Nessuna immagine");
-    mediaImageLabel->setStyleSheet(
-        "border: 1px solid black;"
-        "background-color: white;"
-        "color: gray;"
-        "padding: 5px;"
-    );
-    
-    borrowButton->setEnabled(false);
-    returnButton->setEnabled(false);
-    detailsButton->setEnabled(false);
-    editMediaButton->setEnabled(false);
+    hasUnsavedChanges = true;
+    emit unsavedChangesUpdated(true);
+    updateSaveButtonsState();
+}
 
-    // AGGIUNGI QUESTE RIGHE CRUCIALI:
+void MainPage::onMediaCopiesIncreased() {
+    // Aggiorna la lista e i pulsanti (sia per AddPage che ModifyPage)
+    updateMediaList(biblioteca->getListaMedia());
     hasUnsavedChanges = true;
     emit unsavedChangesUpdated(true);
     updateSaveButtonsState();

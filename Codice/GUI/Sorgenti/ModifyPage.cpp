@@ -5,7 +5,7 @@
 #include <QFileDialog>
 #include <QMessageBox>
 
-ModifyPage::ModifyPage(QWidget* parent) : QWidget(parent), currentMedia(nullptr), currentWidget(nullptr) {
+ModifyPage::ModifyPage(QWidget* parent) : QWidget(parent), biblioteca(nullptr), currentMedia(nullptr), currentWidget(nullptr) {
     setupUI();
 }
 
@@ -233,6 +233,10 @@ void ModifyPage::setMedia(Media* media) {
     }
 }
 
+void ModifyPage::setBiblioteca(Biblioteca* biblio) {
+    biblioteca = biblio;
+}
+
 void ModifyPage::onBackButtonClicked() {
     emit goBackToMainPage();
 }
@@ -243,33 +247,57 @@ void ModifyPage::onSaveButtonClicked() {
         return;
     }
     
-    try {
-        // Verifica che i dati siano validi
-        if (!currentWidget->validateData()) {
-            QMessageBox::warning(this, "Errore", "Dati non validi. Verifica tutti i campi.");
-            return;
+    if (!currentWidget->validateData()) {
+        QMessageBox::warning(this, "Errore", "Dati non validi. Verifica tutti i campi.");
+        return;
+    }
+
+    QString newTitle = currentWidget->getTitolo(); 
+    QString newAuthor = currentWidget->getAutore();
+    int newYear = currentWidget->getAnno();
+
+    // Controlla se i nuovi valori corrispondono a un media esistente DIVERSO da quello corrente
+    if (biblioteca && biblioteca->esisteMedia(newTitle.toStdString(), newAuthor.toStdString(), newYear)) {
+        Media* mediaEsistente = biblioteca->cercaMediaDaT_A_A(newTitle.toStdString(), newAuthor.toStdString(), newYear);
+        
+        // Verifica che non sia lo stesso media che stiamo modificando
+        if (mediaEsistente && mediaEsistente != currentMedia) {
+            QMessageBox::StandardButton reply = QMessageBox::question(this, "Media già esistente", 
+                "Un media con lo stesso titolo, autore e anno esiste già nella biblioteca. Vuoi aumentare il numero di copie di questo media invece di salvare le modifiche? \nIl media che stavi modificando verrà eliminato.", 
+                QMessageBox::Yes | QMessageBox::No);
+
+            if (reply == QMessageBox::Yes) {
+                // Aumenta le copie del media esistente
+                mediaEsistente->setNumeroCopie(mediaEsistente->getNumeroCopie() + 1);
+                biblioteca->rimuoviMedia(currentMedia);
+                currentMedia = nullptr; // Imposto a nullptr per evitare dangling pointer
+                
+                QMessageBox::information(this, "Salvataggio", "Numero copie del media aumentate con successo!");
+
+                // Emetti il segnale di modifica e torna alla pagina principale
+                emit mediaCopiesIncreased();
+                emit goBackToMainPage();
+                return;
+            } else if (reply == QMessageBox::No){
+                // L'utente ha scelto No, rimane nella pagina di modifica
+                return;
+            }
+        }
+    }
+    
+    // Se arriviamo qui, possiamo procedere con le modifiche normali
+    if (currentWidget->applyChanges()) {
+        // Imposta l'immagine se è stata modificata
+        if (!currentImagePath.isEmpty()) {
+            currentMedia->setImmagine(currentImagePath.toStdString());
         }
         
-        // Applica le modifiche direttamente all'oggetto media esistente
-        if (currentWidget->applyChanges()) {
-            // Imposta l'immagine se è stata modificata
-            if (!currentImagePath.isEmpty()) {
-                currentMedia->setImmagine(currentImagePath.toStdString());
-            }
-            
-            QMessageBox::information(this, "Successo", "Modifiche salvate con successo");
-            emit mediaEdited();
-            emit goBackToMainPage();
-        } 
-        else {
-            QMessageBox::warning(this, "Errore", "Non è stato possibile applicare le modifiche");
-        }
-    }
-    catch (const std::exception& e) {
-        QMessageBox::warning(this, "Errore", "Si è verificato un errore durante il salvataggio: " + QString(e.what()));
-    }
-    catch (...) {
-        QMessageBox::warning(this, "Errore", "Si è verificato un errore sconosciuto durante il salvataggio");
+        QMessageBox::information(this, "Successo", "Modifiche salvate con successo");
+        emit mediaModified();
+        emit goBackToMainPage();
+    } 
+    else {
+        QMessageBox::warning(this, "Errore", "Non è stato possibile applicare le modifiche");
     }
 }
 

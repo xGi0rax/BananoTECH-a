@@ -20,17 +20,45 @@ void Biblioteca::aggiungiMedia(Media* media) {
 }
 
 bool Biblioteca::esisteMedia(const string& titolo, const string& autore, int anno) const {
+    string titoloLower = titolo;
+    string autoreLower = autore;
+    
+    // Converte a lowercase
+    std::transform(titoloLower.begin(), titoloLower.end(), titoloLower.begin(), ::tolower);
+    std::transform(autoreLower.begin(), autoreLower.end(), autoreLower.begin(), ::tolower);
+    
     for (const Media* m : listaMedia) {
-        if (m->getTitolo() == titolo && m->getAutore() == autore && m->getAnno() == anno) {
+        string mediaTitoloLower = m->getTitolo();
+        string mediaAutoreLower = m->getAutore();
+        
+        // Converte a lowercase
+        std::transform(mediaTitoloLower.begin(), mediaTitoloLower.end(), mediaTitoloLower.begin(), ::tolower);
+        std::transform(mediaAutoreLower.begin(), mediaAutoreLower.end(), mediaAutoreLower.begin(), ::tolower);
+        
+        if (mediaTitoloLower == titoloLower && mediaAutoreLower == autoreLower && m->getAnno() == anno) {
             return true;
         }
     }
     return false;
 }
 
-Media* Biblioteca::cercaMediaDaT_A_G(const string& titolo, const string& autore, int anno) const {
+Media* Biblioteca::cercaMediaDaT_A_A(const string& titolo, const string& autore, int anno) const {
+    string titoloLower = titolo;
+    string autoreLower = autore;
+    
+    // Converte a lowercase
+    std::transform(titoloLower.begin(), titoloLower.end(), titoloLower.begin(), ::tolower);
+    std::transform(autoreLower.begin(), autoreLower.end(), autoreLower.begin(), ::tolower);
+
     for (Media* m : listaMedia) {
-        if (m->getTitolo() == titolo && m->getAutore() == autore && m->getAnno() == anno) {
+        string mediaTitoloLower = m->getTitolo();
+        string mediaAutoreLower = m->getAutore();
+        
+        // Converte a lowercase
+        std::transform(mediaTitoloLower.begin(), mediaTitoloLower.end(), mediaTitoloLower.begin(), ::tolower);
+        std::transform(mediaAutoreLower.begin(), mediaAutoreLower.end(), mediaAutoreLower.begin(), ::tolower);
+
+        if (mediaTitoloLower == titoloLower && mediaAutoreLower == autoreLower && m->getAnno() == anno) {
             return m;
         }
     }

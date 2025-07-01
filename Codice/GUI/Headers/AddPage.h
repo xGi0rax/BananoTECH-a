@@ -21,6 +21,7 @@
 #include "Widgets/VinileWidget.h"
 #include "Widgets/RivistaWidget.h"
 #include "Widgets/GiocoWidget.h"
+#include "../../Modello logico/Headers/Biblioteca.h"
 
 
 class AddPage : public QWidget {
@@ -28,10 +29,12 @@ class AddPage : public QWidget {
 
 public:
     explicit AddPage(QWidget *parent = nullptr);
+    void setBiblioteca(Biblioteca *biblio);
 
 signals:
     void goBackToMainPage(); // Segnale per tornare alla pagina principale
-    void mediaCreated(Media *media); // Segnale per notificare la creazione del nuovo media
+    void mediaCreated(); // Segnale per notificare la creazione del nuovo media
+    void mediaCopiesIncreased(); // Segnale per notificare l'aumento delle copie di un media esistente
 
 private slots:
     void onBackButtonClicked();  // Slot per il pulsante indietro
@@ -40,6 +43,8 @@ private slots:
     void onUploadButtonClicked(); // Slot per il caricamento dell'immagine
 
 private:
+    Biblioteca* biblioteca;
+
     // Enum per identificare il tipo di media
     enum MediaType {
         FILM = 0,

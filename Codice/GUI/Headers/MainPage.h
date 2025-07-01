@@ -44,8 +44,9 @@ public slots:
     void onDetailsButtonClicked(); // Slot per il pulsante di visualizzazione dei dettagli del media
     void onEditButtonClicked(); // Slot per il pulsante di modifica del media
     void onDeleteButtonClicked(); // Slot per il pulsante di rimozione del media dalla lista
-    void onNewMediaCreated(Media* newMedia); // Slot per aggiungere un nuovo media alla lista
-    void onMediaEdited(); // Slot per aggiornare un media esistente
+    void onMediaCreated(); // Slot per creare un nuovo media
+    void onMediaModified(); // Slot per aggiornare un media esistente
+    void onMediaCopiesIncreased(); // Slot per aggiornare copie di un media esistente
     void onSearchTextChanged(const QString& searchText); // Slot per gestire il cambiamento del testo nella barra di ricerca
     void onScrollChanged(); 
     
@@ -58,10 +59,12 @@ signals:
     void goToAddPage(); // Segnale per notificare il cambio alla AddPage
     void goToModifyPage(Media* media); // Segnale per notificare il cambio alla ModifyPage
     void goToDetailsPage(Media* media); // Segnale per notificare il cambio alla DetailsPage
+    void stayInAddPage(); // Segnale per rimanere nella AddPage
     void borrowMedia(Media* media); // Segnale per prendere in prestito un media
     void returnMedia(Media* media); // Segnale per restituire un media
     void libraryModified(); // Segnale per notificare modifiche ------------------------- QUESTO SEGNALE NON VIENE USATO
     void unsavedChangesUpdated(bool hasChanges); // Segnale per aggiornare lo stato delle modifiche non salvate
+    void resetAddPageAndGoBack(); // Segnale per resettare la AddPage e tornare indietro
 
 private:
     // Barra superiore

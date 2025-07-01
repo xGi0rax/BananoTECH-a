@@ -68,6 +68,7 @@ void MainWindow::setupMainPage(Biblioteca* biblio) {
     connect(mainPage, &MainPage::goToDetailsPage, this, &MainWindow::switchToDetailsPage);
     connect(mainPage, &MainPage::borrowMedia, this, &MainWindow::prendiInPrestitoMedia);
     connect(mainPage, &MainPage::returnMedia, this, &MainWindow::restituisciMedia);
+    connect(mainPage, &MainPage::stayInAddPage, this, &MainWindow::switchToAddPage);
     
     
     // C'è un FUNTORE, BISOGNA MODIFICARE
@@ -81,27 +82,33 @@ void MainWindow::setupMainPage(Biblioteca* biblio) {
 void MainWindow::setupAddPage(){
     // Creazione della pagina di aggiunta media
     addPage = new AddPage(this);
-
+    addPage->setBiblioteca(biblioteca);
     stackedWidget->addWidget(addPage);
 
     // Connetto il segnale per tornare alla pagina principale
     connect(addPage, &AddPage::goBackToMainPage, this, &MainWindow::switchToMainPage);
 
     // Connetto il segnale per la creazione del media
-    connect(addPage, &AddPage::mediaCreated, mainPage, &MainPage::onNewMediaCreated);
+    connect(addPage, &AddPage::mediaCreated, mainPage, &MainPage::onMediaCreated);
+
+    // Connetto il segnale per l'aumento delle copie del media
+    connect(addPage, &AddPage::mediaCopiesIncreased, mainPage, &MainPage::onMediaCopiesIncreased);
 }
 
 void MainWindow::setupModifyPage(){
     // Creazione della pagina di modifica media
     modifyPage = new ModifyPage(this);
-
+    modifyPage->setBiblioteca(biblioteca);
     stackedWidget->addWidget(modifyPage);
 
     // Connetto il segnale per tornare alla pagina principale
     connect(modifyPage, &ModifyPage::goBackToMainPage, this, &MainWindow::switchToMainPage);
 
     // Connetto il segnale per la modifica del media
-    connect(modifyPage, &ModifyPage::mediaEdited, mainPage, &MainPage::onMediaEdited);
+    connect(modifyPage, &ModifyPage::mediaModified, mainPage, &MainPage::onMediaModified);
+
+    // Connetto il segnale per l'aumento delle copie del media
+    connect(modifyPage, &ModifyPage::mediaCopiesIncreased, mainPage, &MainPage::onMediaCopiesIncreased);
 }
 
 void MainWindow::setupDetailsPage(){
@@ -268,9 +275,9 @@ bool MainWindow::checkUnsavedChanges() {
         QMessageBox::StandardButton reply = QMessageBox::question(this, 
             "Modifiche non salvate", 
             "Ci sono modifiche non salvate. Sei sicuro di voler uscire senza salvare?",
-            QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
+            QMessageBox::Yes | QMessageBox::No);
         
-        if (reply == QMessageBox::No || reply == QMessageBox::Cancel) {
+        if (reply == QMessageBox::No) {
             return false; // L'utente ha cancellato l'operazione
         }
     }

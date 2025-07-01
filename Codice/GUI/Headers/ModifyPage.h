@@ -16,6 +16,7 @@
 #include "Widgets/VinileWidget.h"
 #include "Widgets/RivistaWidget.h"
 #include "Widgets/GiocoWidget.h"
+#include "../../Modello logico/Headers/Biblioteca.h"
 
 class ModifyPage : public QWidget {
     Q_OBJECT
@@ -23,10 +24,12 @@ class ModifyPage : public QWidget {
 public:
     explicit ModifyPage(QWidget* parent = nullptr);
     void setMedia(Media* media);
+    void setBiblioteca(Biblioteca* biblio);
 
 signals:
     void goBackToMainPage(); // Segnale per tornare alla pagina principale
-    void mediaEdited(); // Segnale per notificare la modifica del media
+    void mediaModified(); // Segnale per notificare che il media è stato modificato
+    void mediaCopiesIncreased(); // Segnale per notificare che le copie del media sono state aumentate
 
 private slots:
     void onBackButtonClicked(); // Slot per il pulsante indietro
@@ -34,6 +37,9 @@ private slots:
     void onUploadButtonClicked(); // Slot per il caricamento dell'immagine
     
 private:
+    // Puntatore alla biblioteca
+    Biblioteca* biblioteca;
+
     // Puntatore al media corrente
     Media* currentMedia;
 
