@@ -11,9 +11,13 @@
 
 class LoginPage : public QWidget {
     Q_OBJECT
+
 public:
     explicit LoginPage(QWidget *parent = nullptr);
 
+    // ========================================
+    // METODI DI UTILITA'
+    // ========================================
     QString getUsername() const;
     QString getPassword() const;
     void showErrorMessage(const QString &message);
@@ -23,19 +27,25 @@ public:
 signals:
     void loginAttempted();
 
+protected:
+    void keyPressEvent(QKeyEvent *event) override;
+
+private slots:
+    void onLoginButtonClicked();
+
 private:
+    // ========================================
+    // WIDGET UI
+    // ========================================
     QLineEdit *usernameField;
     QLineEdit *passwordField;
     QPushButton *loginButton;
     QLabel *errorLabel;
 
+    // ========================================
+    // METODI DI INIZIALIZZAZIONE
+    // ========================================
     void setupUI();
-
-private slots:
-    void onLoginButtonClicked();
-
-protected:
-    void keyPressEvent(QKeyEvent *event) override;
 };
 
 #endif // LOGINPAGE_H
