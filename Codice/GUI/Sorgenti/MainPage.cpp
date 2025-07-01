@@ -317,15 +317,12 @@ void MainPage::setupMainLayout() {
 void MainPage::setupStyles() {
     // Stili pulsanti principali
     backButton->setStyleSheet(getButtonStyle("rgb(0, 104, 201)", "rgb(11, 82, 189)"));
-    //addMediaButton->setStyleSheet(getButtonStyle("rgb(0, 104, 201)", "rgb(11, 82, 189)"));
     saveButton->setStyleSheet(getButtonStyle("rgb(0, 153, 51)", "rgb(0, 128, 43)"));
     saveAsButton->setStyleSheet(getButtonStyle("rgb(1, 175, 191)", "rgb(3, 141, 154)"));
     
     // Stili pulsanti anteprima
     borrowButton->setStyleSheet(getButtonStyle("rgb(0, 104, 201)", "rgb(11, 82, 189)"));
     returnButton->setStyleSheet(getButtonStyle("rgb(0, 104, 201)", "rgb(11, 82, 189)"));
-    //detailsButton->setStyleSheet(getButtonStyle("rgb(128, 128, 128)", "rgb(100, 100, 100)"));
-    //editMediaButton->setStyleSheet(getButtonStyle("rgb(128, 128, 128)", "rgb(100, 100, 100)"));
     
     // Stili pulsanti filtri (con testo nero per contrasto)
     applyFiltersButton->setStyleSheet(getButtonStyle("rgb(255, 208, 0)", "rgb(255, 170, 0)", "black"));
