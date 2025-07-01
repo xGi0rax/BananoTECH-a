@@ -19,6 +19,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
     resize(900, 600);
 }
 
+MainWindow::~MainWindow() {
+    // Cleanup se necessario
+    if (biblioteca) {
+        delete biblioteca;
+        biblioteca = nullptr;
+    }
+}
 // ========================================
 // METODI DI INIZIALIZZAZIONE
 // ========================================
@@ -247,6 +254,8 @@ void MainWindow::closeEvent(QCloseEvent *event) {
 // ========================================
 bool MainWindow::validateLogin(const QString &username, const QString &password) {
     return !username.isEmpty() && !password.isEmpty();
+    // return (username == "leone" && password == "bananona") || (username == "ranzyino" && password == "bananina");
+    // by grovesti
 }
 
 bool MainWindow::checkUnsavedChanges() {

@@ -23,7 +23,7 @@ public:
     virtual ~MediaWidget() = default;
 
     // Metodi virtuali da implementare nelle classi derivate
-    virtual bool validateData() = 0;  // Validazione dei dati inseriti
+    virtual bool validateData() const = 0;  // Validazione dei dati inseriti
     virtual bool applyChanges() = 0;  // Applicazione delle modifiche (per modifyPage)
     virtual Media* createMedia() = 0; // Creazione di un nuovo oggetto Media (per AddPage)
     virtual void setReadOnly(bool readOnly) = 0; // Imposta i campi come di sola lettura

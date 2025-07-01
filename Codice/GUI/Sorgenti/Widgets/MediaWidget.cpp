@@ -109,7 +109,7 @@ void MediaWidget::setCurrentValues() {
     }
 }
 
-bool MediaWidget::validateData() {
+bool MediaWidget::validateData() const{
     return !titleEdit->text().isEmpty() && 
            !authorEdit->text().isEmpty() && 
            !genreComboBox->currentText().isEmpty() &&
