@@ -132,9 +132,10 @@
         "anno": 1988,
         "autore": "John McTiernan",
         "cast": [
-            "Bruce Willis",
-            "Alan Rickman",
-            "Bonnie Bedelia"
+            "Giacomo Giora",
+            "Giacomo Nalotto",
+            "Marco Zanella",
+            "Franceso Ranzato"
         ],
         "collocazione": "Sezione A2",
         "disponibilita": true,
@@ -151,7 +152,7 @@
     },
     {
         "anno": 1996,
-        "autore": "Tradizionale",
+        "autore": "Imperatore Yao",
         "collocazione": "Sezione G1",
         "disponibilita": true,
         "durata": 60,

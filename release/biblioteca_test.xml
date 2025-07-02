@@ -21,13 +21,14 @@
     
     <media tipo="film" id="VC-11" titolo="Die Hard - Trappola di cristallo" autore="John McTiernan" genere="Azione" anno="1988" lingua="Italiano" immagine="die_hard.jpg" disponibilita="1" numero_copie="4" in_prestito="0" collocazione="Sezione A2" rating="4.7" durata="132">
         <cast>
-            <attore>Bruce Willis</attore>
-            <attore>Alan Rickman</attore>
-            <attore>Bonnie Bedelia</attore>
+            <attore>Giacomo Giora</attore>
+            <attore>Giacomo Nalotto</attore>
+            <attore>Franceso Ranzato</attore>
+            <attore>Marco Zanella</attore>
         </cast>
     </media>
     
-    <media tipo="gioco" id="VC-44" titolo="Go" autore="Tradizionale" genere="Altro" anno="1996" lingua="Italiano" immagine="go.jpg" disponibilita="1" numero_copie="3" in_prestito="0" collocazione="Sezione G1" rating="4.9" eta_minima="8" numero_giocatori="2" durata="60" editore="Korea Baduk Association"/>
+    <media tipo="gioco" id="VC-44" titolo="Go" autore="Imperatore Yao" genere="Altro" anno="1996" lingua="Italiano" immagine="go.jpg" disponibilita="1" numero_copie="3" in_prestito="0" collocazione="Sezione G1" rating="4.9" eta_minima="8" numero_giocatori="2" durata="60" editore="Korea Baduk Association"/>
     
     <media tipo="rivista" id="VC-33" titolo="Artforum" autore="David Velasco" genere="Arte" anno="2023" lingua="Inglese" immagine="artforum.jpg" disponibilita="1" numero_copie="5" in_prestito="1" collocazione="Sezione R2" rating="4.6" numero_pagine="220" data_pubblicazione="01-03-2023" periodicita="Mensile" editore="Artforum International Magazine"/>
     
