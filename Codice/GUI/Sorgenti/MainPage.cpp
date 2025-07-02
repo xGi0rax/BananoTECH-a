@@ -866,19 +866,19 @@ void MainPage::updateGenreComboBox() {
     
     switch(currentType) {
         case 1: // Libro
-            genreComboBox->addItems({"Avventura", "Biografia", "Biografia", "Fantasy", "Giallo", "Horror", "Romanzo", "Storico", "Saggio", "Thriller"});
+            genreComboBox->addItems({"Avventura", "Biografia", "Fantasy", "Fantascienza", "Giallo", "Horror", "Narrativa", "Poesia", "Romanzo", "Saggistica", "Storico", "Thriller", "Altro"});
             break;
         case 2: // Film
-            genreComboBox->addItems({"Animazione", "Azione", "Avventura", "Commedia", "Documentario", "Drammatico", "Fantasy", "Horror", "Romantico", "Sci-Fi", "Thriller"});
+            genreComboBox->addItems({"Animazione", "Azione", "Avventura", "Biografica", "Commedia", "Crime", "Documentario", "Drammatico", "Fantascienza", "Fantasy", "Horror", "Musical", "Mistero", "Romantico", "Thriller", "Western", "Altro"});
             break;
         case 3: // Vinile
-            genreComboBox->addItems({"Alternative", "Blues", "Classica", "Country", "Elettronica", "Folk", "Hip Hop", "Jazz", "Metal", "Pop", "Rock"});
+            genreComboBox->addItems({"Alternative", "Blues", "Classica", "Country", "Disco", "Elettronica", "Folk", "Funk", "Hip Hop", "Jazz", "Metal", "Pop", "Punk", "Reggae", "Rock", "Soul", "Altro"});
             break;
         case 4: // Rivista
-            genreComboBox->addItems({"Attualità", "Arte", "Cucina","Culturale", "Economia", "Intrattenimento", "Moda",  "Salute","Scientifica", "Sport", "Tecnologia", "Viaggi"});
+            genreComboBox->addItems({"Attualità", "Arte", "Cucina","Culturale", "Economia", "Intrattenimento", "Informatica", "Moda", "Natura", "Salute","Scienza", "Sport", "Tecnologia", "Viaggi", "Altro"});
             break;
         case 5: // Gioco da tavolo
-            genreComboBox->addItems({"Astratto", "Cooperativo", "Giochi di carte", "Giochi di miniature", "Giochi di ruolo", "Party game", "Strategia"});
+            genreComboBox->addItems({"Avventura", "Carte", "Cooperativo", "Deduzione", "Economico", "Fantasy", "Guerra", "Party game", "Strategia", "Altro"});
             break;
         default: // Qualsiasi o non specificato
             break;
