@@ -5,6 +5,8 @@
 
 ## Modifiche minori:
 - controllare tutti i commenti (rimuovere quelli superflui e aggiungerne per spiegare i vari metodi)
+- controllare che i generi dei media siano corretti
+- sistemare file json e xml
 - controllare tutti i const
 - controllare di non aver utilizzato getType
 - controllare di usare delete in modo appropriato

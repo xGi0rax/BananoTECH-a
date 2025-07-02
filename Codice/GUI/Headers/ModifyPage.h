@@ -46,7 +46,13 @@ private:
     // Pannello immagine
     QLabel* imagePreview;
     QPushButton* uploadButton;
-    QString currentImagePath;
+    
+    // ========================================
+    // DATI IMMAGINE
+    // ========================================
+    QString currentImagePath;    // Immagine esistente del media
+    QString newImagePath;        // ✅ NUOVA: Immagine caricata dall'utente
+    bool hasNewImage;            // ✅ NUOVA: Flag per nuova immagine
     
     // Widget per i dettagli specifici del media
     QStackedWidget* detailsStackedWidget;
@@ -58,6 +64,12 @@ private:
 
     // Metodi di configurazione UI
     void setupUI();
+    
+    // ========================================
+    // HELPER METHODS
+    // ========================================
+    void loadExistingImage(Media* media);  // ✅ NUOVO
+    QPixmap loadImageFromPath(const QString& imagePath);  // ✅ NUOVO
 };
 
 #endif // MODIFYPAGE_H

@@ -63,7 +63,7 @@ public:
     // Metodo per convertire l'oggetto in un oggetto XML
     virtual void toXml(QDomElement& elemento, QDomDocument& doc) const;
 
-    // Metodo virtuale per ottenere informazione del media in formato QString, non è ridefinito nelle sottoclassi perche' le informazioni sono comuni a tutti i media
+    // Metodo virtuale per ottenere informazione del media in formato QString, non è ridefinito nelle sottoclassi perche' le informazioni da resituire sono comuni a tutti i media
     virtual QString mediaInfo() const; 
 };
 

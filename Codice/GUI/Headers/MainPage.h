@@ -47,7 +47,7 @@ public slots:
     // Slots lista media
     void onMediaSelected(QListWidgetItem *item);
     
-    // Slots azioni media
+    // Slots azioni sui media
     void onEditButtonClicked();
     void onDeleteButtonClicked();
     void onDetailsButtonClicked();
@@ -76,8 +76,8 @@ protected:
     void resizeEvent(QResizeEvent* event) override;
 
 private:
-    // ========================================
-    // WIDGET UI - Raggruppati per funzionalità
+    // ======================================== 
+    // WIDGET UI - Raggruppati per sezione
     // ========================================
     
     // Barra superiore
@@ -175,9 +175,6 @@ private:
     // METODI DI UTILITA'
     // ========================================
     Media* getSelectedMedia() const;
-    bool hasValidSelection() const;
-    bool canSave() const;
-    bool needsSaveAs() const;
     QString getButtonStyle(const QString& bgColor, const QString& hoverColor, const QString& textColor = "white") const;
 
     // ========================================

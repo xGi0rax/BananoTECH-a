@@ -5,33 +5,25 @@
 #include <QFileInfo>
 #include <QDir>
 #include <QFile>
-#include <QTextStream>
 
 AddPage::AddPage(QWidget *parent) : QWidget(parent), currentWidget(nullptr) {
     setupUI();
     showSelectionPage();
 }
 
-// ========================================
-// METODI DI INIZIALIZZAZIONE
-// ========================================
 void AddPage::setupUI() {
-    // Layout orizzontale principale
     QHBoxLayout *mainHLayout = new QHBoxLayout(this);
     mainHLayout->setContentsMargins(0, 0, 0, 0);
     mainHLayout->setSpacing(0);
 
-    // Splitter per dividere sidebar e area principale
     QSplitter *splitter = new QSplitter(Qt::Horizontal);
     splitter->setMinimumSize(300, 0);
 
-    // Setup sidebar
     QWidget *sidebarWidget = new QWidget();
     sidebarWidget->setObjectName("sidebarWidget");
     setupSidebar(sidebarWidget);
     splitter->addWidget(sidebarWidget);
 
-    // Setup area principale
     mainContentStack = new QStackedWidget();
     
     setupSelectionPage();
@@ -42,9 +34,8 @@ void AddPage::setupUI() {
 
     splitter->addWidget(mainContentStack);
     
-    // Proporzioni splitter (1:2)
-    splitter->setStretchFactor(0, 2);  // Sidebar
-    splitter->setStretchFactor(1, 3);  // Main area
+    splitter->setStretchFactor(0, 2);
+    splitter->setStretchFactor(1, 3);
     
     mainHLayout->addWidget(splitter);
     setLayout(mainHLayout);
@@ -55,7 +46,6 @@ void AddPage::setupSidebar(QWidget* sidebarWidget) {
     sidebarLayout->setContentsMargins(10, 10, 10, 10);
     sidebarLayout->setSpacing(15);
 
-    // Pulsante indietro
     backButton = new QPushButton("Indietro");
     backButton->setMinimumSize(100, 30);
     backButton->setStyleSheet(
@@ -73,10 +63,8 @@ void AddPage::setupSidebar(QWidget* sidebarWidget) {
     connect(backButton, &QPushButton::clicked, this, &AddPage::onBackButtonClicked);
     sidebarLayout->addWidget(backButton, 0, Qt::AlignTop | Qt::AlignLeft);
 
-    // Sezione immagine
     setupImageSection(sidebarLayout);
 
-    // Pulsante "CREA MEDIA"
     QPushButton *addButton = new QPushButton("CREA MEDIA");
     addButton->setMinimumSize(190, 40);
     addButton->setStyleSheet(
@@ -97,7 +85,6 @@ void AddPage::setupSidebar(QWidget* sidebarWidget) {
 }
 
 void AddPage::setupImageSection(QVBoxLayout* sidebarLayout) {
-    // Preview immagine
     imagePreview = new QLabel("Seleziona un'immagine");
     imagePreview->setMinimumSize(220, 220);
     imagePreview->setMaximumSize(300, 300);
@@ -108,7 +95,6 @@ void AddPage::setupImageSection(QVBoxLayout* sidebarLayout) {
         "   border-radius: 4px;"
     );
 
-    // Pulsante upload
     uploadButton = new QPushButton("Carica immagine");
     uploadButton->setStyleSheet(
         "QPushButton {"
@@ -125,7 +111,6 @@ void AddPage::setupImageSection(QVBoxLayout* sidebarLayout) {
     );
     connect(uploadButton, &QPushButton::clicked, this, &AddPage::onUploadButtonClicked);
     
-    // Layout sezione immagine
     QVBoxLayout *imageLayout = new QVBoxLayout();
     imageLayout->setContentsMargins(20, 20, 20, 20);
     imageLayout->addWidget(imagePreview, 1);
@@ -141,7 +126,6 @@ void AddPage::setupSelectionPage() {
     selectionLayout->setContentsMargins(40, 40, 40, 40);
     selectionLayout->setSpacing(20);
 
-    // Label titolo
     QLabel *selectionLabel = new QLabel("Seleziona il tipo di media", selectionWidget);
     selectionLabel->setAlignment(Qt::AlignCenter);
     selectionLabel->setStyleSheet(
@@ -156,10 +140,8 @@ void AddPage::setupSelectionPage() {
     );
     selectionLayout->addWidget(selectionLabel);
 
-    // Setup radio buttons
     setupRadioButtons();
 
-    // Layout radio buttons
     QVBoxLayout *radioLayout = new QVBoxLayout();
     radioLayout->addWidget(filmRadio);
     radioLayout->addWidget(libroRadio);
@@ -170,7 +152,6 @@ void AddPage::setupSelectionPage() {
     selectionLayout->addLayout(radioLayout);
     selectionLayout->addSpacing(15);
 
-    // Pulsante Conferma
     confirmTypeButton = new QPushButton("Conferma", selectionWidget);
     confirmTypeButton->setStyleSheet(
         "QPushButton {"
@@ -190,13 +171,11 @@ void AddPage::setupSelectionPage() {
 
     selectionLayout->addWidget(confirmTypeButton, 0, Qt::AlignCenter);
 
-    // Stretch per centratura
     selectionLayout->addStretch(1);
     selectionLayout->insertStretch(0, 1);
 }
 
 void AddPage::setupRadioButtons() {
-    // Creazione radio buttons
     mediaTypeGroup = new QButtonGroup(this);
     filmRadio = new QRadioButton("Film", selectionWidget);
     libroRadio = new QRadioButton("Libro", selectionWidget);
@@ -204,7 +183,6 @@ void AddPage::setupRadioButtons() {
     rivistaRadio = new QRadioButton("Rivista", selectionWidget);
     giocoRadio = new QRadioButton("Gioco da Tavolo", selectionWidget);
 
-    // Applicazione stile comune
     QString radioStyle = getRadioButtonStyle();
     filmRadio->setStyleSheet(radioStyle);
     libroRadio->setStyleSheet(radioStyle);
@@ -212,7 +190,6 @@ void AddPage::setupRadioButtons() {
     rivistaRadio->setStyleSheet(radioStyle);
     giocoRadio->setStyleSheet(radioStyle);
 
-    // Aggiunta al gruppo
     mediaTypeGroup->addButton(filmRadio, FILM);
     mediaTypeGroup->addButton(libroRadio, LIBRO);
     mediaTypeGroup->addButton(vinileRadio, VINILE);
@@ -220,16 +197,10 @@ void AddPage::setupRadioButtons() {
     mediaTypeGroup->addButton(giocoRadio, GIOCO_DA_TAVOLO);
 }
 
-// ========================================
-// API PUBBLICA
-// ========================================
 void AddPage::setBiblioteca(Biblioteca* biblio) {
     biblioteca = biblio;
 }
 
-// ========================================
-// SLOTS
-// ========================================
 void AddPage::onBackButtonClicked() {
     if (mainContentStack->currentWidget() == selectionWidget) {
         emit goBackToMainPage();
@@ -250,14 +221,12 @@ void AddPage::onConfirmTypeButtonClicked() {
         return;
     }
 
-    // Rimozione widget precedente
     if (currentWidget) {
         detailsStackedWidget->removeWidget(currentWidget);
         delete currentWidget;
         currentWidget = nullptr;
     }
     
-    // Creazione nuovo widget
     MediaType mediaType = static_cast<MediaType>(selectedId);
     
     switch (mediaType) {
@@ -281,7 +250,6 @@ void AddPage::onConfirmTypeButtonClicked() {
             return;
     }
     
-    // Visualizzazione nuovo widget
     detailsStackedWidget->addWidget(currentWidget);
     detailsStackedWidget->setCurrentWidget(currentWidget);
     mainContentStack->setCurrentWidget(detailsStackedWidget);
@@ -298,26 +266,22 @@ void AddPage::onAddButtonClicked() {
         return;
     }
     
-    // Creazione media
     Media* newMedia = currentWidget->createMedia();
     if (!newMedia) {
         QMessageBox::warning(this, "Errore", "Errore nella creazione del media!");
         return;
     }
 
-    // Impostazione immagine
     if (!selectedImagePath.isEmpty()) {
         newMedia->setImmagine(selectedImagePath.toStdString());
     }
 
-    // Gestione media esistente
     if (biblioteca && biblioteca->esisteMedia(newMedia->getTitolo(), newMedia->getAutore(), newMedia->getAnno())) {
         if (handleExistingMedia(newMedia)) {
-            return; // Gestito il caso del media esistente
+            return;
         }
     }
     
-    // Aggiunta nuovo media
     biblioteca->aggiungiMedia(newMedia);
     QMessageBox::information(this, "Successo", "Media aggiunto con successo");
     
@@ -341,11 +305,7 @@ void AddPage::onUploadButtonClicked() {
     }
 }
 
-// ========================================
-// HELPER METHODS
-// ========================================
 void AddPage::showSelectionPage() {
-    // Reset selezione
     if (mediaTypeGroup->checkedButton()) {
         mediaTypeGroup->setExclusive(false);
         mediaTypeGroup->checkedButton()->setChecked(false);
@@ -379,7 +339,7 @@ bool AddPage::handleExistingMedia(Media* newMedia) {
     
     if (reply == QMessageBox::No) {
         delete newMedia;
-        return true; // Rimane nella pagina
+        return true;
     }
     
     return false;
@@ -389,9 +349,40 @@ void AddPage::copyImageToProject(const QString& imagePath) {
     QFileInfo fileInfo(imagePath);
     QString fileName = fileInfo.fileName();
     
-    QString projectImagesDir = QDir::currentPath() + "/../Immagini";
+    QDir currentDir = QDir::current();
+    QString projectImagesDir;
     
-    // Creazione cartella se non esiste
+    QDir searchDir = currentDir;
+    while (!searchDir.isRoot()) {
+        if (searchDir.dirName() == "BananoTECH-a" || searchDir.exists("Immagini")) {
+            projectImagesDir = searchDir.absoluteFilePath("Immagini");
+            break;
+        }
+        if (!searchDir.cdUp()) {
+            break;
+        }
+    }
+    
+    if (projectImagesDir.isEmpty()) {
+        QStringList possiblePaths = {
+            currentDir.absoluteFilePath("../Immagini"),
+            currentDir.absoluteFilePath("../../Immagini"),
+            currentDir.absoluteFilePath("Immagini"),
+        };
+        
+        for (const QString& path : possiblePaths) {
+            QDir testDir(path);
+            if (testDir.exists() || QDir().mkpath(path)) {
+                projectImagesDir = path;
+                break;
+            }
+        }
+    }
+    
+    if (projectImagesDir.isEmpty()) {
+        projectImagesDir = currentDir.absoluteFilePath("../Immagini");
+    }
+    
     QDir dir;
     if (!dir.exists(projectImagesDir)) {
         dir.mkpath(projectImagesDir);
@@ -399,16 +390,15 @@ void AddPage::copyImageToProject(const QString& imagePath) {
     
     QString destinationPath = projectImagesDir + "/" + fileName;
     
-    // Copia file
     if (QFile::copy(imagePath, destinationPath)) {
         selectedImagePath = fileName;
     } else {
-        // Verifica se esiste già
         if (QFile::exists(destinationPath)) {
             selectedImagePath = fileName;
         } else {
             QMessageBox::warning(this, "Errore", 
-                "Impossibile copiare l'immagine nella cartella del progetto.");
+                "Impossibile copiare l'immagine nella cartella del progetto: " + destinationPath);
+            selectedImagePath = "";
         }
     }
 }

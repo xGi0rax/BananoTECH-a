@@ -26,7 +26,7 @@ void Media::toJson(QJsonObject& jsonObj) const {
 
 
 void Media::toXml(QDomElement& elemento, QDomDocument& doc) const {
-    Q_UNUSED(doc); // Silenzia il warning per in non uso di doc (serve solo nella classe Film)
+    Q_UNUSED(doc); // Silenzia il warning per in non uso di doc (che serve solo nella classe Film)
     elemento.setAttribute("id", QString::fromStdString(id));
     elemento.setAttribute("titolo", QString::fromStdString(titolo));
     elemento.setAttribute("autore", QString::fromStdString(autore));

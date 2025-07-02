@@ -15,15 +15,11 @@
 #include <QMessageBox>
 #include <QApplication>
 #include <QFileDialog>
-#include <QStringConverter>
 
-// =============================
-// 1. COSTRUTTORE E DISTRUTTORE ?
-// =============================
 MainPage::MainPage(QWidget *parent, Biblioteca* biblio) : QWidget(parent) {
     biblioteca = biblio;
 
-    // Inizializzazione del tracciamento del file utilizzato per caricare la biblioteca
+    // Inizializzazione stato biblioteca
     hasCurrentFile = false;
     currentFilePath = "";
     isNewLibrary = true;
@@ -33,7 +29,7 @@ MainPage::MainPage(QWidget *parent, Biblioteca* biblio) : QWidget(parent) {
 }
 
 // ======================================
-// 2. METODI DI INIZIALIZZAZIONE (Setup)
+// METODI DI INIZIALIZZAZIONE (Setup)
 // ======================================
 void MainPage::setupUI(){
     setupTopBar();
@@ -45,26 +41,28 @@ void MainPage::setupUI(){
 }
 
 void MainPage::setupTopBar() {
+    // Pulsanti della barra superiore
     backButton = new QPushButton("Indietro");
     addMediaButton = new QPushButton("Aggiungi Media");
     saveButton = new QPushButton("Salva");
     saveAsButton = new QPushButton("Salva come");
 
-    // Imposta dimensioni uniformi
     QList<QPushButton*> topButtons = {backButton, addMediaButton, saveButton, saveAsButton};
     for (QPushButton* btn : topButtons) {
         btn->setMinimumSize(100, 30);
     }
-    saveAsButton->setMinimumWidth(120); // Più largo per il testo
+    saveAsButton->setMinimumWidth(120);
     
     saveButton->setObjectName("saveButton");
     saveAsButton->setObjectName("saveAsButton");
 
+    // Connessioni
     connect(backButton, &QPushButton::clicked, this, &MainPage::onBackButtonClicked);
     connect(addMediaButton, &QPushButton::clicked, this, &MainPage::onAddMediaButtonClicked);
     connect(saveButton, &QPushButton::clicked, this, &MainPage::onSaveButtonClicked);
     connect(saveAsButton, &QPushButton::clicked, this, &MainPage::onSaveAsButtonClicked);
 
+    // Layout
     topBarLayout = new QHBoxLayout();
     topBarLayout->addWidget(backButton, 1);
     topBarLayout->addWidget(addMediaButton, 5);
@@ -73,7 +71,7 @@ void MainPage::setupTopBar() {
 }
 
 void MainPage::setupFilters(){
-    // Selezione tipo media
+    // Selezione tipo del media
     mediaTypeComboBox = new QComboBox();
     mediaTypeComboBox->addItem("Qualsiasi");
     mediaTypeComboBox->addItem("Libro");
@@ -82,13 +80,14 @@ void MainPage::setupFilters(){
     mediaTypeComboBox->addItem("Rivista");
     mediaTypeComboBox->addItem("Gioco da tavolo");
     
-    // Collego il cambiamento del tipo media alla funzione di aggiornamento della combobox dei generi
+    // Selezione genere del media, popolato dopo la selezione del tipo
     genreComboBox = new QComboBox();
     genreComboBox->addItem("Qualsiasi genere");
-    genreComboBox->setEnabled(false); // Inizialmente disabilitato
+    genreComboBox->setEnabled(false); 
     genreComboBox->setToolTip("Seleziona prima un tipo di media specifico");
     updateGenreComboBox(); // Popola i generi in base al tipo selezionato
 
+    // Connessione del cambiamento del tipo media alla funzione di aggiornamento dei generi visualizzati
     connect(mediaTypeComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &MainPage::onMediaTypeChanged);
 
     // Campi di input per rating
@@ -103,7 +102,7 @@ void MainPage::setupFilters(){
 
     // Campi di input per lingua
     languageLineEdit = new QLineEdit();
-    languageLineEdit->setPlaceholderText("lingua");
+    languageLineEdit->setPlaceholderText("Lingua");
 
     // Campi di input per anno
     minYearLineEdit = new QLineEdit();
@@ -115,30 +114,24 @@ void MainPage::setupFilters(){
     applyFiltersButton = new QPushButton("Applica filtri");
     clearFiltersButton = new QPushButton("Cancella filtri");
 
+    // Layout filtri
     filtersLayout = new QVBoxLayout();
     filtersLayout->addWidget(new QLabel("Tipo media:"));
     filtersLayout->addWidget(mediaTypeComboBox);
-
     filtersLayout->addWidget(new QLabel("Genere:")); 
     filtersLayout->addWidget(genreComboBox);
-
     filtersLayout->addWidget(new QLabel("Rating:"));
     filtersLayout->addWidget(ratingMinLineEdit);
     filtersLayout->addWidget(ratingMaxLineEdit);
-
     filtersLayout->addWidget(new QLabel("Disponibilità:"));
     filtersLayout->addWidget(availableCheckBox);
-
     filtersLayout->addWidget(new QLabel("Lingua:"));
     filtersLayout->addWidget(languageLineEdit);
-
     filtersLayout->addWidget(new QLabel("Anno minimo:"));
     filtersLayout->addWidget(minYearLineEdit);
-
     filtersLayout->addWidget(new QLabel("Anno massimo:"));
     filtersLayout->addWidget(maxYearLineEdit);
-
-    // Aggiunta dei pulsanti al layout contenitore
+    filtersLayout->addStretch();
     filtersLayout->addWidget(applyFiltersButton);
     filtersLayout->addWidget(clearFiltersButton);
 
@@ -146,38 +139,41 @@ void MainPage::setupFilters(){
     filtersGroupBox->setLayout(filtersLayout);
     filtersGroupBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 
+    // Connessioni per i pulsanti dei filtri
     connect(applyFiltersButton, &QPushButton::clicked, this, &MainPage::onApplyFiltersClicked);
     connect(clearFiltersButton, &QPushButton::clicked, this, &MainPage::onClearFiltersClicked);
 }
 
 void MainPage::setupMediaList() {
+    // Barra di ricerca
     searchBar = new QLineEdit();
     searchBar->setPlaceholderText("Cerca per titolo o autore...");
-
     connect(searchBar, &QLineEdit::textChanged, this, &MainPage::onSearchTextChanged);
 
+    // Lista dei media
     mediaList = new QListWidget();
     mediaList->setViewMode(QListView::ListMode);
     mediaList->setResizeMode(QListView::Adjust);
     mediaList->setMovement(QListView::Static);
     mediaList->setSelectionMode(QAbstractItemView::SingleSelection);
     mediaList->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-
-    vector<Media*> listaMedia = biblioteca->getListaMedia();
-    updateMediaList(listaMedia);
-
     mediaList->setFocusPolicy(Qt::NoFocus);
     mediaList->setIconSize(QSize(27, 27));
 
-    // Collega la selezione e lo scroll
+    // Popolamento della lista dei media
+    vector<Media*> listaMedia = biblioteca->getListaMedia();
+    updateMediaList(listaMedia);
+
+    // Connessioni lista
     connect(mediaList, &QListWidget::itemClicked, this, &MainPage::onMediaSelected);
     connect(mediaList->verticalScrollBar(), &QScrollBar::valueChanged, this, &MainPage::onScrollChanged);
     
+    // Layout centrale
     centerLayout = new QVBoxLayout();
     centerLayout->addWidget(searchBar);
     centerLayout->addWidget(mediaList);
 
-    // Inizializzazione widget dei pulsanti da visualizzare quando un elemento è selezionato
+    // Widget dei pulsanti da visualizzare quando un elemento è selezionato
     buttonsContainer = new QWidget(mediaList);
     buttonsContainer->hide(); // inizialmente nascosto
     
@@ -185,7 +181,7 @@ void MainPage::setupMediaList() {
     buttonsLayout->setContentsMargins(0, 0, 0, 0);
     buttonsLayout->setSpacing(6);
     
-    // Creazione pulsanti
+    // Pulsante modifica
     listEditButton = new QPushButton();
     listEditButton->setToolTip("Modifica");
     listEditButton->setFixedSize(26, 26);
@@ -208,6 +204,7 @@ void MainPage::setupMediaList() {
         "}"
     );
     
+    // Pulsante elimina
     listDeleteButton = new QPushButton();
     listDeleteButton->setToolTip("Rimuovi");
     listDeleteButton->setFixedSize(26, 26);
@@ -229,15 +226,13 @@ void MainPage::setupMediaList() {
         "}"
     );
     
-    // Aggiunta pulsanti al layout
+    // Layout pulsanti
     buttonsLayout->addWidget(listEditButton);
     buttonsLayout->addWidget(listDeleteButton);
     
-    // Collegamento segnali
+    // Connessioni
     connect(listEditButton, &QPushButton::clicked, this, &MainPage::onEditButtonClicked);
     connect(listDeleteButton, &QPushButton::clicked, this, &MainPage::onDeleteButtonClicked);
-    
-    // Collegamento al cambio di selezione per nascondere i pulsanti
     connect(mediaList, &QListWidget::currentRowChanged, this, &MainPage::hideActionButtons);
 }
 
@@ -255,27 +250,28 @@ void MainPage::setupPreviewPanel() {
     // Label per le informazioni del media
     mediaTitleLabel = new QLabel();
     mediaTitleLabel->setMinimumWidth(150);
-    mediaTitleLabel->setWordWrap(true); // Abilita il wrapping del testo
-    mediaTitleLabel->setAlignment(Qt::AlignTop | Qt::AlignLeft); // Allinea in alto a sinistra
+    mediaTitleLabel->setWordWrap(true);
+    mediaTitleLabel->setAlignment(Qt::AlignTop | Qt::AlignLeft);
     
     mediaAuthorLabel = new QLabel("Seleziona un media per vedere i dettagli");
-    mediaAuthorLabel->setWordWrap(true); // Abilita il wrapping anche per l'autore
+    mediaAuthorLabel->setWordWrap(true);
     
     mediaYearLabel = new QLabel();
     mediaRatingLabel = new QLabel();
 
-    // Pulsanti
+    // Pulsanti azioni
     borrowButton = new QPushButton("Prendi in prestito");
     returnButton = new QPushButton("Restituisci");
     detailsButton = new QPushButton("Approfondisci");
     editMediaButton = new QPushButton("Modifica media");
 
+    // Connessioni pulsanti
     connect(borrowButton, &QPushButton::clicked, this, &MainPage::onBorrowButtonClicked);
     connect(returnButton, &QPushButton::clicked, this, &MainPage::onReturnButtonClicked);
     connect(detailsButton, &QPushButton::clicked, this, &MainPage::onDetailsButtonClicked);
     connect(editMediaButton, &QPushButton::clicked, this, &MainPage::onEditButtonClicked);
 
-    // Layout verticale per la sezione destra
+    // Layout per la sezione di anteprima
     previewLayout = new QVBoxLayout();
     previewLayout->addWidget(mediaImageLabel);
     previewLayout->addWidget(mediaTitleLabel);
@@ -289,11 +285,7 @@ void MainPage::setupPreviewPanel() {
     previewLayout->addWidget(editMediaButton);
 
     previewGroupBox->setLayout(previewLayout);
-    
-    // Imposta le policy di dimensionamento per mantenere le proporzioni
     previewGroupBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    
-    // Imposta dimensioni minime e massime per evitare espansioni indesiderate
     previewGroupBox->setMinimumWidth(200);
     previewGroupBox->setMaximumWidth(400);
     filtersGroupBox->setMinimumWidth(200);
@@ -301,7 +293,7 @@ void MainPage::setupPreviewPanel() {
 }
 
 void MainPage::setupMainLayout() {
-    // Layout principale
+    // Layout generale
     contentLayout = new QHBoxLayout();
     contentLayout->addWidget(filtersGroupBox, 1);
     contentLayout->addLayout(centerLayout, 2);
@@ -315,7 +307,7 @@ void MainPage::setupMainLayout() {
 }
 
 void MainPage::setupStyles() {
-    // Stili pulsanti principali
+    // Stili pulsanti barra superiore
     backButton->setStyleSheet(getButtonStyle("rgb(0, 104, 201)", "rgb(11, 82, 189)"));
     saveButton->setStyleSheet(getButtonStyle("rgb(0, 153, 51)", "rgb(0, 128, 43)"));
     saveAsButton->setStyleSheet(getButtonStyle("rgb(1, 175, 191)", "rgb(3, 141, 154)"));
@@ -324,7 +316,7 @@ void MainPage::setupStyles() {
     borrowButton->setStyleSheet(getButtonStyle("rgb(0, 104, 201)", "rgb(11, 82, 189)"));
     returnButton->setStyleSheet(getButtonStyle("rgb(0, 104, 201)", "rgb(11, 82, 189)"));
     
-    // Stili pulsanti filtri (con testo nero per contrasto)
+    // Stili pulsanti filtri
     applyFiltersButton->setStyleSheet(getButtonStyle("rgb(255, 208, 0)", "rgb(255, 170, 0)", "black"));
     clearFiltersButton->setStyleSheet(getButtonStyle("rgb(255, 69, 0)", "rgb(200, 50, 0)"));
 
@@ -340,7 +332,7 @@ void MainPage::setupStyles() {
         "}"
     );
     
-    // Stile uper la lista
+    // Stile lista media
     mediaList->setStyleSheet(
         "QListWidget { "
         "   background-color: rgb(243, 238, 238); "
@@ -366,7 +358,7 @@ void MainPage::setupStyles() {
 }
 
 // ===================
-// 3. METODI PUBBLICI
+// METODI PUBBLICI
 // ===================
 void MainPage::setCurrentFile(const QString& filePath) {
     currentFilePath = filePath;
@@ -390,51 +382,47 @@ void MainPage::setHasUnsavedChanges(bool hasChanges) {
     updateSaveButtonsState();
 }
 
-// ===========================
-// 4. EVENT HANDLERS (da Qt)
+// ==========================
+// GESTIONE EVENTI
 // ==========================
 void MainPage::resizeEvent(QResizeEvent* event) {
     QWidget::resizeEvent(event);
 
     int maxImageWidth = this->width() / 3;
     
-    // Sottrai i margini per evitare overflow
     int groupBoxMargins = 5;
     int layoutMargins = previewLayout->contentsMargins().left() + previewLayout->contentsMargins().right();
     int totalMargins = groupBoxMargins + layoutMargins - 3; 
     
     int imageWidth = qMin(previewGroupBox->width() - totalMargins, maxImageWidth - totalMargins);
-    int imageHeight = previewGroupBox->height() / 3; // Cambiato da /2 a /3
+    int imageHeight = previewGroupBox->height() / 3;
     
-    // Assicurati che le dimensioni siano positive
     imageWidth = qMax(150, imageWidth);
     imageHeight = qMax(150, imageHeight);
     
     mediaImageLabel->setFixedSize(imageWidth, imageHeight); 
 
     updateImageSize();
-    
-    // AGGIUNGI QUESTA RIGA per aggiornare il troncamento quando la finestra viene ridimensionata
     updateTextTruncation();
 }
 
 
 // ===================================
-// 5. SLOTS
+// SLOTS
 // ===================================
-// 5a. Slots per la barra superiore
+
+// a. Slots per la barra superiore
 void MainPage::onBackButtonClicked() {
-    emit goToChoicePage(); // Segnale per tornare alla pagina ChoicePage
+    emit goToChoicePage();
 }
 
 void MainPage::onAddMediaButtonClicked() {
-    emit goToAddPage(); // Segnale per passare alla pagina AddPage
+    emit goToAddPage();
 }
 
 void MainPage::onSaveButtonClicked() {
     if (isNewLibrary) {
-        QMessageBox::information(this, "Nuova biblioteca", 
-            "Per una nuova biblioteca, usa 'Salva come' per creare il file.");
+        QMessageBox::information(this, "Nuova biblioteca", "Per una nuova biblioteca, usa 'Salva come' per creare il file.");
         return;
     }
 
@@ -446,12 +434,9 @@ void MainPage::onSaveButtonClicked() {
     if (hasCurrentFile && !currentFilePath.isEmpty()) {
         // Salva direttamente nel file corrente
         saveToFile(currentFilePath);
-        
-        // IMPORTANTE: Reset del flag modifiche dopo salvataggio riuscito
         hasUnsavedChanges = false;
         updateSaveButtonsState();
-        
-        // Notifica il MainWindow che non ci sono più modifiche non salvate
+
         emit unsavedChangesUpdated(false); 
     } else {
         // Se non c'è un file corrente, chiama "Salva come"
@@ -480,8 +465,7 @@ void MainPage::onSaveAsButtonClicked() {
         QStringList selectedFiles = fileDialog.selectedFiles();
         if (!selectedFiles.isEmpty()) {
             QString filePath = selectedFiles.first();
-            
-            // Assicurati che il file abbia l'estensione corretta
+        
             QString selectedFilter = fileDialog.selectedNameFilter();
             if (selectedFilter.contains("*.json") && !filePath.endsWith(".json", Qt::CaseInsensitive)) {
                 filePath += ".json";
@@ -492,10 +476,10 @@ void MainPage::onSaveAsButtonClicked() {
             // Salva nel file selezionato
             saveToFile(filePath);
             
-            // Aggiorna lo stato DOPO salvataggio riuscito
+            // Aggiorna lo stato dopo salvataggio riuscito
             setCurrentFile(filePath);
             isNewLibrary = false; // Non è più una nuova biblioteca
-            hasUnsavedChanges = false; // RESET del flag modifiche
+            hasUnsavedChanges = false; // Reset del flag modifiche
             updateSaveButtonsState();
             
             // Notifica il MainWindow che non ci sono più modifiche non salvate
@@ -504,7 +488,7 @@ void MainPage::onSaveAsButtonClicked() {
     }
 }
 
-// 5b. Slots per i filtri
+// b. Slots per i filtri
 void MainPage::onMediaTypeChanged() {
     updateGenreComboBox();
 
@@ -515,38 +499,38 @@ void MainPage::onMediaTypeChanged() {
         genreComboBox->setToolTip("Seleziona prima un tipo di media specifico");
     } else {
         genreComboBox->setEnabled(true);
-        genreComboBox->setToolTip(""); // Rimuove il tooltip
+        genreComboBox->setToolTip("");
     }
 }
 
 void MainPage::onApplyFiltersClicked() {
-    // Logica per applicare i filtri impostati
     string mediaType = mediaTypeComboBox->currentText().toStdString();
     if (mediaType == "Qualsiasi") {
-        mediaType = ""; // Se l'utente ha selezionato "Qualsiasi", non applicare il filtro
+        mediaType = "";
     }
 
     string genre = genreComboBox->currentText().toStdString();
     if (genre == "Qualsiasi genere") {
-        genre = ""; // Se l'utente ha selezionato "Qualsiasi genere", non applicare il filtro
+        genre = "";
     }
 
     double ratingMin = ratingMinLineEdit->text().toDouble();
     double ratingMax = ratingMaxLineEdit->text().toDouble();
     if (ratingMax == 0) {
-        ratingMax = 5.0; // Se l'utente non ha inserito un valore, impostalo a 5.0
+        ratingMax = 5.0;
     }
 
     string language = languageLineEdit->text().toStdString();
+    string languageLower = QString::fromStdString(language).toLower().toStdString();
 
     int minYear = minYearLineEdit->text().toInt();
     int maxYear = maxYearLineEdit->text().toInt();
     if (maxYear == 0) {
-        maxYear = 3000; // Se l'utente non ha inserito un valore, impostalo a 3000
+        maxYear = 3000;
     }
     bool available = availableCheckBox->isChecked();
 
-    vector<Media*> listaFiltrata = biblioteca->filtra("", mediaType, genre, ratingMin, ratingMax, available, language, minYear, maxYear);
+    vector<Media*> listaFiltrata = biblioteca->filtra("", mediaType, genre, ratingMin, ratingMax, available, languageLower, minYear, maxYear);
 
     if (listaFiltrata.empty()) {
         QMessageBox::information(this, "Nessun risultato", "Nessun media trovato con i filtri selezionati.");
@@ -556,21 +540,18 @@ void MainPage::onApplyFiltersClicked() {
 }
 
 void MainPage::onClearFiltersClicked() {
-    // Logica per eliminare i filtri impostati
     mediaTypeComboBox->setCurrentIndex(0);
     genreComboBox->setCurrentIndex(0);
-    genreComboBox->setEnabled(false); // Disabilita nuovamente quando i filtri sono cancellati
+    genreComboBox->setEnabled(false);
     genreComboBox->setToolTip("Seleziona prima un tipo di media specifico");
     ratingMinLineEdit->clear();
     ratingMaxLineEdit->clear();
     languageLineEdit->clear();
     minYearLineEdit->clear();
     maxYearLineEdit->clear();
-    availableCheckBox->setChecked(true); // Reset checkbox disponibilità a stato predefinito
-    
-    searchBar->clear(); //viene cancellato anche il contenuto della barra di ricerca
+    availableCheckBox->setChecked(true);
+    searchBar->clear();
 
-    // Ripristina la lista con tutti i media disponibili in biblioteca
     vector<Media*> listaCompleta = biblioteca->getListaMedia();
     updateMediaList(listaCompleta);
 }
@@ -583,15 +564,14 @@ void MainPage::onSearchTextChanged(const QString& searchText) {
         return;
     }
     
-    // Filtra i media in base al testo di ricerca
     vector<Media*> listaFiltrata;
-    QString searchLower = searchText.toLower();
+    QString searchedLower = searchText.toLower();
     
     for (Media* media : listaCompleta) {
-        QString titolo = QString::fromStdString(media->getTitolo()).toLower();
-        QString autore = QString::fromStdString(media->getAutore()).toLower();
+        QString titoloMedia = QString::fromStdString(media->getTitolo()).toLower();
+        QString autoreMedia = QString::fromStdString(media->getAutore()).toLower();
         
-        if (titolo.contains(searchLower) || autore.contains(searchLower)) {
+        if (titoloMedia.contains(searchedLower) || autoreMedia.contains(searchedLower)) {
             listaFiltrata.push_back(media);
         }
     }
@@ -603,13 +583,11 @@ void MainPage::onSearchTextChanged(const QString& searchText) {
     hideActionButtons();
 }
 
-// 5c. Slots per la lista media
+// c. Slots per la lista media
 void MainPage::onMediaSelected(QListWidgetItem *item) {
     if (!item) return;
     
     int row = mediaList->row(item);
-    
-    // Altrimenti mostra i pulsanti per la nuova riga
     showActionButtons(row);
     
     Media* media = item->data(Qt::UserRole).value<Media*>();
@@ -617,21 +595,20 @@ void MainPage::onMediaSelected(QListWidgetItem *item) {
 }
 
 void MainPage::onScrollChanged() {
-    // Se ci sono pulsanti visibili e una riga selezionata, aggiorna la loro posizione
+    // Aggiorna la posizione dei pulsanti quando la lista viene scrollata
     if (buttonsContainer->isVisible() && currentSelectedRow >= 0) {
         updateButtonsPosition();
     }
 }
 
-// 5d. Slots per azioni sui media
+// d. Slots per azioni sui media
 void MainPage::onEditButtonClicked() {
     Media* selectedMedia = getSelectedMedia();
     if (!selectedMedia) {
         QMessageBox::warning(this, "Errore", "Media selezionato non valido.");
         return;
     }
-
-    // Emetto un segnale per passare alla pagine di modifica e le passo il media selezionato
+    
     emit goToModifyPage(selectedMedia);
 }
 
@@ -652,46 +629,33 @@ void MainPage::onDeleteButtonClicked() {
                       .arg(QString::fromStdString(selectedMedia->getTitolo()));
     
     QMessageBox::StandardButton reply = QMessageBox::question(this, 
-        "Conferma eliminazione", 
-        message, 
-        QMessageBox::Yes | QMessageBox::No);
+        "Conferma eliminazione", message, QMessageBox::Yes | QMessageBox::No);
     
     if (reply == QMessageBox::Yes) {
-        
-        // STEP 1: Rimuovi dalla biblioteca (verifica che il metodo esista)
         if (biblioteca && biblioteca->rimuoviMedia(selectedMedia)) {
-            
-            // STEP 2: Nascondi immediatamente i pulsanti per evitare azioni su un elemento inesistente
             hideActionButtons();
             clearPreviewPanel();
-            
-            // STEP 4: Reset della selezione corrente
             currentSelectedRow = -1;
             
-            // STEP 5: Rimuovi dalla UI (l'elemento dalla lista)
+            // Rimozione dell'elemento dalla UI 
             int row = mediaList->row(currentItem);
             QListWidgetItem* removedItem = mediaList->takeItem(row);
             if (removedItem) {
-                delete removedItem; // Pulisci solo l'item UI, non il Media*
+                delete removedItem;
             }
             
-            // STEP 6: Aggiorna lo stato delle modifiche
+            // Aggiornamento stato modifiche
             hasUnsavedChanges = true;
             emit unsavedChangesUpdated(true);
             updateSaveButtonsState();
             
-            // STEP 7: Se la lista è vuota, assicurati che tutto sia pulito
             if (mediaList->count() == 0) {
                 mediaList->clearSelection();
             }            
         } else {
-            // ERRORE: La rimozione dalla biblioteca è fallita
             QMessageBox::warning(this, "Errore", 
                 "Impossibile rimuovere il media dalla biblioteca. Riprova.");
         }
-    } else {
-        // L'utente ha scelto di non rimuovere il media
-        return;
     }
 }
 
@@ -699,7 +663,6 @@ void MainPage::onBorrowButtonClicked() {
     Media* selectedMedia = getSelectedMedia();
     if (!selectedMedia) return;
     
-    // Emetti il segnale per prendere in prestito il media
     emit borrowMedia(selectedMedia);
 }
 
@@ -707,7 +670,6 @@ void MainPage::onReturnButtonClicked() {
     Media* selectedMedia = getSelectedMedia();
     if (!selectedMedia) return;
     
-    // Emetti il segnale per restituire il media
     emit returnMedia(selectedMedia);
 }
 
@@ -721,9 +683,8 @@ void MainPage::onDetailsButtonClicked() {
     emit goToDetailsPage(selectedMedia);
 }
 
-// 5e. Slots per aggiornamenti da altre pagine
+// e. Slots per aggiornamenti da altre pagine
 void MainPage::onMediaCreated() {
-    // Aggiorna la lista e i pulsanti
     updateMediaList(biblioteca->getListaMedia());
     hasUnsavedChanges = true;
     emit unsavedChangesUpdated(true);
@@ -731,7 +692,6 @@ void MainPage::onMediaCreated() {
 }
 
 void MainPage::onMediaModified() {
-    // Aggiorna la lista e i pulsanti
     updateMediaList(biblioteca->getListaMedia());
     hasUnsavedChanges = true;
     emit unsavedChangesUpdated(true);
@@ -739,7 +699,6 @@ void MainPage::onMediaModified() {
 }
 
 void MainPage::onMediaCopiesIncreased() {
-    // Aggiorna la lista e i pulsanti (sia per AddPage che ModifyPage)
     updateMediaList(biblioteca->getListaMedia());
     hasUnsavedChanges = true;
     emit unsavedChangesUpdated(true);
@@ -747,41 +706,36 @@ void MainPage::onMediaCopiesIncreased() {
 }
 
 // ===============================
-// 6. METODI DI AGGIORNAMENTO UI
-// ==============================
+// METODI DI AGGIORNAMENTO UI
+// ===============================
 void MainPage::updateMediaList(vector<Media*> listaFiltrata) {
-    mediaList->clear(); // Pulisci la lista esistente
+    mediaList->clear();
 
     for (Media* media : listaFiltrata) {
-        QString mediaInfo = media->mediaInfo(); // Ottieni le informazioni del media
+        QString mediaInfo = media->mediaInfo();
 
-        // Calcola la larghezza disponibile per il testo
+        // Calcolo spazio disponibile per il testo
         int listWidth = mediaList->width();
         int buttonSpace = 70; // Spazio riservato per i pulsanti (modifica + elimina)
         int iconSpace = 35; // Spazio per l'icona + margini
         int scrollBarSpace = 20; // Spazio per la scrollbar
         int availableWidth = listWidth - buttonSpace - iconSpace - scrollBarSpace;
 
-        // Calcola la larghezza del testo con il font corrente
+        // Troncamento testo se necessario
         QFontMetrics fontMetrics(mediaList->font());
         QString truncatedText = mediaInfo;
         
-        // Se il testo è troppo lungo, troncalo con ellipsis
         if (fontMetrics.horizontalAdvance(mediaInfo) > availableWidth) {
             truncatedText = fontMetrics.elidedText(mediaInfo, Qt::ElideRight, availableWidth);
         }
 
-        // Crea l'elemento della lista
+        // Creazione elemento della lista
         QListWidgetItem *item = new QListWidgetItem(mediaList);
-        
-        // Imposta il testo dell'elemento
         item->setText(truncatedText);
-        
         item->setToolTip(mediaInfo);
 
-        // Determina l'icona in base al tipo di media
+        // Impostazione icona in base al tipo di media
         QString iconPath;
-        
         if (dynamic_cast<Libro*>(media)) {
             iconPath = ":/Immagini/LogoLibro1.png";
         } 
@@ -798,16 +752,12 @@ void MainPage::updateMediaList(vector<Media*> listaFiltrata) {
             iconPath = ":/Immagini/LogoGioco1.png";
         }
         
-        // Imposta l'icona specifica per il tipo di media
         if (!iconPath.isEmpty()) {
             QIcon icon(iconPath);
             item->setIcon(icon);
         }
         
-        // Imposta la dimensione dell'elemento per avere spazio sufficiente
         item->setSizeHint(QSize(mediaList->width(), 48));
-        
-        // IMPORTANTE: Salva l'oggetto media nei dati dell'elemento
         item->setData(Qt::UserRole, QVariant::fromValue(media));
     }
 }
@@ -826,16 +776,13 @@ void MainPage::updatePreviewPanel(Media* media) {
     mediaYearLabel->setText(QString::number(media->getAnno()));
     mediaYearLabel->setStyleSheet("font-size: 14px;");
 
-    // Aggiorno il rating con le stelline
     double rating = media->getRating();
     QString stars = QString("Rating: %1 %2").arg(QString("★").repeated(static_cast<int>(rating))).arg(QString::number(rating, 'f', 1));
     mediaRatingLabel->setText(stars);
     mediaRatingLabel->setStyleSheet("font-size: 14px;");
 
-    // Gestione immagine (sposta qui il codice esistente per l'immagine)
     updateMediaImage(media);
-    
-    // Abilisco i pulsanti
+   
     borrowButton->setEnabled(true);
     returnButton->setEnabled(true);
     detailsButton->setEnabled(true);
@@ -843,15 +790,12 @@ void MainPage::updatePreviewPanel(Media* media) {
 }
 
 void MainPage::updateMediaImage(Media* media) {
-    // Aggiorno l'immagine - GESTIONE CROSS-PLATFORM
     QString imagePath = QString::fromStdString(media->getImmagine());
     
     QPixmap pixmap;
-    
-    // Usa QDir per gestire i percorsi in modo cross-platform
     QDir currentDir = QDir::current();
     
-    // Prova diverse possibili ubicazioni
+    // Prova di diverse possibili ubicazioni per i percorsi dell'immagine
     QStringList possiblePaths = {
         currentDir.absoluteFilePath("Immagini/" + imagePath),
         currentDir.absoluteFilePath("../Immagini/" + imagePath),
@@ -860,7 +804,6 @@ void MainPage::updateMediaImage(Media* media) {
         currentDir.absoluteFilePath("../GUI/Immagini/" + imagePath)
     };
     
-    // Prova ogni percorso finché non ne trova uno che funziona
     for (const QString& path : possiblePaths) {
         if (QFile::exists(path)) {
             pixmap.load(path);
@@ -888,22 +831,17 @@ void MainPage::updateMediaImage(Media* media) {
 
 void MainPage::updateImageSize(){
     if (!originalPixmap.isNull()) {
-        // Calcola la dimensione massima disponibile per l'immagine
         int maxImageWidth = this->width() / 3;
-        
-        // Sottrai i margini del layout e del GroupBox per evitare overflow
-        int groupBoxMargins =  5; // Ridotto da 20 a 5 per margine meno largo
+        int groupBoxMargins =  5;
         int layoutMargins = previewLayout->contentsMargins().left() + previewLayout->contentsMargins().right();
         int totalMargins = groupBoxMargins + layoutMargins - 3;
         
         int availableWidth = qMin(previewGroupBox->width() - totalMargins, maxImageWidth - totalMargins); 
-        int availableHeight = previewGroupBox->height() / 3; // Cambiato da /2 a /3 per fare spazio ai bottoni
+        int availableHeight = previewGroupBox->height() / 3;
         
-        // Assicurati che le dimensioni siano positive
-        availableWidth = qMax(150, availableWidth); // Dimensione minima
+        availableWidth = qMax(150, availableWidth);
         availableHeight = qMax(150, availableHeight);
         
-        // Calcola la dimensione mantenendo le proporzioni
         QSize newSize = originalPixmap.size();
         newSize.scale(availableWidth, availableHeight, Qt::KeepAspectRatio);
 
@@ -915,11 +853,8 @@ void MainPage::updateImageSize(){
         int y = (availableHeight - newSize.height()) / 2;
         painter.drawPixmap(x, y, originalPixmap.scaled(newSize, Qt::KeepAspectRatio, Qt::SmoothTransformation));
 
-        // Imposta la dimensione calcolata
         mediaImageLabel->setPixmap(background);
         mediaImageLabel->setFixedSize(availableWidth, availableHeight);
-
-        mediaImageLabel->setPixmap(background);
     } 
 }
 
@@ -934,20 +869,16 @@ void MainPage::updateGenreComboBox() {
             genreComboBox->addItems({"Avventura", "Biografia", "Biografia", "Fantasy", "Giallo", "Horror", "Romanzo", "Storico", "Saggio", "Thriller"});
             break;
         case 2: // Film
-            genreComboBox->addItems({"Animazione", "Azione", "Avventura", "Commedia", 
-                                    "Documentario", "Drammatico", "Fantasy", "Horror", "Romantico", "Sci-Fi", "Thriller"});
+            genreComboBox->addItems({"Animazione", "Azione", "Avventura", "Commedia", "Documentario", "Drammatico", "Fantasy", "Horror", "Romantico", "Sci-Fi", "Thriller"});
             break;
         case 3: // Vinile
-            genreComboBox->addItems({"Alternative", "Blues", "Classica", "Country", "Elettronica", "Folk", "Hip Hop", 
-                                    "Jazz", "Metal", "Pop", "Rock"});
+            genreComboBox->addItems({"Alternative", "Blues", "Classica", "Country", "Elettronica", "Folk", "Hip Hop", "Jazz", "Metal", "Pop", "Rock"});
             break;
         case 4: // Rivista
-            genreComboBox->addItems({"Attualità", "Arte", "Cucina","Culturale", "Economia", "Intrattenimento", "Moda",  "Salute",
-                                    "Scientifica", "Sport", "Tecnologia", "Viaggi"});
+            genreComboBox->addItems({"Attualità", "Arte", "Cucina","Culturale", "Economia", "Intrattenimento", "Moda",  "Salute","Scientifica", "Sport", "Tecnologia", "Viaggi"});
             break;
         case 5: // Gioco da tavolo
-            genreComboBox->addItems({"Astratto", "Cooperativo", "Giochi di carte", "Giochi di miniature", 
-                                    "Giochi di ruolo", "Party game", "Strategia"});
+            genreComboBox->addItems({"Astratto", "Cooperativo", "Giochi di carte", "Giochi di miniature", "Giochi di ruolo", "Party game", "Strategia"});
             break;
         default: // Qualsiasi o non specificato
             break;
@@ -955,7 +886,6 @@ void MainPage::updateGenreComboBox() {
 }
 
 void MainPage::updateSaveButtonsState() {
-    // Trovo i pulsanti nella UI
     QPushButton* saveButton = findChild<QPushButton*>("saveButton");
     QPushButton* saveAsButton = findChild<QPushButton*>("saveAsButton");
     
@@ -982,16 +912,14 @@ void MainPage::updateSaveButtonsState() {
 }
 
 void MainPage::updateTextTruncation() {
-    // Aggiorna il troncamento del testo per tutti gli elementi visibili
+    // Aggiornamento troncamento del testo per tutti gli elementi visibili
     for (int i = 0; i < mediaList->count(); ++i) {
         QListWidgetItem* item = mediaList->item(i);
         if (!item) continue;
         
-        // Recupera il media associato
         Media* media = item->data(Qt::UserRole).value<Media*>();
         if (!media) continue;
-        
-        // Ricalcola il testo troncato
+    
         QString fullText = media->mediaInfo();
         
         int listWidth = mediaList->width();
@@ -1006,12 +934,10 @@ void MainPage::updateTextTruncation() {
         if (fontMetrics.horizontalAdvance(fullText) > availableWidth) {
             truncatedText = fontMetrics.elidedText(fullText, Qt::ElideRight, availableWidth);
         }
-        
-        // Aggiorna il testo dell'elemento
+     
         item->setText(truncatedText);
     }
     
-    // AGGIUNTA: Aggiorna la posizione dei pulsanti se c'è un elemento selezionato
     if (buttonsContainer->isVisible() && currentSelectedRow >= 0) {
         updateButtonsPosition();
     }
@@ -1023,7 +949,7 @@ void MainPage::updateButtonsPosition() {
         return;
     }
     
-    // Ottieni l'item e il suo rect
+    // Recupero dell'item e del suo rettangolo visivo
     QListWidgetItem* item = mediaList->item(currentSelectedRow);
     if (!item) {
         hideActionButtons();
@@ -1033,11 +959,11 @@ void MainPage::updateButtonsPosition() {
     QRect rect = mediaList->visualItemRect(item);
 
     
-    // Calcola la larghezza dei pulsanti
+    // Calcolo larghezza dei pulsanti
     int buttonWidth = buttonsContainer->sizeHint().width();
     int buttonHeight = buttonsContainer->sizeHint().height();
     
-    // Ottieni il testo dell'elemento e calcola approssimativamente la larghezza del testo
+    // Calcolo larghezza del testo
     QString itemText = item->text();
     QFontMetrics fontMetrics(mediaList->font());
     int iconWidth = 27;
@@ -1045,26 +971,22 @@ void MainPage::updateButtonsPosition() {
     int textWidth = fontMetrics.horizontalAdvance(itemText);
     int totalContentWidth = iconWidth + iconMargin + textWidth;
 
-    // Posizione X: sempre dopo il contenuto + margine di sicurezza
-    int marginAfterText = 15; // Margine fisso dopo il testo
+    // Posizione X: dopo il contenuto + margine di sicurezza
+    int marginAfterText = 15;
     int xPosition = rect.left() + totalContentWidth + marginAfterText;
     
-    // IMPORTANTE: Assicurati che i pulsanti non escano dal bordo destro
-    int rightMargin = 10; // Margine dal bordo destro
+    // In modo che i pulsanti non escano dal bordo destro
+    int rightMargin = 10;
     int maxXPosition = rect.right() - buttonWidth - rightMargin;
     
-    // Se la posizione calcolata è troppo a destra, limita alla posizione massima
+    // Limitazione alla posizione massima se la posizione calcolata è troppo a destra
     if (xPosition > maxXPosition) {
         xPosition = maxXPosition;
     }
     
-    // CORREZIONE: Se anche la posizione massima non è sufficiente, 
-    // significa che il testo è troppo lungo per l'elemento
     if (xPosition < rect.left() + totalContentWidth + 5) {
-        // In questo caso, posiziona i pulsanti al 75% della larghezza dell'elemento
         xPosition = rect.left() + (rect.width() * 0.75);
         
-        // Verifica ancora che non escano dal bordo
         if (xPosition + buttonWidth > rect.right() - rightMargin) {
             xPosition = rect.right() - buttonWidth - rightMargin;
         }
@@ -1078,7 +1000,7 @@ void MainPage::updateButtonsPosition() {
 }
 
 // ========================================
-// 7. METODI DI PULIZIA UI
+// METODI DI PULIZIA UI
 // ========================================
 void MainPage::clearPreviewPanel() {
     mediaTitleLabel->setText("");
@@ -1105,12 +1027,8 @@ void MainPage::showActionButtons(int row) {
     
     if (row < 0 || row >= mediaList->count()) return;
     
-    // Memorizza la riga corrente per riferimenti futuri
     currentSelectedRow = row;
-    
-    // Calcola e imposta la posizione dei pulsanti
     updateButtonsPosition();
-    
     buttonsContainer->show();
 }
 
@@ -1120,7 +1038,7 @@ void MainPage::hideActionButtons() {
 }
 
 // =======================
-// 8. METODI DI UTILITA'
+// METODI DI UTILITA'
 // =======================
 Media* MainPage::getSelectedMedia() const {
     QListWidgetItem* currentItem = mediaList->currentItem();
@@ -1130,10 +1048,6 @@ Media* MainPage::getSelectedMedia() const {
     if (!mediaData.isValid()) return nullptr;
     
     return mediaData.value<Media*>();
-}
-
-bool MainPage::hasValidSelection() const {
-    return getSelectedMedia() != nullptr;
 }
 
 QString MainPage::getButtonStyle(const QString& bgColor, const QString& hoverColor, const QString& textColor) const {
@@ -1152,17 +1066,9 @@ QString MainPage::getButtonStyle(const QString& bgColor, const QString& hoverCol
     ).arg(bgColor, textColor, hoverColor);
 }
 
-bool MainPage::canSave() const {
-    return !isNewLibrary && hasUnsavedChanges;
-}
-
-bool MainPage::needsSaveAs() const {
-    return isNewLibrary || !currentFilePath.isEmpty();
-}
-
-// ========================================
-// 9. METODI DI I/O (Input/Output)
-// ========================================
+// ============================
+// METODI DI I/O
+// ============================
 void MainPage::saveToFile(const QString& filePath) {
     bool success = false;
     QString errorMessage = "";
@@ -1189,16 +1095,13 @@ void MainPage::saveToFile(const QString& filePath) {
     }
     
     if (success) {
-        // Verifica che il file sia stato effettivamente salvato
         QFile file(filePath);
         if (file.exists() && file.size() > 0) {
             QMessageBox::information(this, "Salvataggio completato", 
                 QString("La biblioteca è stata salvata con successo in:\n%1").arg(filePath));
             
-            // IMPORTANTE: Reset delle modifiche non salvate SOLO se il salvataggio è riuscito
             hasUnsavedChanges = false;
             updateSaveButtonsState();
-            
             emit unsavedChangesUpdated(false);
         } else {
             QMessageBox::warning(this, "Errore di salvataggio", 
