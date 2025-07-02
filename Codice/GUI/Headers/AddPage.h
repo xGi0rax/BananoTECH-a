@@ -67,14 +67,14 @@ private:
     MediaWidget *currentWidget;
 
     // ========================================
-    // SIDEBAR WIDGETS
+    // WIDGET UI - SIDEBAR
     // ========================================
     QPushButton *backButton;
     QLabel *imagePreview;
     QPushButton *uploadButton;
 
     // ========================================
-    // SELECTION PAGE WIDGETS
+    // WIDGET UI - PAGINA DI SELEZIONE
     // ========================================
     QWidget *selectionWidget;
     QButtonGroup *mediaTypeGroup;
@@ -95,7 +95,7 @@ private:
     void setupRadioButtons();
 
     // ========================================
-    // HELPER METHODS
+    // METODI DI GESTIONE
     // ========================================
     void showSelectionPage();
     bool handleExistingMedia(Media* newMedia);

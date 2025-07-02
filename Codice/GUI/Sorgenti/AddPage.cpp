@@ -11,6 +11,15 @@ AddPage::AddPage(QWidget *parent) : QWidget(parent), currentWidget(nullptr) {
     showSelectionPage();
 }
 
+void AddPage::setBiblioteca(Biblioteca* biblio) {
+    biblioteca = biblio;
+}
+
+
+// ====================================
+// METODI DI INIZIALIZZAZIONE UI
+// ====================================
+
 void AddPage::setupUI() {
     QHBoxLayout *mainHLayout = new QHBoxLayout(this);
     mainHLayout->setContentsMargins(0, 0, 0, 0);
@@ -19,11 +28,13 @@ void AddPage::setupUI() {
     QSplitter *splitter = new QSplitter(Qt::Horizontal);
     splitter->setMinimumSize(300, 0);
 
+    // Setup sidebar
     QWidget *sidebarWidget = new QWidget();
     sidebarWidget->setObjectName("sidebarWidget");
     setupSidebar(sidebarWidget);
     splitter->addWidget(sidebarWidget);
 
+    // Setup main content area
     mainContentStack = new QStackedWidget();
     
     setupSelectionPage();
@@ -197,9 +208,9 @@ void AddPage::setupRadioButtons() {
     mediaTypeGroup->addButton(giocoRadio, GIOCO_DA_TAVOLO);
 }
 
-void AddPage::setBiblioteca(Biblioteca* biblio) {
-    biblioteca = biblio;
-}
+// ================================
+// SLOTS - GESTIONE UI
+// ================================
 
 void AddPage::onBackButtonClicked() {
     if (mainContentStack->currentWidget() == selectionWidget) {
@@ -304,6 +315,10 @@ void AddPage::onUploadButtonClicked() {
         }
     }
 }
+
+// ====================================
+// METODI DI GESTIONE
+// ====================================
 
 void AddPage::showSelectionPage() {
     if (mediaTypeGroup->checkedButton()) {
