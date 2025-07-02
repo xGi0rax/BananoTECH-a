@@ -1,20 +1,13 @@
 #include "../Headers/MainWindow.h"
 
-// ========================================
-// COSTRUTTORE E DISTRUTTORE
-// ========================================
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
-    // Configurazione dello QStackedWidget
     stackedWidget = new QStackedWidget(this);
     setCentralWidget(stackedWidget);
-
-    // Configurazione della pagina di login
-    setupLoginPage();
-
+    
     // Inizialmente viene mostrata la pagina di login
+    setupLoginPage();
     stackedWidget->setCurrentWidget(loginPage);
 
-    // Configurazione finestra
     setWindowTitle("BananoTECH-a");
     resize(900, 600);
 }
@@ -59,7 +52,7 @@ void MainWindow::setupMainPage(Biblioteca* biblio) {
     connect(mainPage, &MainPage::borrowMedia, this, &MainWindow::prendiInPrestitoMedia);
     connect(mainPage, &MainPage::returnMedia, this, &MainWindow::restituisciMedia);
     
-    // Connessione stato modifiche - NUOVO SLOT
+    // Connessione stato modifiche
     connect(mainPage, &MainPage::unsavedChangesUpdated, this, &MainWindow::onUnsavedChangesUpdated);
 }
 
@@ -246,9 +239,7 @@ void MainWindow::closeEvent(QCloseEvent *event) {
 // HELPER METHODS
 // ========================================
 bool MainWindow::validateLogin(const QString &username, const QString &password) {
-    return !username.isEmpty() && !password.isEmpty();
-    // return (username == "leone" && password == "bananona") || (username == "ranzyino" && password == "bananina");
-    // by grovesti
+    return (username == "admin" && password == "admin");
 }
 
 bool MainWindow::checkUnsavedChanges() {

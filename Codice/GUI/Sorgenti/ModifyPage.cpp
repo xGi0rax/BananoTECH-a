@@ -9,6 +9,66 @@ ModifyPage::ModifyPage(QWidget* parent) : QWidget(parent), biblioteca(nullptr), 
     setupUI();
 }
 
+void ModifyPage::setMedia(Media* media) {
+    if (!media) {
+        QMessageBox::warning(this, "Errore", "Media non valido");
+        return;
+    }
+    
+    currentMedia = media;
+    newImagePath = "";
+    hasNewImage = false;
+    
+    if (currentWidget) {
+        detailsStackedWidget->removeWidget(currentWidget);
+        delete currentWidget;
+        currentWidget = nullptr;
+    }
+
+    if (Film* film = dynamic_cast<Film*>(media)) {
+        FilmWidget* filmWidget = new FilmWidget();
+        filmWidget->setCurrentMedia(film);
+        currentWidget = filmWidget;
+    } 
+    else if (Libro* libro = dynamic_cast<Libro*>(media)) {
+        LibroWidget* libroWidget = new LibroWidget();
+        libroWidget->setCurrentMedia(libro);
+        currentWidget = libroWidget;
+    } 
+    else if (Vinile* vinile = dynamic_cast<Vinile*>(media)) {
+        VinileWidget* vinileWidget = new VinileWidget();
+        vinileWidget->setCurrentMedia(vinile);
+        currentWidget = vinileWidget;
+    } 
+    else if (Rivista* rivista = dynamic_cast<Rivista*>(media)) {
+        RivistaWidget* rivistaWidget = new RivistaWidget();
+        rivistaWidget->setCurrentMedia(rivista);
+        currentWidget = rivistaWidget;
+    } 
+    else if (GiocoDaTavolo* gioco = dynamic_cast<GiocoDaTavolo*>(media)) {
+        GiocoWidget* giocoWidget = new GiocoWidget();
+        giocoWidget->setCurrentMedia(gioco);
+        currentWidget = giocoWidget;
+    }
+    else {
+        QMessageBox::warning(this, "Errore", "Tipo di media non riconosciuto");
+        return;
+    }
+    
+    detailsStackedWidget->addWidget(currentWidget);
+    detailsStackedWidget->setCurrentWidget(currentWidget);
+    
+    loadExistingImage(media);
+}
+
+void ModifyPage::setBiblioteca(Biblioteca* biblio) {
+    biblioteca = biblio;
+}
+
+// ====================================
+// METODI DI INIZIALIZZAZIONE UI
+// ====================================
+
 void ModifyPage::setupUI() {
     QHBoxLayout* mainHLayout = new QHBoxLayout(this);
     mainHLayout->setContentsMargins(0, 0, 0, 0);
@@ -106,117 +166,9 @@ void ModifyPage::setupUI() {
     currentImagePath = "";
 }
 
-void ModifyPage::setMedia(Media* media) {
-    if (!media) {
-        QMessageBox::warning(this, "Errore", "Media non valido");
-        return;
-    }
-    
-    currentMedia = media;
-    newImagePath = "";
-    hasNewImage = false;
-    
-    if (currentWidget) {
-        detailsStackedWidget->removeWidget(currentWidget);
-        delete currentWidget;
-        currentWidget = nullptr;
-    }
-
-    if (Film* film = dynamic_cast<Film*>(media)) {
-        FilmWidget* filmWidget = new FilmWidget();
-        filmWidget->setCurrentMedia(film);
-        currentWidget = filmWidget;
-    } 
-    else if (Libro* libro = dynamic_cast<Libro*>(media)) {
-        LibroWidget* libroWidget = new LibroWidget();
-        libroWidget->setCurrentMedia(libro);
-        currentWidget = libroWidget;
-    } 
-    else if (Vinile* vinile = dynamic_cast<Vinile*>(media)) {
-        VinileWidget* vinileWidget = new VinileWidget();
-        vinileWidget->setCurrentMedia(vinile);
-        currentWidget = vinileWidget;
-    } 
-    else if (Rivista* rivista = dynamic_cast<Rivista*>(media)) {
-        RivistaWidget* rivistaWidget = new RivistaWidget();
-        rivistaWidget->setCurrentMedia(rivista);
-        currentWidget = rivistaWidget;
-    } 
-    else if (GiocoDaTavolo* gioco = dynamic_cast<GiocoDaTavolo*>(media)) {
-        GiocoWidget* giocoWidget = new GiocoWidget();
-        giocoWidget->setCurrentMedia(gioco);
-        currentWidget = giocoWidget;
-    }
-    else {
-        QMessageBox::warning(this, "Errore", "Tipo di media non riconosciuto");
-        return;
-    }
-    
-    detailsStackedWidget->addWidget(currentWidget);
-    detailsStackedWidget->setCurrentWidget(currentWidget);
-    
-    loadExistingImage(media);
-}
-
-void ModifyPage::loadExistingImage(Media* media) {
-    std::string imagePath = media->getImmagine();
-    if (imagePath.empty()) {
-        imagePreview->setText("Nessuna immagine");
-        currentImagePath = "";
-        return;
-    }
-
-    currentImagePath = QString::fromStdString(imagePath);
-    
-    if (!hasNewImage) {
-        QPixmap pixmap = loadImageFromPath(currentImagePath);
-        
-        if (!pixmap.isNull()) {
-            QPixmap scaledPixmap = pixmap.scaled(imagePreview->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
-            imagePreview->setPixmap(scaledPixmap);
-            imagePreview->setScaledContents(false);
-        } else {
-            imagePreview->setText("Immagine non disponibile");
-        }
-    }
-}
-
-QPixmap ModifyPage::loadImageFromPath(const QString& imagePath) {
-    QString resourcePath = ":/Immagini/" + imagePath;
-    QPixmap pixmap(resourcePath);
-    
-    if (pixmap.isNull() && !imagePath.isEmpty()) {
-        if (QFile::exists(imagePath)) {
-            pixmap.load(imagePath);
-        }
-        
-        if (pixmap.isNull()) {
-            QDir currentDir = QDir::current();
-            QStringList possiblePaths = {
-                currentDir.absoluteFilePath("Immagini/" + imagePath),
-                currentDir.absoluteFilePath("../Immagini/" + imagePath),
-                currentDir.absoluteFilePath("../../Immagini/" + imagePath),
-                currentDir.absoluteFilePath("GUI/Immagini/" + imagePath),
-                currentDir.absoluteFilePath("../GUI/Immagini/" + imagePath),
-            };
-            
-            for (const QString& path : possiblePaths) {
-                if (QFile::exists(path)) {
-                    pixmap.load(path);
-                    if (!pixmap.isNull()) {
-                        break;
-                    }
-                }
-            }
-        }
-    }
-    
-    return pixmap;
-}
-
-void ModifyPage::setBiblioteca(Biblioteca* biblio) {
-    biblioteca = biblio;
-}
+// =============================
+// SLOTS
+// =============================
 
 void ModifyPage::onBackButtonClicked() {
     emit goBackToMainPage();
@@ -278,8 +230,7 @@ void ModifyPage::onSaveButtonClicked() {
 }
 
 void ModifyPage::onUploadButtonClicked() {
-    QString imagePath = QFileDialog::getOpenFileName(this, "Seleziona un'immagine", 
-                                                   "", "Immagini (*.png *.jpg *.jpeg *.bmp)");
+    QString imagePath = QFileDialog::getOpenFileName(this, "Seleziona un'immagine", "", "Immagini (*.png *.jpg *.jpeg *.bmp)");
     
     if (imagePath.isEmpty()) {
         return;
@@ -356,4 +307,64 @@ void ModifyPage::onUploadButtonClicked() {
             hasNewImage = false;
         }
     }
+}
+
+// =====================================
+// METODI DI GESTIONE IMMAGINI
+// =====================================
+
+void ModifyPage::loadExistingImage(Media* media) {
+    std::string imagePath = media->getImmagine();
+    if (imagePath.empty()) {
+        imagePreview->setText("Nessuna immagine");
+        currentImagePath = "";
+        return;
+    }
+
+    currentImagePath = QString::fromStdString(imagePath);
+    
+    if (!hasNewImage) {
+        QPixmap pixmap = loadImageFromPath(currentImagePath);
+        
+        if (!pixmap.isNull()) {
+            QPixmap scaledPixmap = pixmap.scaled(imagePreview->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+            imagePreview->setPixmap(scaledPixmap);
+            imagePreview->setScaledContents(false);
+        } else {
+            imagePreview->setText("Immagine non disponibile");
+        }
+    }
+}
+
+QPixmap ModifyPage::loadImageFromPath(const QString& imagePath) {
+    QString resourcePath = ":/Immagini/" + imagePath;
+    QPixmap pixmap(resourcePath);
+    
+    if (pixmap.isNull() && !imagePath.isEmpty()) {
+        if (QFile::exists(imagePath)) {
+            pixmap.load(imagePath);
+        }
+        
+        if (pixmap.isNull()) {
+            QDir currentDir = QDir::current();
+            QStringList possiblePaths = {
+                currentDir.absoluteFilePath("Immagini/" + imagePath),
+                currentDir.absoluteFilePath("../Immagini/" + imagePath),
+                currentDir.absoluteFilePath("../../Immagini/" + imagePath),
+                currentDir.absoluteFilePath("GUI/Immagini/" + imagePath),
+                currentDir.absoluteFilePath("../GUI/Immagini/" + imagePath),
+            };
+            
+            for (const QString& path : possiblePaths) {
+                if (QFile::exists(path)) {
+                    pixmap.load(path);
+                    if (!pixmap.isNull()) {
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    
+    return pixmap;
 }

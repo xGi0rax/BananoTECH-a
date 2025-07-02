@@ -10,17 +10,22 @@
 #include <QTimer>
 #include <QDir>
 
+// ============================
+// COSTRUTTORE E INIZIALIZZAZIONE
+// ============================
+
+// Costruttore
 DetailsPage::DetailsPage(QWidget *parent) : QWidget(parent), currentMedia(nullptr) {
     setupUI();
 }
 
+// Crea e configura tutti gli elementi dell'interfaccia grafica
 void DetailsPage::setupUI() {
     // Layout principale
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
     mainLayout->setContentsMargins(10, 5, 10, 10);
     mainLayout->setSpacing(8);
     
-    // Pulsante indietro
     backButton = new QPushButton("Indietro");
     backButton->setFixedSize(120, 30);
     backButton->setStyleSheet(
@@ -37,19 +42,18 @@ void DetailsPage::setupUI() {
     );
     connect(backButton, &QPushButton::clicked, this, &DetailsPage::onBackButtonClicked);
     
-    // Header compatto
     QHBoxLayout *headerLayout = new QHBoxLayout();
     headerLayout->setContentsMargins(0, 0, 0, 5);
     headerLayout->addWidget(backButton, 0, Qt::AlignLeft);
     mainLayout->addLayout(headerLayout);
     
-    // Pannello principale
+    // Pannello principale con immagine e dettagli
     QWidget *contentWidget = new QWidget();
     QHBoxLayout *contentLayout = new QHBoxLayout(contentWidget);
     contentLayout->setContentsMargins(0, 0, 0, 0);
-    contentLayout->setSpacing(20); // Spazio tra immagine e dettagli
+    contentLayout->setSpacing(20); 
     
-    // IMMAGINE A SINISTRA
+    // Area per visualizzare l'immagine del media
     imageLabel = new QLabel();
     imageLabel->setFixedSize(280, 400);
     imageLabel->setScaledContents(true);
@@ -58,13 +62,13 @@ void DetailsPage::setupUI() {
         "background-color: rgb(243, 238, 238);"
     );
     
-    // PANNELLO DESTRO
+    // Pannello destro con informazioni e pulsanti
     QWidget *rightPanel = new QWidget();
     QVBoxLayout *rightLayout = new QVBoxLayout(rightPanel);
     rightLayout->setContentsMargins(0, 0, 0, 0);
     rightLayout->setSpacing(8);
     
-    // DETTAGLI
+    // Area per mostrare i dettagli del media in formato HTML
     QLabel *detailsLabel = new QLabel();
     detailsLabel->setObjectName("detailsLabel");
     detailsLabel->setStyleSheet(
@@ -79,7 +83,7 @@ void DetailsPage::setupUI() {
     detailsLabel->setWordWrap(true);
     detailsLabel->setAlignment(Qt::AlignTop);
     
-    // Label per disponibilità
+    // Etichetta per mostrare lo stato di disponibilità
     availabilityLabel = new QLabel();
     availabilityLabel->setStyleSheet(
         "font-size: 18px;"
@@ -90,27 +94,28 @@ void DetailsPage::setupUI() {
     );
     availabilityLabel->setAlignment(Qt::AlignCenter);
     
-    // PULSANTI - LAYOUT ORIZZONTALE
+    // Container per i pulsanti di azione
     QWidget *buttonContainer = new QWidget();
-    QHBoxLayout *buttonsLayout = new QHBoxLayout(buttonContainer); // Cambiato in HBoxLayout
+    QHBoxLayout *buttonsLayout = new QHBoxLayout(buttonContainer);
     buttonsLayout->setContentsMargins(0, 10, 0, 0);
-    buttonsLayout->setSpacing(15); // Spazio tra i pulsanti
+    buttonsLayout->setSpacing(15); 
     
+    // Pulsanti per prestito, restituzione e richiesta da biblioteca affiliata
     borrowButton = new QPushButton("Prendi in prestito");
     returnButton = new QPushButton("Restituisci");
-    requestButton = new QPushButton("🏛️ Richiedi da affiliata"); // Testo più corto
+    requestButton = new QPushButton("🏛️ Richiedi da affiliata"); 
     
-    // Dimensioni ridotte per i pulsanti per farli stare in una riga
     borrowButton->setFixedSize(150, 40);
     returnButton->setFixedSize(130, 40);
-    requestButton->setFixedSize(220, 40); // Leggermente più largo per il testo
+    requestButton->setFixedSize(220, 40); 
     
+    // Stili per i pulsanti (omessi per brevità)
     borrowButton->setStyleSheet(
         "QPushButton {"
         "   background-color: #28a745;"
         "   color: white;"
         "   padding: 8px 10px;"
-        "   font-size: 14px;" // Font leggermente più piccolo
+        "   font-size: 14px;" 
         "   font-weight: bold;"
         "   border: none;"
         "   border-radius: 8px;"
@@ -143,7 +148,7 @@ void DetailsPage::setupUI() {
         "   background-color: #17a2b8;"
         "   color: white;"
         "   padding: 8px 10px;"
-        "   font-size: 13px;" // Font più piccolo per far stare il testo
+        "   font-size: 13px;"
         "   font-weight: bold;"
         "   border: none;"
         "   border-radius: 6px;"
@@ -157,49 +162,51 @@ void DetailsPage::setupUI() {
         "}"
     );
     
+    // Collegamento dei pulsanti ai rispettivi slot
     connect(borrowButton, &QPushButton::clicked, this, &DetailsPage::onBorrowButtonClicked);
     connect(returnButton, &QPushButton::clicked, this, &DetailsPage::onReturnButtonClicked);
     connect(requestButton, &QPushButton::clicked, this, &DetailsPage::onRequestFromAffiliateClicked);
     
-    // Layout orizzontale centrato
     buttonsLayout->addStretch(1);
     buttonsLayout->addWidget(borrowButton);
     buttonsLayout->addWidget(returnButton);
     buttonsLayout->addWidget(requestButton);
     buttonsLayout->addStretch(1);
-    
-    // Assemblaggio del pannello destro
-    rightLayout->addWidget(detailsLabel, 1); // Si espande per occupare tutto lo spazio
-    rightLayout->addWidget(availabilityLabel, 0); // Non si espande
-    rightLayout->addWidget(buttonContainer, 0); // Non si espande, resta in fondo
-    
-    // Assemblaggio del layout principale
-    contentLayout->addWidget(imageLabel, 0); // Immagine fissa a sinistra
-    contentLayout->addWidget(rightPanel, 1); // Pannello destro si espande
+
+    rightLayout->addWidget(detailsLabel, 1);
+    rightLayout->addWidget(availabilityLabel, 0);
+    rightLayout->addWidget(buttonContainer, 0); 
+
+    contentLayout->addWidget(imageLabel, 0); 
+    contentLayout->addWidget(rightPanel, 1); 
     
     mainLayout->addWidget(contentWidget, 1);
 }
 
+// ============================
+// GESTIONE DATI E AGGIORNAMENTO UI
+// ============================
+
+// Imposta il media da visualizzare e aggiorna l'interfaccia
 void DetailsPage::setMedia(Media* media) {
     currentMedia = media;
     updateUI();
 }
 
+// Aggiorna tutti gli elementi dell'interfaccia con i dati del media corrente
 void DetailsPage::updateUI() {
     if (!currentMedia) {
         return;
     }
     
-    // Calcolo copie disponibili
+    // Calcola le copie disponibili
     int totalCopies = currentMedia->getNumeroCopie();
     int loanedCopies = currentMedia->getInPrestito();
     int availableCopies = totalCopies - loanedCopies;
     
-    // Costruisco TUTTI i dettagli con stile HTML più compatto
     QString htmlDetails = "<h2 style='margin:0 0 15px 0; padding:0; color:#2c3e50; border-bottom: 2px solid #3498db;'>" + 
                          QString::fromStdString(currentMedia->getTitolo()) + "</h2>";
     
-    // Ridotto border-spacing da 8px a 3px e padding ridotto
     htmlDetails += "<table style='width:100%; border-collapse: separate; border-spacing: 0 3px;'>";
     htmlDetails += "<tr><td style='padding:4px 15px 4px 0; font-weight:bold; color:#34495e; width:140px; vertical-align:top;'>Autore:</td><td style='padding:4px 0; color:#2c3e50; line-height:1.2;'>" + QString::fromStdString(currentMedia->getAutore()) + "</td></tr>";
     htmlDetails += "<tr><td style='padding:4px 15px 4px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Genere:</td><td style='padding:4px 0; color:#2c3e50; line-height:1.2;'>" + QString::fromStdString(currentMedia->getGenere()) + "</td></tr>";
@@ -210,7 +217,7 @@ void DetailsPage::updateUI() {
     htmlDetails += "<tr><td style='padding:4px 15px 4px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Copie:</td><td style='padding:4px 0; color:#2c3e50; line-height:1.2;'>" + QString::number(availableCopies) + 
                    " disponibili su " + QString::number(totalCopies) + " totali</td></tr>";
     
-    // Aggiungi dettagli specifici con spaziatura ridotta
+    // Aggiunge informazioni specifiche in base al tipo di media
     if (Film* film = dynamic_cast<Film*>(currentMedia)) {
         htmlDetails += "<tr><td style='padding:4px 15px 4px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Tipo:</td><td style='padding:4px 0; color:#2c3e50; line-height:1.2;'>🎬 Film</td></tr>";
         htmlDetails += "<tr><td style='padding:4px 15px 4px 0; font-weight:bold; color:#34495e; vertical-align:top;'>Durata:</td><td style='padding:4px 0; color:#2c3e50; line-height:1.2;'>" + QString::number(film->getDurata()) + " minuti</td></tr>";
@@ -253,42 +260,36 @@ void DetailsPage::updateUI() {
     
     htmlDetails += "</table>";
     
-    // Trova e aggiorna il label
+    // Aggiorna il contenuto della label dei dettagli
     QLabel* detailsLabel = findChild<QLabel*>("detailsLabel");
     if (detailsLabel) {
         detailsLabel->setText(htmlDetails);
     }
     
-    // Gestisci immagine - GESTIONE CROSS-PLATFORM
+    // Carica e visualizza l'immagine del media
     QString imagePath = QString::fromStdString(currentMedia->getImmagine());
-    
-    // Prova prima nel sistema di risorse Qt (per icone UI statiche)
+
     QString resourcePath = ":/Immagini/" + imagePath;
     QPixmap pixmap(resourcePath);
     
-    // Se non trovata nelle risorse, prova nel filesystem
+    // Cerca l'immagine in diverse posizioni se non trovata nelle risorse
     if (pixmap.isNull()) {
-        // Se il percorso è già assoluto, provalo direttamente
         if (QFile::exists(imagePath)) {
             pixmap.load(imagePath);
         }
         
-        // Se ancora non trovata, prova percorsi relativi
         if (pixmap.isNull()) {
             QDir currentDir = QDir::current();
             
-            // Prova diverse possibili ubicazioni
             QStringList possiblePaths = {
-                currentDir.absoluteFilePath("Immagini/" + imagePath),           // ./Immagini/
-                currentDir.absoluteFilePath("../Immagini/" + imagePath),        // ../Immagini/
-                currentDir.absoluteFilePath("../../Immagini/" + imagePath),     // ../../Immagini/
-                currentDir.absoluteFilePath("GUI/Immagini/" + imagePath),       // ./GUI/Immagini/
-                currentDir.absoluteFilePath("../GUI/Immagini/" + imagePath),    // ../GUI/Immagini/
-                // Aggiungi supporto per cartella Documents/AppName/Immagini
+                currentDir.absoluteFilePath("Immagini/" + imagePath),          
+                currentDir.absoluteFilePath("../Immagini/" + imagePath),      
+                currentDir.absoluteFilePath("../../Immagini/" + imagePath),    
+                currentDir.absoluteFilePath("GUI/Immagini/" + imagePath),       
+                currentDir.absoluteFilePath("../GUI/Immagini/" + imagePath),  
                 QDir::home().absoluteFilePath("Documents/BananoTECH/Immagini/" + imagePath)
             };
             
-            // Prova ogni percorso finché non ne trova uno che funziona
             for (const QString& path : possiblePaths) {
                 if (QFile::exists(path)) {
                     pixmap.load(path);
@@ -298,11 +299,9 @@ void DetailsPage::updateUI() {
                 }
             }
         }
-    } else {
-        // boh
     }
     
-    // Imposta l'immagine o il placeholder
+    // Imposta l'immagine o un placeholder se non trovata
     if (!pixmap.isNull()) {
         imageLabel->setPixmap(pixmap);
     } else {
@@ -311,7 +310,7 @@ void DetailsPage::updateUI() {
         imageLabel->setPixmap(placeholder);
     }
     
-    // Aggiorna disponibilità
+    // Aggiorna lo stato di disponibilità e abilita/disabilita i pulsanti
     if (currentMedia->getDisponibilita() && availableCopies > 0) {
         availabilityLabel->setText("Disponibile per il prestito");
         availabilityLabel->setStyleSheet(
@@ -321,10 +320,9 @@ void DetailsPage::updateUI() {
         );
         borrowButton->setEnabled(true);
         
-        // Pulsante richiesta SEMPRE VISIBILE ma DISABILITATO quando disponibile
         requestButton->setVisible(true);
         requestButton->setEnabled(false);
-        requestButton->setText("🏛️ Richiedi da biblioteca affiliata"); // Testo più corto
+        requestButton->setText("🏛️ Richiedi da biblioteca affiliata"); 
         requestButton->setStyleSheet(
             "QPushButton {"
             "   background-color: #6c757d;"
@@ -345,10 +343,9 @@ void DetailsPage::updateUI() {
         );
         borrowButton->setEnabled(false);
         
-        // Pulsante richiesta SEMPRE VISIBILE e ABILITATO quando non disponibile
         requestButton->setVisible(true);
         requestButton->setEnabled(true);
-        requestButton->setText("🏛️ Richiedi da biblioteca affiliata"); // Testo più corto
+        requestButton->setText("🏛️ Richiedi da biblioteca affiliata");
         requestButton->setStyleSheet(
             "QPushButton {"
             "   background-color: #17a2b8;"
@@ -370,8 +367,12 @@ void DetailsPage::updateUI() {
     returnButton->setVisible(true);
 }
 
+// ============================
+// GESTIONE WIDGET SPECIFICI
+// ============================
+
+// Rimuove i widget specifici dal layout dei dettagli
 void DetailsPage::clearSpecificDetails() {
-    // Cancello tutti gli elementi nel layout di dettagli specifici
     QLayoutItem *item;
     while ((item = specificDetailsLayout->takeAt(0)) != nullptr) {
         if (item->widget()) {
@@ -383,6 +384,7 @@ void DetailsPage::clearSpecificDetails() {
     currentWidget = nullptr;
 }
 
+// Crea widget specifici per visualizzare dettagli in base al tipo di media
 void DetailsPage::setupSpecificDetails(Media* media) {
     if (!media) return;
     
@@ -390,20 +392,19 @@ void DetailsPage::setupSpecificDetails(Media* media) {
     currentWidget = createViewWidgetForMedia(media);
     
     if (currentWidget) {
-        // Imposta alcune proprietà per la visualizzazione
         currentWidget->setProperty("viewOnly", true);
         specificDetailsLayout->addWidget(currentWidget);
     }
 }
 
+// Factory method: crea il widget appropriato per il tipo di media specifico
 MediaWidget* DetailsPage::createViewWidgetForMedia(Media* media) {
     MediaWidget* widget = nullptr;
     
     if (Film* film = dynamic_cast<Film*>(media)) {
-        // Crea un FilmDetailsWidget e configuralo per la visualizzazione
         FilmWidget* filmWidget = new FilmWidget();
         filmWidget->setCurrentMedia(film);
-        filmWidget->setReadOnly(true);  // Imposta la modalità sola lettura
+        filmWidget->setReadOnly(true);  
         widget = filmWidget;
     } 
     else if (Libro* libro = dynamic_cast<Libro*>(media)) {
@@ -434,14 +435,20 @@ MediaWidget* DetailsPage::createViewWidgetForMedia(Media* media) {
     return widget;
 }
 
+// ============================
+// SLOT E GESTIONE EVENTI
+// ============================
+
+// Slot: gestisce il click del pulsante "Indietro"
 void DetailsPage::onBackButtonClicked() {
     emit goBackToMainPage();
 }
 
+// Slot: gestisce il prestito del media con verifica disponibilità
 void DetailsPage::onBorrowButtonClicked() {  
     if (!currentMedia) return;
     
-    // Verifico che il media sia disponibile e che ci siano copie disponibili
+    // Verifica disponibilità
     int availableCopies = currentMedia->getNumeroCopie() - currentMedia->getInPrestito();
     
     if (currentMedia->getDisponibilita() && availableCopies > 0) {
@@ -451,10 +458,8 @@ void DetailsPage::onBorrowButtonClicked() {
             QMessageBox::Yes | QMessageBox::No);
         
         if (reply == QMessageBox::Yes) {           
-            // EMETTI SOLO IL SEGNALE - la logica è gestita da MainWindow
             emit mediaBorrowed(currentMedia);
             
-            // Aggiorna l'interfaccia DOPO che MainWindow ha modificato il media
             updateUI();
         }
     } else {
@@ -463,6 +468,7 @@ void DetailsPage::onBorrowButtonClicked() {
     }
 }
 
+// Slot: gestisce la restituzione del media con conferma utente
 void DetailsPage::onReturnButtonClicked() {
     if (!currentMedia) return;
     
@@ -472,17 +478,17 @@ void DetailsPage::onReturnButtonClicked() {
         QMessageBox::Yes | QMessageBox::No);
     
     if (reply == QMessageBox::Yes) {
-        // EMETTI SOLO IL SEGNALE - la logica è gestita da MainWindow
         emit mediaReturned(currentMedia);
-        
-        // Aggiorna l'interfaccia DOPO che MainWindow ha modificato il media
+
         updateUI();
     }
 }
 
+// Slot: gestisce la richiesta di media da biblioteche affiliate
 void DetailsPage::onRequestFromAffiliateClicked() {
     if (!currentMedia) return;
     
+    // Mostra dialog di conferma per la richiesta
     QMessageBox::StandardButton reply = QMessageBox::question(this, 
         "Richiesta a biblioteca affiliata", 
         QString("Vuoi richiedere una copia di \"%1\" da una biblioteca affiliata?\n\n"
@@ -490,15 +496,14 @@ void DetailsPage::onRequestFromAffiliateClicked() {
                 .arg(QString::fromStdString(currentMedia->getTitolo())),
         QMessageBox::Yes | QMessageBox::No);
     
-    if (reply == QMessageBox::Yes) {
-        // emit mediaRequestedFromAffiliate(currentMedia);
-        
+    if (reply == QMessageBox::Yes) { 
+        // Mostra conferma invio richiesta
         QMessageBox::information(this, "Richiesta inviata", 
             QString("La richiesta per \"%1\" è stata inviata alle biblioteche affiliate.\n"
                     "Verrai contattato non appena una copia sarà disponibile.")
                     .arg(QString::fromStdString(currentMedia->getTitolo())));
-        
-        // Feedback temporaneo con testo più corto
+
+        // Aggiorna aspetto del pulsante per indicare richiesta inviata
         requestButton->setText("Richiesta inviata!");
         requestButton->setStyleSheet(
             "QPushButton {"

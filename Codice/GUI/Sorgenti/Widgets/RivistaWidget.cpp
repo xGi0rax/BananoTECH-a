@@ -9,16 +9,12 @@ RivistaWidget::RivistaWidget(QWidget *parent) : MediaWidget(parent), currentRivi
 }
 
 void RivistaWidget::setCurrentMedia(Media* media) {
-    // Controllo di validità
     if (!media) {
         QMessageBox::warning(this, "Errore", "Media non valido");
         return;
     }
 
-    // Salvo il riferimento al media corrente
     currentMedia = media;
-
-    // Salvo il riferimento al film corrente
     currentRivista = dynamic_cast<Rivista*>(media);
 
     if (!currentRivista) {
@@ -27,12 +23,11 @@ void RivistaWidget::setCurrentMedia(Media* media) {
         return;
     }
 
-    // Imposto i valori nei campi
     setCurrentValues();
 }
 
 void RivistaWidget::addSpecificFields() {
-    // Imposta generi specifici per i film
+    // Generi specifici per le riviste
     genreComboBox->addItems({"Attualità", "Arte", "Cucina", "Cultura", "Economia", "Intrattenimento", "Informatica", "Moda", "Natura", "Salute", "Scienza", "Sport", "Tecnologia", "Viaggi", "Altro"});
 
     // Campi specifici per rivista
@@ -52,7 +47,6 @@ void RivistaWidget::addSpecificFields() {
     periodicityComboBox->addItems({"Settimanale", "Bisettimanale", "Mensile", "Bimestrale", "Trimestrale", "Semestrale", "Annuale"});
     periodicityComboBox->setStyleSheet(getInputStyle());
 
-    // Etichette
     QLabel *editorLbl = new QLabel("Editore:");
     editorLbl->setStyleSheet(getLabelStyle());
     QLabel *pagesLbl = new QLabel("Pagine:");
@@ -70,10 +64,8 @@ void RivistaWidget::addSpecificFields() {
 }
 
 void RivistaWidget::setCurrentValues() {
-    // Imposto i campi comuni a tutti i media
     MediaWidget::setCurrentValues();
     
-    // Imposto i valori specifici per il rivista
     if (currentRivista) {
         genreComboBox->setCurrentText(QString::fromStdString(currentRivista->getGenere()));
         editorEdit->setText(QString::fromStdString(currentRivista->getEditore()));
@@ -92,13 +84,12 @@ bool RivistaWidget::validateData() const {
 }
 
 bool RivistaWidget::applyChanges() {
-    // Controllo di validità
     if (!validateData()) return false;
 
-    // Aggiorno i campi comuni
+    // Aggiornamento i campi comuni
     MediaWidget::applyChanges();
 
-    // Aggiorno i campi specifici della rivista
+    // Aggiornamento campi specifici della rivista
     currentRivista->setEditore(editorEdit->text().toStdString());
     currentRivista->setNPagine(pagesEdit->value());
     currentRivista->setDataPubb(publicationDateEdit->date().toString("dd/MM/yyyy").toStdString());
@@ -108,13 +99,11 @@ bool RivistaWidget::applyChanges() {
 }
 
 Media* RivistaWidget::createMedia() {
-    // Controllo validità
     if(!validateData()) return nullptr;
 
-    // Converte QDate in std::string nel formato richiesto
     QString dateStr = publicationDateEdit->date().toString("dd/MM/yyyy");
 
-    // Creo e restituisco un nuovo oggetto Libro
+    // Creazione e restituzione di un nuovo oggetto Rivista
     return new Rivista(
         titleEdit->text().toStdString(),
         authorEdit->text().toStdString(),

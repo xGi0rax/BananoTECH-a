@@ -9,16 +9,12 @@ LibroWidget::LibroWidget(QWidget *parent) : MediaWidget(parent), currentLibro(nu
 }
 
 void LibroWidget::setCurrentMedia(Media* media) {
-    // Controllo di validità
     if (!media) {
         QMessageBox::warning(this, "Errore", "Media non valido");
         return;
     }
 
-    // Salvo il riferimento al media corrente
     currentMedia = media;
-
-    // Salvo il riferimento al film corrente
     currentLibro = dynamic_cast<Libro*>(media);
 
     if (!currentLibro) {
@@ -27,12 +23,11 @@ void LibroWidget::setCurrentMedia(Media* media) {
         return;
     }
 
-    // Imposto i valori nei campi
     setCurrentValues();
 }
 
 void LibroWidget::addSpecificFields() {
-    // Imposta generi specifici per i film
+    // Generi specifici per i libri
     genreComboBox->addItems({"Avventura", "Biografia", "Fantasy", "Fantascienza", "Giallo", "Horror", "Narrativa", "Poesia", "Romanzo", "Saggistica", "Storico", "Thriller", "Altro"});
 
     // Campi specifici per libro
@@ -46,7 +41,6 @@ void LibroWidget::addSpecificFields() {
     pagesEdit->setRange(1, 9999);
     pagesEdit->setStyleSheet(getInputStyle());
 
-    // Etichette
     QLabel *isbnLbl = new QLabel("ISBN:");
     isbnLbl->setStyleSheet(getLabelStyle());
     QLabel *editorLbl = new QLabel("Editore:");
@@ -54,17 +48,14 @@ void LibroWidget::addSpecificFields() {
     QLabel *pagesLbl = new QLabel("Pagine:");
     pagesLbl->setStyleSheet(getLabelStyle());
 
-    // Aggiungi i campi al form
     formLayout->addRow(isbnLbl, isbnEdit);
     formLayout->addRow(editorLbl, editorEdit);
     formLayout->addRow(pagesLbl, pagesEdit);
 }
 
 void LibroWidget::setCurrentValues() {
-    // Imposto i campi comuni a tutti i media
     MediaWidget::setCurrentValues();
     
-    // Imposto i valori specifici per il film
     if (currentLibro) {
         genreComboBox->setCurrentText(QString::fromStdString(currentLibro->getGenere()));
         isbnEdit->setText(QString::fromStdString(currentLibro->getIsbn()));
@@ -81,13 +72,12 @@ bool LibroWidget::validateData() const {
 }
 
 bool LibroWidget::applyChanges() {
-    // Controllo di validità
     if (!validateData()) return false;
 
-    // Aggiorno i campi comuni
+    // Aggiornamento campi comuni
     MediaWidget::applyChanges();
 
-    // Aggiorno i campi specifici del libro
+    // Aggiornamento campi specifici del libro
     currentLibro->setIsbn(isbnEdit->text().toStdString());
     currentLibro->setEditore(editorEdit->text().toStdString());
     currentLibro->setNPagine(pagesEdit->value());
@@ -96,10 +86,9 @@ bool LibroWidget::applyChanges() {
 }
 
 Media* LibroWidget::createMedia() {
-    // Controllo validità
     if(!validateData()) return nullptr;
 
-    // Creo e restituisco un nuovo oggetto Libro
+    // Creazione e restituzione di un nuovo oggetto Libro
     return new Libro(
         titleEdit->text().toStdString(),
         authorEdit->text().toStdString(),

@@ -9,16 +9,12 @@ VinileWidget::VinileWidget(QWidget *parent) : MediaWidget(parent), currentVinile
 }
 
 void VinileWidget::setCurrentMedia(Media* media) {
-    // Controllo di validità
     if (!media) {
         QMessageBox::warning(this, "Errore", "Media non valido");
         return;
     }
 
-    // Salvo il riferimento al media corrente
     currentMedia = media;
-
-    // Salvo il riferimento al film corrente
     currentVinile = dynamic_cast<Vinile*>(media);
 
     if (!currentVinile) {
@@ -27,12 +23,11 @@ void VinileWidget::setCurrentMedia(Media* media) {
         return;
     }
 
-    // Imposto i valori nei campi
     setCurrentValues();
 }
 
 void VinileWidget::addSpecificFields() {
-    // Imposta generi specifici per i film
+    // Imposta generi specifici per i vinili
     genreComboBox->addItems({"Alternative", "Blues", "Classica", "Country", "Disco", "Elettronica", "Folk", "Funk", "Hip Hop", "Jazz", "Metal", "Pop", "Punk", "Reggae", "Rock", "Soul", "Altro"});
 
     // Campi specifici per vinile
@@ -45,7 +40,6 @@ void VinileWidget::addSpecificFields() {
     durationEdit->setSuffix(" min");
     durationEdit->setStyleSheet(getInputStyle());
 
-    // Etichette
     QLabel *trackCountLbl = new QLabel("Numero tracce:");
     trackCountLbl->setStyleSheet(getLabelStyle());
     QLabel *durationLbl = new QLabel("Durata totale:");
@@ -57,10 +51,8 @@ void VinileWidget::addSpecificFields() {
 }
 
 void VinileWidget::setCurrentValues() {
-    // Imposto i campi comuni a tutti i media
     MediaWidget::setCurrentValues();
     
-    // Imposto i valori specifici per il film
     if (currentVinile) {
         genreComboBox->setCurrentText(QString::fromStdString(currentVinile->getGenere()));
         trackCountEdit->setValue(currentVinile->getNTracce());
@@ -75,13 +67,12 @@ bool VinileWidget::validateData() const {
 }
 
 bool VinileWidget::applyChanges() {
-    // Controllo di validità
     if (!validateData()) return false;
 
-    // Aggiorno i campi comuni
+    // Aggiornamento campi comuni
     MediaWidget::applyChanges();
 
-    // Aggiorna i campi specifici del Vinile
+    // Aggiornamento campi specifici del Vinile
     currentVinile->setNTracce(trackCountEdit->value());
     currentVinile->setDurata(durationEdit->value());
 
@@ -89,10 +80,9 @@ bool VinileWidget::applyChanges() {
 }
 
 Media* VinileWidget::createMedia() {
-    // Controllo validità
     if(!validateData()) return nullptr;
 
-    // Creo e restituisco un nuovo oggetto Libro
+    // Creazione e restituzione di un nuovo oggetto Vinile
     return new Vinile(
         titleEdit->text().toStdString(),
         authorEdit->text().toStdString(),

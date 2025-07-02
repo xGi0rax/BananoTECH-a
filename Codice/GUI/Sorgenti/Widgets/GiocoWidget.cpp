@@ -9,16 +9,12 @@ GiocoWidget::GiocoWidget(QWidget *parent) : MediaWidget(parent), currentGioco(nu
 }
 
 void GiocoWidget::setCurrentMedia(Media* media) {
-    // Controllo di validità
     if (!media) {
         QMessageBox::warning(this, "Errore", "Media non valido");
         return;
     }
 
-    // Salvo il riferimento al media corrente
     currentMedia = media;
-
-    // Salvo il riferimento al film corrente
     currentGioco = dynamic_cast<GiocoDaTavolo*>(media);
 
     if (!currentGioco) {
@@ -27,15 +23,14 @@ void GiocoWidget::setCurrentMedia(Media* media) {
         return;
     }
 
-    // Imposto i valori nei campi
     setCurrentValues();
 }
 
 void GiocoWidget::addSpecificFields() {
-    // Imposta generi specifici per i film
+    // Generi specifici per i giochi
     genreComboBox->addItems({"Avventura", "Carte", "Cooperativo", "Deduzione", "Economico", "Fantasy", "Guerra", "Party Game", "Strategia", "Altro"});
 
-    // Campi specifici per film
+    // Campi specifici per Gioco
     maxPlayersEdit = new QSpinBox(scrollWidget);
     maxPlayersEdit->setRange(1, 99);
     maxPlayersEdit->setStyleSheet(getInputStyle());
@@ -53,7 +48,6 @@ void GiocoWidget::addSpecificFields() {
     editorEdit = new QLineEdit(scrollWidget);
     editorEdit->setStyleSheet(getInputStyle());
     
-    // Etichette
     QLabel *maxPlayersLbl = new QLabel("Giocatori max:");
     maxPlayersLbl->setStyleSheet(getLabelStyle());
     QLabel *playTimeLbl = new QLabel("Durata gioco:");
@@ -71,10 +65,8 @@ void GiocoWidget::addSpecificFields() {
 }
 
 void GiocoWidget::setCurrentValues() {
-    // Imposto i campi comuni a tutti i media
     MediaWidget::setCurrentValues();
     
-    // Imposto i valori specifici per il film
     if (currentGioco) {
         genreComboBox->setCurrentText(QString::fromStdString(currentGioco->getGenere()));
         maxPlayersEdit->setValue(currentGioco->getNGiocatori());
@@ -93,13 +85,12 @@ bool GiocoWidget::validateData() const {
 }
 
 bool GiocoWidget::applyChanges() {
-    // Controllo di validità
     if (!validateData()) return false;
 
-    // Aggiorno i campi comuni
+    // Aggiornamento campi comuni
     MediaWidget::applyChanges();
 
-    // Aggiorno i campi specifici del gioco
+    // Aggiornamento campi specifici del gioco
     currentGioco->setNGiocatori(maxPlayersEdit->value());
     currentGioco->setDurata(playTimeEdit->value());
     currentGioco->setEtaMinima(minAgeEdit->value());
@@ -109,10 +100,9 @@ bool GiocoWidget::applyChanges() {
 }
 
 Media* GiocoWidget::createMedia() {
-    // Controllo di validità
     if(!validateData()) return nullptr;
 
-    // Creo e restituisco un nuovo oggetto GiocoDaTavolo
+    // Creazione e restituzione di un nuovo oggetto GiocoDaTavolo
     return new GiocoDaTavolo(
         titleEdit->text().toStdString(),
         authorEdit->text().toStdString(),

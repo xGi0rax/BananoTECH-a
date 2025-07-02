@@ -17,10 +17,7 @@ void FilmWidget::setCurrentMedia(Media* media) {
         return;
     }
 
-    // Salvo il riferimento al media corrente
     currentMedia = media;
-
-    // Salvo il riferimento al film corrente
     currentFilm = dynamic_cast<Film*>(media);
 
     if (!currentFilm) {
@@ -29,12 +26,11 @@ void FilmWidget::setCurrentMedia(Media* media) {
         return;
     }
 
-    // Imposto i valori nei campi
     setCurrentValues();
 }
 
 void FilmWidget::addSpecificFields() {
-    // Imposta generi specifici per i film
+    // Generi specifici per i film
     genreComboBox->addItems({"Animazione", "Azione", "Avventura", "Biografia", "Commedia", "Crime", "Documentario", "Drammatico", "Fantascienza", "Fantasy", "Horror", "Musical", "Mistero", "Romantico", "Thriller", "Western", "Altro"});
 
     // Campi specifici per film
@@ -47,27 +43,22 @@ void FilmWidget::addSpecificFields() {
     castEdit->setStyleSheet(getInputStyle());
     castEdit->setPlaceholderText("(separati da virgola)");
     
-    // Etichette
     QLabel *durationLbl = new QLabel("Durata:");
     durationLbl->setStyleSheet(getLabelStyle());
     QLabel *castLbl = new QLabel("Attori:");
     castLbl->setStyleSheet(getLabelStyle());
 
-    // Aggiungi i campi al form
     formLayout->addRow(durationLbl, durationFilmEdit);
     formLayout->addRow(castLbl, castEdit);
 }
 
 void FilmWidget::setCurrentValues() {
-    // Imposto i campi comuni a tutti i media
     MediaWidget::setCurrentValues();
     
-    // Imposto i valori specifici per il film
     if (currentFilm) {
         genreComboBox->setCurrentText(QString::fromStdString(currentFilm->getGenere()));
         durationFilmEdit->setValue(currentFilm->getDurata());
         
-        // Converto il vettore del cast in una stringa per il campo
         QString castText;
         const std::vector<std::string>& cast = currentFilm->getCast();
         for (size_t i = 0; i < cast.size(); ++i) {
@@ -87,13 +78,10 @@ bool FilmWidget::validateData() const {
 }
 
 bool FilmWidget::applyChanges() {
-    // Controllo di validità
     if (!validateData()) return false;
 
-    // Aggiorno i campi comuni
     MediaWidget::applyChanges();
 
-    // Parsing del cast da stringa a vettore
     vector<string> castVector;
     QString castText = castEdit->text();
     QStringList castList = castText.split(",", Qt::SkipEmptyParts);
@@ -109,10 +97,8 @@ bool FilmWidget::applyChanges() {
 }
 
 Media* FilmWidget::createMedia() {
-    // Controllo validità
     if(!validateData()) return nullptr;
 
-    // Estraggo il cast dalla stringa separata da virgole
     vector<string> cast;
     QString castString = castEdit->text();
     QStringList castList = castString.split(",", Qt::SkipEmptyParts);
@@ -120,7 +106,7 @@ Media* FilmWidget::createMedia() {
         cast.push_back(actor.trimmed().toStdString());
     }
 
-    // Creo e restituisco un nuovo oggetto Film
+    // Creazione e restituzione di un nuovo oggetto Film
     return new Film(
         titleEdit->text().toStdString(),
         authorEdit->text().toStdString(),

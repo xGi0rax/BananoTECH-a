@@ -36,33 +36,27 @@ void LibraryChoicePage::setupUI() {
     choiceFrame->setFixedSize(450, 350);
     choiceFrame->setObjectName("choiceFrame");
 
-    // Label di benvenuto
     QLabel *welcomeLabel = new QLabel("Benvenuto nella BananoTECH-a", choiceFrame);
     welcomeLabel->setAlignment(Qt::AlignCenter);
     welcomeLabel->setObjectName("welcomeLabel");
 
-    // Descrizione
     descriptionLabel = new QLabel("Vuoi caricare una biblioteca esistente o creane una nuova?", choiceFrame);
     descriptionLabel->setAlignment(Qt::AlignCenter);
     descriptionLabel->setWordWrap(true);
     descriptionLabel->setObjectName("descriptionLabel");
     
-    // Pulsante carica da file
     loadFileButton = new QPushButton("Carica da file", choiceFrame);
     loadFileButton->setFixedSize(330, 50);
     loadFileButton->setObjectName("primaryButton");
-    
-    // Pulsante nuova biblioteca
+
     newLibraryButton = new QPushButton("Crea nuova biblioteca", choiceFrame);
     newLibraryButton->setFixedSize(330, 50);
     newLibraryButton->setObjectName("primaryButton");
-    
-    // Pulsante indietro
+
     QPushButton* backButton = new QPushButton("Indietro", choiceFrame);
     backButton->setFixedSize(150, 45);
     backButton->setObjectName("secondaryButton");
-    
-    // Layout interno frame
+
     QVBoxLayout *choiceWidgetsLayout = new QVBoxLayout();
     choiceWidgetsLayout->setContentsMargins(10, 10, 10, 10);
     choiceWidgetsLayout->setSpacing(15);
@@ -74,8 +68,7 @@ void LibraryChoicePage::setupUI() {
     choiceWidgetsLayout->addWidget(backButton, 0, Qt::AlignCenter);
     
     choiceFrame->setLayout(choiceWidgetsLayout);
-    
-    // Layout esterno per centratura
+
     QVBoxLayout *outerLayout = new QVBoxLayout(this);
     outerLayout->setContentsMargins(0, 0, 0, 0);
     outerLayout->addStretch();
@@ -87,22 +80,19 @@ void LibraryChoicePage::setupUI() {
 
 void LibraryChoicePage::setupStyles() {
     setStyleSheet(
-        // Background pagina
         "#libraryChoicePage {"
         "   background-image: url(:/Immagini/SfondoLogin.jpg);"
         "   background-repeat: no-repeat;"
         "   background-position: center center;"
         "   background-attachment: fixed;"
         "}"
-        
-        // Frame principale
+
         "#choiceFrame {"
         "   background-color: rgb(42, 68, 113);"
         "   border: 2px solid #000000;"
         "   border-radius: 10px;"
         "}"
-        
-        // Label benvenuto
+
         "#welcomeLabel {"
         "   background-color: #333333;"
         "   font-size: 24px;"
@@ -111,16 +101,14 @@ void LibraryChoicePage::setupStyles() {
         "   padding: 10px;"
         "   border-radius: 5px;"
         "}"
-        
-        // Label descrizione
+
         "#descriptionLabel {"
         "   font-size: 18px;"
         "   color: white;"
         "   border: none;"
         "   margin: 10px 0px;"
         "}"
-        
-        // Pulsanti principali
+
         "#primaryButton {"
         "   background-color: rgb(225, 192, 37);"
         "   color: black;"
@@ -134,8 +122,7 @@ void LibraryChoicePage::setupStyles() {
         "#primaryButton:pressed {"
         "   background-color: rgb(150, 140, 60);"
         "}"
-        
-        // Pulsante secondario
+
         "#secondaryButton {"
         "   background-color: rgb(0, 104, 201);"
         "   color: white;"
@@ -152,20 +139,22 @@ void LibraryChoicePage::setupStyles() {
     );
 }
 
+// Collegamento dei segnali dei pulsanti ai rispettivi slot
 void LibraryChoicePage::setupConnections() {
     connect(loadFileButton, &QPushButton::clicked, 
             this, &LibraryChoicePage::onLoadFileButtonClicked);
     connect(newLibraryButton, &QPushButton::clicked, 
             this, &LibraryChoicePage::onNewLibraryButtonClicked);
-    
-    // Connessione diretta al segnale per il pulsante indietro
+
     connect(findChild<QPushButton*>("secondaryButton"), &QPushButton::clicked, 
             this, &LibraryChoicePage::goToLoginPage);
 }
 
 // ========================================
-// SLOTS
+// SLOT E GESTIONE EVENTI
 // ========================================
+
+// Slot: gestisce la selezione e caricamento di un file biblioteca
 void LibraryChoicePage::onLoadFileButtonClicked() {
     QFileDialog fileDialog(this);
     fileDialog.setWindowTitle("Seleziona un file Json o Xml");
@@ -196,6 +185,7 @@ void LibraryChoicePage::onLoadFileButtonClicked() {
     }
 }
 
+// Slot: gestisce la creazione di una nuova biblioteca vuota
 void LibraryChoicePage::onNewLibraryButtonClicked() {
     resetBiblioteca();
     
@@ -206,8 +196,10 @@ void LibraryChoicePage::onNewLibraryButtonClicked() {
 }
 
 // ========================================
-// HELPER METHODS
+// METODI DI UTILITÀ
 // ========================================
+
+// Elimina la biblioteca corrente e ne crea una nuova vuota
 void LibraryChoicePage::resetBiblioteca() {
     if (biblioteca) {
         delete biblioteca;
@@ -217,6 +209,7 @@ void LibraryChoicePage::resetBiblioteca() {
     biblioteca = new Biblioteca();
 }
 
+// Carica i dati della biblioteca dal file specificato (JSON o XML)
 bool LibraryChoicePage::loadFromFile(const QString& filePath) {
     if (!biblioteca) {
         return false;
@@ -224,6 +217,7 @@ bool LibraryChoicePage::loadFromFile(const QString& filePath) {
     
     bool success = false;
     
+    // Controlla l'estensione del file e usa il loader appropriato
     if (filePath.endsWith(".json", Qt::CaseInsensitive)) {
         JsonIO jsonLoader;
         success = jsonLoader.caricaDaFile(*biblioteca, filePath.toStdString());

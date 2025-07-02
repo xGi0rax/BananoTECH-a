@@ -27,22 +27,17 @@ void MediaWidget::setupBaseUI(const QString &title) {
     titleLabel->setAlignment(Qt::AlignCenter);
     layout->addWidget(titleLabel);
     
-    // Aggiungo campi comuni
+    // Aggiunta campi
     addStandardFields();
-    
-    // Aggiungo campi specifici (implementato dalle classi derivate)
     addSpecificFields();
     
-    // Aggiungo spazio vuoto in fondo
     formLayout->addItem(new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding));
     
-    // Imposto la struttura dello scroll
     scrollArea->setWidget(scrollWidget);
     layout->addWidget(scrollArea, 1);
 }
 
 void MediaWidget::addStandardFields() {
-    // Campi comuni
     titleEdit = new QLineEdit(scrollWidget);
     titleEdit->setStyleSheet(getInputStyle());
     
@@ -69,7 +64,6 @@ void MediaWidget::addStandardFields() {
     ratingEdit->setSingleStep(0.1);
     ratingEdit->setStyleSheet(getInputStyle());
 
-    // Etichette con stile
     QLabel *titleLbl = new QLabel("Titolo:");
     titleLbl->setStyleSheet(getLabelStyle());
     QLabel *authorLbl = new QLabel("Autore:");
@@ -85,7 +79,7 @@ void MediaWidget::addStandardFields() {
     QLabel *ratingLbl = new QLabel("Valutazione:");
     ratingLbl->setStyleSheet(getLabelStyle());
 
-    // Aggiungi i campi al form
+    // Aggiunta campi al form
     formLayout->addRow(titleLbl, titleEdit);
     formLayout->addRow(authorLbl, authorEdit);
     formLayout->addRow(genreLbl, genreComboBox);
@@ -104,8 +98,6 @@ void MediaWidget::setCurrentValues() {
         languageEdit->setText(QString::fromStdString(currentMedia->getLingua()));
         collocationEdit->setText(QString::fromStdString(currentMedia->getCollocazione()));
         ratingEdit->setValue(currentMedia->getRating());
-    }else{
-         // Da capire cosa fare in questo caso
     }
 }
 

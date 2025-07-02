@@ -27,49 +27,51 @@ public:
     void setBiblioteca(Biblioteca* biblio);
 
 signals:
-    void goBackToMainPage(); // Segnale per tornare alla pagina principale
-    void mediaModified(); // Segnale per notificare che il media è stato modificato
-    void mediaCopiesIncreased(); // Segnale per notificare che le copie del media sono state aumentate
+    void goBackToMainPage(); 
+    void mediaModified(); 
+    void mediaCopiesIncreased();
 
 private slots:
-    void onBackButtonClicked(); // Slot per il pulsante indietro
-    void onSaveButtonClicked(); // Slot per il salvataggio delle modifiche
-    void onUploadButtonClicked(); // Slot per il caricamento dell'immagine
+    void onBackButtonClicked();
+    void onSaveButtonClicked();
+    void onUploadButtonClicked();
     
 private:
-    // Puntatore alla biblioteca
+    // ========================================
+    // DATI E STATO 
+    // ========================================
     Biblioteca* biblioteca;
-
-    // Puntatore al media corrente
     Media* currentMedia;
 
-    // Pannello immagine
+    // Gestione immagini
+    QString currentImagePath;
+    QString newImagePath;
+    bool hasNewImage;
+
+    // ========================================
+    // WIDGET SIDEBAR
+    // ========================================
+    QPushButton* backButton;
     QLabel* imagePreview;
     QPushButton* uploadButton;
+    QPushButton* saveButton;
     
     // ========================================
-    // DATI IMMAGINE
+    // WIDGET PRINCIPALE
     // ========================================
-    QString currentImagePath;    // Immagine esistente del media
-    QString newImagePath;        // ✅ NUOVA: Immagine caricata dall'utente
-    bool hasNewImage;            // ✅ NUOVA: Flag per nuova immagine
-    
-    // Widget per i dettagli specifici del media
     QStackedWidget* detailsStackedWidget;
     MediaWidget* currentWidget;
-    
-    // Pulsanti indietro e salva modifiche
-    QPushButton* backButton;
-    QPushButton* saveButton;
 
-    // Metodi di configurazione UI
+    // ========================================
+    // METODI DI INIZIALIZZAZIONE UI
+    // ========================================
     void setupUI();
     
     // ========================================
-    // HELPER METHODS
+    // METODI DI GESTIONE
     // ========================================
-    void loadExistingImage(Media* media);  // ✅ NUOVO
-    QPixmap loadImageFromPath(const QString& imagePath);  // ✅ NUOVO
+    void loadExistingImage(Media* media);  
+    QPixmap loadImageFromPath(const QString& imagePath);  
 };
 
 #endif // MODIFYPAGE_H

@@ -27,7 +27,7 @@ private slots:
     // Slots per navigazione
     void onLoginButtonClicked();
     void onLibraryReady(Biblioteca* biblio, const QString& filePath, bool isNew);
-    void onUnsavedChangesUpdated(bool hasChanges); // NUOVO SLOT
+    void onUnsavedChangesUpdated(bool hasChanges);
     
     // Slots per switching pagine
     void switchToLoginPage();
@@ -76,8 +76,8 @@ private:
     // ========================================
     bool validateLogin(const QString &username, const QString &password);
     bool checkUnsavedChanges();
-    void notifyLibraryChanged(); // NUOVO HELPER
-    void resetLibraryState();    // NUOVO HELPER
+    void notifyLibraryChanged(); 
+    void resetLibraryState();  
 };
 
 #endif // MAINWINDOW_H

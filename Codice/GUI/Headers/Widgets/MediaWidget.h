@@ -56,7 +56,6 @@ protected:
     virtual void addSpecificFields() = 0; // Per aggiungere i campi specifici del tipo del media
     virtual void setCurrentValues() = 0; // Per impostare i valori del media corrente nei campi
     void addStandardFields();
-    void onCancelClicked();
 
     // Stili comuni
     QString getLabelStyle() const;
