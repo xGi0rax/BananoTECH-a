@@ -29,6 +29,10 @@ void Rivista::toXml(QDomElement& elemento, QDomDocument& doc) const {
     elemento.setAttribute("periodicita", QString::fromStdString(periodicita));
 }
 
+void Rivista::accept(MediaVisitor& visitor) const {
+    visitor.visit(*this);
+}
+
 // Getter
 string Rivista::getEditore() const {
     return editore;

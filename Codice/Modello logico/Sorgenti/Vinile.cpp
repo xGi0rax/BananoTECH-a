@@ -23,6 +23,10 @@ void Vinile::toXml(QDomElement& elemento, QDomDocument& doc) const {
     elemento.setAttribute("durata", durata);
 }
 
+void Vinile::accept(MediaVisitor& visitor) const {
+    visitor.visit(*this);
+}
+
 // Getter
 int Vinile::getNTracce() const {
     return ntracce;

@@ -27,6 +27,10 @@ void Libro::toXml(QDomElement& elemento, QDomDocument& doc) const {
     elemento.setAttribute("numero_pagine", npagine);
 }
 
+void Libro::accept(MediaVisitor& visitor) const {
+    visitor.visit(*this);
+}
+
 // Getter
 string Libro::getIsbn() const {
     return isbn;

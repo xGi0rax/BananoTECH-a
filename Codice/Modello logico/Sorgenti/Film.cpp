@@ -36,6 +36,10 @@ void Film::toXml(QDomElement& elemento, QDomDocument& doc) const {
     elemento.appendChild(castElement);
 }
 
+void Film::accept(MediaVisitor& visitor) const {
+    visitor.visit(*this);
+}
+
 // Getter
 int Film::getDurata() const{
     return durata;

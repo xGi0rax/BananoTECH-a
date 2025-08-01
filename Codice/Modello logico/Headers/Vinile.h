@@ -24,6 +24,9 @@ public:
     // Metodi per convertire l'oggetto in un oggetto JSON e XML
     void toJson(QJsonObject& jsonObj) const override;
     void toXml(QDomElement& elemento, QDomDocument& doc) const override;
+    
+    // Metodo per accettare il visitor
+    void accept(MediaVisitor& visitor) const override;
 };
 
-#endif //VINILE_H
+#endif // VINILE_H

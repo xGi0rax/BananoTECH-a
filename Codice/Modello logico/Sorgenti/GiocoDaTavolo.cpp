@@ -27,6 +27,10 @@ void GiocoDaTavolo::toXml(QDomElement& elemento, QDomDocument& doc) const {
     elemento.setAttribute("editore", QString::fromStdString(editore));
 }
 
+void GiocoDaTavolo::accept(MediaVisitor& visitor) const {
+    visitor.visit(*this);
+}
+
 // Getter
 int GiocoDaTavolo::getNGiocatori() const {
     return ngiocatori;

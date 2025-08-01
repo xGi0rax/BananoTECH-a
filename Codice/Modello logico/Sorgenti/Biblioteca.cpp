@@ -5,6 +5,7 @@
 #include "../Headers/Vinile.h"
 #include "../Headers/GiocoDaTavolo.h"
 #include "../Headers/Rivista.h"
+#include "../Headers/FilterVisitor.h"
 
 // ============================
 // COSTRUTTORE E DISTRUTTORE
@@ -118,21 +119,17 @@ vector<Media*> Biblioteca::filtra(const string& titolo,
                                  int annoMin, 
                                  int annoMax) const {
     vector<Media*> risultati; 
+    FilterVisitor filterVisitor("");
 
     for (auto media : listaMedia) {
         bool corrisponde = true;  // Flag per verificare se il media supera tutti i filtri
+        filterVisitor.reset();  // Resetta il visitor per ogni media
 
-        // Filtro per tipo di media
+        // Filtro per tipo di media usando il visitor
         if (!tipoMedia.empty()) {
-            if (tipoMedia == "Libro" && dynamic_cast<Libro*>(media) == nullptr) {
-                corrisponde = false;
-            } else if (tipoMedia == "Film" && dynamic_cast<Film*>(media) == nullptr) {
-                corrisponde = false; 
-            } else if (tipoMedia == "Rivista" && dynamic_cast<Rivista*>(media) == nullptr) {
-                corrisponde = false; 
-            } else if (tipoMedia == "Vinile" && dynamic_cast<Vinile*>(media) == nullptr) {
-                corrisponde = false; 
-            } else if (tipoMedia == "Gioco da tavolo" && dynamic_cast<GiocoDaTavolo*>(media) == nullptr) {
+            filterVisitor = FilterVisitor(tipoMedia);
+            media->accept(filterVisitor);
+            if(!filterVisitor.getResult()) {
                 corrisponde = false;
             }
         }

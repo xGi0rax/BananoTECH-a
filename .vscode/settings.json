@@ -71,7 +71,8 @@
     "qvboxlayout": "cpp",
     "qmessagebox": "cpp",
     "qwidget": "cpp",
-    "qstringconverter": "cpp"
+    "qstringconverter": "cpp",
+    "qregularexpressionvalidator": "cpp"
   },
   "makefile.configureOnOpen": false,
   "C_Cpp_Runner.msvcBatchPath": "",

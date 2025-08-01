@@ -2,6 +2,7 @@
 #include <QScrollBar>
 #include <QModelIndex>
 #include "../Headers/MainPage.h"
+#include "../Headers/IconVisitor.h"
 #include "../../Modello logico/Headers/Media.h"
 #include "../../Modello logico/Headers/Libro.h"
 #include "../../Modello logico/Headers/Film.h"
@@ -15,6 +16,7 @@
 #include <QMessageBox>
 #include <QApplication>
 #include <QFileDialog>
+#include <QRegularExpressionValidator>
 
 MainPage::MainPage(QWidget *parent, Biblioteca* biblio) : QWidget(parent) {
     biblioteca = biblio;
@@ -95,6 +97,13 @@ void MainPage::setupFilters(){
     ratingMinLineEdit->setPlaceholderText("0.0");
     ratingMaxLineEdit = new QLineEdit();
     ratingMaxLineEdit->setPlaceholderText("5.0");
+
+    // Validator per controllare i valori inseriti
+    QRegularExpression regEx("^([0-4](\\.[0-9])?|5(\\.0)?)$");
+    QRegularExpressionValidator* ratingValidator = new QRegularExpressionValidator(regEx, this);
+    
+    ratingMinLineEdit->setValidator(ratingValidator);
+    ratingMaxLineEdit->setValidator(ratingValidator);
 
     // Checkbox per disponibilità
     availableCheckBox = new QCheckBox("Disponibile");
@@ -711,6 +720,8 @@ void MainPage::onMediaCopiesIncreased() {
 void MainPage::updateMediaList(vector<Media*> listaFiltrata) {
     mediaList->clear();
 
+    IconVisitor iconVisitor;
+
     for (Media* media : listaFiltrata) {
         QString mediaInfo = media->mediaInfo();
 
@@ -734,23 +745,9 @@ void MainPage::updateMediaList(vector<Media*> listaFiltrata) {
         item->setText(truncatedText);
         item->setToolTip(mediaInfo);
 
-        // Impostazione icona in base al tipo di media
-        QString iconPath;
-        if (dynamic_cast<Libro*>(media)) {
-            iconPath = ":/Immagini/LogoLibro1.png";
-        } 
-        else if (dynamic_cast<Film*>(media)) {
-            iconPath = ":/Immagini/LogoFilm1.png";
-        } 
-        else if (dynamic_cast<Vinile*>(media)) {
-            iconPath = ":/Immagini/LogoVinile1.png";
-        } 
-        else if (dynamic_cast<Rivista*>(media)) {
-            iconPath = ":/Immagini/LogoRivista1.png";
-        } 
-        else if (dynamic_cast<GiocoDaTavolo*>(media)) {
-            iconPath = ":/Immagini/LogoGioco1.png";
-        }
+        // Impostazione icona usando il visitor
+        media->accept(iconVisitor);
+        QString iconPath = iconVisitor.getIconPath();
         
         if (!iconPath.isEmpty()) {
             QIcon icon(iconPath);
@@ -869,7 +866,7 @@ void MainPage::updateGenreComboBox() {
             genreComboBox->addItems({"Avventura", "Biografia", "Fantasy", "Fantascienza", "Giallo", "Horror", "Narrativa", "Poesia", "Romanzo", "Saggistica", "Storico", "Thriller", "Altro"});
             break;
         case 2: // Film
-            genreComboBox->addItems({"Animazione", "Azione", "Avventura", "Biografica", "Commedia", "Crime", "Documentario", "Drammatico", "Fantascienza", "Fantasy", "Horror", "Musical", "Mistero", "Romantico", "Thriller", "Western", "Altro"});
+            genreComboBox->addItems({"Animazione", "Azione", "Avventura", "Biografia", "Commedia", "Crime", "Documentario", "Drammatico", "Fantascienza", "Fantasy", "Horror", "Musical", "Mistero", "Romantico", "Thriller", "Western", "Altro"});
             break;
         case 3: // Vinile
             genreComboBox->addItems({"Alternative", "Blues", "Classica", "Country", "Disco", "Elettronica", "Folk", "Funk", "Hip Hop", "Jazz", "Metal", "Pop", "Punk", "Reggae", "Rock", "Soul", "Altro"});
