@@ -24,12 +24,16 @@ HEADERS += "Codice/Modello logico/Headers/Biblioteca.h" \
            "Codice/Modello logico/Headers/Media.h" \
            "Codice/Modello logico/Headers/Rivista.h" \
            "Codice/Modello logico/Headers/Vinile.h" \
+           "Codice/Modello logico/Headers/MediaVisitor.h" \
+           "Codice/Modello logico/Headers/FilterVisitor.h" \
            "Codice/GUI/Headers/MainWindow.h" \
            "Codice/GUI/Headers/LoginPage.h" \
            "Codice/GUI/Headers/MainPage.h" \
            "Codice/GUI/Headers/AddPage.h" \
            "Codice/GUI/Headers/DetailsPage.h" \
            "Codice/GUI/Headers/ModifyPage.h" \
+           "Codice/GUI/Headers/IconVisitor.h" \
+           "Codice/GUI/Headers/WidgetVisitor.h" \
            "Codice/GUI/Headers/Widgets/MediaWidget.h" \
            "Codice/GUI/Headers/Widgets/LibroWidget.h" \
            "Codice/GUI/Headers/Widgets/VinileWidget.h" \
@@ -54,6 +58,7 @@ SOURCES += "main.cpp" \
            "Codice/GUI/Sorgenti/AddPage.cpp" \
            "Codice/GUI/Sorgenti/DetailsPage.cpp" \
            "Codice/GUI/Sorgenti/ModifyPage.cpp" \
+           "Codice/GUI/Sorgenti/WidgetVisitor.cpp" \
            "Codice/GUI/Sorgenti/Widgets/MediaWidget.cpp" \
            "Codice/GUI/Sorgenti/Widgets/LibroWidget.cpp" \
            "Codice/GUI/Sorgenti/Widgets/VinileWidget.cpp" \

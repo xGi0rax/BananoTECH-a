@@ -4,6 +4,7 @@
 #include "../../Modello logico/Headers/Vinile.h"
 #include "../../Modello logico/Headers/Rivista.h"
 #include "../../Modello logico/Headers/GiocoDaTavolo.h"
+#include "../Headers/WidgetVisitor.h"
 #include <QMessageBox>
 #include <QPixmap>
 #include <QFile>
@@ -400,39 +401,11 @@ void DetailsPage::setupSpecificDetails(Media* media) {
 // Factory method: crea il widget appropriato per il tipo di media specifico
 MediaWidget* DetailsPage::createViewWidgetForMedia(Media* media) {
     MediaWidget* widget = nullptr;
+
+    WidgetVisitor widgetVisitor(true, true); // readOnly = true, viewOnly = true
+    media->accept(widgetVisitor);
     
-    if (Film* film = dynamic_cast<Film*>(media)) {
-        FilmWidget* filmWidget = new FilmWidget();
-        filmWidget->setCurrentMedia(film);
-        filmWidget->setReadOnly(true);  
-        widget = filmWidget;
-    } 
-    else if (Libro* libro = dynamic_cast<Libro*>(media)) {
-        LibroWidget* libroWidget = new LibroWidget();
-        libroWidget->setCurrentMedia(libro);
-        libroWidget->setReadOnly(true);
-        widget = libroWidget;
-    } 
-    else if (Vinile* vinile = dynamic_cast<Vinile*>(media)) {
-        VinileWidget* vinileWidget = new VinileWidget();
-        vinileWidget->setCurrentMedia(vinile);
-        vinileWidget->setReadOnly(true);
-        widget = vinileWidget;
-    } 
-    else if (Rivista* rivista = dynamic_cast<Rivista*>(media)) {
-        RivistaWidget* rivistaWidget = new RivistaWidget();
-        rivistaWidget->setCurrentMedia(rivista);
-        rivistaWidget->setReadOnly(true);
-        widget = rivistaWidget;
-    } 
-    else if (GiocoDaTavolo* gioco = dynamic_cast<GiocoDaTavolo*>(media)) {
-        GiocoWidget* giocoWidget = new GiocoWidget();
-        giocoWidget->setCurrentMedia(gioco);
-        giocoWidget->setReadOnly(true);
-        widget = giocoWidget;
-    }
-    
-    return widget;
+    return widgetVisitor.getCreatedWidget();
 }
 
 // ============================

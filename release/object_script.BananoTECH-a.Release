@@ -14,6 +14,7 @@ release/MainPage.o
 release/AddPage.o
 release/DetailsPage.o
 release/ModifyPage.o
+release/WidgetVisitor.o
 release/MediaWidget.o
 release/LibroWidget.o
 release/VinileWidget.o

@@ -1,4 +1,5 @@
 #include "../Headers/ModifyPage.h"
+#include "../Headers/WidgetVisitor.h"
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QSplitter>
@@ -25,32 +26,12 @@ void ModifyPage::setMedia(Media* media) {
         currentWidget = nullptr;
     }
 
-    if (Film* film = dynamic_cast<Film*>(media)) {
-        FilmWidget* filmWidget = new FilmWidget();
-        filmWidget->setCurrentMedia(film);
-        currentWidget = filmWidget;
-    } 
-    else if (Libro* libro = dynamic_cast<Libro*>(media)) {
-        LibroWidget* libroWidget = new LibroWidget();
-        libroWidget->setCurrentMedia(libro);
-        currentWidget = libroWidget;
-    } 
-    else if (Vinile* vinile = dynamic_cast<Vinile*>(media)) {
-        VinileWidget* vinileWidget = new VinileWidget();
-        vinileWidget->setCurrentMedia(vinile);
-        currentWidget = vinileWidget;
-    } 
-    else if (Rivista* rivista = dynamic_cast<Rivista*>(media)) {
-        RivistaWidget* rivistaWidget = new RivistaWidget();
-        rivistaWidget->setCurrentMedia(rivista);
-        currentWidget = rivistaWidget;
-    } 
-    else if (GiocoDaTavolo* gioco = dynamic_cast<GiocoDaTavolo*>(media)) {
-        GiocoWidget* giocoWidget = new GiocoWidget();
-        giocoWidget->setCurrentMedia(gioco);
-        currentWidget = giocoWidget;
-    }
-    else {
+    WidgetVisitor widgetVisitor(false, true); // readOnly = false, modifyMode = true
+    media->accept(widgetVisitor);
+
+    currentWidget = widgetVisitor.getCreatedWidget();
+
+    if (!currentWidget) {
         QMessageBox::warning(this, "Errore", "Tipo di media non riconosciuto");
         return;
     }
